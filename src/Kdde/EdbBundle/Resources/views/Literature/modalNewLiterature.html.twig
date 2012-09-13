@@ -1,0 +1,50 @@
+<div class="modal hide" id="newLiteratureModal">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">x</button>
+		<h3>Add new Bibliography</h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			<form class="form-horizontal" id="formNewBiblio" action="{{ path('edb_literature_new_modal') }}">
+  				<fieldset>
+    				<div id="div_cod_literature" class="control-group">
+      					<label style="text-align: left" class="control-label">Code</label>
+      					<div class="controls">
+        					<input name="literature[id]" id="cod_literature" type="text" class="input-xlarge"
+        						onchange="$('#div_cod_literature').attr('class', 'control-group'); $('#errorCod').html(null)">
+        						<p class="help-block" id="errorCod"></p>
+      					</div>
+
+      				</div>
+      				<div id="div_desc_literature" class="control-group">
+      					<label style="text-align: left" class="control-label">Description</label>
+      					<div class="controls">
+        					<textarea rows="5" cols="" name="literature[description]" id="desc_literature" class="input-xlarge"
+        					onchange="$('#div_desc_literature').attr('class', 'control-group')"></textarea>
+      					</div>
+      				</div>
+      				<div class="control-group">
+      					<label style="text-align: left" class="control-label">Note</label>
+      					<div class="controls">
+        					<textarea rows="5" cols="" name="literature[note]" id="note_literature" class="input-xlarge"></textarea>
+      					</div>
+      				</div>
+      				<div class="control-group">
+      					<div class="controls">
+      						<a id="addNewBiblio" class="btn btn-primary">Add</a>
+      					</div>
+    				</div>
+    				<div class="control-group success">
+      					<div class="controls">
+      						<p class="help-block" id="inputSuccess"></p>
+      					</div>
+    				</div>
+  				</fieldset>
+			</form>
+		
+		</p>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">Close</a>
+	</div>
+</div>

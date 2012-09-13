@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+
+ {% block title %}
+ EDB Home Page
+{% endblock %}
+
+{% block body %}
+
+	<div class="marketing">
+		<h2>List Users</h2>
+		<br>
+	</div>
+<div class="row">
+	<div class="offset3 span5">
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>username</th>
+					<th>email</th>
+					<th>Edit</th>
+					<th>Delete</th>
+					<th>Password</th>
+					<th>status</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
+					{% include 'KddeEdbBundle:User:user.html.twig' with {'user': user} %}
+				{% endfor %}
+			</tbody>
+			
+		</table>
+	</div>
+</div>
+		
+{% endblock %}

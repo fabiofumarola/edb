@@ -1,0 +1,24 @@
+{% block field_widget %}
+    {% set type = type|default('text') %}
+    	<input class="input-xlarge" type="{{ type }}" {{ block('widget_attributes') }} value="{{ value }}" />
+    
+    {% if help is defined %}
+        <span class="help">{{ help }}</span>
+    {% endif %}
+{% endblock field_widget %}
+
+
+
+{% block field_row %}
+    <div class="control-group">
+        {{ form_label(form, null, {'attr': {'class':'control-label'}}) }}
+        {{ form_errors(form)}}
+        <div class="controls">
+        	{{ form_widget(form) }}
+        </div>
+	</div>
+{% endblock field_row %}
+
+{% block textarea_widget %}
+		<textarea class="input-xlarge" {{ block('widget_attributes') }} value="{{ value }}" ></textarea>
+{% endblock %}

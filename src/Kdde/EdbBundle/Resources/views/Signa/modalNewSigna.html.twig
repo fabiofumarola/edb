@@ -1,0 +1,41 @@
+<div class="modal hide" id="modalNewSigna">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">x</button>
+		<h3>Add New Signum Christi</h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			<form class="form-horizontal">
+				<fieldset>
+					<div id="divSignaId" class="control-group">
+						<label style="text-align: left" class="control-label">Id</label> 
+						<div class="controls">
+							<input id="inputSignaId" type="text" 
+								onchange="$('#divSignaId').attr('class', 'control-group'); $('#errorValSignaId').html(null)">
+							<p class="help-block" id="errorValSignaId"></p>
+						</div>
+					</div>
+					<div id="divSignaDesc" class="control-group">
+						<label style="text-align: left" class="control-label">Description</label> 
+						<div class="controls">
+							<input id="inputSignaDescription" type="text" 
+								onchange="$('#divSignaDesc').attr('class', 'control-group'); $('#errorValSignaDesc').html(null)">
+							<p class="help-block" id="errorValSignaDesc"></p>
+						</div>
+					</div>
+					<div class="control-group">
+	      				<div class="controls">
+							<a class="btn btn-primary" id="addSignum">Add</a>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</p>
+		
+	</div>
+	
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">Close</a>
+	</div>
+	
+</div>

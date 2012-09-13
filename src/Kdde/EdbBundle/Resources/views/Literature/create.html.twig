@@ -1,0 +1,30 @@
+{% extends '::base.html.twig' %}
+
+{% form_theme form 'KddeEdbBundle:Form:fields.html.twig' %}
+
+{% block title %}
+ EDB Create new Literature
+{% endblock %}
+
+{% block body %}
+
+	<div class="marketing">
+		<h2>New Literature</h2>
+		<br>
+	</div>
+	<div class="row">
+		<div class="offset3 span5">
+			<form class="form-horizontal" action="{{ path('edb_literature_new')}}" method="post" {{ form_enctype(form) }}>		
+				{{ form_widget(form) }}
+    			<div class="control-group">
+    				<div class="controls">
+				      <button type="submit" class="btn">Submit</button>
+				    </div>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+{% endblock %}
+
+

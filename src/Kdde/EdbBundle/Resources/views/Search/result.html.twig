@@ -1,0 +1,127 @@
+{% extends '::base.html.twig' %}
+
+ {% block title %}
+ EDB Search Result Page
+{% endblock %}
+
+{% block body %}
+
+<div class="marketing">
+	<h2>Search Results</h2>
+	<h3>Got {{ count }} Epigraphes</h3>
+	<br>
+</div>
+<div class="row">
+	<div class="offset2 table-striped">
+	{% for e in epigraphes %}
+		{# main element #}
+		<div class="">
+			<div class="row">
+				<h3>Epigraph {{ e.id }}</h3>
+			</div>
+			<div class="row">
+				<table class="table table-striped table-condensed">
+					<tr>
+						<td><strong>Volume ICVR:</strong> <em>{{ e.icvr.volume }} </em></td>
+						<td><strong>Principal Number:</strong> <em>{{ e.principalProgNumber }} </em></td>
+						<td><strong>Sub Number:</strong> <em>{{ e.subNumeration }} </em></td>
+					</tr>
+					<tr>
+						<td><strong>Reference Literature</strong></td>
+						<td><em>{{ e.literatures | join(", ") }}</em></td>
+						<td></td>
+					</tr>
+					<tr class="warning">
+						<td><strong>Pertinence</strong></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><strong>Area:</strong> <em>{{ e.pertinence.pertinenceArea.description }} </em></td>
+						<td><strong>Context:</strong> <em>{{ e.pertinence.context.description }} </em></td>
+						<td><strong>In Situ:</strong> 
+							<em>
+							{% if e.pertinence.inSitu == true %}
+								<i class="icon-ok"></i>
+							{% else %}
+								<i class="icon-remove"></i>
+							{% endif %}
+							</em> 
+						</td>
+					</tr>
+					<tr class="warning">
+						<td><strong>Conservation</strong></td>
+						<td></td>
+						<td><strong>Lost:</strong> 
+								<em>
+								{% if e.lost == true %}
+									<i class="icon-ok"></i>
+								{% else %}
+									<i class="icon-remove"></i>
+								{% endif %}
+								</em> 
+							</td>
+					</tr>
+					{% for c in e.conservations %}
+						<tr>
+							<td></td>
+							<td><strong>Context:</strong> <em>{{ c.conservationContext.description }} </em></td>
+							<td></td>
+			
+						</tr>
+					{% endfor %}
+					<tr class="warning">
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><strong>Support:</strong> <em>{{ e.material.support.description }} </em></td>
+						<td><strong>Technique:</strong> <em>{{ e.material.technique.description }} </em></td>
+						<td></td>	
+					</tr>
+					<tr>
+						<td><strong>Metrical Text:</strong> <em>{{ e.metricText }} </em></td>
+						<td><strong>Divergent Text:</strong> <em>{{ e.divergentText }} </em></td>
+						<td><strong>Function:</strong> <em>{{ e.funzione.description }} </em></td>
+					</tr>
+					<tr>
+						<td><strong>Dating:</strong></td>	
+						{% if e.data != null %}
+							<td><strong>from</strong> <em>{{ e.data.from }} </em></td>
+							<td><strong>to</strong> <em>{{ e.data.to }} </em></td>	
+						{% else %}
+							<td><strong>from</strong> <em> n.d. </em></td>
+							<td> <strong>to</strong> <em> n.d. </em></td>
+						{%  endif %}
+					</tr>
+					<tr>
+						<td><strong>Compilation Date:</strong> <em>{{ e.dataScheda }} </em></td>
+						{% if e.compilator != null %}
+							<td><strong>Compilator:</strong> <em>{{e.compilator.firstname}} {{ e.compilator.lastname }} </em></td>
+						{% elseif  e.oldCompilator != null %}
+							<td><strong>Compilator:</strong> <em>{{ e.oldCompilator }} </em></td>
+						{% endif %}						
+						<td><a href="http://pcas.xdams.net/pcas-web/scheda/fotografico/ICVR/{{ e.id }}/scheda.html" onclick="window.open(this.href);return false;">Link PCAS</a></td>
+					</tr>
+					<tr>
+						<td colspan="3">
+							<div class="hero-unit">
+								<p class="lead">{{e.trascription}}</p>
+							</div>
+						</td>
+					</tr>
+					<tr class="error">
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<hr>
+		{# end main element#}
+	{% endfor %}
+	</div>
+</div>		
+{% endblock %}

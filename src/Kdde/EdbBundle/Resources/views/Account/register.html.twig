@@ -1,0 +1,29 @@
+{% extends '::base.html.twig' %}
+
+{% form_theme form 'KddeEdbBundle:Form:fields.html.twig' %}
+
+{% block title %}
+ EDB Home Page
+{% endblock %}
+
+{% block body %}
+
+	<div class="marketing">
+		<h2>Login</h2>
+		<br>
+	</div>
+	<div class="row">
+		<div class="offset4 span5">
+			<form class="" action="{{ path('edb_registration_create')}}" method="post" {{ form_enctype(form) }}>
+				{{ form_errors(form) }}			
+				{{ form_row(form.user) }}
+    			{{ form_row(form.terms) }}
+    			{{ form_rest(form) }}
+    			<input type="submit" />
+			</form>
+		</div>
+	</div>
+	
+{% endblock %}
+
+

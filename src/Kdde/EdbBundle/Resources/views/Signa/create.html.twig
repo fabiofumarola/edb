@@ -1,0 +1,52 @@
+{% extends '::base.html.twig' %}
+
+{% form_theme form 'KddeEdbBundle:Form:fields.html.twig' %}
+
+{% block title %}
+ EDB Create new Signum Christi
+{% endblock %}
+
+{% block body %}
+
+	<div class="marketing">
+		<h2>New Signum Christi</h2>
+		<br>
+	</div>
+	<div class="row">
+		<div class="offset3 span5">
+			<form class="form-horizontal" action="{{ path('edb_signa_new')}}" method="post" {{ form_enctype(form) }}>
+				<fieldset>
+					<div class="control-group">
+        				{{ form_label(form.id, null, {'attr': {'class':'control-label'}}) }}
+        				{{ form_errors(form.id)}}
+        				<div class="controls">
+        					{{ form_widget(form.id) }}
+        				</div>
+					</div>
+					<div class="control-group">
+        				{{ form_label(form.description, null, {'attr': {'class':'control-label', 'for':'greek'}}) }}
+        				{{ form_errors(form.description)}}
+        				<div class="controls">
+							{{ form_widget(form.description) }}
+							<button id="greekToogle" type="button" class="btn" data-toggle="button">Toggle to write in Greek</button>
+        				</div>
+					</div>
+				</fieldset>
+				<div class="control-group">
+    				<div class="controls">
+				      <button type="submit" class="btn">Submit</button>
+				    </div>
+				</div>
+			</form>
+		</div>
+	</div>
+	
+{% endblock %}
+
+
+{% block javascripts %}
+	
+	{{ parent() }}
+		
+	<script src="{{ asset('js/signa-create.js') }}" type="text/javascript"></script>
+{% endblock %}

@@ -1,0 +1,33 @@
+<div class="modal hide" id="modalNewPertinencePosition">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">x</button>
+		<h3>Add New Pertinence Position</h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			<fieldset>
+				<form class="form-horizontal" >
+					<div id="divPertinencePosition" class="control-group">
+						<label style="text-align: left" class="control-label">Description</label> 
+						<div class="controls">
+							<input id="inputPertinencePositionDescription" type="text"
+							onchange="$('#divPertinencePosition').attr('class', 'control-group'); $('#errorValPertinencePosition').html(null)">
+							<p class="help-block" id="errorValPertinencePosition"></p>
+						</div>
+					</div>
+					<div class="control-group">
+	      				<div class="controls">
+							<a class="btn btn-primary" id="addPertinencePosition">Add</a>
+						</div>
+					</div>
+				</form>
+			</fieldset>
+		</p>
+		
+	</div>
+	
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">Close</a>
+	</div>
+	
+</div>

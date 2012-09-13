@@ -1,0 +1,7 @@
+parameters:
+#    kdde_edb.example.class: Kdde\EdbBundle\Example
+
+services:
+#    kdde_edb.example:
+#        class: %kdde_edb.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

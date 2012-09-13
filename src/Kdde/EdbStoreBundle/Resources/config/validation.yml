@@ -1,0 +1,6 @@
+Kdde\EdbStorebundle\Entity\Signa:
+    properties:
+        id:
+          - NotBlank: ~
+        description:
+          - NotBlank: ~

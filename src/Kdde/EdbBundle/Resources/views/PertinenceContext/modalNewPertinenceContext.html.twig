@@ -1,0 +1,33 @@
+<div class="modal hide" id="modalNewPertinenceContext">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal">x</button>
+		<h3>Add New Pertinence Context</h3>
+	</div>
+	<div class="modal-body">
+		<p>
+			<fieldset>
+				<form class="form-horizontal" id="fromPertinenceContext">
+					<div id="divPertinenceContext" class="control-group">
+						<label style="text-align: left" class="control-label">Description</label> 
+						<div class="controls">
+							<input id="inputPertinenceContextDescription" type="text"
+							onchange="$('#divPertinenceContext').attr('class', 'control-group'); $('#errorValPertinenceContext').html(null)">
+							<p class="help-block" id="errorValPertinenceContext"></p>
+						</div>
+					</div>
+					<div class="control-group">
+	      				<div class="controls">
+							<a class="btn btn-primary" id="addPertinenceContext">Add</a>
+						</div>
+					</div>
+				</form>
+			</fieldset>
+		</p>
+		
+	</div>
+	
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">Close</a>
+	</div>
+	
+</div>

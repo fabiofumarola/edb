@@ -1,0 +1,44 @@
+{% extends '::base.html.twig' %}
+
+ {% block title %}
+ EDB Home Page
+{% endblock %}
+
+{% block body %}
+
+	<div class="marketing">
+		<h2>New Account</h2>
+		<br>
+	</div>
+	<div class="row">
+		<div class="offset3 span5">
+		{% if error %}
+    		<div>{{ error.message }}</div>
+		{% endif %}
+
+		<form class="form-horizontal" action="{{ path('edb_login_check') }}" method="post">
+			<fieldset>
+				<div class="control-group">
+					<label class="control-label"  for="username">Username:</label>
+					<div class="controls">
+						<input type="text" class="input-xlarge" id="username" name="_username" value="{{ last_username }}" />
+					</div>
+				
+    			</div>
+				<div class="control-group">
+					<label class="control-label" for="password">Password:</label>
+					<div class="controls">
+						<input class="input-xlarge" type="password" id="password" name="_password" />
+					</div>
+				</div>
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary">Login</button>
+				</div>
+			</fieldset>
+		</form>
+		
+		<a class="" href="{{ path('edb_registration') }}">Create a New Account</a>
+		</div>
+	</div>
+	
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends '::base.html.twig' %}
+
+ {% block title %}
+ EDB Home Page
+{% endblock %}
+
+{% block body %}
+
+	<div class="marketing">
+		<h2>User Detail</h2>
+		<br>
+	</div>
+	<div class="row offset4 span4">
+		<table class="table table-hover">
+		<thead></thead>
+		<tbody>
+			<tr>
+				<td> Firstname </td>
+				<td> {{ user.firstname }}</td>
+			</tr>
+			<tr>
+				<td> Lastname </td>
+				<td> {{ user.lastname }}</td>
+			</tr>
+			<tr>
+				<td> username </td>
+				<td> {{ user.username }}</td>
+			</tr>
+			<tr>
+				<td> email </td>
+				<td> {{ user.email }}</td>
+			</tr>
+			<tr>
+				<td> Status </td>
+				{% if user.isActive %}
+					<td> approved</td>
+				{% else %}
+					<td> pending</td>
+				{%  endif %}
+			</tr>
+			<tr>
+				<td>Roles </td>
+				<td>
+					<ul class="">
+					{% for role in user.roles %}
+						<li>{{ role.roleName}}</li>
+					{% endfor %}
+					</ul>
+				</td>
+			</tr>
+		</tbody>
+		</table>
+	</div>
+	<div class="row"></div>
+	<div class="row offset4">
+  		<a class="btn btn-medium btn-primary" type="button" href="{{ path('edb_user_edit', {'id': user.id}) }}">edit</a>
+  		<a class="btn btn-medium btn-danger" type="button" href="{{ path('edb_user_delete', {'id': user.id}) }}">delete</a>
+	  	{% if user.isActive %}
+			<a class="btn btn-medium btn-warning" type="button" href="{{ path('edb_user_deactivate', {'id': user.id}) }}">deactivate</a>
+		{% else %}
+			<a class="btn btn-medium btn-warning" type="button" href="{{ path('edb_user_approve', {'id': user.id}) }}">activate</a>
+		{%  endif %}
+	  	</div>
+		
+{% endblock %}

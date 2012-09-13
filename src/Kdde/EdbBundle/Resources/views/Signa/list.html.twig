@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+
+ {% block title %}
+ EDB Home Page
+{% endblock %}
+
+{% block body %}
+
+	<div class="marketing">
+		<h2>List Signa Christi</h2>
+		<br>
+	</div>
+<div class="row">
+	<div class="offset3 span5">
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th class="span3">Code</th>
+					<th class="span7">Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for s in signa %}
+					<tr>
+						<td> {{ s.id }}</td>
+						<td> {{ s.description }}</td>					
+					</tr>
+				{% endfor %}
+			</tbody>
+			
+		</table>
+	</div>
+</div>
+		
+{% endblock %}

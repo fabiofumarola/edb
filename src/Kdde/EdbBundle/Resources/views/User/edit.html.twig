@@ -1,0 +1,22 @@
+{% extends '::base.html.twig' %}
+
+ {% block title %}
+ EDB Edit User Page
+{% endblock %}
+
+{% block body %}
+
+	<div class="marketing">
+		<h2>Edit User</h2>
+		<br>
+	</div>
+	<div class="row offset4 span4">
+		<form class="" action="{{ path('edb_user_edit', {'id': id})}}" method="post" {{ form_enctype(form) }}>
+				{{ form_errors(form) }}			
+				{{ form_row(form) }}
+    			{{ form_rest(form) }}
+    			<input type="submit" />
+			</form>
+	</div>
+	<div class="row"></div>		
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends '::base.html.twig' %}
+
+ {% block title %}
+ EDB History Page
+{% endblock %}
+
+{% block body %}
+
+{#<h3 class="well">La consultazione di EDB &egrave; possibile attraverso tre livelli di ricerca: </h3> #}
+
+<h3 class="well"> Edb can be Queried using 3 possible levels of search</h3>
+
+<p><strong><a href="{{ path('edb_search_basic') }}">Basic Search</a> </strong>: allows <em> queries </em> using combination of possible values consideres as basilar for the topic.</p>
+
+<!--<p><strong><a href="<?php echo URL; ?>search/medium">Ricerca media</a> </strong>: disponibile dietro richiesta di iscrizione con rilascio di <em>login </em> e <em>password </em>, consente <em>queries </em> combinatorie in più campi; </p>
+
+<p><strong><a href="<?php echo URL; ?>search/advanced">Ricerca avanzata</a> </strong>: consente indagini anche su aspetti
+    pi&ugrave; particolari e mirati: per il momento &egrave; esclusivamente
+    riservato ai curatori di EDB . </p>
+      -->
+
+{% endblock %}
+
+

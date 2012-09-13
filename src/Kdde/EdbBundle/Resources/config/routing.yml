@@ -1,0 +1,350 @@
+edb_homepage:
+    pattern: /
+    defaults: {_controller: KddeEdbBundle:Default:index } 
+    
+edb_history:
+    pattern: /history
+    defaults: {_controller: KddeEdbBundle:History:index }
+    
+edb_login:
+    pattern: /login
+    defaults: {_controller: KddeEdbBundle:Security:login }   
+ 
+edb_login_check:
+    pattern: /login/check
+    defaults: {_controller: KddeEdbBundle:Security:check }
+    
+edb_security_logout:
+    pattern:  /logout
+      
+edb_registration:
+    pattern: /account
+    defaults: {_controller: KddeEdbBundle:Account:register}
+    
+edb_registration_create:
+    pattern: /account/create
+    defaults: {_controller: KddeEdbBundle:Account:create}
+    requirements:
+      _method: POST
+      
+edb_user_list:
+    pattern: admin/user/list
+    defaults: {_controller: KddeEdbBundle:User:list}
+    
+ebd_user_show:
+    pattern: admin/user/{id}
+    defaults: {_controller: KddeEdbBundle:User:show}
+    requirements:
+      id: \d+
+      
+edb_user_edit:
+    pattern: admin/user/{id}/edit
+    defaults: {_controller: KddeEdbBundle:User:edit}
+    requirements:
+      id: \d+
+           
+edb_user_delete:
+    pattern: admin/user/{id}/delete
+    defaults: {_controller: KddeEdbBundle:User:delete}
+    requirements:
+      id: \d+
+      
+edb_user_destroy:
+    pattern: admin/user/{id}/destroy
+    defaults: {_controller: KddeEdbBundle:User:destroy}
+    requirements:
+      id: \d+
+
+edb_user_activate:
+    pattern: admin/user/{id}/activate
+    defaults: {_controller: KddeEdbBundle:User:activate}
+    requirements:
+      id: \d+
+
+edb_user_deactivate:
+    pattern: admin/user/{id}/deactivate
+    defaults: {_controller: KddeEdbBundle:User:deactivate}
+    requirements:
+      id: \d+
+      
+edb_user_reset_password:
+   pattern: admin/user/{id}/reset
+   defaults: {_controller: KddeEdbBundle:User:resetPassword}
+   requirements:
+      id: \d+
+      
+      
+edb_epigraph_new:
+    pattern: /compiler/epigraph/new
+    defaults: {_controller: KddeEdbBundle:Epigraph:new} 
+    
+edb_epigraph_status:
+    pattern: /compiler/epigraph/status
+    defaults: {_controller: KddeEdbBundle:Epigraph:status}
+    
+edb_epigraph_approve:
+    pattern: /compiler/epigraph/{id}/approve
+    defaults: {_controller: KddeEdbBundle:Epigraph:approve}
+    requirements:
+        id: \d+
+        
+edb_epigraph_show:
+    pattern: /compiler/epigraph/{id}/show
+    defaults: {_controller: KddeEdbBundle:Epigraph:show}
+    requirements:
+        id: \d+
+        
+edb_epigraph_edit:
+    pattern: /compiler/epigraph/{id}/edit
+    defaults: {_controller: KddeEdbBundle:Epigraph:edit}
+    requirements:
+        id: \d+
+    
+edb_literature_new:
+    pattern: /compiler/literature/new
+    defaults: {_controller: KddeEdbBundle:Literature:new}   
+ 
+    
+edb_literature_new_modal:
+    pattern: /compile/literature/new/modal
+    defaults: {_controller: KddeEdbBundle:Literature:newModal} 
+    options:
+        expose: true
+
+edb_literature_list:
+    pattern: /literature
+    defaults: {_controller: KddeEdbBundle:Literature:index}
+    
+edb_pertinence_area_list:
+    pattern: /pertinence/area.{_format}
+    defaults: {_controller: KddeEdbBundle:PertinenceArea:list, _format: json}    
+    requirements:
+        _format: json
+    options:
+        expose: true
+
+edb_new_pertinence_area:
+    pattern: /compiler/pertinence/area/new/modal
+    defaults: {_controller: KddeEdbBundle:PertinenceArea:newModal}
+    requirements:
+        _method: POST
+    options:
+        expose: true
+        
+edb_new_pertinence_context:
+    pattern: /compiler/pertinence/context/new/modal
+    defaults: {_controller: KddeEdbBundle:PertinenceContext:newModal}
+    requirements:
+        _method: POST
+    options:
+        expose: true
+        
+edb_pertinence_context_list:
+    pattern: /pertinence/context/{id}.{_format}
+    defaults: {_controller: KddeEdbBundle:PertinenceContext:list, _format: json}
+    options:
+        expose: true    
+    requirements:
+        _format: json
+        id: \d+
+        
+        
+edb_new_pertinence_position:
+    pattern: /compiler/pertinence/position/new/modal
+    defaults: {_controller: KddeEdbBundle:PertinencePosition:newModal}
+    requirements:
+        _method: POST
+    options:
+        expose: true
+
+        
+edb_pertinence_position_list:
+    pattern: /pertinence/position/{id}.{_format}
+    defaults: {_controller: KddeEdbBundle:PertinencePosition:list, _format: json}
+    requirements:
+        _format: json
+        id: \d+    
+    options:
+        expose: true
+        
+edb_conservation_location_list:
+    pattern: /conservation/location.{_format}
+    defaults: {_controller: KddeEdbBundle:ConservationLocation:list, _format: json}
+    requirements:
+        _format: json
+    options:
+        expose: true
+        
+edb_new_conservation_location:
+    pattern: /compiler/conservation/location/new/modal
+    defaults: {_controller: KddeEdbBundle:ConservationLocation:newModal}
+    requirements:
+        _method: POST
+    options:
+        expose: true
+        
+edb_conservation_context_list:
+    pattern: /conservation/context/{id}.{_format}
+    defaults: {_controller: KddeEdbBundle:ConservationContext:list, _format: json}
+    requirements:
+        _format: json
+    options:
+        expose: true
+
+edb_conservation_position_list:
+    pattern: /conservation/position/{id}.{_format}
+    defaults:  {_controller: KddeEdbBundle:ConservationPosition:list, _format: json}
+    requirements:
+        _format: json
+    options:
+        expose: true
+        
+edb_new_conservation_position:
+    pattern: /compiler/conservation/position/new/modal
+    defaults: {_controller: KddeEdbBundle:ConservationPosition:newModal}
+    requirements:
+        _method: POST
+    options:
+        expose: true
+                
+edb_new_paleography:
+    pattern: /compiler/paleography/new/modal
+    defaults: {_controller: KddeEdbBundle:Paleography:newModal}
+    requirements:
+        _method: POST
+    options:
+        expose: true
+        
+edb_paleography_list:
+    pattern: /paleography/list.{_format}
+    defaults:  {_controller: KddeEdbBundle:Paleography:list, _format: json}
+    requirements:
+        _format: json
+    options:
+        expose: true
+
+        
+edb_new_technique:
+    pattern: /compiler/technique/new/modal
+    defaults: {_controller: KddeEdbBundle:Technique:newModal}
+    requirements:
+        _method: POST
+    options:
+        expose: true
+        
+edb_technique_list:
+    pattern: /technique/list.{_format}
+    defaults:  {_controller: KddeEdbBundle:Technique:list, _format: json}
+    requirements:
+        _format: json
+    options:
+        expose: true
+        
+edb_new_function:
+    pattern: /compiler/function/new/modal
+    defaults: {_controller: KddeEdbBundle:Function:newModal}
+    requirements:
+        _method: POST
+    options:
+        expose: true
+        
+edb_function_list:
+    pattern: /function/list.{_format}
+    defaults:  {_controller: KddeEdbBundle:Function:list, _format: json}
+    requirements:
+        _format: json
+    options:
+        expose: true
+
+edb_new_support:
+    pattern: /compiler/support/new/modal
+    defaults: {_controller: KddeEdbBundle:Support:newModal}
+    requirements:
+        _method: POST
+    options:
+        expose: true
+        
+edb_support_list:
+    pattern: /support/list.{_format}
+    defaults:  {_controller: KddeEdbBundle:Support:list, _format: json}
+    requirements:
+        _format: json
+    options:
+        expose: true
+        
+edb_new_onomastic_area:
+    pattern: /compiler/onomastic/area/new/modal
+    defaults: {_controller: KddeEdbBundle:OnomasticArea:newModal}
+    requirements:
+        _method: POST
+    options:
+        expose: true
+        
+edb_onomastic_area_list:
+    pattern: /onomastic/area/list.{_format}
+    defaults:  {_controller: KddeEdbBundle:OnomasticArea:list, _format: json}
+    requirements:
+        _format: json
+    options:
+        expose: true
+        
+edb_signa_list:
+    pattern: /compiler/signa/list.{_format}
+    defaults:  {_controller: KddeEdbBundle:Signa:list, _format: html}
+    requirements:
+        _format: json|html
+    options:
+        expose: true 
+        
+edb_signa_new:
+    pattern: /compiler/signa/new
+    defaults: {_controller: KddeEdbBundle:Signa:create}
+        
+edb_new_signa:
+    pattern: /compiler/signa/new/modal
+    defaults: {_controller: KddeEdbBundle:Signa:newModal}
+    requirements:
+        _method: POST
+    options:
+        expose: true
+        
+edb_new_conservation_context:
+    pattern: /compiler/conservation/context/new/modal
+    defaults: {_controller: KddeEdbBundle:ConservationContext:newModal}
+    requirements:
+        _method: POST
+    options:
+        expose: true
+        
+      
+edb_status:
+    pattern: /status
+    defaults: {_controller: KddeEdbBundle:Status:index}
+    
+edb_perspective:
+    pattern: /perspective
+    defaults: {_controller: KddeEdbBundle:Perspective:index}
+    
+edb_collaboration:
+    pattern: /collaboration
+    defaults: {_controller: KddeEdbBundle:Collaboration:index}
+    
+edb_link:
+    pattern: /link
+    defaults: {_controller: KddeEdbBundle:Link:index}
+    
+edb_people:
+    pattern: /people
+    defaults: {_controller: KddeEdbBundle:People:index}
+    
+edb_search:
+    pattern: /search
+    defaults: {_controller: KddeEdbBundle:Search:index}
+    
+edb_search_basic:
+    pattern: /search/basic
+    defaults: {_controller: KddeEdbBundle:Search:basic}
+    requirements:
+      _method: GET|POST
+      
+      

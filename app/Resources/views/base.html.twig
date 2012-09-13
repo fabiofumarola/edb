@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}EDB Epigraphic Database Bari / EAGLE{% endblock %}</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<meta name="description"
+	content="Epigraphic Database Bari - It stores Epigraphic Documents of Roman Christian Period ">
+
+	<meta name="author"
+	content="Computer Science Department University of Bari">
+	<meta name="copyright"
+	content="Department of Classical and Christian Studies - University of Bari (Italy)">
+	<meta name="keywords"
+	content="epigraphic, Epigraphic, epigraphic database, epigrafia, database epigrafico,
+		iscrizioni romane, iscrizioni latine, roma antica, EAGLE, testi epigrafici">
+    {% block stylesheets %}
+    	<link rel="stylesheet" href="{{ asset('css/bootstrap.css')}}" />
+    	<link rel="stylesheet" href="{{ asset('css/bootstrap-responsive.css')}}" />
+    	<link rel="stylesheet" href="{{ asset('css/docs.css')}}" />
+    {% endblock %} 
+    
+    <link rel="shortcut icon" href="{{ asset('ico/favicon.ico') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ asset('ico/apple-touch-icon-144-precomposed.png') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ asset('ico/apple-touch-icon-114-precomposed.png') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ asset('ico/apple-touch-icon-72-precomposed.png') }}">
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('ico/apple-touch-icon-57-precomposed.png') }}">
+                                  
+    </head>
+    <body>
+    
+    <!-- navbar -->
+    
+    <div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse"
+					data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span>
+				</a> <a class="brand visible-phone visible-tablet" href="{{ path('edb_homepage') }}">EDB</a>
+				<div class="nav-collapse collapse">
+					<ul class="nav">
+						<li class=""><a href="{{ path('edb_homepage') }}">Home</a>
+						</li>
+						<li class=""><a href="{{ path('edb_history') }}">History</a>
+						</li>
+						<li class=""><a href=" {{ path('edb_status') }}">Status</a>
+						</li>
+						<li class=""><a href="{{ path('edb_perspective') }}">Perspectives</a>
+						</li>
+						<li class=""><a href="{{ path('edb_collaboration') }}">Collaborations</a>
+						</li>
+						<li class=""><a href="{{ path('edb_link') }}">Links</a>
+						</li>
+						<li class=""><a href="{{ path('edb_people') }}">People</a>
+						</li>
+						<li class="divider-vertical"></li>
+						<li class=""><a href="{{ path('edb_search') }}">Search</a>
+						</li>
+						
+						{% if is_granted('ROLE_ADMIN') %}
+							<li class="dropdown">
+								<a href="#" id="menuUtenti" role="button" class="dropdown-toggle" data-toggle="dropdown" >User<b class="caret"></b></a>
+								<ul class="dropdown-menu" role="menu" aria-labelledby="menuUtenti" >
+									<li><a tabindex="-1" href="{{ path('edb_registration') }}">New</a></li>
+									<li class="divider"></li>
+									<li><a tabindex="-1" href="{{ path('edb_user_list') }}">Show</a>					
+								</ul>
+							</li>
+						{% endif %}
+						
+						{% if is_granted('ROLE_COMPILER') %}
+							<li class="dropdown">
+								<a href="#" id="menuEpigraph" role="button" class="dropdown-toggle" data-toggle="dropdown" > Epigraph <b
+								class="caret"></b></a>
+								<ul class="dropdown-menu" role="menu" aria-labelledby="menuEpigraph" >
+									<li><a tabindex="-1" href="{{ path('edb_epigraph_new') }}">New</a></li>
+									<li class="divider"></li>
+									<li><a tabindex="-1" href="{{ path('edb_epigraph_status') }}">Status</a>			
+								</ul>
+							</li>
+							
+							<li class="dropdown">
+								<a hre="#" id="menuLiterature" role="button" class="dropdown-toggle" data-toggle="dropdown"> Literature <b
+								class="caret"></b></a>
+								<ul class="dropdown-menu" role="menu" aria-labelledby="menuLiterature">
+									<li><a tabindex="-1" href=" {{ path('edb_literature_new') }}">New</a></li>
+									<li class="divider"></li>
+									<li><a tabindex="-1" href=" {{ path('edb_literature_list') }} ">Show All</a>
+								</ul>
+							</li>
+							
+							<li class="dropdown" >
+								<a href="#" id="menuSigna" role="button" class="dropdown-toggle" data-toggle="dropdown">Signa
+								<b class="caret"></b></a>
+								<ul class="dropdown-menu" role="menu" aria-labelledby="menuSigna">
+									<li><a tabindex="-1" href="{{ path('edb_signa_new') }}">New</a></li>
+									<li class="divider"></li>
+									<li><a tabindex="-1" href="{{ path('edb_signa_list') }}">Show</a>
+								</ul>
+						</li>
+						{% endif %}
+						
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        	<li><a href="{{ path('edb_security_logout') }}">Logout</a></li>
+						{% else %}
+    						<li class=""><a href="{{ path('edb_login') }}">Login</a></li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+    
+    <div class="container">
+    
+    
+    ￼{% if app.session.hasFlash('notice') %}
+    <div class="alert alert-success">
+     	<button type="button" class="close" data-dismiss="alert">×</button>
+        {{ app.session.flash('notice') }}
+    </div>
+	{% endif %}
+	
+	￼{% if app.session.hasFlash('error') %}
+    <div class="alert alert-error">
+     	<button type="button" class="close" data-dismiss="alert">×</button>
+        {{ app.session.flash('error') }}
+    </div>
+	{% endif %}
+    
+    <!-- Masthead================================================== -->
+		<header class="jumbotron masthead">
+			<div class="inner">
+				<h1>EDB Epigraphic Database Bari</h1>
+				<p>Documenti epigrafici romani di committenza cristiana - Secoli III
+					- VIII</p>
+				<p class="inner">Electronic Archive of Greek and Latin Epigraphy
+					(EAGLE) - International Federation of Epigraphic Databases.</p>
+				<p class="inner">Under the patronage of Association Internationale
+					d'Epigraphie Grecque et Latine - AIEGL</p>
+			</div>
+			<ul class="thumbnails">
+			  <li class="span3"></li>
+              <li class="span2">
+                <a href="#" class="thumbnail">EAGLE</a>
+              </li>
+              <li class="span2">
+                <a href="#" class="thumbnail">
+                  AIEGL
+                </a>
+              </li>
+              <li class="span2">
+                <a href="#" class="thumbnail">
+                  Read mode
+                </a>
+              </li>
+            </ul>
+		</header>
+				 
+        {% block body %}{% endblock %}
+        
+		<!-- Footer
+      ================================================== -->
+		<footer class="footer">
+			<p class="pull-right">
+				<a href="#">Back to top</a>
+			</p>
+			<p>
+				Fed by the <a href="http://www.dscc.uniba.it">Department of Classical
+					and Christian Studies</a> - <a href="http://www.uniba.it">University of Bari (Italy)</a>
+			</p>
+			<p>
+				Designed by the <a href="#"><em>KDDE Group</em> </a> hosted at the <a
+					href="http://www.di.uniba.it"><em>Department of Computer Science</em>
+				</a> - <a href="http://www.uniba.it">University of Bari (Italy)</a>
+			</p>
+			<p>
+				Icons from <a href="http://glyphicons.com">Glyphicons Free</a>,
+				licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC
+					BY 3.0</a>.
+			</p>
+		</footer>
+    </div>
+   
+      
+        
+        {% block javascripts %}
+        	<script src="{{ asset('js/router.js') }}"></script>
+{#         	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>#}
+			<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+			<script src="{{ asset('js/jquery.js') }}"></script>
+			<script src="{{ asset('js/bootstrap-transition.js') }}"></script>
+			<script src="{{ asset('js/bootstrap-alert.js') }}"></script>
+			<script src="{{ asset('js/bootstrap-modal.js') }}"></script>
+			<script src="{{ asset('js/bootstrap-dropdown.js') }}"></script>
+			<script src="{{ asset('js/bootstrap-scrollspy.js') }}"></script>
+			<script src="{{ asset('js/bootstrap-tab.js') }}"></script>
+			<script src="{{ asset('js/bootstrap-tooltip.js') }}"></script>
+			<script src="{{ asset('js/bootstrap-popover.js') }}"></script>
+			<script src="{{ asset('js/bootstrap-button.js') }}"></script>
+			<script src="{{ asset('js/bootstrap-collapse.js') }}"></script>
+			<script src="{{ asset('js/bootstrap-carousel.js') }}"></script>
+			<script src="{{ asset('js/bootstrap-typeahead.js') }}"></script>
+			<script src="{{ asset('js/bootstrap-affix.js') }}"></script>
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,52 @@
+{% extends '::base.html.twig' %}
+
+ {% block title %}
+ EDB Home Page
+{% endblock %}
+
+{% block body %}
+
+	<div class="marketing">
+		<h2>List Pending Epigraphes</h2>
+		<br>
+	</div>
+<div class="row">
+	<div class="offset3 span5">
+		<table class="table table-striped table-bordered">
+			<thead>
+				<tr>
+					<th>id edb</th>
+					<th>compilator</th>
+					<th>status</th>
+					<th>approve</th>
+					<th>show</th>
+					<th>edit</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for e in epigraphes %}
+					<tr class="warning">
+						<td> {{ e.id }}</td>	
+						{% if e.compilator != null %}
+							<td> {{ e.compilator.username }}</td>
+						{% else %}
+							<td></td>
+						{% endif %}
+						{% if not e.isActive %}
+							<td> pending </td>
+						{% else %}
+							<td> approved </td>
+						{% endif %}
+						
+						<td><a href="{{ path('edb_epigraph_approve', {'id': e.id}) }}" >approve</a></td>
+						<td><a href="{{ path('edb_epigraph_show', {'id': e.id}) }}" >show</a></td>
+						<td><a href="{{ path('edb_epigraph_edit', {'id': e.id}) }}" >edit</a></td>				
+					</tr>
+				{% endfor %}
+			</tbody>
+			
+		</table>
+	</div>
+</div>
+		
+{% endblock %}
