@@ -344,7 +344,9 @@ edb_search:
 edb_search_basic:
     pattern: /search/basic
     defaults: {_controller: KddeEdbBundle:Search:basic}
-    requirements:
-      _method: GET|POST
+    
+edb_search_basic_do:
+    pattern: /search/basic/do
+    defaults: {_controller: KddeEdbBundle:Search:basicDo}
       
       

@@ -13,6 +13,10 @@ body {
 	font-size: 14px
 }
 
+#cardo{
+	font-family: 'Cardo' !important;
+}
+
 #transcription {
 	font-family: 'Cardo' !important;
 	font-size: 14px;

@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new Kdde\EdbStoreBundle\KddeEdbStoreBundle(),
         	new Craue\FormFlowBundle\CraueFormFlowBundle(),
         	new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+        	new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
