@@ -245,9 +245,8 @@ class Epigraph {
 		$this->literatures = new ArrayCollection();
 		$this->conservations = new ArrayCollection();
 		$this->signas = new ArrayCollection();
+		$this->createdAt = new DateTime("now");
 	}
-   
-
    
 
     /**

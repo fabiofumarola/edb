@@ -348,5 +348,11 @@ edb_search_basic:
 edb_search_basic_do:
     pattern: /search/basic/do
     defaults: {_controller: KddeEdbBundle:Search:basicDo}
+    
+edb_search_medium:
+    pattern: /search/medium
+    defaults: {_controller: KddeEdbBundle:Search:medium}
       
-      
+edb_search_advanced:
+    pattern: /search/advanced
+    defaults: {_controller: KddeEdbBundle:Search:advanced}     

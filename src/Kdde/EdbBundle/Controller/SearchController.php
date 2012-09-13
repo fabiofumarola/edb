@@ -118,7 +118,15 @@ class SearchController extends Controller {
 		
 	}
 
-	public function retrieveBasicAction(Request $request) {
-
+	public function mediumAction(Request $request){
+		$defaultData = array();
+		$form = $this->createFormBuilder($defaultData)->getForm();
+		return $this->render('KddeEdbBundle:Search:medium.html.twig',array('form'=> $form->createView()));
+	}
+	
+	public function advancedAction(Request $request){
+		$defaultData = array();
+		$form = $this->createFormBuilder($defaultData)->getForm();
+		return $this->render('KddeEdbBundle:Search:advanced.html.twig',array('form'=> $form->createView()));
 	}
 }
