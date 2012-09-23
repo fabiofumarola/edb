@@ -1,6 +1,8 @@
 <?php
 namespace Kdde\EdbStoreBundle\Entity;
 
+use Doctrine\ORM\Query\ResultSetMapping;
+
 use Doctrine\ORM\EntityRepository;
 
 class EpigraphRepository extends EntityRepository {
@@ -35,11 +37,12 @@ class EpigraphRepository extends EntityRepository {
 		}
 
 		if ($transcription != null) {
-			$strQueryWhere .= "AND ep.trascription LIKE :transcription ";
+			if ($useThesaurus == false)
+				$strQueryWhere .= "AND ep.trascription LIKE :transcription ";
 		}
 
-		if ($useThesaurus = true) {
-
+		if ($useThesaurus == true) {
+			$strQueryWhere .= "AND (ts_testo @@ to_tsquery('edb2', '$transcription' ) OR ep.ts_testo @@ '$transcription'::tsquery)";
 		}
 		
 		$strQueryWhere = substr($strQueryWhere, 4, strlen($strQueryWhere));
@@ -69,8 +72,10 @@ class EpigraphRepository extends EntityRepository {
 		}
 
 		if ($transcription != null) {
-			$transcription = '%'.$transcription . '%';
-			$query->setParameter('transcription', $transcription);
+			if ($useThesaurus == false){
+				$transcription = '%'.$transcription . '%';
+				$query->setParameter('transcription', $transcription);
+			}
 		}
 		
 		
@@ -78,6 +83,56 @@ class EpigraphRepository extends EntityRepository {
 		return $query;
 
 	}
+	
+// 	public function findBasicSearch($id, $icvrId, $principalProgNumber, $areaId,
+// 			$contextId, $transcription, $useThesaurus) {
+	
+// 		$strQuerySelect = "SELECT ep FROM epigrafe ep ";
+// 		$strQueryWhere = "";
+	
+// 		if ($id != null) {
+// 			$strQueryWhere .= "AND ep.id_edb = $id ";
+// 		}
+	
+// 		if ($icvrId != null) {
+// 			$strQuerySelect .= "JOIN icvr ic ";
+// 			$strQueryWhere .= "AND ic.id_edizione = $icvrId ";
+// 		}
+	
+// 		if ($principalProgNumber != null) {
+// 			$strQueryWhere .= "AND ep.num_prog_principale = $principalProgNumber ";
+// 		}
+	
+// 		if ($areaId != null) {
+// 			$strQuerySelect .= "JOIN pertinenza pe";
+// 			$strQueryWhere .= "AND pe.area = $areaId ";
+// 		}
+	
+// 		if ($contextId != null) {
+// 			$strQueryWhere .= "AND pe.contesto = $contextId ";
+// 		}
+	
+// 		if ($transcription != null) {
+// 			if ($useThesaurus == false)
+// 				$strQueryWhere .= "AND ep.trascrizione ILIKE %$transcription% ";
+// 		}
+	
+// 		if ($useThesaurus == true) {
+// 			$strQueryWhere .= "AND (ts_testo @@ to_tsquery('edb2', '$transcription' ) OR ep.ts_testo @@ '$transcription'::tsquery)";
+// 		}
+	
+// 		$strQueryWhere = substr($strQueryWhere, 4, strlen($strQueryWhere));
+	
+// 		$strQuery = $strQuerySelect . "WHERE " . $strQueryWhere;
+			
+// 		$rsm = new ResultSetMapping();
+// 		$rsm->addEntityResult('KddeEdbStoreBundle:Epigraph', 'ep');
+	
+// 		$query = $this->getEntityManager()->createNativeQuery($strQuery, $rsm);
+	
+// 		return $query;
+	
+// 	}
 	
 	public function countBasicSearch($id, $icvrId, $principalProgNumber, $areaId,
 			$contextId, $transcription, $useThesaurus){

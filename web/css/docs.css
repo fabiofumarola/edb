@@ -19,6 +19,11 @@ body {
 
 #transcription {
 	font-family: 'Cardo' !important;
+	font-size: 20px;
+}
+
+#signa_description{
+	font-family: 'Cardo' !important;
 	font-size: 14px;
 }
 
@@ -27,7 +32,6 @@ a {
 	text-decoration: none;
 }
 
-user agent stylesheeta
 
 .navbar .nav>li>a {
 	font-size: 12px;
