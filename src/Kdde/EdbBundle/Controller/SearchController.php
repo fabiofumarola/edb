@@ -39,6 +39,9 @@ class SearchController extends Controller {
 	
 	public function basicDoAction(Request $request){
 		
+		$charset = $this->getRequest()->getCharsets();
+		
+		
 		$repoSigna = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Signa');
 		$repoEpigraph = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
 		
