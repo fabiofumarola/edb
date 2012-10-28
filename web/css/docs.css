@@ -13,25 +13,27 @@ body {
 	font-size: 14px
 }
 
-#cardo{
-	font-family: 'Cardo' !important;
+#cardo {
+	font-family:
+		"Gentium, Palatino Linotype, Titus Cyberbit Basic, Aisa Unicode, Arial Unicode MS, Cardo, Microsoft Sans Serif";
 }
 
 #transcription {
-	font-family: 'Cardo' !important;
 	font-size: 20px;
+	font-family:
+		"Gentium, Palatino Linotype, Titus Cyberbit Basic, Aisa Unicode, Arial Unicode MS, Cardo, Microsoft Sans Serif";
 }
 
-#signa_description{
-	font-family: 'Cardo' !important;
-	font-size: 14px;
+#signa_description {
+	font-family:
+		"Gentium, Palatino Linotype, Titus Cyberbit Basic, Aisa Unicode, Arial Unicode MS, Cardo, Microsoft Sans Serif";
+	font-size: 20px;
 }
 
 a {
 	color: #7F3F00;
 	text-decoration: none;
 }
-
 
 .navbar .nav>li>a {
 	font-size: 12px;
@@ -368,7 +370,8 @@ hr.soften {
 /* Fields for variables */
 .download-builder input[type=text] {
 	margin-bottom: 9px;
-	font-family: 'Cardo' !important;
+	font-family:
+		"Gentium, Palatino Linotype, Titus Cyberbit Basic, Aisa Unicode, Arial Unicode MS, Cardo, Microsoft Sans Serif";
 	font-size: 12px;
 	color: #d14;
 }
@@ -859,10 +862,9 @@ form.bs-docs-example {
 	.bs-docs-sidenav.affix {
 		top: 0;
 	}
-	
 	.offset2 {
-    	margin-left: 10px;
-    }
+		margin-left: 10px;
+	}
 }
 
 /* Tablet
@@ -871,10 +873,9 @@ form.bs-docs-example {
 	body {
 		padding-top: 0;
 	}
-	
 	.offset2 {
-    	margin-left: 10px;
-    }
+		margin-left: 10px;
+	}
 
 	/* Widen masthead and social buttons to fill body padding */
 	.jumbotron {
@@ -930,7 +931,7 @@ form.bs-docs-example {
 	body {
 		padding-top: 0;
 	}
-	
+
 	/* Change up some type stuff */
 	h2 small {
 		display: block;

@@ -103,7 +103,7 @@ class Epigraph {
 	protected $greek = 'N';
 	
 	/**
-	 * @ORM\Column(type="string", length="1", name="`compresenza_LG`")
+	 * @ORM\Column(type="string", length="1", name="compresenza_lg")
 	 * @var string
 	 */
 	protected $presenceLG = 'N';

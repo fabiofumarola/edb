@@ -89,7 +89,7 @@ edb_epigraph_approve:
         id: \d+
         
 edb_epigraph_show:
-    pattern: /compiler/epigraph/{id}/show
+    pattern: /epigraph/{id}
     defaults: {_controller: KddeEdbBundle:Epigraph:show}
     requirements:
         id: \d+

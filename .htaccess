@@ -10,3 +10,5 @@ RewriteRule ^(.+)$ app.php/$1 [QSA,L]
 php_flag display_startup_errors off
 php_flag display_errors off
 php_flag html_errors off
+
+AddCharset UTF-8 *

@@ -205,7 +205,7 @@ function doit() {
 	text2 = replace(text2, 'g', 'γ');
 
 	text2 = replace(text2, 'h', 'η');
-	text2 = replace(text2, 'η/', 'ή');
+	text2 = replace(text2, 'η/', 'ή');
 	text2 = replace(text2, 'η\\', 'ὴ');
 	text2 = replace(text2, 'η=', 'ῆ');
 	text2 = replace(text2, 'η)', 'ἠ');

@@ -10,6 +10,7 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
         $this->parent = $this->env->loadTemplate("::base.html.twig");
 
         $this->blocks = array(
+            'header' => array($this, 'block_header'),
             'title' => array($this, 'block_title'),
             'body' => array($this, 'block_body'),
             'javascripts' => array($this, 'block_javascripts'),
@@ -23,56 +24,75 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
 
     protected function doDisplay(array $context, array $blocks = array())
     {
-        // line 3
+        // line 15
         echo $this->env->getExtension('form')->setTheme($this->getContext($context, "form"), array("KddeEdbBundle:Form:fields.html.twig", ));
         $this->parent->display($context, array_merge($this->blocks, $blocks));
     }
 
-    // line 5
+    // line 3
+    public function block_header($context, array $blocks = array())
+    {
+        // line 4
+        echo "\t";
+        $this->displayParentBlock("header", $context, $blocks);
+        echo "
+\t
+\t<!-- Google maps v3 -->
+\t<meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no\" />
+\t<style type=\"text/css\">
+  \t\t#map_canvas { width:550px;height: 300px; margin-right: auto ;margin-left: auto ; }
+\t</style>
+\t<script type=\"text/javascript\" src=\"http://maps.googleapis.com/maps/api/js?sensor=true\" ></script>
+";
+    }
+
+    // line 17
     public function block_title($context, array $blocks = array())
     {
-        // line 6
+        // line 18
         echo " EDB new Epigraph
 ";
     }
 
-    // line 9
+    // line 21
     public function block_body($context, array $blocks = array())
     {
-        // line 10
+        // line 22
         echo "
 ";
-        // line 11
-        $this->env->loadTemplate("KddeEdbBundle:Literature:modalLiteratures.html.twig")->display(array_merge($context, array("literatures" => $this->getContext($context, "literatures"))));
-        // line 12
-        $this->env->loadTemplate("KddeEdbBundle:Literature:modalNewLiterature.html.twig")->display($context);
-        // line 13
-        $this->env->loadTemplate("KddeEdbBundle:PertinenceArea:modalNewPertinenceArea.html.twig")->display($context);
-        // line 14
-        $this->env->loadTemplate("KddeEdbBundle:PertinenceContext:modalNewPertinenceContext.html.twig")->display($context);
-        // line 15
-        $this->env->loadTemplate("KddeEdbBundle:PertinencePosition:modalNewPertinencePosition.html.twig")->display($context);
-        // line 16
-        $this->env->loadTemplate("KddeEdbBundle:ConservationLocation:modalNewConservationLocation.html.twig")->display($context);
-        // line 17
-        $this->env->loadTemplate("KddeEdbBundle:ConservationContext:modalNewConservationContext.html.twig")->display($context);
-        // line 18
-        $this->env->loadTemplate("KddeEdbBundle:ConservationPosition:modalNewConservationPosition.html.twig")->display($context);
-        // line 19
-        $this->env->loadTemplate("KddeEdbBundle:Support:modalNewSupport.html.twig")->display($context);
-        // line 20
-        $this->env->loadTemplate("KddeEdbBundle:Technique:modalNewTechnique.html.twig")->display($context);
-        // line 21
-        $this->env->loadTemplate("KddeEdbBundle:Paleography:modalNewPaleography.html.twig")->display($context);
-        // line 22
-        $this->env->loadTemplate("KddeEdbBundle:Function:modalNewFunction.html.twig")->display($context);
         // line 23
-        $this->env->loadTemplate("KddeEdbBundle:OnomasticArea:modalNewOnomasticArea.html.twig")->display($context);
+        $this->env->loadTemplate("KddeEdbBundle:Literature:modalLiteratures.html.twig")->display(array_merge($context, array("literatures" => $this->getContext($context, "literatures"))));
         // line 24
-        $this->env->loadTemplate("KddeEdbBundle:Signa:modaViewSignas.html.twig")->display($context);
+        $this->env->loadTemplate("KddeEdbBundle:Literature:modalNewLiterature.html.twig")->display($context);
         // line 25
-        $this->env->loadTemplate("KddeEdbBundle:Signa:modalNewSigna.html.twig")->display($context);
+        $this->env->loadTemplate("KddeEdbBundle:GeoPosition:modalNewGeoPosition.html.twig")->display($context);
         // line 26
+        $this->env->loadTemplate("KddeEdbBundle:PertinenceArea:modalNewPertinenceArea.html.twig")->display($context);
+        // line 27
+        $this->env->loadTemplate("KddeEdbBundle:PertinenceContext:modalNewPertinenceContext.html.twig")->display($context);
+        // line 28
+        $this->env->loadTemplate("KddeEdbBundle:PertinencePosition:modalNewPertinencePosition.html.twig")->display($context);
+        // line 29
+        $this->env->loadTemplate("KddeEdbBundle:ConservationLocation:modalNewConservationLocation.html.twig")->display($context);
+        // line 30
+        $this->env->loadTemplate("KddeEdbBundle:ConservationContext:modalNewConservationContext.html.twig")->display($context);
+        // line 31
+        $this->env->loadTemplate("KddeEdbBundle:ConservationPosition:modalNewConservationPosition.html.twig")->display($context);
+        // line 32
+        $this->env->loadTemplate("KddeEdbBundle:Support:modalNewSupport.html.twig")->display($context);
+        // line 33
+        $this->env->loadTemplate("KddeEdbBundle:Technique:modalNewTechnique.html.twig")->display($context);
+        // line 34
+        $this->env->loadTemplate("KddeEdbBundle:Paleography:modalNewPaleography.html.twig")->display($context);
+        // line 35
+        $this->env->loadTemplate("KddeEdbBundle:Function:modalNewFunction.html.twig")->display($context);
+        // line 36
+        $this->env->loadTemplate("KddeEdbBundle:OnomasticArea:modalNewOnomasticArea.html.twig")->display($context);
+        // line 37
+        $this->env->loadTemplate("KddeEdbBundle:Signa:modaViewSignas.html.twig")->display($context);
+        // line 38
+        $this->env->loadTemplate("KddeEdbBundle:Signa:modalNewSigna.html.twig")->display($context);
+        // line 39
         echo "
 \t<div class=\"marketing\">
 \t\t<h2>New Epigraph</h2>
@@ -82,13 +102,13 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
 \t<div class=\"row\">
 \t\t<div class=\"offset1\">
 \t\t\t<form class=\"\" action=\"";
-        // line 34
+        // line 47
         echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("edb_epigraph_new"), "html", null, true);
         echo "\" method=\"post\" ";
         echo $this->env->getExtension('form')->renderEnctype($this->getContext($context, "form"));
         echo ">
 \t\t\t\t";
-        // line 35
+        // line 48
         echo $this->env->getExtension('form')->renderErrors($this->getContext($context, "form"));
         echo "\t\t\t\t
 \t\t\t\t
@@ -101,11 +121,11 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
 \t\t\t\t\t\t<label>Volume ICVR</label>
 \t\t\t\t\t\t<select class=\"span2\" id=\"epigraph_icvr\" name=\"epigraph[icvr]\" required=\"required\">
 \t\t\t\t\t\t\t";
-        // line 45
+        // line 58
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable($this->getContext($context, "icvrs"));
         foreach ($context['_seq'] as $context["_key"] => $context["icvr"]) {
-            // line 46
+            // line 59
             echo "\t\t\t\t\t\t\t\t<option value=\"";
             echo twig_escape_filter($this->env, $this->getAttribute($this->getContext($context, "icvr"), "id"), "html", null, true);
             echo "\"> ";
@@ -116,7 +136,7 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['icvr'], $context['_parent'], $context['loop']);
         $context = array_merge($_parent, array_intersect_key($context, $_parent));
-        // line 48
+        // line 61
         echo "\t\t\t\t\t\t
 \t\t\t\t\t\t</select>
 \t\t\t\t\t</div>
@@ -148,7 +168,7 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
 \t\t\t\t\t\t<label>Locus Inventionis</label> <input type=\"text\" class=\"span2\"
 \t\t\t\t\t\t\tvalue=\"Roma\" disabled=\"disabled\" name=\"epigraph[pertinence][locus]\"> 
 ";
-        // line 80
+        // line 93
         echo "
 \t\t\t\t\t</div>
 \t\t\t\t</div>
@@ -180,6 +200,15 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
 \t\t\t\t\t</div>
 
 \t\t\t\t</div>
+\t\t\t\t<br />
+\t\t\t\t<div class=\"row\">
+\t\t\t\t\t<div class=\"span4\">
+\t\t\t\t\t\t<label>Geographic position <em>(latitude,longitude)</em></label> 
+\t\t\t\t\t\t<input type=\"text\" class=\"span4\" value=\"\" id=\"fld_geoPosition\" name=\"epigraph[geoPosition]\" />
+\t\t\t\t\t\t<a id=\"newGeoPosition\" class=\"btn\" title=\"Get geographic position from map\" >Show Map</a>\t\t\t\t\t\t
+\t\t\t\t\t</div>
+\t\t\t\t</div>
+\t\t\t\t
 \t\t\t\t<hr>
 \t\t\t\t
 \t\t\t\t<div class=\"row\">
@@ -246,11 +275,11 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
 \t\t\t\t\t\t<label>Support</label> <select id=\"selectSupport\" class=\"span2\"
 \t\t\t\t\t\t\tname=\"epigraph[material][support]\"> 
 \t\t\t\t\t\t\t";
-        // line 176
+        // line 198
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable($this->getContext($context, "supports"));
         foreach ($context['_seq'] as $context["_key"] => $context["supp"]) {
-            // line 177
+            // line 199
             echo "\t\t\t\t\t\t\t\t<option value=\"";
             echo twig_escape_filter($this->env, $this->getAttribute($this->getContext($context, "supp"), "id"), "html", null, true);
             echo "\"> ";
@@ -261,7 +290,7 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['supp'], $context['_parent'], $context['loop']);
         $context = array_merge($_parent, array_intersect_key($context, $_parent));
-        // line 179
+        // line 201
         echo "\t\t\t\t\t\t\t\t<option value=\"-1\"> Add New </option>
 \t\t\t\t\t\t</select>
 \t\t\t\t\t</div>
@@ -269,11 +298,11 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
 \t\t\t\t\t\t<label>Technique</label> <select id=\"selectTechnique\"
 \t\t\t\t\t\t\tclass=\"span2\" name=\"epigraph[material][technique]\">
 \t\t\t\t\t\t\t";
-        // line 185
+        // line 207
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable($this->getContext($context, "techniques"));
         foreach ($context['_seq'] as $context["_key"] => $context["tech"]) {
-            // line 186
+            // line 208
             echo "\t\t\t\t\t\t\t\t<option value=\"";
             echo twig_escape_filter($this->env, $this->getAttribute($this->getContext($context, "tech"), "id"), "html", null, true);
             echo "\"> ";
@@ -284,7 +313,7 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['tech'], $context['_parent'], $context['loop']);
         $context = array_merge($_parent, array_intersect_key($context, $_parent));
-        // line 188
+        // line 210
         echo "\t\t\t\t\t\t\t\t<option value=\"-1\"> Add New </option>
 \t\t\t\t\t\t</select>
 \t\t\t\t\t</div>
@@ -329,11 +358,11 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
 \t\t\t\t\t\t<label>Paleography</label> <select
 \t\t\t\t\t\t\tid=\"selectPaleography\" class=\"span2\" name=\"epigraph[paleography]\">
 \t\t\t\t\t\t\t";
-        // line 231
+        // line 253
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable($this->getContext($context, "paleographies"));
         foreach ($context['_seq'] as $context["_key"] => $context["pal"]) {
-            // line 232
+            // line 254
             echo "\t\t\t\t\t\t\t\t<option value=\"";
             echo twig_escape_filter($this->env, $this->getAttribute($this->getContext($context, "pal"), "id"), "html", null, true);
             echo "\"> ";
@@ -344,7 +373,7 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['pal'], $context['_parent'], $context['loop']);
         $context = array_merge($_parent, array_intersect_key($context, $_parent));
-        // line 234
+        // line 256
         echo "\t\t\t\t\t\t\t\t<option value=\"-1\"> Add New </option>
 \t\t\t\t\t\t</select>
 \t\t\t\t\t</div>
@@ -353,11 +382,11 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
 \t\t\t\t\t\t<label>Function</label> <select id=\"selectFunction\" class=\"span2\"
 \t\t\t\t\t\t\tname=\"epigraph[funzione]\">
 \t\t\t\t\t\t\t";
-        // line 241
+        // line 263
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable($this->getContext($context, "functions"));
         foreach ($context['_seq'] as $context["_key"] => $context["fun"]) {
-            // line 242
+            // line 264
             echo "\t\t\t\t\t\t\t\t<option value=\"";
             echo twig_escape_filter($this->env, $this->getAttribute($this->getContext($context, "fun"), "id"), "html", null, true);
             echo "\"> ";
@@ -368,7 +397,7 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['fun'], $context['_parent'], $context['loop']);
         $context = array_merge($_parent, array_intersect_key($context, $_parent));
-        // line 244
+        // line 266
         echo "\t\t\t\t\t\t\t\t<option value=\"-1\"> Add New </option>
 \t\t\t\t\t\t</select>
 \t\t\t\t\t</div>
@@ -388,11 +417,11 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
 \t\t\t\t\t\t<label>Onomastic Area</label> <select id=\"selectOnomasticArea\"
 \t\t\t\t\t\t\tclass=\"span2\" name=\"epigraph[ambitoOnomastico]\">
 \t\t\t\t\t\t\t";
-        // line 262
+        // line 284
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable($this->getContext($context, "onomasticAreas"));
         foreach ($context['_seq'] as $context["_key"] => $context["o"]) {
-            // line 263
+            // line 285
             echo "\t\t\t\t\t\t\t\t<option value=\"";
             echo twig_escape_filter($this->env, $this->getAttribute($this->getContext($context, "o"), "id"), "html", null, true);
             echo "\"> ";
@@ -403,7 +432,7 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['o'], $context['_parent'], $context['loop']);
         $context = array_merge($_parent, array_intersect_key($context, $_parent));
-        // line 265
+        // line 287
         echo "\t\t\t\t\t\t\t\t<option value=\"-1\"> Add New </option>
 \t\t\t\t\t\t</select>
 \t\t\t\t\t</div>
@@ -538,11 +567,11 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
 \t\t\t\t\t\t<label>Dating</label> <select id=\"selectDating\"
 \t\t\t\t\t\t\tclass=\"span3\" name=\"epigraph[dating]\">
 \t\t\t\t\t\t\t";
-        // line 398
+        // line 420
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable($this->getContext($context, "datings"));
         foreach ($context['_seq'] as $context["_key"] => $context["d"]) {
-            // line 399
+            // line 421
             echo "\t\t\t\t\t\t\t\t<option value=\"";
             echo twig_escape_filter($this->env, $this->getAttribute($this->getContext($context, "d"), "id"), "html", null, true);
             echo "\">";
@@ -553,7 +582,7 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['d'], $context['_parent'], $context['loop']);
         $context = array_merge($_parent, array_intersect_key($context, $_parent));
-        // line 401
+        // line 423
         echo "\t\t\t\t\t\t\t
 \t\t\t\t\t\t</select>
 \t\t\t\t\t</div>
@@ -602,7 +631,7 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
 \t\t\t\t<hr>
 \t\t\t\t
     \t\t\t";
-        // line 448
+        // line 470
         echo $this->env->getExtension('form')->renderRest($this->getContext($context, "form"));
         echo "
     \t\t\t
@@ -616,22 +645,22 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
 ";
     }
 
-    // line 459
+    // line 481
     public function block_javascripts($context, array $blocks = array())
     {
-        // line 460
+        // line 482
         echo "\t
 \t\t";
-        // line 461
+        // line 483
         $this->displayParentBlock("javascripts", $context, $blocks);
         echo "
 \t\t
 \t\t <script src=\"";
-        // line 463
+        // line 485
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/create.js"), "html", null, true);
         echo "\"></script>
 \t\t <script src=\"";
-        // line 464
+        // line 486
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/keyboard.js"), "html", null, true);
         echo "\"></script>
 ";
@@ -649,6 +678,6 @@ class __TwigTemplate_ed27c000eaea44984c1fc4792b2ccd9d extends Twig_Template
 
     public function getDebugInfo()
     {
-        return array (  633 => 464,  629 => 463,  624 => 461,  621 => 460,  618 => 459,  604 => 448,  555 => 401,  544 => 399,  540 => 398,  405 => 265,  394 => 263,  390 => 262,  370 => 244,  359 => 242,  355 => 241,  346 => 234,  335 => 232,  331 => 231,  286 => 188,  275 => 186,  271 => 185,  263 => 179,  252 => 177,  248 => 176,  150 => 80,  118 => 48,  107 => 46,  103 => 45,  90 => 35,  84 => 34,  74 => 26,  72 => 25,  70 => 24,  68 => 23,  66 => 22,  64 => 21,  62 => 20,  60 => 19,  58 => 18,  56 => 17,  54 => 16,  52 => 15,  50 => 14,  48 => 13,  46 => 12,  44 => 11,  41 => 10,  38 => 9,  33 => 6,  30 => 5,  25 => 3,);
+        return array (  662 => 486,  658 => 485,  653 => 483,  650 => 482,  647 => 481,  633 => 470,  584 => 423,  573 => 421,  569 => 420,  434 => 287,  423 => 285,  419 => 284,  399 => 266,  388 => 264,  384 => 263,  375 => 256,  364 => 254,  360 => 253,  315 => 210,  304 => 208,  300 => 207,  292 => 201,  281 => 199,  277 => 198,  170 => 93,  138 => 61,  127 => 59,  123 => 58,  110 => 48,  104 => 47,  94 => 39,  92 => 38,  90 => 37,  88 => 36,  86 => 35,  84 => 34,  82 => 33,  80 => 32,  78 => 31,  76 => 30,  74 => 29,  72 => 28,  70 => 27,  68 => 26,  66 => 25,  64 => 24,  62 => 23,  59 => 22,  56 => 21,  51 => 18,  48 => 17,  34 => 4,  31 => 3,  26 => 15,);
     }
 }
