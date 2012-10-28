@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping\ManyToMany;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass="Kdde\EdbStoreBundle\Entity\EpigraphRepository")
  * @ORM\Table(name="epigrafe")
@@ -102,7 +103,7 @@ class Epigraph {
 	protected $greek = 'N';
 	
 	/**
-	 * @ORM\Column(type="string", length="1", name="compresenza_lg")
+	 * @ORM\Column(type="string", length="1", name="`compresenza_LG`")
 	 * @var string
 	 */
 	protected $presenceLG = 'N';
@@ -201,14 +202,14 @@ class Epigraph {
 	
 	/**
 	 * 
-	 *@var User
+	 * @var User
  	 * @ManyToOne(targetEntity="User")
  	 * @JoinColumn(name="id_compilatore", referencedColumnName="id")
 	 */
 	protected $compilator;
 	
 	/**
-	 * @ORM\Column(type="datetime", name="created_at")
+	 * @ORM\Column(type="datetimetz", name="created_at")
 	 *
 	 * @var DateTime $createdAt
 	 */
@@ -241,15 +242,22 @@ class Epigraph {
 	 */
 	protected $oldCompilator;
 	
+	
+	/**
+	 * @ORM\Column(type="geopoint", name="posizione_geografica")
+	 * @var string
+	 */
+	protected $geoPosition;
+	
+	
 	public function __construct(){
 		$this->literatures = new ArrayCollection();
 		$this->conservations = new ArrayCollection();
 		$this->signas = new ArrayCollection();
-		$this->createdAt = new DateTime("now");
+		$this->createdAt = new \DateTime("now");
 	}
-   
 
-    /**
+	/**
      * Set edb
      *
      * @param string $edb
@@ -602,9 +610,9 @@ class Epigraph {
     /**
      * Set compilator
      *
-     * @param integer $compilator
+     * @param Kdde\EdbStoreBundle\Entity\User $compilator
      */
-    public function setCompilator($compilator)
+    public function setCompilator(\Kdde\EdbStoreBundle\Entity\User $compilator)
     {
         $this->compilator = $compilator;
     }
@@ -612,7 +620,7 @@ class Epigraph {
     /**
      * Get compilator
      *
-     * @return integer 
+     * @return Kdde\EdbStoreBundle\Entity\User 
      */
     public function getCompilator()
     {
@@ -877,5 +885,25 @@ class Epigraph {
     public function setOldCompilator($oldCompilator)
     {
     	$this->oldCompilator = $oldCompilator;
+    }
+
+    /**
+     * Set geoPosition
+     *
+     * @param string $dataScheda
+     */
+    public function setGeoPosition($geoPosition)
+    {
+        $this->geoPosition = $geoPosition;
+    }
+
+    /**
+     * Get geoPosition
+     *
+     * @return string 
+     */
+    public function getGeoPosition()
+    {
+        return $this->geoPosition;
     }
 }

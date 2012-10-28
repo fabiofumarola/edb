@@ -15,6 +15,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class SearchController extends Controller {
 
+	// Back button
+	private function getReferer(Request $request) {
+		if ($request->headers->has('referer'))
+			return $request->headers->get('referer');
+		else
+			return 'javascript:history.back(1);';
+	}
+	
 	public function indexAction() {
 
 		//$users = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Utente')->findAll();
@@ -34,7 +42,7 @@ class SearchController extends Controller {
 
 		return $this
 				->render('KddeEdbBundle:Search:basic.html.twig',
-						array('form' => $form->createView(), 'icvrs' => $icvrs,));
+						array('form' => $form->createView(), 'icvrs' => $icvrs,'btn_back_previous' => $this->getReferer($request)));
 	}
 	
 	public function basicDoAction(Request $request){
@@ -116,7 +124,7 @@ class SearchController extends Controller {
 		
 		$this->get('session')->setFlash('search', $searchArray);
 		
-		return $this->render('KddeEdbBundle:Search:result.html.twig',array('pagination' => $pagination, 'count' =>$count));
+		return $this->render('KddeEdbBundle:Search:result.html.twig',array('pagination' => $pagination, 'count' =>$count,'btn_back_previous' => $this->getReferer($request)));
 	
 		
 	}
@@ -124,12 +132,12 @@ class SearchController extends Controller {
 	public function mediumAction(Request $request){
 		$defaultData = array();
 		$form = $this->createFormBuilder($defaultData)->getForm();
-		return $this->render('KddeEdbBundle:Search:medium.html.twig',array('form'=> $form->createView()));
+		return $this->render('KddeEdbBundle:Search:medium.html.twig',array('form'=> $form->createView(),'btn_back_previous' => $this->getReferer($request)));
 	}
 	
 	public function advancedAction(Request $request){
 		$defaultData = array();
 		$form = $this->createFormBuilder($defaultData)->getForm();
-		return $this->render('KddeEdbBundle:Search:advanced.html.twig',array('form'=> $form->createView()));
+		return $this->render('KddeEdbBundle:Search:advanced.html.twig',array('form'=> $form->createView(),'btn_back_previous' => $this->getReferer($request)));
 	}
 }

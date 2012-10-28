@@ -1,6 +1,120 @@
 var countConservations = 1;
 var hashConservations = new Array();
 
+//
+// START: Geographic position section
+//
+
+// Global variables
+var map;
+var marker;
+var geocoder;
+
+// Starting point: centre of the world is St. Peter @ Rome if nothing else provided
+var defLat = 41.90228857328969;
+var defLng = 12.457235282897955;
+
+// At each showMap click use current values or default if empty
+function initGeoPosition() {
+  var lat = defLat;
+  var lng = defLng;
+  // Get coordinates from calling form (default if emtpy)
+  var startingPos = getLatLngFromGeoPos(document.getElementById('fld_geoPosition').value);
+  if (startingPos!=false) {
+	  lat = startingPos[0];
+	  lng = startingPos[1];
+  }
+    var latlng = new google.maps.LatLng(lat, lng);
+    // update marker and map with current coordinates
+    map.setCenter(latlng);
+    marker.setPosition(latlng);
+    // update modal text fields
+    document.getElementById('map_geoPosition').innerHTML = lat + ',' + lng;
+    document.getElementById('fld_geoPosition').value = lat + ',' + lng;
+    // update relative address
+    codeLatLng();
+}
+
+// At modal startup init everything
+function loadGeoPosition() {
+  var mapOptions = {
+    center: new google.maps.LatLng(defLat, defLng),
+    zoom: 8,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  geocoder = new google.maps.Geocoder();
+  // show map but no marker at load time
+  map = new google.maps.Map(document.getElementById("map_canvas"),
+            mapOptions);
+  marker = new google.maps.Marker({
+      map: map,
+      title: 'Selected position'
+  });
+  // At each map click
+  google.maps.event.addListener(map, 'click', function(event) {
+	  // fill text fields with lat,lng coordinates
+      document.getElementById('map_geoPosition').innerHTML = event.latLng.lat() + ',' + event.latLng.lng();
+      document.getElementById('fld_geoPosition').value = event.latLng.lat() + ',' + event.latLng.lng();
+      // fill relative address if valid
+      codeLatLng();
+      // show marker on selected point on the map
+      marker.setPosition(event.latLng);
+  });
+}
+
+// From geoPosition string "xxx,yyy" to geoPosition array (arr[0]=xxx arr[1]=yyy) if valid, FALSE otherwise
+function getLatLngFromGeoPos(geoPos) {
+	var geoSplit = geoPos.split(",");
+	if (geoSplit.length!=2) return false;
+	if (parseFloat(geoSplit[0])==NaN) return false;
+	if (parseFloat(geoSplit[1])==NaN) return false;
+	return geoSplit;
+}
+
+// Get Address and convert to Map point (show marker in the Map)
+function codeAddress() {
+    var address = document.getElementById("map_address").value;
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        map.setCenter(results[0].geometry.location);
+        marker.setPosition(results[0].geometry.location);
+        // update text fields with coordinates
+        document.getElementById('map_geoPosition').innerHTML = results[0].geometry.location.lat() + ',' + results[0].geometry.location.lng();
+        document.getElementById('fld_geoPosition').value = results[0].geometry.location.lat() + ',' + results[0].geometry.location.lng();      
+      } else {
+        alert("Impossible to get geographic position from address: geocode was not successful for the following reason: " + status);
+      }
+    });
+}
+
+// Get Map point (from marker in the Map) and convert to Address
+function codeLatLng() {
+	var lat = defLat;
+    var lng = defLng;
+    var startingPos = getLatLngFromGeoPos(document.getElementById('map_geoPosition').innerHTML);
+    if (startingPos!=false) {
+  	  lat = startingPos[0];
+  	  lng = startingPos[1];
+    }    
+    var latlng = new google.maps.LatLng(lat, lng);
+    geocoder.geocode({'latLng': latlng}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[1]) {
+          // update text fields with address
+          document.getElementById("map_address").value = results[1].formatted_address;
+        }
+      } else {
+        alert("Impossible to get address from geographic position: geocoder failed due to: " + status);
+      }
+    });
+  }
+
+//
+//END: Geographic position section
+//
+
+
+
 function cleanNewLiteratureValues() {
 	$('#cod_literature').attr('value', null);
 	$('#div_cod_literature').attr('class', 'control-group');
@@ -860,12 +974,19 @@ $('document').ready(function() {
 
 	loadPertinenceArea();
 	loadConservationLocation();
-
+	loadGeoPosition();
+	
 	// Click to add bibliography
 	$('#addLiteratureRef').click(function() {
 		$('#viewLiteratureModal').modal('show');
 	});
 
+	// Click to new geoPosition
+	$('#newGeoPosition').click(function() {
+		initGeoPosition();
+		$('#newGeoPositionModal').modal('show');
+	});
+	
 	// Click to new bibliography
 	$('#newLiterature').click(function() {
 		$('#newLiteratureModal').modal('show');

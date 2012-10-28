@@ -1,10 +1,10 @@
 fos_js_routing:
     resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
 
-KddeEdbStoreBundle:
-    resource: "@KddeEdbStoreBundle/Controller/"
-    type:     annotation
-    prefix:   /
+#KddeEdbStoreBundle:
+#    resource: "@KddeEdbStoreBundle/Controller/"
+#    type:     annotation
+#    prefix:   /
 
 KddeEdbBundle:
     resource: "@KddeEdbBundle/Resources/config/routing.yml"

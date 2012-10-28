@@ -73,3 +73,8 @@
     git=http://github.com/KnpLabs/KnpPaginatorBundle.git
     target=bundles/Knp/Bundle/PaginatorBundle
     
+[CraueFormFlowBundle]
+    git=https://github.com/craue/CraueFormFlowBundle
+    target=bundles/Craue/FormFlowBundle
+    version=1.0.0
+    

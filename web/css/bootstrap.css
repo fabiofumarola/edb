@@ -1843,6 +1843,10 @@ table {
   border-top: 1px solid #dddddd;
 }
 
+.table .vertical-middle {
+  vertical-align: middle;
+}
+
 .table th {
   font-weight: bold;
 }
@@ -5767,6 +5771,10 @@ a.badge:hover {
 
 .invisible {
   visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
 }
 
 .affix {
