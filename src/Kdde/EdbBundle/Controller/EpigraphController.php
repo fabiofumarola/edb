@@ -98,7 +98,7 @@ class EpigraphController extends Controller {
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
 		
-		return $this->render('KddeEdbBundle:Epigraph:show.html.twig',array('epigraph' => $epigraph));
+		return $this->render('KddeEdbBundle:Epigraph:show.html.twig',array('e' => $epigraph));
 	}
 
 	public function newAction(Request $request) {
