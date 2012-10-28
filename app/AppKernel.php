@@ -2,6 +2,10 @@
 
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Doctrine\DBAL\Types\Type;
+
+// Custom types registration
+Doctrine\DBAL\Types\Type::addType('geopoint', 'Kdde\EdbStoreBundle\Types\GeoPoint');
 
 class AppKernel extends Kernel
 {

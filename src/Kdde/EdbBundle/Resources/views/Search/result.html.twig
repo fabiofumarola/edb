@@ -1,10 +1,23 @@
 {% extends '::base.html.twig' %}
 
+{% block header %}
+	{{ parent() }}
+	
+	<!-- google maps v3 -->
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+  		#map_canvas { width:550px;height: 300px; margin-right: auto ;margin-left: auto ; }
+	</style>
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true" ></script>
+{% endblock %}
+
  {% block title %}
  EDB Search Result Page
 {% endblock %}
 
 {% block body %}
+
+{% include 'KddeEdbBundle:GeoPosition:modalViewGeoPosition.html.twig' %}
 
 <div class="marketing">
 	<h2>Search Results</h2>
@@ -48,6 +61,11 @@
 							{% endif %}
 							</em> 
 						</td>
+					</tr>
+					<tr >
+						<td class="vertical-middle" ><strong>Geographic position:</strong> <em><span id="fld_geoPosition_{{ e.id }}" >{{ e.geoPosition }}</span></em></td>
+						<td><a name="viewGeoPosition" value="{{ e.id }}" class="btn" title="View geographic position on map" >Show Map</a></td>
+						<td></td>
 					</tr>
 					<tr class="warning">
 						<td><strong>Conservation</strong></td>
@@ -129,4 +147,10 @@
 	</div>
  </div>
 </div>		
+{% endblock %}
+{% block javascripts %}
+	
+		{{ parent() }}
+		
+		 <script src="{{ asset('js/basic-result.js') }}" type="text/javascript"></script>
 {% endblock %}

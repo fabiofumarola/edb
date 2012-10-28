@@ -283,6 +283,9 @@ class EpigraphController extends Controller {
 			
 		}
 
+		if (isset($epigraphArray['geoPosition']))
+			$epigraph->setGeoPosition($epigraphArray['geoPosition']);
+		
 		if (isset($epigraphArray['conservationsIds'])) {
 			$conservationIds = $epigraphArray['conservationsIds'];
 			foreach ($conservationIds as $ids) {
@@ -404,7 +407,13 @@ class EpigraphController extends Controller {
 		if (isset($epigraphArray['comment']))
 			$epigraph->setComment($epigraphArray['comment']);
 		
-		$epigraph->setCompilator($this->get('security.context')->getToken()->getUser()->getId());
+		// Compilator needs User object
+		// old was: $epigraph->setCompilator($this->get('security.context')->getToken()->getUser()->getId());
+		$epigraph->setCompilator($this->get('security.context')->getToken()->getUser());
+
+		// Backward compatibility for OldCompilator
+		$oldCompilaterUser = $this->get('security.context')->getToken()->getUser();
+		$epigraph->setOldCompilator($oldCompilaterUser->getFirstname().' '.$oldCompilaterUser->getLastname());
 		
 		$em->persist($epigraph);
 		

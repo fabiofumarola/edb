@@ -50,6 +50,10 @@
         if (this.isShown || e.isDefaultPrevented()) return
 
         $('body').addClass('modal-open')
+        // fix for google map v3 display: partial gray rendering on map if using "display:none"
+        // so we prefer "visiblity:hidden" (here removing hidden since need to show modal)
+        this.$element.removeClass("invisible");
+
 
         this.isShown = true
 

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+    {% block header %}    
         <meta charset="UTF-8" />
         <title>{% block title %}EDB Epigraphic Database Bari / EAGLE{% endblock %}</title>
         
@@ -30,6 +31,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ asset('ico/apple-touch-icon-72-precomposed.png') }}">
     <link rel="apple-touch-icon-precomposed" href="{{ asset('ico/apple-touch-icon-57-precomposed.png') }}">
                                   
+	{% endblock %} 
     </head>
     <body>
     
@@ -167,6 +169,11 @@
 		<!-- Footer
       ================================================== -->
 		<footer class="footer">
+			{% if btn_back_previous is defined %}
+			<p class="pull-left">
+				<a href="{{ btn_back_previous }}">Back to previous</a>
+			</p>
+			{% endif %}
 			<p class="pull-right">
 				<a href="#">Back to top</a>
 			</p>
