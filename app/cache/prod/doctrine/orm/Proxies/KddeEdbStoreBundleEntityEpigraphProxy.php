@@ -246,7 +246,7 @@ class KddeEdbStoreBundleEntityEpigraphProxy extends \Kdde\EdbStoreBundle\Entity\
         return parent::getIsActive();
     }
 
-    public function setCompilator($compilator)
+    public function setCompilator(\Kdde\EdbStoreBundle\Entity\User $compilator)
     {
         $this->__load();
         return parent::setCompilator($compilator);
@@ -402,10 +402,22 @@ class KddeEdbStoreBundleEntityEpigraphProxy extends \Kdde\EdbStoreBundle\Entity\
         return parent::setOldCompilator($oldCompilator);
     }
 
+    public function setGeoPosition($geoPosition)
+    {
+        $this->__load();
+        return parent::setGeoPosition($geoPosition);
+    }
+
+    public function getGeoPosition()
+    {
+        $this->__load();
+        return parent::getGeoPosition();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'edb', 'id', 'icvr', 'lost', 'altMaxLetters', 'altMinLetters', 'paleography', 'reimpiego_opistografia', 'trascription', 'divergentText', 'criticalApparatus', 'metricText', 'greek', 'presenceLG', 'funzione', 'comment', 'dataScheda', 'ambitoOnomastico', 'adAnnum', 'principalProgNumber', 'subNumeration', 'material', 'literatures', 'data', 'isActive', 'pertinence', 'compilator', 'createdAt', 'conservations', 'signas', 'oldCompilator');
+        return array('__isInitialized__', 'edb', 'id', 'icvr', 'lost', 'altMaxLetters', 'altMinLetters', 'paleography', 'reimpiego_opistografia', 'trascription', 'divergentText', 'criticalApparatus', 'metricText', 'greek', 'presenceLG', 'funzione', 'comment', 'dataScheda', 'ambitoOnomastico', 'adAnnum', 'principalProgNumber', 'subNumeration', 'material', 'literatures', 'data', 'isActive', 'pertinence', 'compilator', 'createdAt', 'conservations', 'signas', 'oldCompilator', 'geoPosition');
     }
 
     public function __clone()

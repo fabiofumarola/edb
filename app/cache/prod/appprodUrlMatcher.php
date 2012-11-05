@@ -129,7 +129,7 @@ class appprodUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
         }
 
         // edb_epigraph_show
-        if (0 === strpos($pathinfo, '/compiler/epigraph') && preg_match('#^/compiler/epigraph/(?P<id>\\d+)/show$#s', $pathinfo, $matches)) {
+        if (0 === strpos($pathinfo, '/epigraph') && preg_match('#^/epigraph/(?P<id>\\d+)$#s', $pathinfo, $matches)) {
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\EpigraphController::showAction',)), array('_route' => 'edb_epigraph_show'));
         }
 

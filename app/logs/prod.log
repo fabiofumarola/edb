@@ -168,3 +168,8 @@
 [2012-10-28 21:44:18] security.DEBUG: Username "fumarola" was reloaded from user provider. [] []
 [2012-10-28 21:44:18] request.ERROR: Symfony\Component\HttpKernel\Exception\NotFoundHttpException: No route found for "GET /favicon.ico" (uncaught exception) at /Users/fabiofumarola/Sites/edb/app/cache/prod/classes.php line 4584 [] []
 [2012-10-28 21:44:18] security.DEBUG: Write SecurityContext in the session [] []
+[2012-10-30 15:18:24] security.DEBUG: Read SecurityContext from the session [] []
+[2012-10-30 15:18:24] security.DEBUG: Reloading user from user provider. [] []
+[2012-10-30 15:18:24] security.DEBUG: Username "fumarola" was reloaded from user provider. [] []
+[2012-10-30 15:18:24] request.ERROR: Symfony\Component\HttpKernel\Exception\NotFoundHttpException: No route found for "GET /favicon.ico" (uncaught exception) at /Users/fabiofumarola/Sites/edb/app/cache/prod/classes.php line 4584 [] []
+[2012-10-30 15:18:24] security.DEBUG: Write SecurityContext in the session [] []

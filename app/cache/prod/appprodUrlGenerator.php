@@ -192,7 +192,7 @@ class appprodUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerat
 
     private function getedb_epigraph_showRouteInfo()
     {
-        return array(array (  0 => 'id',), array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\EpigraphController::showAction',), array (  'id' => '\\d+',), array (  0 =>   array (    0 => 'text',    1 => '/show',  ),  1 =>   array (    0 => 'variable',    1 => '/',    2 => '\\d+',    3 => 'id',  ),  2 =>   array (    0 => 'text',    1 => '/compiler/epigraph',  ),));
+        return array(array (  0 => 'id',), array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\EpigraphController::showAction',), array (  'id' => '\\d+',), array (  0 =>   array (    0 => 'variable',    1 => '/',    2 => '\\d+',    3 => 'id',  ),  1 =>   array (    0 => 'text',    1 => '/epigraph',  ),));
     }
 
     private function getedb_epigraph_editRouteInfo()
