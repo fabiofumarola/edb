@@ -383,7 +383,6 @@
     <parameter key="security.access.iddqd_voter.class">JMS\SecurityExtraBundle\Security\Authorization\Voter\IddqdVoter</parameter>
     <parameter key="security.extra.secure_all_services">false</parameter>
     <parameter key="craue.form.flow.class">Craue\FormFlowBundle\Form\FormFlow</parameter>
-    <parameter key="craue.form.flow.storage.class">Craue\FormFlowBundle\Storage\SessionStorage</parameter>
     <parameter key="craue_twig_extensions.formflow.class">Craue\FormFlowBundle\Twig\Extension\FormFlowExtension</parameter>
     <parameter key="fos_js_routing.extractor.class">FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractor</parameter>
     <parameter key="fos_js_routing.controller.class">FOS\JsRoutingBundle\Controller\Controller</parameter>
@@ -1250,7 +1249,7 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>50b22bef3b098</argument>
+            <argument>50b4ca5b2f2bb</argument>
           </service>
         </argument>
       </argument>
@@ -1448,7 +1447,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.context"/>
-            <argument>50b22bef3b098</argument>
+            <argument>50b4ca5b2f2bb</argument>
             <argument type="service" id="monolog.logger.security"/>
           </service>
         </argument>
@@ -2379,8 +2378,8 @@
       <call method="setRequest">
         <argument type="service" id="request"/>
       </call>
-      <call method="setStorage">
-        <argument type="service" id="craue.form.flow.storage"/>
+      <call method="setSession">
+        <argument type="service" id="session"/>
       </call>
       <call method="setEventDispatcher">
         <argument type="service" id="event_dispatcher"/>
@@ -2392,25 +2391,43 @@
     <service id="fos_js_routing.extractor" class="FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractor">
       <argument type="service" id="router"/>
       <argument type="collection"/>
+      <argument>/Users/fabiofumarola/Sites/edb/app/cache/dev</argument>
+      <argument type="collection">
+        <argument key="FrameworkBundle">Symfony\Bundle\FrameworkBundle\FrameworkBundle</argument>
+        <argument key="SecurityBundle">Symfony\Bundle\SecurityBundle\SecurityBundle</argument>
+        <argument key="TwigBundle">Symfony\Bundle\TwigBundle\TwigBundle</argument>
+        <argument key="MonologBundle">Symfony\Bundle\MonologBundle\MonologBundle</argument>
+        <argument key="SwiftmailerBundle">Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle</argument>
+        <argument key="DoctrineBundle">Symfony\Bundle\DoctrineBundle\DoctrineBundle</argument>
+        <argument key="AsseticBundle">Symfony\Bundle\AsseticBundle\AsseticBundle</argument>
+        <argument key="SensioFrameworkExtraBundle">Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle</argument>
+        <argument key="JMSSecurityExtraBundle">JMS\SecurityExtraBundle\JMSSecurityExtraBundle</argument>
+        <argument key="KddeEdbBundle">Kdde\EdbBundle\KddeEdbBundle</argument>
+        <argument key="KddeEdbStoreBundle">Kdde\EdbStoreBundle\KddeEdbStoreBundle</argument>
+        <argument key="CraueFormFlowBundle">Craue\FormFlowBundle\CraueFormFlowBundle</argument>
+        <argument key="FOSJsRoutingBundle">FOS\JsRoutingBundle\FOSJsRoutingBundle</argument>
+        <argument key="KnpPaginatorBundle">Knp\Bundle\PaginatorBundle\KnpPaginatorBundle</argument>
+        <argument key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</argument>
+        <argument key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</argument>
+        <argument key="SensioGeneratorBundle">Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle</argument>
+      </argument>
     </service>
     <service id="fos_js_routing.controller" class="FOS\JsRoutingBundle\Controller\Controller">
-      <argument type="service">
-        <service class="Symfony\Component\Serializer\Serializer" public="false">
-          <argument type="collection">
-            <argument type="service">
-              <service class="Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer" public="false"/>
-            </argument>
-          </argument>
-          <argument type="collection">
-            <argument key="json" type="service">
-              <service class="Symfony\Component\Serializer\Encoder\JsonEncoder" public="false"/>
-            </argument>
-          </argument>
-        </service>
-      </argument>
+      <argument type="service" id="fos_js_routing.serializer"/>
       <argument type="service" id="fos_js_routing.extractor"/>
-      <argument>/Users/fabiofumarola/Sites/edb/app/cache/dev</argument>
       <argument>true</argument>
+    </service>
+    <service id="fos_js_routing.serializer" class="Symfony\Component\Serializer\Serializer">
+      <argument type="collection">
+        <argument type="service">
+          <service class="Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer" public="false"/>
+        </argument>
+      </argument>
+      <argument type="collection">
+        <argument key="json" type="service">
+          <service class="Symfony\Component\Serializer\Encoder\JsonEncoder" public="false"/>
+        </argument>
+      </argument>
     </service>
     <service id="knp_paginator" class="Knp\Component\Pager\Paginator">
       <argument type="service" id="event_dispatcher"/>
@@ -2648,9 +2665,6 @@
     </service>
     <service id="mailer" class="Swift_Mailer">
       <argument type="service" id="swiftmailer.transport"/>
-    </service>
-    <service id="craue.form.flow.storage" class="Craue\FormFlowBundle\Storage\SessionStorage" scope="request">
-      <argument type="service" id="session"/>
     </service>
     <service id="debug.event_dispatcher" alias="event_dispatcher"/>
     <service id="database_connection" alias="doctrine.dbal.default_connection"/>

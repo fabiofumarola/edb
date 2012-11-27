@@ -17,29 +17,24 @@ This bundle should be used in conjunction with Symfony2.
 
 # Installation
 
-Please use tag 1.0.0 of this bundle if you need Symfony 2.0.x compatibility.
+## Add the bundle to your vendor directory
 
-## Get the bundle
-
-Let Composer download and install the bundle by first adding it to your composer.json
-
-```json
-{
-	"require": {
-		"craue/formflow-bundle": "dev-master"
-	}
-}
-```
-
-and then running
+Either by using a Git submodule:
 
 ```sh
-php composer.phar update craue/formflow-bundle
+# in a shell
+git submodule add https://github.com/craue/CraueFormFlowBundle.git vendor/bundles/Craue/FormFlowBundle
 ```
 
-in a shell.
+Or by using the `deps` file:
 
-## Enable the bundle
+```ini
+[CraueFormFlowBundle]
+git=https://github.com/craue/CraueFormFlowBundle.git
+target=bundles/Craue/FormFlowBundle
+```
+
+## Add the bundle to your application kernel
 
 ```php
 <?php
@@ -51,6 +46,17 @@ public function registerBundles() {
 	);
 	// ...
 }
+```
+
+## Register the Craue namespace
+
+```php
+<?php
+// in app/autoload.php
+$loader->registerNamespaces(array(
+	// ...
+	'Craue' => __DIR__.'/../vendor/bundles',
+));
 ```
 
 # Usage
@@ -97,12 +103,11 @@ An option called `flowStep` is passed to the form type so it can build the form 
 <?php
 // src/MyCompany/MyBundle/Form/RegisterUserFormType.php
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormBuilder;
 
 class RegisterUserFormType extends AbstractType {
 
-	public function buildForm(FormBuilderInterface $builder, array $options) {
+	public function buildForm(FormBuilder $builder, array $options) {
 		switch ($options['flowStep']) {
 			case 1:
 				$builder->add('username');
@@ -119,11 +124,13 @@ class RegisterUserFormType extends AbstractType {
 		}
 	}
 
-	public function setDefaultOptions(OptionsResolverInterface $resolver) {
-		$resolver->setDefaults(array(
-			'flowStep' => 1,
-			'data_class' => 'MyCompany\MyBundle\Entity\MyUser', // should point to your user entity
-		));
+	public function getDefaultOptions(array $options) {
+		$options = parent::getDefaultOptions($options);
+
+		$options['flowStep'] = 1;
+		$options['data_class'] = 'MyCompany\MyBundle\Entity\MyUser'; // should point to your user entity
+
+		return $options;
 	}
 
 	public function getName() {
@@ -192,6 +199,7 @@ So place this in your base template:
 {% endstylesheets %}
 ```
 
+
 ## Create an action
 
 ```php
@@ -201,27 +209,29 @@ So place this in your base template:
  * @Template
  */
 public function registerUserAction() {
-	$user = new MyUser(); // Should be your user entity. Has to be an object, won't work properly with an array.
+	$user = new MyUser(); // should be your user entity
 
 	$flow = $this->get('myCompany.form.flow.registerUser'); // must match the flow's service id
 	$flow->bind($user);
 
-	// form of the current step
 	$form = $flow->createForm($user);
 	if ($flow->isValid($form)) {
 		$flow->saveCurrentStepData();
 
 		if ($flow->nextStep()) {
-			// form for the next step
-			$form = $flow->createForm($user);
-		} else {
-			// flow finished
-			$em = $this->getDoctrine()->getEntityManager();
-			$em->persist($user);
-			$em->flush();
-
-			return $this->redirect($this->generateUrl('home')); // redirect when done
+			// render form for next step
+			return array(
+				'form' => $flow->createForm($user)->createView(),
+				'flow' => $flow,
+			);
 		}
+
+		// flow finished
+		$em = $this->getDoctrine()->getEntityManager();
+		$em->persist($user);
+		$em->flush();
+
+		return $this->redirect($this->generateUrl('home')); // redirect when done
 	}
 
 	return array(
@@ -248,11 +258,13 @@ Before you can use the options you have to define them in your form type class:
 ```php
 <?php
 // in src/MyCompany/MyBundle/Form/RegisterUserFormType.php
-public function setDefaultOptions(OptionsResolverInterface $resolver) {
-	$resolver->setDefaults(array(
-		// ...
-		'givenUsername' => null,
-	));
+public function getDefaultOptions(array $options) {
+	$options = parent::getDefaultOptions($options);
+
+	// ...
+	$options['givenUsername'] = null;
+
+	return $options;
 }
 ```
 

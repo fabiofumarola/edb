@@ -11,7 +11,7 @@ goog.require('goog.uri.utils');
  * @param {Object.<string, fos.Router.Route>=} opt_routes
  */
 fos.Router = function(opt_context, opt_routes) {
-    this.context_ = opt_context || {base_url: ''};
+    this.context_ = opt_context || {base_url: '', prefix: ''};
     this.setRoutes(opt_routes || {});
 };
 goog.addSingletonGetter(fos.Router);
@@ -53,6 +53,34 @@ fos.Router.prototype.getBaseUrl = function() {
 }
 
 /**
+ * @param {string} prefix
+ */
+fos.Router.prototype.setPrefix = function(prefix) {
+  this.context_.prefix = prefix;
+};
+
+
+/**
+ * Returns a raw route object
+ * 
+ * @param {string} name
+ * @return {fos.Router.Route}
+ */
+fos.Router.prototype.getRoute = function(name) {
+    var prefixedName = this.context_.prefix + name;
+    if (!this.routes_.containsKey(prefixedName)) {
+        // Check first for default route before failing
+        if (!this.routes_.containsKey(name)) {
+          throw new Error('The route "' + name + '" does not exist.');
+        }
+    } else {
+      name = prefixedName;
+    }
+
+    return (this.routes_.get(name));
+}
+
+/**
  * Generates the URL for a route.
  *
  * @param {string} name
@@ -60,11 +88,7 @@ fos.Router.prototype.getBaseUrl = function() {
  * @return {string}
  */
 fos.Router.prototype.generate = function(name, opt_params) {
-    if (!this.routes_.containsKey(name)) {
-        throw new Error('The route "' + name + '" does not exist.');
-    }
-
-    var route = /** @type {fos.Router.Route} */ (this.routes_.get(name));
+    var route = (this.getRoute(name));
     var params = opt_params || {};
     var unusedParams = goog.object.clone(params);
     var url = '';
