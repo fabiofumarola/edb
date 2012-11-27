@@ -308,23 +308,31 @@ class __TwigTemplate_0ef47c5173423bfbdb123f33ff94013f extends Twig_Template
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['e'], $context['_parent'], $context['loop']);
         $context = array_merge($_parent, array_intersect_key($context, $_parent));
         // line 143
-        echo " </div>
+        echo "\t<div class=\"pagination offset2\">
+\t\t<ul>
+    \t\t";
+        // line 145
+        echo $this->getAttribute($this->getContext($context, "pagination"), "render", array(), "method");
+        echo "
+    \t</ul>
+\t</div>
+ </div>
 </div>\t\t
 ";
     }
 
-    // line 146
+    // line 151
     public function block_javascripts($context, array $blocks = array())
     {
-        // line 147
+        // line 152
         echo "\t
 \t\t";
-        // line 148
+        // line 153
         $this->displayParentBlock("javascripts", $context, $blocks);
         echo "
 \t\t
 \t\t <script src=\"";
-        // line 150
+        // line 155
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/basic-result.js"), "html", null, true);
         echo "\" type=\"text/javascript\"></script>
 ";
@@ -342,6 +350,6 @@ class __TwigTemplate_0ef47c5173423bfbdb123f33ff94013f extends Twig_Template
 
     public function getDebugInfo()
     {
-        return array (  326 => 150,  321 => 148,  318 => 147,  315 => 146,  309 => 143,  303 => 142,  287 => 128,  279 => 123,  276 => 122,  270 => 121,  262 => 119,  260 => 118,  256 => 117,  252 => 115,  247 => 112,  242 => 110,  237 => 109,  235 => 108,  228 => 104,  224 => 103,  220 => 102,  213 => 98,  209 => 97,  201 => 91,  190 => 86,  186 => 84,  182 => 83,  177 => 80,  173 => 78,  169 => 76,  167 => 75,  156 => 67,  150 => 66,  144 => 62,  140 => 60,  136 => 58,  134 => 57,  128 => 54,  124 => 53,  112 => 44,  105 => 40,  101 => 39,  97 => 38,  89 => 33,  85 => 31,  83 => 30,  79 => 29,  67 => 24,  62 => 21,  60 => 20,  57 => 19,  54 => 18,  49 => 15,  46 => 14,  32 => 4,  29 => 3,);
+        return array (  334 => 155,  329 => 153,  326 => 152,  323 => 151,  313 => 145,  309 => 143,  303 => 142,  287 => 128,  279 => 123,  276 => 122,  270 => 121,  262 => 119,  260 => 118,  256 => 117,  252 => 115,  247 => 112,  242 => 110,  237 => 109,  235 => 108,  228 => 104,  224 => 103,  220 => 102,  213 => 98,  209 => 97,  201 => 91,  190 => 86,  186 => 84,  182 => 83,  177 => 80,  173 => 78,  169 => 76,  167 => 75,  156 => 67,  150 => 66,  144 => 62,  140 => 60,  136 => 58,  134 => 57,  128 => 54,  124 => 53,  112 => 44,  105 => 40,  101 => 39,  97 => 38,  89 => 33,  85 => 31,  83 => 30,  79 => 29,  67 => 24,  62 => 21,  60 => 20,  57 => 19,  54 => 18,  49 => 15,  46 => 14,  32 => 4,  29 => 3,);
     }
 }

@@ -103,15 +103,18 @@ class SearchController extends Controller {
 			return $this->forward('KddeEdbBundle:Search:basic');
 		}
 		
+		$em = $this->get('doctrine')->getEntityManager();
+		
 		//do the query
 		$query = $repoEpigraph->findBasicSearch($id, $icvrId, $principalProgNumber,$areaId, $contextId, $transcription, $useThesaurus);
-		
 		$count = $repoEpigraph->countBasicSearch($id, $icvrId, $principalProgNumber,$areaId, $contextId, $transcription, $useThesaurus);
 
-		//$paginator = $this->get('knp_paginator');
-		//$pagination = $paginator->paginate($query, $request->get('page',1), 6);
+		//$query = $em->createQuery('SELECT ep FROM KddeEdbStoreBundle:Epigraph ep');
 		
-		$pagination = $query->getResult();
+		$paginator = $this->get('knp_paginator');
+		$pagination = $paginator->paginate($query,$request->get('page',1),10);
+		
+		//$pagination = $query->getResult();
 		
 		$this->get('session')->setFlash('search', $searchArray);
 		
