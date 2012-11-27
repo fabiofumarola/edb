@@ -387,7 +387,7 @@
     <parameter key="fos_js_routing.extractor.class">FOS\JsRoutingBundle\Extractor\ExposedRoutesExtractor</parameter>
     <parameter key="fos_js_routing.controller.class">FOS\JsRoutingBundle\Controller\Controller</parameter>
     <parameter key="knp_paginator.class">Knp\Component\Pager\Paginator</parameter>
-    <parameter key="knp_paginator.template.pagination">KnpPaginatorBundle:Pagination:sliding.html.twig</parameter>
+    <parameter key="knp_paginator.template.pagination">KddeEdbBundle:Pagination:sliding.html.twig</parameter>
     <parameter key="knp_paginator.template.sortable">KnpPaginatorBundle:Pagination:sortable_link.html.twig</parameter>
     <parameter key="knp_paginator.page_range">5</parameter>
     <parameter key="web_profiler.debug_toolbar.class">Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener</parameter>
@@ -1249,7 +1249,7 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>50b4e5b724aac</argument>
+            <argument>50b4e8f03e22e</argument>
           </service>
         </argument>
       </argument>
@@ -1447,7 +1447,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.context"/>
-            <argument>50b4e5b724aac</argument>
+            <argument>50b4e8f03e22e</argument>
             <argument type="service" id="monolog.logger.security"/>
           </service>
         </argument>
@@ -2453,7 +2453,7 @@
       <argument type="service" id="templating.helper.router"/>
       <argument type="service" id="translator"/>
       <argument type="collection">
-        <argument key="defaultPaginationTemplate">KnpPaginatorBundle:Pagination:sliding.html.twig</argument>
+        <argument key="defaultPaginationTemplate">KddeEdbBundle:Pagination:sliding.html.twig</argument>
         <argument key="defaultSortableTemplate">KnpPaginatorBundle:Pagination:sortable_link.html.twig</argument>
         <argument key="defaultPageRange">5</argument>
       </argument>
