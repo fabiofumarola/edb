@@ -38,7 +38,7 @@
 {% include 'KddeEdbBundle:Signa:modalNewSigna.html.twig' %}
 
 	<div class="marketing">
-		<h2>New Epigraph</h2>
+		<h2>New Record</h2>
 		<br>
 	</div>
 	
@@ -53,7 +53,7 @@
 				<div class="row">
 					<!--  visualizzare il numero di record in edb dopo il salvataggio -->
 					<div class="span2">
-						<label>Volume ICVR</label>
+						<label>ICVR Volume</label>
 						<select class="span2" id="epigraph_icvr" name="epigraph[icvr]" required="required">
 							{% for icvr in icvrs %}
 								<option value="{{ icvr.id }}"> {{ icvr.volume }}</option>
@@ -73,27 +73,31 @@
 					</div>
 
 					<div class="span4" id="div_biblio">
-						<label>Literature Reference</label>
+						<label>Other bibliographic references</label>
 						<textarea name="epigraph[literaturesTextArea]" id="literature" class="span3" rows="4"></textarea>
-						<a id="addLiteratureRef" class="btn">Add Reference</a> 
-						<a id="newLiterature" class="btn">New Literature</a>
-					</div>
-				</div>
-				
-				<div class="row">
-					<h3>Pertinence</h3>
-				</div>
-
-				<div class="row">
-					<div class="span2">
-						<label>Locus Inventionis</label> <input type="text" class="span2"
-							value="Roma" disabled="disabled" name="epigraph[pertinence][locus]"> 
-{# 							<input id="locus" type="hidden" name="epigraph[pertinence[locus]"#}
-{# 							value="Roma">#}
-
+						<a id="addLiteratureRef" class="btn">Select from existing</a> 
+						<a id="newLiterature" class="btn">Add New</a>
 					</div>
 				</div>
 				<br />
+				<div class="row">
+					<h3>WHERE</h3>
+				</div>
+				
+				<div class="row">
+					<div class="span2">
+						<h4>Original context</h4>
+					</div>
+				</div>
+{# 				<div class="row">#}
+{# 					<div class="span2">#}
+{# 						<label>Locus Inventionis</label> <input type="text" class="span2"#}
+{# 							value="Roma" disabled="disabled" name="epigraph[pertinence][locus]"> #}
+{#  							<input id="locus" type="hidden" name="epigraph[pertinence[locus]"#}
+{#  							value="Roma">#}
+{# 					</div>#}
+{# 				</div>#}
+{# 				<br />#}
 				<div class="row">
 					<div class="span2">
 						<label>Area</label> <select id="selectPertinenceArea"
@@ -102,7 +106,7 @@
 						</select>
 					</div>
 					<div class="span2">
-						<label>Context</label> <select id="selectPertinenceContext"
+						<label>Location</label> <select id="selectPertinenceContext"
 							class="span2" name="epigraph[pertinence][context]" required="required">
 							<option></option>
 						</select>
@@ -133,18 +137,20 @@
 				<hr>
 				
 				<div class="row">
-					<h3>Conservation</h3>
+					<div class="span2">
+						<h4>Conservation</h4>
+					</div>
 				</div>
 
 				<div class="row">
 					<div class="span2">
-						<label>Location</label> <select id="selectConservationLocation"
+						<label>City/Town</label> <select id="selectConservationLocation"
 							class="span2" >
 							<option></option>
 						</select>
 					</div>
 					<div class="span2">
-						<label>Context</label> <select id="selectConservationContext"
+						<label>Location</label> <select id="selectConservationContext"
 							class="span2">
 							<option></option>
 						</select>
@@ -174,8 +180,8 @@
 							id="tableConservations">
 							<thead>
 								<tr>
-									<th class="span3">Location</th>
-									<th class="span4">Context</th>
+									<th class="span3">City/Town</th>
+									<th class="span4">Location</th>
 									<th class="span3">Position</th>
 									<th class="span2">Delete</th>
 								</tr>
@@ -186,14 +192,18 @@
 					</div>
 				</div>
 				<hr>
-				
+				<br />
 				<div class="row">
-					<h3>Used Material</h3>
+					<h3>WHAT AND HOW</h3>
 				</div>
-
+				<div class="row">
+					<div class="span2">
+						<h4>Used Material</h4>
+					</div>
+				</div>
 				<div class="row ">
 					<div class="span2">
-						<label>Support</label> <select id="selectSupport" class="span2"
+						<label>Type of Support</label> <select id="selectSupport" class="span2"
 							name="epigraph[material][support]"> 
 							{% for supp in supports %}
 								<option value="{{ supp.id }}"> {{ supp.description }}</option>
@@ -201,16 +211,7 @@
 								<option value="-1"> Add New </option>
 						</select>
 					</div>
-					<div class="span2">
-						<label>Technique</label> <select id="selectTechnique"
-							class="span2" name="epigraph[material][technique]">
-							{% for tech in techniques %}
-								<option value="{{ tech.id }}"> {{ tech.description }}</option>
-							{% endfor %}
-								<option value="-1"> Add New </option>
-						</select>
-					</div>
-
+					
 					<div class="span1 offset1">
 						<label>Height</label> <input type="text" name="epigraph[material][height]"
 							class="span1">
@@ -226,29 +227,37 @@
 							class="span1">
 					</div>
 				</div>
-				<hr>
-				
 				<div class="row">
-					<h3>Other Characteristics</h3>
-				</div>
-
-				<div class="row">
-					<div class="span0 offset0">
-						<label>Height letters:</label>
+					<div class="span2">
+							<label>Executing Technique</label> <select id="selectTechnique"
+								class="span2" name="epigraph[material][technique]">
+								{% for tech in techniques %}
+									<option value="{{ tech.id }}"> {{ tech.description }}</option>
+								{% endfor %}
+									<option value="-1"> Add New </option>
+							</select>
+						</div>
 					</div>
-
+				<hr>
+	
+				<div class="row">
+					<div class="span2">
+						<label class="labelCentered">Letters Height</label>
+					</div>
+				</div>
+				<div class="row">
 					<div class="span1">
-						<label>minimum</label> <input type="text" name="epigraph[altMinLetters]"
+						<label>Minimum</label> <input type="text" name="epigraph[altMinLetters]"
 							class="span1">
 					</div>
 
 					<div class="span1">
-						<label>maximum</label> <input type="text" name="epigraph[altMaxLetters]"
+						<label>Maximum</label> <input type="text" name="epigraph[altMaxLetters]"
 							class="span1">
 					</div>
 
 					<div class="span2 offset1">
-						<label>Paleography</label> <select
+						<label>Paleographic Notes</label> <select
 							id="selectPaleography" class="span2" name="epigraph[paleography]">
 							{% for pal in paleographies %}
 								<option value="{{ pal.id }}"> {{ pal.description }}</option>
@@ -256,30 +265,33 @@
 								<option value="-1"> Add New </option>
 						</select>
 					</div>
-
-					<div class="span2 offset1">
-						<label>Function</label> <select id="selectFunction" class="span2"
-							name="epigraph[funzione]">
-							{% for fun in functions %}
-								<option value="{{ fun.id }}"> {{ fun.description }}</option>
-							{% endfor %}
-								<option value="-1"> Add New </option>
-						</select>
-					</div>
-
 				</div>
+				<div class="row">
+					<div class="span2">
+							<label>Function</label> <select id="selectFunction" class="span2"
+								name="epigraph[funzione]">
+								{% for fun in functions %}
+									<option value="{{ fun.id }}"> {{ fun.description }}</option>
+								{% endfor %}
+									<option value="-1"> Add New </option>
+							</select>
+						</div>
+					</div>
 				<hr>
 				
 				<div class="row">
-					<h3>Text</h3>
+					<div class="span2">
+						<h4>Text</h4>
+					</div>
 				</div>
+				
 				<div class="row">
 					<div class="span6">
 						<button id="greekToogle" type="button" class="btn" data-toggle="button">Click to write in Greek</button>
 					</div>
 					
 					<div class="span2">
-						<label>Onomastic Area</label> <select id="selectOnomasticArea"
+						<label>Onomastic Notes</label> <select id="selectOnomasticArea"
 							class="span2" name="epigraph[ambitoOnomastico]">
 							{% for o in onomasticAreas %}
 								<option value="{{ o.id }}"> {{ o.description }}</option>
@@ -300,7 +312,7 @@
 
 
 					<div class="span5" id="divSigna">
-						<label>Signum Christi</label> 
+						<label>Signa Christi</label> 
 						<select id="selectSigna"
 							multiple="multiple" class="span3" name="epigraph[signas][]">
 						</select>
@@ -312,7 +324,7 @@
 
 				</div>
 				<div class="row">
-					<div class="span4">
+					<div class="span5">
 						<button type="button" unselectable="on"
 							onclick="replaceSelection (document.getElementById('transcription'), '&#803;');">&#046;</button>
 
@@ -385,37 +397,37 @@
 				<div class="row">
 
 					<div class="span1">
-						<label>Opistografia</label> <input type="checkbox"
+						<label>Reuse/Opistograph</label> <input type="checkbox"
 							name="epigraph[reimpiego_opistografia]" id="checkboxOpistografia">
 					</div>
 
 					<div class="span2 offset1">
-						<label>Testo metrico</label> <input type="checkbox"
+						<label>Metrical Text</label> <input type="checkbox"
 							name="epigraph[metricText]" id="checkboxMetricText">
 					</div>
 
 					<div class="span3">
-						<label>presence of elements in greek</label> <input
+						<label>Greek language and alphabet</label> <input
 							type="checkbox" name="epigraph[greek]" id="checkboxGreek">
 					</div>
 
 					<div class="span2">
-						<label>Presence of latin/greek</label> <input type="checkbox"
+						<label>Coexistence of latin/greek</label> <input type="checkbox"
 							name="epigraph[presenceLG]" id="checkboxPresenceLG">
 					</div>
 
 				</div>
-
+				<br />
 				<hr>
 				
 				<div class="row">
-					<h3>When</h3>
+					<h3>WHEN</h3>
 				</div>
 
 				<div class="row">
 
 					<div class="span2">
-						<label>Dating</label> <select id="selectDating"
+						<label>Dating Span</label> <select id="selectDating"
 							class="span3" name="epigraph[dating]">
 							{% for d in datings %}
 								<option value="{{ d.id }}">{{ d.description }}</option>
@@ -425,7 +437,7 @@
 					</div>
 
 					<div class="span2 offset1">
-						<label>Precise Year</label> <input type="checkbox"
+						<label>Date in the text</label> <input type="checkbox"
 							id="checkPreciseYear" name="epigraph[adAnnum]">
 					</div>
 
@@ -440,7 +452,7 @@
 					</div>
 
 				</div>
-
+				<br />
 				<hr>
 
 				<div class="row">
@@ -455,7 +467,7 @@
 					</div>
 
 					<div class="span2">
-						<label>Divergent Text</label> <input type="checkbox"
+						<label>Transcription different from ICVR</label> <input type="checkbox"
 							name="epigraph[divergentText]" id="inputDivergentText">
 					</div>
 

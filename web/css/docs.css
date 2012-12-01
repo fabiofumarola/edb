@@ -408,6 +408,11 @@ hr.soften {
 	margin-bottom: 0;
 }
 
+/* Centered label */
+label.labelCentered {
+  	text-align: center; 
+}
+
 /* Giant download button */
 .download-btn {
 	margin: 36px 0 108px;
