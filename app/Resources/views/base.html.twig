@@ -65,45 +65,50 @@
 						
 						{% if is_granted('ROLE_ADMIN') %}
 							<li class="dropdown">
-								<a href="#" id="menuUtenti" role="button" class="dropdown-toggle" data-toggle="dropdown" >User<b class="caret"></b></a>
-								<ul class="dropdown-menu" role="menu" aria-labelledby="menuUtenti" >
-									<li><a tabindex="-1" href="{{ path('edb_registration') }}">New</a></li>
-									<li class="divider"></li>
-									<li><a tabindex="-1" href="{{ path('edb_user_list') }}">Show</a>					
-								</ul>
-							</li>
+							<a href="#" id="menuAdmin" role="button" class="dropdown-toggle" data-toggle="dropdown" > Admin <b class="caret"></b></a>
+			                <ul class="dropdown-menu" role="menu" aria-labelledby="menuAdmin">
+			                  <li class="dropdown-submenu">
+			                    <a tabindex="-1" href="#">User</a>
+			                    <ul class="dropdown-menu">
+			                     <li><a tabindex="-1" href="{{ path('edb_registration') }}">New</a></li>
+									<li><a tabindex="-1" href="{{ path('edb_user_list') }}">Show</a>	
+			                    </ul>
+			                  </li>
+			                </ul>
+			              	</li>
 						{% endif %}
 						
 						{% if is_granted('ROLE_COMPILER') %}
-							<li class="dropdown">
-								<a href="#" id="menuEpigraph" role="button" class="dropdown-toggle" data-toggle="dropdown" > Epigraph <b
-								class="caret"></b></a>
-								<ul class="dropdown-menu" role="menu" aria-labelledby="menuEpigraph" >
-									<li><a tabindex="-1" href="{{ path('edb_epigraph_new') }}">New</a></li>
+						
+						<li class="dropdown">
+						<a href="#" id="menuCompiler" role="button" class="dropdown-toggle" data-toggle="dropdown" > Compiler <b class="caret"></b></a>
+		                <ul class="dropdown-menu" role="menu" aria-labelledby="menuCompiler">
+		                  <li class="dropdown-submenu">
+		                    <a tabindex="-1" href="#">Epigraph</a>
+		                    <ul class="dropdown-menu">
+		                      <li><a tabindex="-1" href="{{ path('edb_epigraph_new') }}">New</a></li>
+		                      <li><a tabindex="-1" href="{{ path('edb_epigraph_status') }}">Status</a>
+		                    </ul>
+		                  </li>
+		                  <li class="divider"></li>
+		                  <li class="dropdown-submenu">
+		                    <a tabindex="-1" href="#">Literature</a>
+		                    <ul class="dropdown-menu">
+	                     		<li><a tabindex="-1" href=" {{ path('edb_literature_new') }}">New</a></li>
+								<li><a tabindex="-1" href=" {{ path('edb_literature_list') }} ">Show All</a>
+		                    </ul>
+		                  </li>
+		                  <li class="divider"></li>
+		           		  <li class="dropdown-submenu">
+		                    <a tabindex="-1" href="#">Signa</a>
+		                    <ul class="dropdown-menu">
+								<li><a tabindex="-1" href="{{ path('edb_signa_new') }}">New</a></li>
 									<li class="divider"></li>
-									<li><a tabindex="-1" href="{{ path('edb_epigraph_status') }}">Status</a>			
-								</ul>
-							</li>
-							
-							<li class="dropdown">
-								<a hre="#" id="menuLiterature" role="button" class="dropdown-toggle" data-toggle="dropdown"> Literature <b
-								class="caret"></b></a>
-								<ul class="dropdown-menu" role="menu" aria-labelledby="menuLiterature">
-									<li><a tabindex="-1" href=" {{ path('edb_literature_new') }}">New</a></li>
-									<li class="divider"></li>
-									<li><a tabindex="-1" href=" {{ path('edb_literature_list') }} ">Show All</a>
-								</ul>
-							</li>
-							
-							<li class="dropdown" >
-								<a href="#" id="menuSigna" role="button" class="dropdown-toggle" data-toggle="dropdown">Signa
-								<b class="caret"></b></a>
-								<ul class="dropdown-menu" role="menu" aria-labelledby="menuSigna">
-									<li><a tabindex="-1" href="{{ path('edb_signa_new') }}">New</a></li>
-									<li class="divider"></li>
-									<li><a tabindex="-1" href="{{ path('edb_signa_list') }}">Show</a>
-								</ul>
-						</li>
+								<li><a tabindex="-1" href="{{ path('edb_signa_list') }}">Show</a>
+		                    </ul>
+		                  </li>
+		                </ul>
+		              	</li>
 						{% endif %}
 						
 						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
