@@ -175,7 +175,9 @@
                 </a>
               </li>
             </ul>
+            <p>Please note that the website is currently under maintenance and some functions may not work properly.</p>
 		</header>
+		
 				 
         {% block body %}{% endblock %}
         
@@ -211,7 +213,7 @@
         
         {% block javascripts %}
         	<script src="{{ asset('js/router.js') }}"></script>
-{#         	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>#}
+         	<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
 			<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 			<script src="{{ asset('js/jquery.js') }}"></script>
 			<script src="{{ asset('js/bootstrap-transition.js') }}"></script>

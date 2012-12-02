@@ -250,6 +250,18 @@ class Epigraph {
 	protected $geoPosition;
 	
 	
+	/**
+	 * @ORM\Column(type="integer", name="tipo")
+	 * @var integer
+	 */
+	
+	/**
+	 * @ManyToOne(targetEntity="Type")
+	 * @JoinColumn(name="tipo", referencedColumnName="cod_tipo")
+	 */
+	protected $epigraph_type;
+	
+	
 	public function __construct(){
 		$this->literatures = new ArrayCollection();
 		$this->conservations = new ArrayCollection();
@@ -257,6 +269,27 @@ class Epigraph {
 		$this->createdAt = new \DateTime("now");
 	}
 
+	
+	/**
+	 * Set type
+	 *
+	 * @param string $epigraph_type
+	 */
+	public function setEpigraphType($epigraph_type)
+	{
+		$this->epigraph_type = $epigraph_type;
+	}
+	
+	/**
+	 * Get type
+	 *
+	 * @return integer
+	 */
+	public function getEpigraphType()
+	{
+		return $this->epigraph_type;
+	}
+	
 	/**
      * Set edb
      *

@@ -25,16 +25,20 @@ class SearchController extends Controller {
 
 	public function basicAction(Request $request) {
 
-		$repoIcvr = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Icvr');
-
+		$repoIcvr = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Icvr');
 		$icvrs = $repoIcvr->findAll();
+		
+		$repoTypes = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Type');
+		$types = $repoTypes->findBy(array(), array('description' => 'ASC'));
+		
 		$defaultData = array();
 		$form = $this->createFormBuilder($defaultData)->getForm();
 
+		
+		
 		return $this
 				->render('KddeEdbBundle:Search:basic.html.twig',
-						array('form' => $form->createView(), 'icvrs' => $icvrs,));
+						array('form' => $form->createView(), 'icvrs' => $icvrs, 'types' => $types));
 	}
 	
 	public function basicDoAction(Request $request){
@@ -77,8 +81,11 @@ class SearchController extends Controller {
 				return $this->redirect('KddeEdbBundle:Search:basic');
 			}
 		}
-			
-	
+		
+		$type = $searchArray['type'];
+		if ($type != -1)
+			$anyParameter = true;
+		
 		if (strlen($searchArray['area'])) {
 			$areaId = $searchArray['area'];
 			$anyParameter = true;
@@ -106,8 +113,8 @@ class SearchController extends Controller {
 		$em = $this->get('doctrine')->getEntityManager();
 		
 		//do the query
-		$query = $repoEpigraph->findBasicSearch($id, $icvrId, $principalProgNumber,$areaId, $contextId, $transcription, $useThesaurus);
-		$count = $repoEpigraph->countBasicSearch($id, $icvrId, $principalProgNumber,$areaId, $contextId, $transcription, $useThesaurus);
+		$query = $repoEpigraph->findBasicSearch($id, $icvrId, $principalProgNumber,$areaId, $contextId, $transcription, $useThesaurus, $type);
+		$count = $repoEpigraph->countBasicSearch($id, $icvrId, $principalProgNumber,$areaId, $contextId, $transcription, $useThesaurus, $type);
 
 		//$query = $em->createQuery('SELECT ep FROM KddeEdbStoreBundle:Epigraph ep');
 		

@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 class EpigraphRepository extends EntityRepository {
 
 	public function findBasicSearch($id, $icvrId, $principalProgNumber, $areaId,
-			$contextId, $transcription, $useThesaurus) {
+			$contextId, $transcription, $useThesaurus, $type) {
 
 		$strQuerySelect = "SELECT ep FROM KddeEdbStoreBundle:Epigraph ep ";
 		$strQueryWhere = "";
@@ -37,6 +37,10 @@ class EpigraphRepository extends EntityRepository {
 		if ($transcription != null) {
 			$strQueryWhere .= "AND ep.trascription LIKE :transcription ";
 		}
+		
+		if ($type != -1)
+			$strQueryWhere .= "AND ep.epigraph_type = :epi_type ";
+				
 
 		if ($useThesaurus = true) {
 
@@ -59,7 +63,10 @@ class EpigraphRepository extends EntityRepository {
 		if ($principalProgNumber != null) {
 			$query->setParameter('principalProgNumber', $principalProgNumber);
 		}
-
+		
+		if ($type != -1)
+			$query->setParameter('epi_type', $type);
+		
 		if ($areaId != null) {
 			$query->setParameter('areaId', $areaId);
 		}
@@ -78,7 +85,7 @@ class EpigraphRepository extends EntityRepository {
 	}
 	
 	public function countBasicSearch($id, $icvrId, $principalProgNumber, $areaId,
-			$contextId, $transcription, $useThesaurus){
+			$contextId, $transcription, $useThesaurus, $type){
 		$strQuerySelect = "SELECT COUNT(ep.id) FROM KddeEdbStoreBundle:Epigraph ep ";
 		$strQueryWhere = "";
 		
@@ -109,6 +116,9 @@ class EpigraphRepository extends EntityRepository {
 			$strQueryWhere .= "AND ep.trascription LIKE :transcription ";
 		}
 		
+		if ($type != -1)
+			$strQueryWhere .= "AND ep.epigraph_type = :epi_type ";
+		
 		if ($useThesaurus = true) {
 		
 		}
@@ -130,6 +140,9 @@ class EpigraphRepository extends EntityRepository {
 		if ($principalProgNumber != null) {
 			$query->setParameter('principalProgNumber', $principalProgNumber);
 		}
+		
+		if ($type != -1)
+			$query->setParameter('epi_type', $type);
 		
 		if ($areaId != null) {
 			$query->setParameter('areaId', $areaId);
