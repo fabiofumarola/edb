@@ -204,9 +204,13 @@
 				<div class="row ">
 					<div class="span2">
 						<label>Type of Support</label> <select id="selectSupport" class="span2"
-							name="epigraph[material][support]"> 
+							name="epigraph[material][support]"> 	
 							{% for supp in supports %}
-								<option value="{{ supp.id }}"> {{ supp.description }}</option>
+								<option value="{{ supp.id }}"
+								{% if supp.id == 'M'%} 
+									selected
+								{% endif %}
+								> {{ supp.description }}</option>
 							{% endfor %}
 								<option value="-1"> Add New </option>
 						</select>
@@ -232,7 +236,11 @@
 							<label>Executing Technique</label> <select id="selectTechnique"
 								class="span2" name="epigraph[material][technique]">
 								{% for tech in techniques %}
-									<option value="{{ tech.id }}"> {{ tech.description }}</option>
+									<option value="{{ tech.id }}"
+									{% if tech.id == 'I'%} 
+										selected
+									{% endif %}
+								> {{ tech.description }}</option>
 								{% endfor %}
 									<option value="-1"> Add New </option>
 							</select>
@@ -269,9 +277,13 @@
 				<div class="row">
 					<div class="span2">
 							<label>Function</label> <select id="selectFunction" class="span2"
-								name="epigraph[funzione]">
+								name="epigraph[funzione]">								
 								{% for fun in functions %}
-									<option value="{{ fun.id }}"> {{ fun.description }}</option>
+									<option value="{{ fun.id  }}"
+									{% if fun.id  == 'S'%} 
+										selected
+									{% endif %}
+								> {{ fun.description }}</option>
 								{% endfor %}
 									<option value="-1"> Add New </option>
 							</select>
