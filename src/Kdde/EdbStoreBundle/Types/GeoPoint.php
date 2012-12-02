@@ -28,7 +28,7 @@ class GeoPoint extends Type
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
 		if(!$value) return NULL;
-    	$dbval = '(%s)'; // add '()' for Db
+    	$dbval = '%s'; // add '()' for Db
         $value = sprintf($dbval, $value);
         return $value;
     }

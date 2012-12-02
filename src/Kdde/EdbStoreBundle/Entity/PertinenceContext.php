@@ -36,6 +36,12 @@ class PertinenceContext {
  	 * @var Context
 	 */
 	protected $area;
+	
+	/**
+	 * @ORM\Column(type="geopoint", name="geoposition")
+	 * @var string
+	 */
+	protected $geoposition;
 
 
     /**
@@ -46,6 +52,10 @@ class PertinenceContext {
     public function getId()
     {
         return $this->id;
+    }
+    
+    public function setId($id){
+    	$this->id = $id;
     }
 
     /**
@@ -86,5 +96,14 @@ class PertinenceContext {
     public function getArea()
     {
         return $this->area;
+    }
+    
+    public function getGeoposition(){
+    	return $this->geoposition;
+    }
+    
+    public function setGeoposition($geoposition)
+    {
+    	$this->geoposition = $geoposition;
     }
 }

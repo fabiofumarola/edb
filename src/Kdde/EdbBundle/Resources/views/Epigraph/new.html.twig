@@ -1,17 +1,5 @@
 {% extends '::base.html.twig' %}
 
-{% block header %}
-	{{ parent() }}
-	
-	<!-- Google maps v3 -->
-	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-	<style type="text/css">
-  		#map_canvas { width:550px;height: 300px; margin-right: auto ;margin-left: auto ; }
-	</style>
-	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true" ></script>
-{% endblock %}
-
-
 {% form_theme form 'KddeEdbBundle:Form:fields.html.twig' %}
 
 {% block title %}
@@ -124,18 +112,7 @@
 							id="insitu" name="epigraph[pertinence][inSitu]">
 					</div>
 
-				</div>
-				<br />
-				<div class="row">
-					<div class="span4">
-						<label>Geographic position <em>(latitude,longitude)</em></label> 
-						<input type="text" class="span4" value="" id="fld_geoPosition" name="epigraph[geoPosition]" />
-						<a id="newGeoPosition" class="btn" title="Get geographic position from map" >Show Map</a>						
-					</div>
-				</div>
-				
-				<hr>
-				
+				</div>				
 				<div class="row">
 					<div class="span2">
 						<h4>Conservation</h4>

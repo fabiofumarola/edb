@@ -50,6 +50,7 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
        'edb_pertinence_area_list' => true,
        'edb_new_pertinence_area' => true,
        'edb_new_pertinence_context' => true,
+       'edb_pertinence_context_edit' => true,
        'edb_pertinence_context_list' => true,
        'edb_new_pertinence_position' => true,
        'edb_pertinence_position_list' => true,
@@ -288,6 +289,11 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
     private function getedb_new_pertinence_contextRouteInfo()
     {
         return array(array (), array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\PertinenceContextController::newModalAction',), array (  '_method' => 'POST',), array (  0 =>   array (    0 => 'text',    1 => '/compiler/pertinence/context/new/modal',  ),));
+    }
+
+    private function getedb_pertinence_context_editRouteInfo()
+    {
+        return array(array (), array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\PertinenceContextController::editAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/compiler/pertinence/context/edit',  ),));
     }
 
     private function getedb_pertinence_context_listRouteInfo()

@@ -139,6 +139,12 @@ edb_new_pertinence_context:
     options:
         expose: true
         
+edb_pertinence_context_edit:
+    pattern: /compiler/pertinence/context/edit
+    defaults: {_controller: KddeEdbBundle:PertinenceContext:edit}
+    
+    
+                
 edb_pertinence_context_list:
     pattern: /pertinence/context/{id}.{_format}
     defaults: {_controller: KddeEdbBundle:PertinenceContext:list, _format: json}

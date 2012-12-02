@@ -237,6 +237,11 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         }
         not_edb_new_pertinence_context:
 
+        // edb_pertinence_context_edit
+        if ($pathinfo === '/compiler/pertinence/context/edit') {
+            return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\PertinenceContextController::editAction',  '_route' => 'edb_pertinence_context_edit',);
+        }
+
         // edb_pertinence_context_list
         if (0 === strpos($pathinfo, '/pertinence/context') && preg_match('#^/pertinence/context/(?P<id>\\d+)(?:\\.(?P<_format>json))?$#s', $pathinfo, $matches)) {
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\PertinenceContextController::listAction',  '_format' => 'json',)), array('_route' => 'edb_pertinence_context_list'));
