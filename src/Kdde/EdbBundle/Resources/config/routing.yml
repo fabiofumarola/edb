@@ -223,6 +223,13 @@ edb_paleography_list:
     options:
         expose: true
 
+edb_types_list:
+    pattern: /types/list.{_format}
+    defaults:  {_controller: KddeEdbBundle:Types:list, _format: json}
+    requirements:
+        _format: json
+    options:
+        expose: true
         
 edb_new_technique:
     pattern: /compiler/technique/new/modal

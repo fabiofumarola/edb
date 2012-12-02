@@ -141,6 +141,10 @@ class EpigraphController extends Controller {
 				->getRepository('KddeEdbStoreBundle:Dating');
 		$datings = $repoDating->findBy(array(), array('description' => 'ASC'));
 		
+		$repoTypes = $this->getDoctrine()
+			->getRepository('KddeEdbStoreBundle:Type');
+		$types = $repoTypes->findBy(array(), array('description' => 'ASC'));
+		
 		$em = $this->getDoctrine()->getEntityManager();
 
 		//$form = $this->createForm(new EpigraphType(), new Epigraph());
@@ -179,7 +183,8 @@ class EpigraphController extends Controller {
 								'paleographies' => $paleographies,
 								'functions' => $funzioni,
 								'onomasticAreas' => $ambiti,
-								'datings' => $datings));
+								'datings' => $datings,
+								'types' => $types));
 	}
 
 	private function persistEpigraph($epigraphArray) {
@@ -202,6 +207,7 @@ class EpigraphController extends Controller {
 		$repoConservPosition = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:ConservationPosition');
 		$repoConservation = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Conservation');
 		$repoSigna = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Signa');
+		$repoTypes = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Type');
 		$em = $this->getDoctrine()->getEntityManager();
 		
 		$arrayLiteratures = new ArrayCollection();
@@ -335,6 +341,10 @@ class EpigraphController extends Controller {
 			$epigraph->setPaleography($paleography);
 		}
 
+		$type = $repoTypes->find($epigraphArray['epi_type']);
+		$epigraph->setEpigraphType($type);
+	
+		
 		if (isset($epigraphArray['funzione'])) {
 			$funzione = $repoFunzione->find($epigraphArray['funzione']);
 			$epigraph->setFunzione($funzione);

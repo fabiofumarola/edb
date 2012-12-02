@@ -458,19 +458,19 @@ function checkLostAction() {
 	var checked = $('#lost').attr('checked') == 'checked' ? true
 			: false;
 	
-	$('#selectConservationContext').html("<option></option>");
-	$('#selectConservationPosition').html("<option></option>");
-	
 	if (checked) {
 		$("#selectConservationLocation").val('15');
-		$('#selectConservationContext').append("<option value=\"" + 17 + "\" selected>n.d.</option>");
-		$('#selectConservationPosition').append("<option value=\"" + 19 + "\" selected>n.d.</option>");
+		$('#selectConservationContext').html("<option value=\"17\" selected>n.d.</option>");
+		$('#selectConservationPosition').html("<option value=\"19\" selected>n.d.</option>");
+		
 		$("#selectConservationLocation").prop('disabled', true);
 		$("#selectConservationContext").prop('disabled', true);
 		$("#selectConservationPosition").prop('disabled', true);
-		$("#selectConservationContext").val('17');
 	} else {
 		$("#selectConservationLocation").val('0');
+		$('#selectConservationContext').html("<option></option>");
+		$('#selectConservationPosition').html("<option></option>");
+		
 		$("#selectConservationLocation").prop('disabled', false);
 		$("#selectConservationContext").prop('disabled', false);
 		$("#selectConservationPosition").prop('disabled', false);
@@ -958,7 +958,7 @@ function addConservationToTableAction() {
 
 	// it is true if all the variables do not contains values
 	if (!locationText || !contextText || !positionText) {
-		alert('please select values for location context and position');
+		alert('Please select values for City/Town, Location and Position. ');
 		return;
 	}
 
@@ -992,6 +992,7 @@ function addConservationToTableAction() {
 	});
 
 }
+
 
 
 $('document').ready(function() {
