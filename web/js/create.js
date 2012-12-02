@@ -454,6 +454,30 @@ function checkPreciseYearAction() {
 	}
 }
 
+function checkLostAction() {
+	var checked = $('#lost').attr('checked') == 'checked' ? true
+			: false;
+	
+	$('#selectConservationContext').html("<option></option>");
+	$('#selectConservationPosition').html("<option></option>");
+	
+	if (checked) {
+		$("#selectConservationLocation").val('15');
+		$('#selectConservationContext').append("<option value=\"" + 17 + "\" selected>n.d.</option>");
+		$('#selectConservationPosition').append("<option value=\"" + 19 + "\" selected>n.d.</option>");
+		$("#selectConservationLocation").prop('disabled', true);
+		$("#selectConservationContext").prop('disabled', true);
+		$("#selectConservationPosition").prop('disabled', true);
+		$("#selectConservationContext").val('17');
+	} else {
+		$("#selectConservationLocation").val('0');
+		$("#selectConservationLocation").prop('disabled', false);
+		$("#selectConservationContext").prop('disabled', false);
+		$("#selectConservationPosition").prop('disabled', false);
+	}
+	
+}
+
 function loadOnomasticAreas() {
 	// clean the loaded options
 	$('#selectOnomasticArea').html("<option></option>");
@@ -542,19 +566,18 @@ function loadConservationPosition(idContext) {
 		}
 		$('#selectConservationPosition').append(
 				"<option value =\"-1\">Add New</option>");
-	});
+	});		
 }
 
 function loadConservationContext(idConservationLocation) {
 
 	$('#selectConservationContext').html("<option></option>");
-
+	
 	var url = Routing.generate('edb_conservation_context_list', {
 		id : idConservationLocation
 	});
 
 	$.getJSON(url, function(data) {
-
 		for (i in data) {
 			$('#selectConservationContext').append(
 					"<option value=\"" + data[i].id + "\">"
@@ -563,8 +586,9 @@ function loadConservationContext(idConservationLocation) {
 		$('#selectConservationContext').append(
 				"<option value =\"-1\">Add New</option>");
 	});
-
 }
+
+
 
 function openDialogCreatePertinenceArea() {
 
@@ -951,7 +975,7 @@ function addConservationToTableAction() {
 			+ "'></td> " + inputHidden + "</tr>";
 
 	if (hashConservations[hiddenValue] != undefined) {
-		alert('values already added to the table');
+		alert('Values already added to the table.');
 		countConservations--;
 		return;
 	}
@@ -1156,5 +1180,9 @@ $('document').ready(function() {
 
 	$('#checkPreciseYear').click(function() {
 		checkPreciseYearAction();
+	});
+	
+	$('#lost').click(function() {
+		checkLostAction();
 	});
 });
