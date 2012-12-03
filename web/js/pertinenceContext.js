@@ -41,11 +41,12 @@ function addMarker(pertinenceContext){
 		marker : {
 			latLng : [ ltn, lng ],
 			options : {
-				draggable : false
+				draggable : true
 			},
 			events : {
 				dragend : function(marker) {
-					alert(marker.getPosition());
+					//alert(marker.getPosition());
+					$('#Original_Context_geoposition').attr('value',marker.getPosition());
 				}
 			}
 		},
@@ -149,11 +150,12 @@ $('document').ready(function() {
 					marker : {
 						latLng : item.geometry.location,
 						options : {
-							draggable : false
+							draggable : true
 						},
 						events : {
 							dragend : function(marker) {
-								alert(marker.getPosition());
+								//alert(marker.getPosition());
+								$('#Original_Context_geoposition').attr('value',marker.getPosition());
 							}
 						}
 					},
