@@ -312,6 +312,11 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\PaleographyController::listAction',  '_format' => 'json',)), array('_route' => 'edb_paleography_list'));
         }
 
+        // edb_types_list
+        if (0 === strpos($pathinfo, '/types/list') && preg_match('#^/types/list(?:\\.(?P<_format>json))?$#s', $pathinfo, $matches)) {
+            return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'KddeEdbBundle:Types:list',  '_format' => 'json',)), array('_route' => 'edb_types_list'));
+        }
+
         // edb_new_technique
         if ($pathinfo === '/compiler/technique/new/modal') {
             if ($this->context->getMethod() != 'POST') {

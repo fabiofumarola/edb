@@ -61,6 +61,7 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
        'edb_new_conservation_position' => true,
        'edb_new_paleography' => true,
        'edb_paleography_list' => true,
+       'edb_types_list' => true,
        'edb_new_technique' => true,
        'edb_technique_list' => true,
        'edb_new_function' => true,
@@ -344,6 +345,11 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
     private function getedb_paleography_listRouteInfo()
     {
         return array(array (  0 => '_format',), array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\PaleographyController::listAction',  '_format' => 'json',), array (  '_format' => 'json',), array (  0 =>   array (    0 => 'variable',    1 => '.',    2 => 'json',    3 => '_format',  ),  1 =>   array (    0 => 'text',    1 => '/paleography/list',  ),));
+    }
+
+    private function getedb_types_listRouteInfo()
+    {
+        return array(array (  0 => '_format',), array (  '_controller' => 'KddeEdbBundle:Types:list',  '_format' => 'json',), array (  '_format' => 'json',), array (  0 =>   array (    0 => 'variable',    1 => '.',    2 => 'json',    3 => '_format',  ),  1 =>   array (    0 => 'text',    1 => '/types/list',  ),));
     }
 
     private function getedb_new_techniqueRouteInfo()

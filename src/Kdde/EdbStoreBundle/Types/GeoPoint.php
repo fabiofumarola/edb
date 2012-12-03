@@ -20,7 +20,7 @@ class GeoPoint extends Type
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
     	if(!$value) return NULL;
-    	$value = substr($value,1,strlen($value)-2); // remove leading and trailing '()'
+    	//$value = substr($value,1,strlen($value)-2); // remove leading and trailing '()'
     	return $value;
     }
 

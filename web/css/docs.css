@@ -14,8 +14,8 @@ body {
 }
 
 #map {
-	height: 350px;
-	width: 700px;
+ 	height: 350px;
+ 	width: 700px;
 }
 
 ul.autocomplete {

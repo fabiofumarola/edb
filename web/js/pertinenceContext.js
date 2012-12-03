@@ -1,4 +1,7 @@
 var pertinenceContexts = null;
+var mapId = "#map";
+var address = "#address";
+var geoposition = "#Original_Context_geoposition";
 
 function clearPertinenceContextSelect() {
 	// clean the loaded options
@@ -23,6 +26,38 @@ function loadPertinenceContexts(id) {
 	});
 }
 
+function addMarker(pertinenceContext){
+	
+	var value = new String(pertinenceContext.geoposition);
+	value = value.replace("(", "");
+	value = value.replace(")", "");
+	var split = value.split(",");
+
+	var ltn = parseFloat(split[0]);
+	var lng = parseFloat(split[1]);
+
+	$(mapId).gmap3({
+		clear : "marker",
+		marker : {
+			latLng : [ ltn, lng ],
+			options : {
+				draggable : false
+			},
+			events : {
+				dragend : function(marker) {
+					alert(marker.getPosition());
+				}
+			}
+		},
+		map : {
+			options : {
+				zoom : 8
+			}
+		}
+	});
+}
+
+
 function loadDataToForm(id) {
 
 	if (pertinenceContexts == null)
@@ -33,20 +68,24 @@ function loadDataToForm(id) {
 
 	for (i in pertinenceContexts) {
 		if (pertinenceContexts[i].id == id) {
-			$('#Original_Context_id').attr('value', pertinenceContexts[0].id);
+			$('#Original_Context_id').attr('value', pertinenceContexts[i].id);
 			$('#Original_Context_area').attr('value',
-					pertinenceContexts[0].area.id);
+					pertinenceContexts[i].area.id);
 			$('#Original_Context_description').attr('value',
-					pertinenceContexts[0].description);
-			$('#Original_Context_geoposition').attr('geoposition',
-					pertinenceContexts[0].geoposition);
+					pertinenceContexts[i].description);
+			$('#Original_Context_geoposition').attr('value',
+					pertinenceContexts[i].geoposition);
+
+			if (pertinenceContexts[i].geoposition != null) {
+				addMarker(pertinenceContexts[i]);
+			}else{
+				$(mapId).gmap3({
+					clear : "marker",
+				});
+			}
 		}
 	}
 }
-
-var mapId = "#map";
-var address = "#address";
-var geoposition = "#Original_Context_geoposition";
 
 $('document').ready(function() {
 
@@ -108,7 +147,15 @@ $('document').ready(function() {
 				$(mapId).gmap3({
 					clear : "marker",
 					marker : {
-						latLng : item.geometry.location
+						latLng : item.geometry.location,
+						options : {
+							draggable : false
+						},
+						events : {
+							dragend : function(marker) {
+								alert(marker.getPosition());
+							}
+						}
 					},
 					map : {
 						options : {

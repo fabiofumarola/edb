@@ -34,7 +34,6 @@ class PertinenceContextController extends Controller {
 
 		//$areas = $repo->findBy(array(),array('description' => 'ASC'));
 		$contexts = $repo->findAllByIdArea($id);
-
 		$serializer = new Serializer(array(new GetSetMethodNormalizer()),
 				array('json' => new JsonEncoder()));
 		$json = $serializer->serialize($contexts, 'json');
@@ -99,7 +98,7 @@ class PertinenceContextController extends Controller {
 					$areaId = $elements['area'];
 					$pertContext->setArea($repoArea->find($areaId));
 				}
-				$em->persist($pertContext);
+				$em->merge($pertContext);
 				$em->flush();
 				$this->get('session')
 						->setFlash('notice', 'Your changes were saved!');

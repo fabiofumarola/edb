@@ -9,7 +9,7 @@ class PertinenceContextRepository extends EntityRepository{
 	public function findAllByIdArea($id){
 		
 		$query =  $this->getEntityManager()->createQuery('SELECT pc FROM 
-				KddeEdbStoreBundle:PertinenceContext pc JOIN pc.area a WHERE a.id = :id');
+				KddeEdbStoreBundle:PertinenceContext pc JOIN pc.area a WHERE a.id = :id ORDER BY pc.description ASC');
 		
 		return $query->setParameter('id', $id)->getResult();
 	}
