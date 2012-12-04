@@ -886,7 +886,6 @@ $('document').ready(function() {
 
 	loadPertinenceArea();
 	loadConservationLocation();
-	loadGeoPosition();
 	
 	// Click to add bibliography
 	$('#addLiteratureRef').click(function() {
