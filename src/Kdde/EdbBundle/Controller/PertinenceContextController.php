@@ -103,7 +103,7 @@ class PertinenceContextController extends Controller {
 				$this->get('session')
 						->setFlash('notice', 'Your changes were saved!');
 				
-				return $this->redirect($this->generateUrl('edb_homepage'));
+				return $this->redirect($this->generateUrl('edb_pertinence_context_edit'));
 			}
 		}
 		return $this
