@@ -6,42 +6,68 @@ Port of the incredible plugin [chCmsExposeRoutingPlugin](https://github.com/them
 Installation
 ------------
 
-Add this bundle as a submodule:
+For the management of the bundle you have 2 options: *submodules* or *Composer*.
 
-    git submodule add git://github.com/FriendsOfSymfony/FOSJsRoutingBundle.git vendor/bundles/FOS/JsRoutingBundle
+### Through Composer (Symfony 2.1):
+
+Add the following lines in your `composer.json` file:
+
+``` js
+"require": {
+    "friendsofsymfony/jsrouting-bundle": "1.0.*"
+}
+```
+
+Run Composer to download and install the bundle:
+
+    $ php composer.phar update friendsofsymfony/jsrouting-bundle
+
+### Through submodules (Symfony 2.0):
+
+    $ git submodule add git://github.com/FriendsOfSymfony/FOSJsRoutingBundle.git vendor/bundles/FOS/JsRoutingBundle
 
 Or add the following lines in your `deps` file:
 
 ``` ini
 [FOSJsRoutingBundle]
-	git=git://github.com/FriendsOfSymfony/FOSJsRoutingBundle.git
-	target=/bundles/FOS/JsRoutingBundle
+    git=git://github.com/FriendsOfSymfony/FOSJsRoutingBundle.git
+    target=/bundles/FOS/JsRoutingBundle
 ```
 
-Register the namespace in `app/autoload.php`:
+After the download of the files, register the namespace in `app/autoload.php` (only needed if 
+you are *not* using Composer):
 
-    // app/autoload.php
-    $loader->registerNamespaces(array(
-        // ...
-        'FOS' => __DIR__.'/../vendor/bundles',
-    ));
+``` php
+// app/autoload.php
+
+$loader->registerNamespaces(array(
+    // ...
+    'FOS' => __DIR__.'/../vendor/bundles',
+));
+```
 
 Register the bundle in `app/AppKernel.php`:
 
-    // app/AppKernel.php
-    public function registerBundles()
-    {
-        return array(
-            // ...
-            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
-        );
-    }
+``` php
+// app/AppKernel.php
+
+public function registerBundles()
+{
+    return array(
+        // ...
+        new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+    );
+}
+```
 
 Register the routing in `app/config/routing.yml`:
 
-    # app/config/routing.yml
-    fos_js_routing:
-        resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+``` yml
+# app/config/routing.yml
+
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+```
 
 Publish assets:
 
@@ -58,6 +84,8 @@ Just add these two lines in your layout:
 
 
 It's as simple as calling: `Routing.generate('route_id', /* your params */)`.
+
+Or if you want to generate absolute Url: `Routing.generate('route_id', /* your params */, true)`.
 
 Imagine some route definitions:
 

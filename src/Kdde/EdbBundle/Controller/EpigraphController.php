@@ -261,10 +261,10 @@ class EpigraphController extends Controller {
 								$epigraphArray['principalProgNumber']);
 			}
 
-			if ($epigraphArray['lost'] == 'on')
+			$epigraph->setLost('N');
+			if (isSet($epigraphArray['lost']))
 				$epigraph->setLost('S');
-			else
-				$epigraph->setLost('N');
+				
 
 			if (isset($epigraphArray['subNumeration'])) {
 				$epigraph->setSubNumeration($epigraphArray['subNumeration']);
@@ -305,9 +305,9 @@ class EpigraphController extends Controller {
 			if (isset($epigraphArray['pertinence'])) {
 				$arrayPert = $epigraphArray['pertinence'];
 
-				$inSitu = false;
-				if ($arrayPert['inSitu'] == 'on')
-					$inSitu = true;
+				$inSitu = 'f';
+				if (isSet($arrayPert['inSitu']))
+					$inSitu = 't';
 
 				$pertinence = $repoPertinence
 						->findOneByAreaContextPosition(1,
