@@ -52,7 +52,7 @@ function addMarker(pertinenceContext){
 		},
 		map : {
 			options : {
-				zoom : 8
+				zoom : 15
 			}
 		}
 	});
@@ -111,7 +111,7 @@ $('document').ready(function() {
 		map : {
 			options : {
 				center : [ 41.9015141, 12.4607737 ],
-				zoom : 10,
+				zoom : 12,
 				mapTypeControl : true,
 				mapTypeControlOptions : {
 					style : google.maps.MapTypeControlStyle.DROPDOWN_MENU
