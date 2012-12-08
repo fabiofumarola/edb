@@ -7,7 +7,7 @@
 {% block body %}
 
 	<div class="marketing">
-		<h2>Epigraph EDB-{{ e.id }}</h2>
+		<h2>Epigraph EDB{{ e.id }}</h2>
 		<br>
 	</div>
 	<div class="row">
@@ -45,7 +45,7 @@
 						<td></td>
 						<td><strong>Lost:</strong> 
 								<em>
-								{% if e.lost == true %}
+								{% if e.lost == 'S' %}
 									<i class="icon-ok"></i>
 								{% else %}
 									<i class="icon-remove"></i>
