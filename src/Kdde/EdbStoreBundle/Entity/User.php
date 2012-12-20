@@ -55,7 +55,7 @@ class User implements AdvancedUserInterface {
 	protected $password;
 
 	/**
-	 * @ORM\Column(type="string", length="60", unique="true")
+	 * @ORM\Column(type="string", length="100", unique="true")
 	 */
 	protected $email;
 
