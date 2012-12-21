@@ -46,11 +46,13 @@ class EpigraphRepository extends EntityRepository {
 
 		}
 		
-		$strQueryWhere = substr($strQueryWhere, 4, strlen($strQueryWhere));
+// 		$strQueryWhere = substr($strQueryWhere, 4, strlen($strQueryWhere));
 
-		$strQuery = $strQuerySelect . "WHERE " . $strQueryWhere;
-
+		$strQuery = $strQuerySelect . "WHERE ep.isActive = :epi_active " . $strQueryWhere;
+		
 		$query = $this->getEntityManager()->createQuery($strQuery);
+		
+		$query->setParameter('epi_active', true);
 		
 		if ($id != null) {
 			$query->setParameter('id', $id);
@@ -123,11 +125,13 @@ class EpigraphRepository extends EntityRepository {
 		
 		}
 		
-		$strQueryWhere = substr($strQueryWhere, 4, strlen($strQueryWhere));
+// 		$strQueryWhere = substr($strQueryWhere, 4, strlen($strQueryWhere));
 		
-		$strQuery = $strQuerySelect . "WHERE " . $strQueryWhere;
+		$strQuery = $strQuerySelect . "WHERE ep.isActive = :epi_active " . $strQueryWhere;
 		
 		$query = $this->getEntityManager()->createQuery($strQuery);
+		
+		$query->setParameter('epi_active', true);
 		
 		if ($id != null) {
 			$query->setParameter('id', $id);

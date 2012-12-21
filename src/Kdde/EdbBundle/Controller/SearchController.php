@@ -119,7 +119,7 @@ class SearchController extends Controller {
 		//$query = $em->createQuery('SELECT ep FROM KddeEdbStoreBundle:Epigraph ep');
 		
 		$paginator = $this->get('knp_paginator');
-		$pagination = $paginator->paginate($query,$request->get('page',1),10);
+		$pagination = $paginator->paginate($query,$request->get('page',1),20);
 		
 		//$pagination = $query->getResult();
 		

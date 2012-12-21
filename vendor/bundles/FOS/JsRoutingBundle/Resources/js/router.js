@@ -57,7 +57,7 @@ fos.Router.prototype.getBaseUrl = function() {
  * @param {string} prefix
  */
 fos.Router.prototype.setPrefix = function(prefix) {
-  this.context_.prefix = prefix;
+    this.context_.prefix = prefix;
 };
 
 /**
@@ -90,8 +90,38 @@ fos.Router.prototype.getHost = function() {
 
 
 /**
- * Returns a raw route object
- * 
+ * Builds query string params added to a URL.
+ * Port of jQuery's $.param() function, so credit is due there.
+ *
+ * @param {string} prefix
+ * @param {Array|Object|string} params
+ * @param {Function} add
+ */
+fos.Router.prototype.buildQueryParams = function(prefix, params, add) {
+    var self = this;
+    var name;
+    var rbracket = new RegExp('/\[\]$/');
+
+    if (params instanceof Array) {
+        goog.array.forEach(params, function(val, i) {
+            if (rbracket.test(prefix)) {
+                add(prefix, val);
+            } else {
+                self.buildQueryParams(prefix + '[' + (typeof val === 'object' ? i : '') + ']', val, add);
+            }
+        });
+    } else if (typeof params === 'object') {
+        for (name in params) {
+            this.buildQueryParams(prefix + '[' + name + ']', params[name], add);
+        }
+    } else {
+        add(prefix, params);
+    }
+};
+
+/**
+ * Returns a raw route object.
+ *
  * @param {string} name
  * @return {fos.Router.Route}
  */
@@ -100,10 +130,10 @@ fos.Router.prototype.getRoute = function(name) {
     if (!this.routes_.containsKey(prefixedName)) {
         // Check first for default route before failing
         if (!this.routes_.containsKey(name)) {
-          throw new Error('The route "' + name + '" does not exist.');
+            throw new Error('The route "' + name + '" does not exist.');
         }
     } else {
-      name = prefixedName;
+        name = prefixedName;
     }
 
     return (this.routes_.get(name));
@@ -133,30 +163,33 @@ fos.Router.prototype.generate = function(name, opt_params, absolute) {
         }
 
         if ('variable' === token[0]) {
-            if (false === optional || !goog.object.containsKey(route.defaults, token[3])
-                    || (goog.object.containsKey(params, token[3]) && params[token[3]] != route.defaults[token[3]])) {
-                var value;
-                if (goog.object.containsKey(params, token[3])) {
-                    value = params[token[3]];
+            var hasDefault = goog.object.containsKey(route.defaults, token[3]);
+            if (false === optional || !hasDefault
+                || (goog.object.containsKey(params, token[3]) && params[token[3]] != route.defaults[token[3]])) {
+                    var value;
+                    if (goog.object.containsKey(params, token[3])) {
+                        value = params[token[3]];
+                        goog.object.remove(unusedParams, token[3]);
+                    } else if (hasDefault) {
+                        value = route.defaults[token[3]];
+                    } else if (optional) {
+                        return;
+                    } else {
+                        throw new Error('The route "' + name + '" requires the parameter "' + token[3] + '".');
+                    }
+
+                    var empty = true === value || false === value || '' === value;
+
+                    if (!empty || !optional) {
+                        url = token[1] + encodeURIComponent(value).replace(/%2F/g, '/') + url;
+                    }
+
+                    optional = false;
+                } else if (hasDefault) {
                     goog.object.remove(unusedParams, token[3]);
-                } else if (goog.object.containsKey(route.defaults, token[3])) {
-                    value = route.defaults[token[3]];
-                } else if (optional) {
-                    return;
-                } else {
-                    throw new Error('The route "' + name + '" requires the parameter "' + token[3] + '".');
                 }
 
-                var empty = true === value || false === value || '' === value;
-
-                if (!empty || !optional) {
-                    url = token[1] + encodeURIComponent(value).replace(/%2F/g, '/') + url;
-                }
-
-                optional = false;
-            }
-
-            return;
+                return;
         }
 
         throw new Error('The token type "' + token[0] + '" is not supported.');
@@ -167,18 +200,33 @@ fos.Router.prototype.generate = function(name, opt_params, absolute) {
     }
 
     url = this.context_.base_url + url;
-    if(goog.object.containsKey(route.requirements, "_scheme")){
-    	if(this.getScheme() != route.requirements["_scheme"]){
-    		url = route.requirements["_scheme"] + "://" + this.getHost() + url;
-    	}
-    }else if(absolute === true){
-		url = this.getScheme() + "://" + this.getHost() + url;
-	}
-    
-    if (goog.object.getCount(unusedParams) > 0) {
-        url = goog.uri.utils.appendParamsFromMap(url, unusedParams);
+    if (goog.object.containsKey(route.requirements, "_scheme")) {
+        if (this.getScheme() != route.requirements["_scheme"]) {
+            url = route.requirements["_scheme"] + "://" + this.getHost() + url;
+        }
+    } else if (absolute === true) {
+        url = this.getScheme() + "://" + this.getHost() + url;
     }
-    
+
+    if (goog.object.getCount(unusedParams) > 0) {
+        var prefix;
+        var queryParams = [];
+        var add = function(key, value) {
+            // if value is a function then call it and assign it's return value as value
+            value = (typeof value === 'function') ? value() : value;
+
+            // change null to empty string
+            value = (value == null) ? '' : value;
+
+            queryParams.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+        };
+
+        for (prefix in unusedParams) {
+            this.buildQueryParams(prefix, unusedParams[prefix], add);
+        }
+
+        url = url + '?' + queryParams.join('&').replace(/%20/g, '+');
+    }
+
     return url;
 };
-

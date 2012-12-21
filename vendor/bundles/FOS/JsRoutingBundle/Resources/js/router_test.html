@@ -15,7 +15,7 @@
                 literal: {
                     tokens: [['text', '/homepage']],
                     defaults: {},
-                    requirements : {}
+                    requirements: {}
                 }
             });
 
@@ -27,7 +27,7 @@
                 blog_post: {
                     tokens: [['variable', '/', '[^/]+?', 'slug'], ['text', '/blog-post']],
                     defaults: {},
-                    requirements : {}
+                    requirements: {}
                 }
             });
 
@@ -39,13 +39,13 @@
                 homepage: {
                     tokens: [['text', '/bar']],
                     defaults: {},
-                    requirements : {}
+                    requirements: {}
                 }
             });
 
             assertEquals('/foo/bar', router.generate('homepage'));
         }
-        
+
         function testGenerateUsesSchemeRequirements() {
             var router = new fos.Router({base_url: '/foo', host: "localhost"}, {
                 homepage: {
@@ -57,13 +57,13 @@
 
             assertEquals('https://localhost/foo/bar', router.generate('homepage'));
         }
-        
+
         function testGenerateUsesAbsoluteUrl() {
             var router = new fos.Router({base_url: '/foo', host: "localhost", scheme: "http"}, {
                 homepage: {
                     tokens: [['text', '/bar']],
                     defaults: {},
-                    requirements : {}
+                    requirements: {}
                 }
             });
 
@@ -75,19 +75,32 @@
                 posts: {
                     tokens: [['variable', '.', '', '_format'], ['text', '/posts']],
                     defaults: {},
-                    requirements : {}
+                    requirements: {}
                 }
             });
 
             assertEquals('/posts', router.generate('posts'));
             assertEquals('/posts.json', router.generate('posts', {'_format': 'json'}));
         }
+
+        function testGenerateQueryStringWithoutDefaults() {
+            var router = new fos.Router({base_url: ''}, {
+                posts: {
+                    tokens: [['variable', '/', '[1-9]+[0-9]*', 'page'], ['text', '/blog-posts']],
+                    defaults: {'page' : 1},
+                    requirements: {}
+                }
+            });
+
+            assertEquals('/blog-posts?extra=1', router.generate('posts', {page: 1, extra: 1}));
+        }
+
         function testAllowSlashes() {
             var router = new fos.Router({base_url: ''}, {
                 posts: {
                     tokens: [['variable', '/', '.+', 'id'], ['text', '/blog-post']],
                     defaults: {},
-                    requirements : {}
+                    requirements: {}
                 }
             });
             assertEquals('/blog-post/foo/bar', router.generate('posts', {id: 'foo/bar'}));
@@ -99,7 +112,7 @@
                 foo: {
                     tokens: [['variable', '/', '', 'bar']],
                     defaults: {},
-                    requirements : {}
+                    requirements: {}
                 }
             });
 
@@ -109,12 +122,32 @@
             }));
         }
 
+        function testGenerateWithExtraParamsDeep() {
+            var router = new fos.Router(undefined, {
+                foo: {
+                    tokens: [['variable', '/', '', 'bar']],
+                    defaults: {},
+                    requirements: {}
+                }
+            });
+
+            assertEquals('/baz?foo%5B%5D=1&foo%5B1%5D%5B%5D=1&foo%5B1%5D%5B%5D=2&foo%5B1%5D%5B%5D=3&foo%5B1%5D%5B%5D=foo&foo%5B%5D=3&foo%5B%5D=4&foo%5B%5D=bar&foo%5B5%5D%5B%5D=1&foo%5B5%5D%5B%5D=2&foo%5B5%5D%5B%5D=3&foo%5B5%5D%5B%5D=baz&baz%5Bfoo%5D=bar+foo&baz%5Bbar%5D=baz&bob=cat', router.generate('foo', {
+                bar: 'baz', // valid param, not included in the query string
+                foo: [1, [1, 2, 3, 'foo'], 3, 4, 'bar', [1, 2, 3, 'baz']],
+                baz: {
+                    foo : 'bar foo',
+                    bar : 'baz'
+                },
+                bob: 'cat'
+            }));
+        }
+
         function testGenerateThrowsErrorWhenRequiredParameterWasNotGiven() {
             var router = new fos.Router({base_url: ''}, {
                 foo: {
                     tokens: [['text', '/moo'], ['variable', '/', '', 'bar']],
                     defaults: {},
-                    requirements : {}
+                    requirements: {}
                 }
             });
 
@@ -140,7 +173,7 @@
                 homepage: {
                     tokens: [['text', '/bar']],
                     defaults: {},
-                    requirements : {}
+                    requirements: {}
                 }
             });
 
@@ -152,17 +185,17 @@
                 en__RG__homepage: {
                     tokens: [['text', '/bar']],
                     defaults: {},
-                    requirements : {}
+                    requirements: {}
                 },
                 es__RG__homepage: {
                     tokens: [['text', '/es/bar']],
                     defaults: {},
-                    requirements : {}
+                    requirements: {}
                 },
                 _admin: {
                     tokens: [['text', '/admin']],
                     defaults: {},
-                    requirements : {}
+                    requirements: {}
                 }
             });
 
@@ -178,17 +211,17 @@
                 blog_post: {
                     tokens: [['variable', '/', '[^/]+?', 'slug'], ['text', '/blog-post']],
                     defaults: {},
-                    requirements : {"_scheme": "http"}
+                    requirements: {"_scheme": "http"}
                 }
             });
 
             var expected = {
-                'defaults' : {},
+                'defaults': {},
                 'tokens' : [
                     ['variable', '/', '[^/]+?', 'slug'],
                     ['text', '/blog-post'],
                 ],
-                'requirements' : {"_scheme": "http"}
+                'requirements': {"_scheme": "http"}
             };
 
             assertObjectEquals(expected, router.getRoute('blog_post'));

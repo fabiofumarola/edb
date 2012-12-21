@@ -103,15 +103,15 @@ class EpigraphController extends Controller {
 				->getRepository('KddeEdbStoreBundle:Epigraph');
 		$em = $this->getDoctrine()->getEntityManager();
 		$epigraph = $repository->find($id);
-
-		if ($epigraph == null) {
+	
+		if ($epigraph == null || $epigraph->getIsActive() == false) {
 			$this->get('session')
 					->setFlash('error',
 							'The epigraph with id ' . $id
-									. " it is not in the database!");
+									. " is not in the database or it is still not approved!");
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
-
+		
 		return $this
 				->render('KddeEdbBundle:Epigraph:show.html.twig',
 						array('e' => $epigraph));
