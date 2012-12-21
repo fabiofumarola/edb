@@ -114,20 +114,16 @@ class SearchController extends Controller {
 		
 		//do the query
 		$query = $repoEpigraph->findBasicSearch($id, $icvrId, $principalProgNumber,$areaId, $contextId, $transcription, $useThesaurus, $type);
-		$count = $repoEpigraph->countBasicSearch($id, $icvrId, $principalProgNumber,$areaId, $contextId, $transcription, $useThesaurus, $type);
-
-		//$query = $em->createQuery('SELECT ep FROM KddeEdbStoreBundle:Epigraph ep');
-		
+// 		$count = $repoEpigraph->countBasicSearch($id, $icvrId, $principalProgNumber,$areaId, $contextId, $transcription, $useThesaurus, $type);
+	
 		$paginator = $this->get('knp_paginator');
-		$pagination = $paginator->paginate($query,$request->get('page',1),20);
-		
+		$pagination = $paginator->paginate($query,$request->get('page',1),10);
+				
 		//$pagination = $query->getResult();
 		
 		$this->get('session')->setFlash('search', $searchArray);
-		
+		$count = $pagination->getTotalItemCount();
 		return $this->render('KddeEdbBundle:Search:result.html.twig',array('pagination' => $pagination, 'count' =>$count));
-	
-		
 	}
 
 	public function mediumAction(Request $request){
