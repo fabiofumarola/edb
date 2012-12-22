@@ -439,7 +439,7 @@ class appdevUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerato
 
     private function getedb_searchRouteInfo()
     {
-        return array(array (), array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\SearchController::indexAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/search',  ),));
+        return array(array (), array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\SearchController::basicAction',), array (), array (  0 =>   array (    0 => 'text',    1 => '/search/basic',  ),));
     }
 
     private function getedb_search_basicRouteInfo()

@@ -433,8 +433,8 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         }
 
         // edb_search
-        if ($pathinfo === '/search') {
-            return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\SearchController::indexAction',  '_route' => 'edb_search',);
+        if ($pathinfo === '/search/basic') {
+            return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\SearchController::basicAction',  '_route' => 'edb_search',);
         }
 
         // edb_search_basic

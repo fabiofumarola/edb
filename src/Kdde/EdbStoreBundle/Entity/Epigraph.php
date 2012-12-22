@@ -184,7 +184,12 @@ class Epigraph {
 	protected $data;
 	
 	// 	norm_text text,
-	// 	ts_testo tsvector,
+	
+	/**
+	 * @ORM\Column(name="ts_testo")
+	 * @var string
+	 */
+	protected $ts_testo;
 	
 	/**
 	 * @ORM\Column(type="boolean", name="is_active")
@@ -192,12 +197,17 @@ class Epigraph {
 	 */
 	protected $isActive = false;
 	
+	
 	/**
-	 * @var Pertinence
-	 * @ManyToOne(targetEntity="Pertinence",cascade={"persist", "merge","remove"})
-	 * @JoinColumn(name="id_pertinenza", referencedColumnName="id")
-	 */
-	protected $pertinence;
+	 * @ManyToMany(targetEntity="Pertinence", inversedBy="epigraphes", cascade={"persist", "merge","remove"})
+	 * @JoinTable(name="pertinenza_epigrafe",
+	 *      joinColumns={@JoinColumn(name="id_epigrafe", referencedColumnName="id_edb")},
+	 *      inverseJoinColumns={@JoinColumn(name="id_pertinenza", referencedColumnName="id")}
+	 *      )
+	 */      
+	protected $pertinences;
+	
+	
 	
 	
 	/**
@@ -265,6 +275,7 @@ class Epigraph {
 	public function __construct(){
 		$this->literatures = new ArrayCollection();
 		$this->conservations = new ArrayCollection();
+		$this->pertinences = new ArrayCollection();
 		$this->signas = new ArrayCollection();
 		$this->createdAt = new \DateTime("now");
 	}
@@ -840,14 +851,24 @@ class Epigraph {
         return $this->data;
     }
 
+//     /**
+//      * Set pertinence
+//      *
+//      * @param Kdde\EdbStoreBundle\Entity\Pertinence $pertinence
+//      */
+//     public function setPertinence(\Kdde\EdbStoreBundle\Entity\Pertinence $pertinence)
+//     {
+//         $this->pertinence = $pertinence;
+//     }
+    
     /**
      * Set pertinence
      *
      * @param Kdde\EdbStoreBundle\Entity\Pertinence $pertinence
      */
-    public function setPertinence(\Kdde\EdbStoreBundle\Entity\Pertinence $pertinence)
+    public function addPertinence(\Kdde\EdbStoreBundle\Entity\Pertinence $pertinence)
     {
-        $this->pertinence = $pertinence;
+    	$this->pertinences[] = $pertinence;
     }
 
     /**
@@ -857,7 +878,7 @@ class Epigraph {
      */
     public function getPertinence()
     {
-        return $this->pertinence;
+        return $this->pertinences;
     }
 
     /**
@@ -938,5 +959,25 @@ class Epigraph {
     public function getGeoPosition()
     {
         return $this->geoPosition;
+    }
+    
+    /**
+     * Set TSVector rapresentation of the epigraph
+     *
+     * @param string $dataScheda
+     */
+    public function setTs_testo($ts_testo)
+    {
+    	$this->ts_testo = $ts_testo;
+    }
+    
+    /**
+     * Get TSVector rapresentation of the epigraph
+     *
+     * @return string
+     */
+    public function getTs_testo()
+    {
+    	return $this->ts_testo;
     }
 }

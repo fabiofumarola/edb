@@ -95,9 +95,10 @@ class EpigraphController extends Controller {
 
 		return $this
 				->render('KddeEdbBundle:Epigraph:show.html.twig',
-						array('epigraph' => $epigraph));
+						array('e' => $epigraph));
 	}
 
+	
 	public function showAction($id) {
 		$repository = $this->getDoctrine()
 				->getRepository('KddeEdbStoreBundle:Epigraph');
@@ -116,7 +117,9 @@ class EpigraphController extends Controller {
 				->render('KddeEdbBundle:Epigraph:show.html.twig',
 						array('e' => $epigraph));
 	}
-
+	
+	
+	
 	public function newAction(Request $request) {
 
 		//select all the icvr
@@ -301,40 +304,75 @@ class EpigraphController extends Controller {
 					$arrayLiteratures->add($epigraphLiterature);
 				}
 			}
-
 			if (isset($epigraphArray['pertinence'])) {
 				$arrayPert = $epigraphArray['pertinence'];
-
-				$inSitu = 'f';
-				if (isSet($arrayPert['inSitu']))
-					$inSitu = 't';
-
-				$pertinence = $repoPertinence
-						->findOneByAreaContextPosition(1,
-								$arrayPert['pertinenceArea'],
-								$arrayPert['context'],
-								$arrayPert['pertinencePosition'], $inSitu);
-
-				if ($pertinence == null) {
-					$pertinence = new Pertinence();
-					$locus = $repoLocus->find(1);
-					$pertinenceArea = $repoPertinenceArea
-							->find($arrayPert['pertinenceArea']);
-					$pertinenceContext = $repoPertinenceContext
-							->find($arrayPert['context']);
-					$pertinencePosition = $repoPertinencePosition
-							->find($arrayPert['pertinencePosition']);
-					$pertinence->setLocus($locus);
-					$pertinence->setPertinenceArea($pertinenceArea);
-					$pertinence->setContext($pertinenceContext);
-					$pertinence->setPertinencePosition($pertinencePosition);
-					$pertinence->setInSitu($inSitu);
-					$epigraph->setPertinence($pertinence);
-				} else {
-					$epigraph->setPertinence($pertinence[0]);
+				if (isset($epigraphArray['originalIds'])) {
+					$originalIds = $epigraphArray['originalIds'];
+					foreach ($originalIds as $ids) {
+						$split = explode("-", $ids);
+						
+						$inSitu = 'f';
+						if (isSet($arrayPert['inSitu']))
+								$inSitu = 't';
+						
+						$c = $repoPertinence->findOneByAreaContextPosition(1,
+							$split[0],$split[1],$split[2], $inSitu);
+									
+						if ($c == null) {
+							$c = new Pertinence();
+							$locus = $repoLocus->find(1);
+							$pertinenceArea = $repoPertinenceArea
+									->find($split[0]);
+							$pertinenceContext = $repoPertinenceContext
+									->find($split[1]);
+							$pertinencePosition = $repoPertinencePosition
+									->find($split[2]);
+							$pertinence->setLocus($locus);
+							$pertinence->setPertinenceArea($pertinenceArea);
+							$pertinence->setContext($pertinenceContext);
+							$pertinence->setPertinencePosition($pertinencePosition);
+							$pertinence->setInSitu($inSitu);
+							$epigraph->addPertinence($pertinence);
+						} else {
+							$epigraph->addPertinence($c[0]);
+						}
+					}
 				}
-
 			}
+			
+// 			if (isset($epigraphArray['pertinence'])) {
+// 				$arrayPert = $epigraphArray['pertinence'];
+
+// 				$inSitu = 'f';
+// 				if (isSet($arrayPert['inSitu']))
+// 					$inSitu = 't';
+
+// 				$pertinence = $repoPertinence
+// 						->findOneByAreaContextPosition(1,
+// 								$arrayPert['pertinenceArea'],
+// 								$arrayPert['context'],
+// 								$arrayPert['pertinencePosition'], $inSitu);
+
+// 				if ($pertinence == null) {
+// 					$pertinence = new Pertinence();
+// 					$locus = $repoLocus->find(1);
+// 					$pertinenceArea = $repoPertinenceArea
+// 							->find($arrayPert['pertinenceArea']);
+// 					$pertinenceContext = $repoPertinenceContext
+// 							->find($arrayPert['context']);
+// 					$pertinencePosition = $repoPertinencePosition
+// 							->find($arrayPert['pertinencePosition']);
+// 					$pertinence->setLocus($locus);
+// 					$pertinence->setPertinenceArea($pertinenceArea);
+// 					$pertinence->setContext($pertinenceContext);
+// 					$pertinence->setPertinencePosition($pertinencePosition);
+// 					$pertinence->setInSitu($inSitu);
+// 					$epigraph->addPertinence($pertinence);
+// 				} else {
+// 					$epigraph->addPertinence($pertinence[0]);
+// 				}
+
+// 			}
 
 			if (isset($epigraphArray['geoPosition']))
 				$epigraph->setGeoPosition($epigraphArray['geoPosition']);

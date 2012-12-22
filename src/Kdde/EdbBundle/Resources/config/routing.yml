@@ -87,13 +87,13 @@ edb_epigraph_approve:
     defaults: {_controller: KddeEdbBundle:Epigraph:approve}
     requirements:
         id: \d+
-        
+              
 edb_epigraph_show:
     pattern: /epigraph/{id}
     defaults: {_controller: KddeEdbBundle:Epigraph:show}
     requirements:
         id: \d+
-        
+                
 edb_epigraph_edit:
     pattern: /compiler/epigraph/{id}/edit
     defaults: {_controller: KddeEdbBundle:Epigraph:edit}
@@ -351,8 +351,8 @@ edb_people:
     defaults: {_controller: KddeEdbBundle:People:index}
     
 edb_search:
-    pattern: /search
-    defaults: {_controller: KddeEdbBundle:Search:index}
+    pattern: /search/basic
+    defaults: {_controller: KddeEdbBundle:Search:basic}
     
 edb_search_basic:
     pattern: /search/basic

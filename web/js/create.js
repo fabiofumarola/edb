@@ -1,6 +1,7 @@
 var countConservations = 1;
+var countPertinences = 1;
 var hashConservations = new Array();
-
+var hashPertinences = new Array();
 
 function cleanNewLiteratureValues() {
 	$('#cod_literature').attr('value', null);
@@ -353,6 +354,7 @@ function checkLostAction() {
 		$("#selectConservationLocation").prop('disabled', true);
 		$("#selectConservationContext").prop('disabled', true);
 		$("#selectConservationPosition").prop('disabled', true);
+		
 	} else {
 		$("#selectConservationLocation").val('0');
 		$('#selectConservationContext').html("<option></option>");
@@ -870,12 +872,62 @@ function addConservationToTableAction() {
 	$('#tableConservations > tbody:last').append(row);
 	hashConservations[hiddenValue] = hiddenValue;
 
-	$("#" + delTd).wrapInner("<a href='#'>delete</a>");
+	$("#" + delTd).wrapInner("<a href='#'>Delete</a>");
 	$("#" + delTd + " a").click(function(e) {
 		e.preventDefault();
 		$(this).parent().parent().remove();
 		hashConservations[hiddenValue] = undefined;
 		countConservations--;
+	});
+
+}
+
+
+
+function addOriginalContextToTableAction() {
+	// get the values text
+
+	var locationId = $('#selectPertinenceArea :selected').val();
+	var contextId = $('#selectPertinenceContext :selected').val();
+	var positionId = $('#selectPertinencePosition :selected').val();
+
+	var locationText = $('#selectPertinenceArea :selected').text();
+	var contextText = $('#selectPertinenceContext :selected').text();
+	var positionText = $('#selectPertinencePosition :selected').text();
+
+	// Check if all the fields are selected
+	if (!locationText || !contextText || !positionText) {
+		alert('Please select values for Area, Location and Position. ');
+		return;
+	}
+
+	var hiddenValue = locationId + "-" + contextId + "-" + positionId;
+	var inputHidden = "<input type='hidden' name='epigraph[originalIds][]' value='"
+			+ hiddenValue + "'/>";
+
+	var delTd = "deletePert" + countPertinences;
+	countPertinences++;
+
+	// add values to the table as row
+	var row = "<tr> " + "<td>" + locationText + "</td> " + "<td>" + contextText
+			+ "</td> " + "<td>" + positionText + "</td> " + "<td id='" + delTd
+			+ "'></td> " + inputHidden + "</tr>";
+
+	if (hashPertinences[hiddenValue] != undefined) {
+		alert('Values already added to the table.');
+		countPertinences--;
+		return;
+	}
+
+	$('#tableOriginalContext > tbody:last').append(row);
+	hashPertinences[hiddenValue] = hiddenValue;
+
+	$("#" + delTd).wrapInner("<a href='#'>Delete</a>");
+	$("#" + delTd + " a").click(function(e) {
+		e.preventDefault();
+		$(this).parent().parent().remove();
+		hashPertinences[hiddenValue] = undefined;
+		countPertinences--;
 	});
 
 }
@@ -996,6 +1048,10 @@ $('document').ready(function() {
 
 	$('#addConservationToTable').click(function() {
 		addConservationToTableAction();
+	});
+	
+	$('#addOriginalContextToTable').click(function() {
+		addOriginalContextToTableAction();
 	});
 
 	$('#selectSupport').change(function() {

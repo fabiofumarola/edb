@@ -27,19 +27,23 @@
 						<td></td>
 						<td></td>
 					</tr>
-					<tr>
-						<td><strong>Area:</strong> <em>{{ e.pertinence.pertinenceArea.description }} </em></td>
-						<td><strong>Context:</strong> <em>{{ e.pertinence.context.description }} </em></td>
-						<td><strong>In Situ:</strong> 
-							<em>
-							{% if e.pertinence.inSitu == true %}
-								<i class="icon-ok"></i>
-							{% else %}
-								<i class="icon-remove"></i>
-							{% endif %}
-							</em> 
-						</td>
-					</tr>
+					
+
+					{% for c in e.pertinence %}
+						<tr>
+							<td><strong>Area:</strong> <em>{{ c.pertinenceArea.description }} </em></td>
+							<td><strong>Context:</strong> <em>{{ c.context.description }} </em></td>
+							<td><strong>In Situ:</strong> 
+								<em>
+								{% if c.inSitu == true %}
+									<i class="icon-ok"></i>
+								{% else %}
+									<i class="icon-remove"></i>
+								{% endif %}
+								</em> 
+							</td>
+						</tr>
+					{% endfor %}
 					<tr class="warning">
 						<td><strong>Conservation</strong></td>
 						<td></td>

@@ -19,8 +19,7 @@
 					<th>compilator</th>
 					<th>status</th>
 					<th>approve</th>
-					<th>show</th>
-					<th>edit</th>
+					<th>show/edit</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -39,8 +38,7 @@
 						{% endif %}
 						
 						<td><a href="{{ path('edb_epigraph_approve', {'id': e.id}) }}" >approve</a></td>
-						<td><a href="{{ path('edb_epigraph_show', {'id': e.id}) }}" >show</a></td>
-						<td><a href="{{ path('edb_epigraph_edit', {'id': e.id}) }}" >edit</a></td>				
+						<td><a href="{{ path('edb_epigraph_edit', {'id': e.id}) }}" >show/edit</a></td>				
 					</tr>
 				{% endfor %}
 			</tbody>

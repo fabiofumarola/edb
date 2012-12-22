@@ -49,19 +49,21 @@
 						<td></td>
 						<td></td>
 					</tr>
-					<tr>
-						<td><strong>Area:</strong> <em>{{ e.pertinence.pertinenceArea.description }} </em></td>
-						<td><strong>Context:</strong> <em>{{ e.pertinence.context.description }} </em></td>
-						<td><strong>In Situ:</strong> 
-							<em>
-							{% if e.pertinence.inSitu == true %}
-								<i class="icon-ok"></i>
-							{% else %}
-								<i class="icon-remove"></i>
-							{% endif %}
-							</em> 
-						</td>
-					</tr>
+					{% for c in e.pertinence %}
+						<tr>
+							<td><strong>Area:</strong> <em>{{ c.pertinenceArea.description }} </em></td>
+							<td><strong>Context:</strong> <em>{{ c.context.description }} </em></td>
+							<td><strong>In Situ:</strong> 
+								<em>
+								{% if c.inSitu == true %}
+									<i class="icon-ok"></i>
+								{% else %}
+									<i class="icon-remove"></i>
+								{% endif %}
+								</em> 
+							</td>
+						</tr>
+					{% endfor %}
 					<tr >
 						<td class="vertical-middle" ><strong>Geographic position:</strong> <em><span id="fld_geoPosition_{{ e.id }}" >{{ e.geoPosition }}</span></em></td>
 						<td><a name="viewGeoPosition" value="{{ e.id }}" class="btn" title="View geographic position on map" >Show Map</a></td>

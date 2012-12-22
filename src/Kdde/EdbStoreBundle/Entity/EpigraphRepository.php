@@ -2,6 +2,7 @@
 namespace Kdde\EdbStoreBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 class EpigraphRepository extends EntityRepository {
 
@@ -10,7 +11,7 @@ class EpigraphRepository extends EntityRepository {
 
 		$strQuerySelect = "SELECT ep FROM KddeEdbStoreBundle:Epigraph ep ";
 		$strQueryWhere = "";
-		
+				
 		if ($id != null) {
 			$strQueryWhere .= "AND ep.id = :id ";
 		}
@@ -35,21 +36,31 @@ class EpigraphRepository extends EntityRepository {
 		}
 
 		if ($transcription != null) {
-			$strQueryWhere .= "AND ep.trascription LIKE :transcription ";
+			if ($useThesaurus == true) {
+				$words = str_replace(" ", " & ", $transcription);
+				$strQueryWords = "to_tsquery(:queryWords) @@ ep.ts_testo ";
+				$strQueryWhere .= "AND ". $strQueryWords;
+			}
+			else{
+				$strQueryWhere .= "AND ep.trascription LIKE :transcription ";
+			}
 		}
-		
+				
 		if ($type != -1)
 			$strQueryWhere .= "AND ep.epigraph_type = :epi_type ";
 				
+		
 
-		if ($useThesaurus = true) {
 
-		}
 		
 // 		$strQueryWhere = substr($strQueryWhere, 4, strlen($strQueryWhere));
 
 		$strQuery = $strQuerySelect . "WHERE ep.isActive = :epi_active " . $strQueryWhere;
 		
+		if ($transcription != null && $useThesaurus == true) 
+			$strQuery.= "order by ts_rank(ep.ts_testo, ".$strQueryWords.") desc";
+		
+// 		$query = $this->getEntityManager()->createNativeQuery($strQuery, new ResultSetMapping());
 		$query = $this->getEntityManager()->createQuery($strQuery);
 		
 		$query->setParameter('epi_active', true);
@@ -78,8 +89,14 @@ class EpigraphRepository extends EntityRepository {
 		}
 
 		if ($transcription != null) {
-			$transcription = '%'.$transcription . '%';
-			$query->setParameter('transcription', $transcription);
+			if ($useThesaurus == false) {
+				$transcription = '%'.$transcription . '%';
+				$query->setParameter('transcription', $transcription);
+			}
+			else
+			{
+				$query->setParameter('queryWords', $words);
+			}
 		}
 		
 		return $query;
