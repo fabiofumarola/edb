@@ -851,7 +851,7 @@ function addConservationToTableAction() {
 		return;
 	}
 
-	var hiddenValue = locationId + "-" + contextId + "-" + positionId;
+	var hiddenValue = locationId + "@-@" + contextId + "@-@" + positionId;
 	var inputHidden = "<input type='hidden' name='epigraph[conservationsIds][]' value='"
 			+ hiddenValue + "'/>";
 
@@ -894,14 +894,18 @@ function addOriginalContextToTableAction() {
 	var locationText = $('#selectPertinenceArea :selected').text();
 	var contextText = $('#selectPertinenceContext :selected').text();
 	var positionText = $('#selectPertinencePosition :selected').text();
-
+	
+	var inSituVal = $('#insitu').attr('checked') == 'checked' ? true : false;
+	
 	// Check if all the fields are selected
 	if (!locationText || !contextText || !positionText) {
 		alert('Please select values for Area, Location and Position. ');
 		return;
 	}
 
-	var hiddenValue = locationId + "-" + contextId + "-" + positionId;
+	var valueToCheck = locationId + "@-@" + contextId + "@-@" + positionId;
+	var hiddenValue = valueToCheck + "@-@" + inSituVal;
+	
 	var inputHidden = "<input type='hidden' name='epigraph[originalIds][]' value='"
 			+ hiddenValue + "'/>";
 
@@ -910,10 +914,15 @@ function addOriginalContextToTableAction() {
 
 	// add values to the table as row
 	var row = "<tr> " + "<td>" + locationText + "</td> " + "<td>" + contextText
-			+ "</td> " + "<td>" + positionText + "</td> " + "<td id='" + delTd
-			+ "'></td> " + inputHidden + "</tr>";
+			+ "</td> " + "<td>" + positionText + "</td> <td>";
 
-	if (hashPertinences[hiddenValue] != undefined) {
+	if(inSituVal == true)
+		row = row + "<i class=\"icon-ok\"></i></td>";
+	else
+		row = row + "<i class=\"icon-remove\"></i>";
+	row = row + "</td> <td id='" + delTd + "'></td> " + inputHidden + "</tr>";
+
+	if (hashPertinences[valueToCheck+"@-@true"] != undefined || hashPertinences[valueToCheck+"@-@false"]) {
 		alert('Values already added to the table.');
 		countPertinences--;
 		return;

@@ -304,41 +304,40 @@ class EpigraphController extends Controller {
 					$arrayLiteratures->add($epigraphLiterature);
 				}
 			}
-			if (isset($epigraphArray['pertinence'])) {
-				$arrayPert = $epigraphArray['pertinence'];
-				if (isset($epigraphArray['originalIds'])) {
-					$originalIds = $epigraphArray['originalIds'];
-					foreach ($originalIds as $ids) {
-						$split = explode("-", $ids);
-						
-						$inSitu = 'f';
-						if (isSet($arrayPert['inSitu']))
-								$inSitu = 't';
-						
-						$c = $repoPertinence->findOneByAreaContextPosition(1,
-							$split[0],$split[1],$split[2], $inSitu);
-									
-						if ($c == null) {
-							$c = new Pertinence();
-							$locus = $repoLocus->find(1);
-							$pertinenceArea = $repoPertinenceArea
-									->find($split[0]);
-							$pertinenceContext = $repoPertinenceContext
-									->find($split[1]);
-							$pertinencePosition = $repoPertinencePosition
-									->find($split[2]);
-							$c->setLocus($locus);
-							$c->setPertinenceArea($pertinenceArea);
-							$c->setContext($pertinenceContext);
-							$c->setPertinencePosition($pertinencePosition);
-							$c->setInSitu($inSitu);
-							$epigraph->addPertinence($c);
-						} else {
-							$epigraph->addPertinence($c[0]);
-						}
+
+			if (isset($epigraphArray['originalIds'])) {
+				$originalIds = $epigraphArray['originalIds'];
+				foreach ($originalIds as $ids) {
+					$split = explode("@-@", $ids);
+					
+// 					$inSitu = 'f';
+// 					if (isSet($arrayPert['inSitu']))
+// 							$inSitu = 't';
+					
+					$c = $repoPertinence->findOneByAreaContextPosition(1,
+						$split[0],$split[1],$split[2], $split[3]);
+								
+					if ($c == null) {
+						$c = new Pertinence();
+						$locus = $repoLocus->find(1);
+						$pertinenceArea = $repoPertinenceArea
+								->find($split[0]);
+						$pertinenceContext = $repoPertinenceContext
+								->find($split[1]);
+						$pertinencePosition = $repoPertinencePosition
+								->find($split[2]);
+						$c->setLocus($locus);
+						$c->setPertinenceArea($pertinenceArea);
+						$c->setContext($pertinenceContext);
+						$c->setPertinencePosition($pertinencePosition);
+						$c->setInSitu($split[3]);
+						$epigraph->addPertinence($c);
+					} else {
+						$epigraph->addPertinence($c[0]);
 					}
 				}
 			}
+
 			
 // 			if (isset($epigraphArray['pertinence'])) {
 // 				$arrayPert = $epigraphArray['pertinence'];
@@ -380,7 +379,7 @@ class EpigraphController extends Controller {
 			if (isset($epigraphArray['conservationsIds'])) {
 				$conservationIds = $epigraphArray['conservationsIds'];
 				foreach ($conservationIds as $ids) {
-					$split = explode("-", $ids);
+					$split = explode("@-@", $ids);
 					$c = $repoConservation
 							->findOneByLocationContextPosition($split[0],
 									$split[1], $split[2]);
