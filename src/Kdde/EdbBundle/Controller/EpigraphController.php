@@ -327,12 +327,12 @@ class EpigraphController extends Controller {
 									->find($split[1]);
 							$pertinencePosition = $repoPertinencePosition
 									->find($split[2]);
-							$pertinence->setLocus($locus);
-							$pertinence->setPertinenceArea($pertinenceArea);
-							$pertinence->setContext($pertinenceContext);
-							$pertinence->setPertinencePosition($pertinencePosition);
-							$pertinence->setInSitu($inSitu);
-							$epigraph->addPertinence($pertinence);
+							$c->setLocus($locus);
+							$c->setPertinenceArea($pertinenceArea);
+							$c->setContext($pertinenceContext);
+							$c->setPertinencePosition($pertinencePosition);
+							$c->setInSitu($inSitu);
+							$epigraph->addPertinence($c);
 						} else {
 							$epigraph->addPertinence($c[0]);
 						}
