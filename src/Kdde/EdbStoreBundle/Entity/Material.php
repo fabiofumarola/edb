@@ -39,19 +39,19 @@ class Material {
 	protected $technique;
 	
 	/**
-	 * @ORM\Column(type="string", length="10", name="altezza")
+	 * @ORM\Column(type="string", length=10, name="altezza")
 	 * @var string
 	 */
 	protected $height;
 	
 	/**
-	 * @ORM\Column(type="string", length="10", name="larghezza")
+	 * @ORM\Column(type="string", length=10, name="larghezza")
 	 * @var string
 	 */
 	protected $width = 'n.d.';
 	
 	/**
-	 * @ORM\Column(type="string", length="10", name="spessore")
+	 * @ORM\Column(type="string", length=10, name="spessore")
 	 * @var string
 	 */
 	protected $tickness = 'n.d.';

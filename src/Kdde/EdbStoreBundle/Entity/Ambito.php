@@ -14,13 +14,13 @@ class Ambito {
 
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="string", length="10", name="cod_ambito")
+	 * @ORM\Column(type="string", length=10, name="cod_ambito")
 	 * @var unknown_type
 	 */
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length="50", name="desc_ambito")
+	 * @ORM\Column(type="string", length=50, name="desc_ambito")
 	 * @var unknown_type
 	 */
 	protected $description;

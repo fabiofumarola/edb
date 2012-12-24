@@ -2,13 +2,12 @@
 
 namespace Kdde\EdbBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use Kdde\EdbStoreBundle\Entity;
 
 class LiteratureType extends AbstractType {
 
-	public function buildForm(FormBuilder $builder, array $options) {
-
+	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder->add('id', 'text');
 		$builder->add('description', 'textarea');
 		$builder->add('note', 'textarea');

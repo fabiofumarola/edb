@@ -25,7 +25,7 @@ class PertinenceContext {
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length="100", name="descrizione")
+	 * @ORM\Column(type="string", length=100, name="descrizione")
 	 * @var string
 	 */
 	protected $description;

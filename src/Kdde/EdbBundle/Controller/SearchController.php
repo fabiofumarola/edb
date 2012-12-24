@@ -13,6 +13,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
+use Doctrine\ORM\Query\ResultSetMapping;
+
 class SearchController extends Controller {
 
 	public function indexAction() {
@@ -119,10 +123,9 @@ class SearchController extends Controller {
 		$paginator = $this->get('knp_paginator');
 		$pagination = $paginator->paginate($query,$request->get('page',1),10);
 				
-		//$pagination = $query->getResult();
-		
-		$this->get('session')->setFlash('search', $searchArray);
 		$count = $pagination->getTotalItemCount();
+
+		$this->get('session')->setFlash('search', $searchArray);
 		return $this->render('KddeEdbBundle:Search:result.html.twig',array('pagination' => $pagination, 'count' =>$count));
 	}
 

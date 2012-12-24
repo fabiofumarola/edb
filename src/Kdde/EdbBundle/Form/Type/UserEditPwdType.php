@@ -3,12 +3,12 @@
 namespace Kdde\EdbBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use Kdde\EdbStoreBundle\Entity;
 
 class UserEditPwdType extends AbstractType{
 	
-	public function buildForm(FormBuilder $builder, array $options){
+	public function buildForm(FormBuilderInterface $builder, array $options){
 		
 		$builder->add('username','text');
 		$builder->add('email', 'email');

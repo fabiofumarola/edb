@@ -18,13 +18,13 @@ class Technique {
 
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="string", length="3", name="cod_tecnica")
+	 * @ORM\Column(type="string", length=3, name="cod_tecnica")
 	 * @var string
 	 */
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length="50", name="desc_tecnica")
+	 * @ORM\Column(type="string", length=50, name="desc_tecnica")
 	 * @var unknown_type
 	 */
 	protected $description;

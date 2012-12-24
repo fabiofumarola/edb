@@ -20,13 +20,13 @@ class Data {
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length="50", name="da")
+	 * @ORM\Column(type="string", length=50, name="da")
 	 * @var unknown_type
 	 */
 	protected $from;
 	
 	/**
-	 * @ORM\Column(type="string", length="50", name="a")
+	 * @ORM\Column(type="string", length=50, name="a")
 	 * @var unknown_type
 	 */
 	protected $to;

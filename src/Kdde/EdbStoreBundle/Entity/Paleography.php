@@ -14,13 +14,13 @@ class Paleography {
 
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="string", length="5", name="cod_paleografia")
+	 * @ORM\Column(type="string", length=5, name="cod_paleografia")
 	 * @var string
 	 */
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length="50", name="desc_paleografia")
+	 * @ORM\Column(type="string", length=50, name="desc_paleografia")
 	 * @var string
 	 */
 	protected $description;

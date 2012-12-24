@@ -38,7 +38,7 @@ class EpigraphLiterature {
 	protected $literature;
 	
 	/**
-	 * @ORM\Column(type="string", length="255", name="riferimento")
+	 * @ORM\Column(type="string", length=255, name="riferimento")
 	 * @var unknown_type
 	 */
 	protected $reference;

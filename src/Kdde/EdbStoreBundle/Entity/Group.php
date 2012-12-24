@@ -22,12 +22,12 @@ class Group implements RoleInterface{
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length="30", unique="true")
+	 * @ORM\Column(type="string", length=30, unique=true)
 	 */
 	protected $name;
 	
 	/**
-	 * @ORM\Column(type="string", length="30", unique="true", name="role_name")
+	 * @ORM\Column(type="string", length=30, unique=true, name="role_name")
 	 * @var unknown_type
 	 */
 	protected $roleName;

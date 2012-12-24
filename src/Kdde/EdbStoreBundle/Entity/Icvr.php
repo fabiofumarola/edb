@@ -21,14 +21,14 @@ class Icvr {
 	protected $id;
 
 	/**
-	 * @ORM\Column(type="string", length="4", name="corpus")
+	 * @ORM\Column(type="string", length=4, name="corpus")
 	 * @var unknown_type
 	 */
 	protected $corpus = 'ICVR';
 	
 	
 	/**
-	 * @ORM\Column(type="string", length="5", name="volume")
+	 * @ORM\Column(type="string", length=5, name="volume")
 	 * @var unknown_type
 	 */
 	protected $volume = 'ICVR';

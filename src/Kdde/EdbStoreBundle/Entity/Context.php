@@ -14,13 +14,13 @@ class Context {
 
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="string", length="3", name="cod_contesto")
+	 * @ORM\Column(type="string", length=3, name="cod_contesto")
 	 * @var string
 	 */
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length="100", name="desc_contesto")
+	 * @ORM\Column(type="string", length=100, name="desc_contesto")
 	 * @var unknown_type
 	 */
 	protected $description;

@@ -16,13 +16,13 @@ class Signa {
 
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="string", length="2", name="cod_signa")
+	 * @ORM\Column(type="string", length=2, name="cod_signa")
 	 * @var unknown_type
 	 */
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length="50", name="desc_signa")
+	 * @ORM\Column(type="string", length=50, name="desc_signa")
 	 * @var unknown_type
 	 */
 	protected $description;

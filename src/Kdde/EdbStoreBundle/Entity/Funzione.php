@@ -14,13 +14,13 @@ class Funzione {
 
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="string", length="3", name="cod_funzione")
+	 * @ORM\Column(type="string", length=3, name="cod_funzione")
 	 * @var string
 	 */
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length="100", name="desc_funzione")
+	 * @ORM\Column(type="string", length=100, name="desc_funzione")
 	 * @var string
 	 */
 	protected $description;

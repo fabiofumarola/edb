@@ -23,10 +23,10 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
     public function match($pathinfo)
     {
         $allow = array();
-        $pathinfo = urldecode($pathinfo);
+        $pathinfo = rawurldecode($pathinfo);
 
         // _wdt
-        if (preg_match('#^/_wdt/(?P<token>[^/]+?)$#s', $pathinfo, $matches)) {
+        if (0 === strpos($pathinfo, '/_wdt') && preg_match('#^/_wdt/(?P<token>[^/]+)$#s', $pathinfo, $matches)) {
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\ProfilerController::toolbarAction',)), array('_route' => '_wdt'));
         }
 
@@ -41,24 +41,43 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return array (  '_controller' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\ProfilerController::purgeAction',  '_route' => '_profiler_purge',);
             }
 
+            // _profiler_info
+            if (0 === strpos($pathinfo, '/_profiler/info') && preg_match('#^/_profiler/info/(?P<about>[^/]+)$#s', $pathinfo, $matches)) {
+                return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\ProfilerController::infoAction',)), array('_route' => '_profiler_info'));
+            }
+
             // _profiler_import
             if ($pathinfo === '/_profiler/import') {
                 return array (  '_controller' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\ProfilerController::importAction',  '_route' => '_profiler_import',);
             }
 
             // _profiler_export
-            if (0 === strpos($pathinfo, '/_profiler/export') && preg_match('#^/_profiler/export/(?P<token>[^/\\.]+?)\\.txt$#s', $pathinfo, $matches)) {
+            if (0 === strpos($pathinfo, '/_profiler/export') && preg_match('#^/_profiler/export/(?P<token>[^/\\.]+)\\.txt$#s', $pathinfo, $matches)) {
                 return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\ProfilerController::exportAction',)), array('_route' => '_profiler_export'));
             }
 
+            // _profiler_phpinfo
+            if ($pathinfo === '/_profiler/phpinfo') {
+                return array (  '_controller' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\ProfilerController::phpinfoAction',  '_route' => '_profiler_phpinfo',);
+            }
+
             // _profiler_search_results
-            if (preg_match('#^/_profiler/(?P<token>[^/]+?)/search/results$#s', $pathinfo, $matches)) {
+            if (preg_match('#^/_profiler/(?P<token>[^/]+)/search/results$#s', $pathinfo, $matches)) {
                 return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\ProfilerController::searchResultsAction',)), array('_route' => '_profiler_search_results'));
             }
 
             // _profiler
-            if (preg_match('#^/_profiler/(?P<token>[^/]+?)$#s', $pathinfo, $matches)) {
+            if (preg_match('#^/_profiler/(?P<token>[^/]+)$#s', $pathinfo, $matches)) {
                 return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\ProfilerController::panelAction',)), array('_route' => '_profiler'));
+            }
+
+            // _profiler_redirect
+            if (rtrim($pathinfo, '/') === '/_profiler') {
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', '_profiler_redirect');
+                }
+
+                return array (  '_controller' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\RedirectController::redirectAction',  'route' => '_profiler_search_results',  'token' => 'empty',  'ip' => '',  'url' => '',  'method' => '',  'limit' => '10',  '_route' => '_profiler_redirect',);
             }
 
         }
@@ -69,11 +88,12 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 if (substr($pathinfo, -1) !== '/') {
                     return $this->redirect($pathinfo.'/', '_configurator_home');
                 }
+
                 return array (  '_controller' => 'Sensio\\Bundle\\DistributionBundle\\Controller\\ConfiguratorController::checkAction',  '_route' => '_configurator_home',);
             }
 
             // _configurator_step
-            if (0 === strpos($pathinfo, '/_configurator/step') && preg_match('#^/_configurator/step/(?P<index>[^/]+?)$#s', $pathinfo, $matches)) {
+            if (0 === strpos($pathinfo, '/_configurator/step') && preg_match('#^/_configurator/step/(?P<index>[^/]+)$#s', $pathinfo, $matches)) {
                 return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Sensio\\Bundle\\DistributionBundle\\Controller\\ConfiguratorController::stepAction',)), array('_route' => '_configurator_step'));
             }
 
@@ -94,6 +114,7 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             if (substr($pathinfo, -1) !== '/') {
                 return $this->redirect($pathinfo.'/', 'edb_homepage');
             }
+
             return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\DefaultController::indexAction',  '_route' => 'edb_homepage',);
         }
 
@@ -128,6 +149,7 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 $allow[] = 'POST';
                 goto not_edb_registration_create;
             }
+
             return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\AccountController::createAction',  '_route' => 'edb_registration_create',);
         }
         not_edb_registration_create:
@@ -223,6 +245,7 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 $allow[] = 'POST';
                 goto not_edb_new_pertinence_area;
             }
+
             return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\PertinenceAreaController::newModalAction',  '_route' => 'edb_new_pertinence_area',);
         }
         not_edb_new_pertinence_area:
@@ -233,6 +256,7 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 $allow[] = 'POST';
                 goto not_edb_new_pertinence_context;
             }
+
             return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\PertinenceContextController::newModalAction',  '_route' => 'edb_new_pertinence_context',);
         }
         not_edb_new_pertinence_context:
@@ -253,6 +277,7 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 $allow[] = 'POST';
                 goto not_edb_new_pertinence_position;
             }
+
             return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\PertinencePositionController::newModalAction',  '_route' => 'edb_new_pertinence_position',);
         }
         not_edb_new_pertinence_position:
@@ -273,17 +298,18 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 $allow[] = 'POST';
                 goto not_edb_new_conservation_location;
             }
+
             return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\ConservationLocationController::newModalAction',  '_route' => 'edb_new_conservation_location',);
         }
         not_edb_new_conservation_location:
 
         // edb_conservation_context_list
-        if (0 === strpos($pathinfo, '/conservation/context') && preg_match('#^/conservation/context/(?P<id>[^/\\.]+?)(?:\\.(?P<_format>json))?$#s', $pathinfo, $matches)) {
+        if (0 === strpos($pathinfo, '/conservation/context') && preg_match('#^/conservation/context/(?P<id>[^/\\.]+)(?:\\.(?P<_format>json))?$#s', $pathinfo, $matches)) {
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\ConservationContextController::listAction',  '_format' => 'json',)), array('_route' => 'edb_conservation_context_list'));
         }
 
         // edb_conservation_position_list
-        if (0 === strpos($pathinfo, '/conservation/position') && preg_match('#^/conservation/position/(?P<id>[^/\\.]+?)(?:\\.(?P<_format>json))?$#s', $pathinfo, $matches)) {
+        if (0 === strpos($pathinfo, '/conservation/position') && preg_match('#^/conservation/position/(?P<id>[^/\\.]+)(?:\\.(?P<_format>json))?$#s', $pathinfo, $matches)) {
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\ConservationPositionController::listAction',  '_format' => 'json',)), array('_route' => 'edb_conservation_position_list'));
         }
 
@@ -293,6 +319,7 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 $allow[] = 'POST';
                 goto not_edb_new_conservation_position;
             }
+
             return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\ConservationPositionController::newModalAction',  '_route' => 'edb_new_conservation_position',);
         }
         not_edb_new_conservation_position:
@@ -303,6 +330,7 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 $allow[] = 'POST';
                 goto not_edb_new_paleography;
             }
+
             return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\PaleographyController::newModalAction',  '_route' => 'edb_new_paleography',);
         }
         not_edb_new_paleography:
@@ -323,6 +351,7 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 $allow[] = 'POST';
                 goto not_edb_new_technique;
             }
+
             return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\TechniqueController::newModalAction',  '_route' => 'edb_new_technique',);
         }
         not_edb_new_technique:
@@ -338,6 +367,7 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 $allow[] = 'POST';
                 goto not_edb_new_function;
             }
+
             return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\FunctionController::newModalAction',  '_route' => 'edb_new_function',);
         }
         not_edb_new_function:
@@ -353,6 +383,7 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 $allow[] = 'POST';
                 goto not_edb_new_support;
             }
+
             return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\SupportController::newModalAction',  '_route' => 'edb_new_support',);
         }
         not_edb_new_support:
@@ -368,6 +399,7 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 $allow[] = 'POST';
                 goto not_edb_new_onomastic_area;
             }
+
             return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\OnomasticAreaController::newModalAction',  '_route' => 'edb_new_onomastic_area',);
         }
         not_edb_new_onomastic_area:
@@ -393,6 +425,7 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 $allow[] = 'POST';
                 goto not_edb_new_signa;
             }
+
             return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\SignaController::newModalAction',  '_route' => 'edb_new_signa',);
         }
         not_edb_new_signa:
@@ -403,6 +436,7 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 $allow[] = 'POST';
                 goto not_edb_new_conservation_context;
             }
+
             return array (  '_controller' => 'Kdde\\EdbBundle\\Controller\\ConservationContextController::newModalAction',  '_route' => 'edb_new_conservation_context',);
         }
         not_edb_new_conservation_context:

@@ -16,7 +16,7 @@ class Literature {
 
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="string",length="50", name="cod_literature")
+	 * @ORM\Column(type="string",length=50, name="cod_literature")
 	 */
 	protected $id;
 	

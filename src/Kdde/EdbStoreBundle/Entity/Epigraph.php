@@ -24,7 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Epigraph {
 	
 	/**
-	 * @ORM\Column(type="string", length="3")
+	 * @ORM\Column(type="string", length=3)
 	 * @var unknown_type
 	 */
 	protected $edb = 'EDB';
@@ -44,18 +44,18 @@ class Epigraph {
 	protected $icvr;
 	
 	/**
-	 * @ORM\Column(type="string", length="1",name="perduta")
+	 * @ORM\Column(type="string", length=1,name="perduta")
 	 * @var string
 	 */
 	protected $lost = 'N';
 	
 	/**
-	 * @ORM\Column(type="string", length="5",name="alt_max_lettere")
+	 * @ORM\Column(type="string", length=5,name="alt_max_lettere")
 	 */
 	protected $altMaxLetters = 'n.d.';
 	
 	/**
-	 * @ORM\Column(type="string", length="5",name="alt_min_lettere")
+	 * @ORM\Column(type="string", length=5,name="alt_min_lettere")
 	 */
 	protected $altMinLetters = 'n.d.';
 	
@@ -67,7 +67,7 @@ class Epigraph {
 	protected $paleography;
 	
 	/**
-	 * @ORM\Column(type="string", length="1", name="reimpiego_opistografia")
+	 * @ORM\Column(type="string", length=1, name="reimpiego_opistografia")
 	 * @var unknown_type
 	 */
 	protected $reimpiego_opistografia = 'N';
@@ -79,7 +79,7 @@ class Epigraph {
 	protected $trascription;
 	
 	/**
-	 * @ORM\Column(type="string", length="1", name="testo_divergente")
+	 * @ORM\Column(type="string", length=1, name="testo_divergente")
 	 * @var string
 	 */
 	protected $divergentText = 'N';
@@ -91,19 +91,19 @@ class Epigraph {
 	protected $criticalApparatus;
 	
 	/**
-	 * @ORM\Column(type="string", length="1", name="testo_metrico")
+	 * @ORM\Column(type="string", length=1, name="testo_metrico")
 	 * @var string
 	 */
 	protected $metricText = 'N';
 	
 	/**
-	 * @ORM\Column(type="string", length="1", name="greche")
+	 * @ORM\Column(type="string", length=1, name="greche")
 	 * @var string
 	 */
 	protected $greek = 'N';
 	
 	/**
-	 * @ORM\Column(type="string", length="1", name="compresenza_lg")
+	 * @ORM\Column(type="string", length=1, name="compresenza_lg")
 	 * @var string
 	 */
 	protected $presenceLG = 'N';
@@ -121,7 +121,7 @@ class Epigraph {
 	protected $comment;
 	
 	/**
-	 * @ORM\Column(type="string", length="10", name="data_scheda")
+	 * @ORM\Column(type="string", length=10, name="data_scheda")
 	 * @var string
 	 */
 	protected $dataScheda = 'n.d.';
@@ -136,20 +136,20 @@ class Epigraph {
 // 	"foto_PCAS" character varying(50) NOT NULL DEFAULT 'n.d.'::character varying,
 
 	/**
-	 * @ORM\Column(type="string", length="1", name="ad_annum")
+	 * @ORM\Column(type="string", length=1, name="ad_annum")
 	 * @var string
 	 */
 	protected $adAnnum = 'N';
 	
 	/**
-	 * @ORM\Column(type="string", length="10", name="num_prog_principale")
+	 * @ORM\Column(type="string", length=10, name="num_prog_principale")
 	 * @var string
 	 */
 	protected $principalProgNumber = '0';
 	
 	
 	/**
-	 * @ORM\Column(type="string", length="5", name="sottoenumerazione_epigrafe")
+	 * @ORM\Column(type="string", length=5, name="sottoenumerazione_epigrafe")
 	 * @var string
 	 */
 	protected $subNumeration = '0';
@@ -247,7 +247,7 @@ class Epigraph {
 	
 	
 	/**
-	 * @ORM\Column(type="string", length="100",name="compilatore_scheda")
+	 * @ORM\Column(type="string", length=100,name="compilatore_scheda")
 	 * @var string
 	 */
 	protected $oldCompilator;

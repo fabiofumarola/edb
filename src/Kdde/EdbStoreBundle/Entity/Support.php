@@ -18,13 +18,13 @@ class Support {
 
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="string", length="3", name="cod_supporto")
+	 * @ORM\Column(type="string", length=3, name="cod_supporto")
 	 * @var string
 	 */
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length="50", name="desc_supporto")
+	 * @ORM\Column(type="string", length=50, name="desc_supporto")
 	 * @var unknown_type
 	 */
 	protected $description;

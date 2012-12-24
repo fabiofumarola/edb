@@ -25,32 +25,32 @@ class Location {
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length="50", name="locus_inventionis")
+	 * @ORM\Column(type="string", length=50, name="locus_inventionis")
 	 * @var unknown_type
 	 */
 	protected $locusInventionis = 'Roma';
 	
 	/**
-	 * @ORM\Column(type="string", length="100", name="citta_conservazione")
+	 * @ORM\Column(type="string", length=100, name="citta_conservazione")
 	 * @var unknown_type
 	 */
 	protected $conservationCity = 'n.d.';
 	
 	/**
-	 * @ORM\Column(type="string", length="255", name="struttura_conservazione")
+	 * @ORM\Column(type="string", length=255, name="struttura_conservazione")
 	 * @var unknown_type
 	 */
 	protected $conservationBuilding = 'n.d.';
 	
 	/**
-	 * @ORM\Column(type="string", length="255", name="pos_specifica_conservazione")
+	 * @ORM\Column(type="string", length=255, name="pos_specifica_conservazione")
 	 * @var unknown_type
 	 */
 	protected $conservationSpecificPosition = 'n.d.';
 	
 	
 	/**
-	 * @ORM\Column(type="string", length="50", name="area_di_pertinenza")
+	 * @ORM\Column(type="string", length=50, name="area_di_pertinenza")
 	 * @var unknown_type
 	 */
 	protected $pertinenceArea = 'n.d.';
@@ -63,13 +63,13 @@ class Location {
 	protected $pertinenceContext;
 	
 	/**
-	 * @ORM\Column(type="string", length="255", name="posizione_nel_contesto")
+	 * @ORM\Column(type="string", length=255, name="posizione_nel_contesto")
 	 * @var unknown_type
 	 */
 	protected $contextPosition = 'n.d.';
 	
 	/**
-	 * @ORM\Column(type="string", length="50", name="specifica_pos_contesto")
+	 * @ORM\Column(type="string", length=50, name="specifica_pos_contesto")
 	 * @var unknown_type
 	 */
 	protected $specificContextPosition = 'n.d.';

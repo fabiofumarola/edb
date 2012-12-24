@@ -30,32 +30,32 @@ class User implements AdvancedUserInterface {
 	
 	
 	/**
-	 * @ORM\Column(type="string", length="100")
+	 * @ORM\Column(type="string", length=100)
 	 */
 	protected $lastname;
 	
 	/**
-	 * @ORM\Column(type="string", length="100")
+	 * @ORM\Column(type="string", length=100)
 	 */
 	protected $firstname;
 
 	/**
-	 * @ORM\Column(type="string", length="25", unique="true")
+	 * @ORM\Column(type="string", length=25, unique=true)
 	 */
 	protected $username;
 
 	/**
-	 * @ORM\Column(type="string", length="32")
+	 * @ORM\Column(type="string", length=32)
 	 */
 	protected $salt;
 
 	/**
-	 * @ORM\Column(type="string", length="255")
+	 * @ORM\Column(type="string", length=255)
 	 */
 	protected $password;
 
 	/**
-	 * @ORM\Column(type="string", length="100", unique="true")
+	 * @ORM\Column(type="string", length=100, unique=true)
 	 */
 	protected $email;
 

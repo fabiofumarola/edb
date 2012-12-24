@@ -14,25 +14,25 @@ class Dating {
 
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="string", length="3", name="cod_data")
+	 * @ORM\Column(type="string", length=3, name="cod_data")
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length="50", name="desc_data")
+	 * @ORM\Column(type="string", length=50, name="desc_data")
 	 * @var unknown_type
 	 */
 	protected $description;
 	
 	/**
-	 * @ORM\Column(type="string", length="25", name="da")
+	 * @ORM\Column(type="string", length=25, name="da")
 	 * @var unknown_type
 	 */
 	protected $from;
 	
 	/**
-	 * @ORM\Column(type="string", length="25", name="a")
+	 * @ORM\Column(type="string", length=25, name="a")
 	 * @var unknown_type
 	 */
 	protected $to;

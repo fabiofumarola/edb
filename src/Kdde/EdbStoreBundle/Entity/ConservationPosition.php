@@ -25,7 +25,7 @@ class ConservationPosition {
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length="255", name="descrizione")
+	 * @ORM\Column(type="string", length=255, name="descrizione")
 	 * @var string
 	 */
 	protected $description;

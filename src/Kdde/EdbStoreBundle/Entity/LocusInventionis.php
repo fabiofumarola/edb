@@ -25,7 +25,7 @@ class LocusInventionis {
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length="50", name="descrizione")
+	 * @ORM\Column(type="string", length=50, name="descrizione")
 	 * @var string
 	 */
 	protected $description;
