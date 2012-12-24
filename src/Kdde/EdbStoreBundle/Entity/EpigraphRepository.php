@@ -38,8 +38,7 @@ class EpigraphRepository extends EntityRepository {
 		if ($transcription != null) {
 			if ($useThesaurus == true) {
 				$words = str_replace(" ", " & ", $transcription);
-				$strQueryWords = "to_tsquery(:queryWords) @@ ep.ts_testo ";
-				$strQueryWhere .= "AND ". $strQueryWords;
+				$strQueryWhere .= "AND MATCHTEXT(:queryWords,ep.ts_testo) = 1 ";
 			}
 			else{
 				$strQueryWhere .= "AND ep.trascription LIKE :transcription ";
@@ -57,11 +56,14 @@ class EpigraphRepository extends EntityRepository {
 
 		$strQuery = $strQuerySelect . "WHERE ep.isActive = :epi_active " . $strQueryWhere;
 		
-		if ($transcription != null && $useThesaurus == true) 
-			$strQuery.= "order by ts_rank(ep.ts_testo, ".$strQueryWords.") desc";
+// 		if ($transcription != null && $useThesaurus == true) 
+// 			$strQuery.= "order by ts_rank(ep.ts_testo, ".$strQueryWords.") desc";
 		
 // 		$query = $this->getEntityManager()->createNativeQuery($strQuery, new ResultSetMapping());
 		$query = $this->getEntityManager()->createQuery($strQuery);
+		
+		
+		
 		
 		$query->setParameter('epi_active', true);
 		
