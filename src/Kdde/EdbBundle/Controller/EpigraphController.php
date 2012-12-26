@@ -1,6 +1,8 @@
 <?php
 
 namespace Kdde\EdbBundle\Controller;
+use Kdde\EdbStoreBundle\Entity\EpigraphDating;
+
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Doctrine\Common\Cache\ArrayCache;
@@ -250,7 +252,8 @@ class EpigraphController extends Controller {
 		$em = $this->getDoctrine()->getEntityManager();
 
 		$arrayLiteratures = new ArrayCollection();
-
+		$arrayDatings = new ArrayCollection();
+		
 		try {
 
 			$epigraph = new Epigraph();
@@ -305,15 +308,24 @@ class EpigraphController extends Controller {
 				}
 			}
 
+			// GIANV: Cambia per DATINGS
+			if (isset($epigraphArray['datingIds'])) {
+				$datingIds= $epigraphArray['datingIds'];
+				foreach ($datingIds as $ids) {
+					$split = explode("@-@", $ids);
+						
+					$dating = new EpigraphDating();
+					$dating->setFrom($split[0]);
+					$dating->setTo($split[1]);
+					$arrayDatings->add($dating);
+				}
+			}
+			
 			if (isset($epigraphArray['originalIds'])) {
 				$originalIds = $epigraphArray['originalIds'];
 				foreach ($originalIds as $ids) {
 					$split = explode("@-@", $ids);
-					
-// 					$inSitu = 'f';
-// 					if (isSet($arrayPert['inSitu']))
-// 							$inSitu = 't';
-					
+										
 					$c = $repoPertinence->findOneByAreaContextPosition(1,
 						$split[0],$split[1],$split[2], $split[3]);
 								
@@ -337,42 +349,7 @@ class EpigraphController extends Controller {
 					}
 				}
 			}
-
 			
-// 			if (isset($epigraphArray['pertinence'])) {
-// 				$arrayPert = $epigraphArray['pertinence'];
-
-// 				$inSitu = 'f';
-// 				if (isSet($arrayPert['inSitu']))
-// 					$inSitu = 't';
-
-// 				$pertinence = $repoPertinence
-// 						->findOneByAreaContextPosition(1,
-// 								$arrayPert['pertinenceArea'],
-// 								$arrayPert['context'],
-// 								$arrayPert['pertinencePosition'], $inSitu);
-
-// 				if ($pertinence == null) {
-// 					$pertinence = new Pertinence();
-// 					$locus = $repoLocus->find(1);
-// 					$pertinenceArea = $repoPertinenceArea
-// 							->find($arrayPert['pertinenceArea']);
-// 					$pertinenceContext = $repoPertinenceContext
-// 							->find($arrayPert['context']);
-// 					$pertinencePosition = $repoPertinencePosition
-// 							->find($arrayPert['pertinencePosition']);
-// 					$pertinence->setLocus($locus);
-// 					$pertinence->setPertinenceArea($pertinenceArea);
-// 					$pertinence->setContext($pertinenceContext);
-// 					$pertinence->setPertinencePosition($pertinencePosition);
-// 					$pertinence->setInSitu($inSitu);
-// 					$epigraph->addPertinence($pertinence);
-// 				} else {
-// 					$epigraph->addPertinence($pertinence[0]);
-// 				}
-
-// 			}
-
 			if (isset($epigraphArray['geoPosition']))
 				$epigraph->setGeoPosition($epigraphArray['geoPosition']);
 
@@ -480,12 +457,12 @@ class EpigraphController extends Controller {
 			} else
 				$epigraph->setPresenceLG('N');
 
-			if (isset($epigraphArray['dating'])) {
-				$dating = $repoDating->find($epigraphArray['dating']);
-				$date = new Data();
-				$date->setFrom($dating->getFrom());
-				$date->setTo($dating->getTo());
-			}
+// 			if (isset($epigraphArray['dating'])) {
+// 				$dating = $repoDating->find($epigraphArray['dating']);
+// 				$date = new Data();
+// 				$date->setFrom($dating->getFrom());
+// 				$date->setTo($dating->getTo());
+// 			}
 
 			if (isset($epigraphArray['criticalApparatus'])) {
 				$epigraph
@@ -525,7 +502,13 @@ class EpigraphController extends Controller {
 				$epLit->setEpigraph($epigraph);
 				$em->persist($epLit);
 			}
+			
+			foreach ($arrayDatings as $epDating) {
+				$epDating->setId($epigraph);
+				$em->persist($epDating);
+			}
 
+					
 			$em->flush();
 
 			return $epigraph;

@@ -175,13 +175,14 @@ class Epigraph {
 	 *
 	 */
 	protected $literatures;
-	
-	
+		
 	/**
- 	 * @ManyToOne(targetEntity="Data")
- 	 * @JoinColumn(name="id_data", referencedColumnName="id_data")
+	 *
+	 * @var ArrayCollection
+	 * @OneToMany(targetEntity="EpigraphDating", mappedBy="id", cascade={"persist", "merge","remove"})
 	 */
-	protected $data;
+	protected $datings;
+	
 	
 	// 	norm_text text,
 	
@@ -276,6 +277,7 @@ class Epigraph {
 		$this->literatures = new ArrayCollection();
 		$this->conservations = new ArrayCollection();
 		$this->pertinences = new ArrayCollection();
+		$this->datings = new ArrayCollection();
 		$this->signas = new ArrayCollection();
 		$this->createdAt = new \DateTime("now");
 	}
@@ -834,21 +836,21 @@ class Epigraph {
     /**
      * Set data
      *
-     * @param Kdde\EdbStoreBundle\Entity\Data $data
+     * @param Kdde\EdbStoreBundle\Entity\Dating $dating
      */
-    public function setData(\Kdde\EdbStoreBundle\Entity\Data $data)
+    public function addDating(\Kdde\EdbStoreBundle\Entity\EpigraphDating $dating)
     {
-        $this->data = $data;
+        $this->datings[] = $dating;
     }
 
     /**
      * Get data
      *
-     * @return Kdde\EdbStoreBundle\Entity\Data 
+     * @return Kdde\EdbStoreBundle\Entity\EpigraphDating
      */
-    public function getData()
+    public function getDatings()
     {
-        return $this->data;
+        return $this->datings;
     }
 
 //     /**

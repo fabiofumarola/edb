@@ -77,15 +77,6 @@
 						<h4>Original context</h4>
 					</div>
 				</div>
-{# 				<div class="row">#}
-{# 					<div class="span2">#}
-{# 						<label>Locus Inventionis</label> <input type="text" class="span2"#}
-{# 							value="Roma" disabled="disabled" name="epigraph[pertinence][locus]"> #}
-{#  							<input id="locus" type="hidden" name="epigraph[pertinence[locus]"#}
-{#  							value="Roma">#}
-{# 					</div>#}
-{# 				</div>#}
-{# 				<br />#}
 				<div class="row">
 					<div class="span2">
 						<label>Area</label> <select id="selectPertinenceArea"
@@ -439,32 +430,59 @@
 
 				<div class="row">
 
-					<div class="span2">
+					<div class="span3">
 						<label>Dating Span</label> <select id="selectDating"
 							class="span3" name="epigraph[dating]">
 							{% for d in datings %}
 								<option value="{{ d.id }}">{{ d.description }}</option>
 							{% endfor %}
-							
 						</select>
-					</div>
-
-					<div class="span2 offset1">
-						<label>Date in the text</label> <input type="checkbox"
-							id="checkPreciseYear" name="epigraph[adAnnum]">
+						{% for d in datings %}
+							<input type="hidden" id = "datingFrom{{d.id}}" name="datingFrom{{d.id}}" value="{{ d.from }}">
+							<input type="hidden" id="datingTo{{d.id}}" name="datingTo{{d.id}}" value="{{ d.to }}">
+						{% endfor %}
+						
 					</div>
 
 					<div class="span2">
-						<label>From</label> <input id="inputAnnumFrom" name="epigraph[from]" type="text"
-							class="span2" disabled="disabled">
-					</div>
-					
-					<div class="span2 offset1">
-						<label>To</label> <input id="inputAnnumTo" name="epigraph[to]" type="text"
-							class="span2" disabled="disabled">
+						<label>Date in the text</label><input type="checkbox"
+							id="checkPreciseYear" name="epigraph[adAnnum]">
 					</div>
 
+					<div class="span1">
+						<label>From</label> <input id="inputAnnumFrom" name="epigraph[from]" type="text"
+							class="span1" value = "n.d." disabled="disabled">
+					</div>
+					
+					<div class="span1">
+						<label>To</label> <input id="inputAnnumTo" name="epigraph[to]" type="text"
+							class="span1" value = "n.d." disabled="disabled">
+					</div>
+					
+					<div class="span1 offset1">
+						<p></p>
+						<button class="btn btn-small btn-warning span1" type="button"
+							id="addDating">Add</button>
+					</div>
 				</div>
+				<br>
+				<div class="row">
+					<div class="span10">
+						<table class="table table-condensed table-bordered"
+							id="tableDating">
+							<thead>
+								<tr>
+									<th class="span4">Dating Span</th>
+									<th class="span3">From</th>
+									<th class="span3">To</th>
+									<th class="span2">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>		
 				<br />
 				<hr>
 

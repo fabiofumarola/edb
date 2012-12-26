@@ -1,7 +1,9 @@
 var countConservations = 1;
 var countPertinences = 1;
+var countDatings = 1;
 var hashConservations = new Array();
 var hashPertinences = new Array();
+var hashDatings = new Array();
 
 function cleanNewLiteratureValues() {
 	$('#cod_literature').attr('value', null);
@@ -329,14 +331,19 @@ function checkPreciseYearAction() {
 
 	if (checked) {
 		$("#selectDating").prop('disabled', true);
+		$("#selectDating").val(0);
 		$("#inputAnnumFrom").prop('disabled', false);
 		$("#inputAnnumTo").prop('disabled', false);
-		$("#selectDating").val('0');
+		$('#inputAnnumFrom').attr('value', null);
+		$('#inputAnnumTo').attr('value', null);
 		$("#inputAnnumFrom").focus();
 	} else {
 		$("#selectDating").prop('disabled', false);
-		$('#inputAnnumFrom').attr('value', null);
-		$('#inputAnnumTo').attr('value', null);
+		var idDating = $("#selectDating :selected").val();
+		var from = $('#datingFrom'+idDating).val();
+		var to = $('#datingTo'+idDating).val();
+		$('#inputAnnumFrom').attr('value', from);
+		$('#inputAnnumTo').attr('value', to);
 		$("#inputAnnumFrom").prop('disabled', true);
 		$("#inputAnnumTo").prop('disabled', true);
 	}
@@ -840,7 +847,7 @@ function addConservationToTableAction() {
 	var locationId = $('#selectConservationLocation :selected').val();
 	var contextId = $('#selectConservationContext :selected').val();
 	var positionId = $('#selectConservationPosition :selected').val();
-
+	
 	var locationText = $('#selectConservationLocation :selected').text();
 	var contextText = $('#selectConservationContext :selected').text();
 	var positionText = $('#selectConservationPosition :selected').text();
@@ -938,9 +945,70 @@ function addOriginalContextToTableAction() {
 		hashPertinences[hiddenValue] = undefined;
 		countPertinences--;
 	});
-
 }
 
+function isInteger(n) {
+	  return !isNaN(parseFloat(n)) && isFinite(n) && n%1 == 0;
+	}
+
+function addDatingToTableAction() {
+	
+	var datingText = $('#selectDating :selected').text();
+	var fromText = $('#inputAnnumFrom').val();
+	var toText = $('#inputAnnumTo').val();
+
+	// Check if all the fields are compiled
+	if (!fromText || !toText) {
+		alert('Please fill the From and To fields.');
+		return;
+	}
+
+	// Check if both the fields are integer 
+	if ((fromText != 'n.d.' || toText != 'n.d.') && (!isInteger(fromText) || !isInteger(toText))) {
+		alert('FROM and TO fields must be numeric (integer).');
+		return;
+	}
+	
+	// Check if from is less than to
+	if (parseInt(fromText) > parseInt(toText)) {
+		alert('The value of TO field must be greater than (or equal to) the value of FROM field.');
+		return;
+	}
+	
+	
+	var preciseYear = $('#checkPreciseYear').attr('checked') == 'checked' ? true : false;	
+	var hiddenValue = fromText + "@-@" + toText;
+		
+	var inputHidden = "<input type='hidden' name='epigraph[datingIds][]' value='" + hiddenValue + "'/>";
+	var delTd = "deleteDating" + countDatings;
+	countDatings++;
+
+	// add values to the table as row
+	var row = "<tr>";
+	if(preciseYear)
+		row = row + "<td></td>";
+	else
+		row = row + "<td>" + datingText + "</td>";
+	
+	row = row + "<td>" + fromText + "</td><td>" + toText+ "</td><td id='" + delTd + "'></td>" + inputHidden + "</tr>";
+
+	if (hashDatings[hiddenValue] != undefined) {
+		alert('Values already added to the table.');
+		countDatings--;
+		return;
+	}
+
+	$('#tableDating > tbody:last').append(row);
+	hashDatings[hiddenValue] = hiddenValue;
+
+	$("#" + delTd).wrapInner("<a href='#'>Delete</a>");
+	$("#" + delTd + " a").click(function(e) {
+		e.preventDefault();
+		$(this).parent().parent().remove();
+		hashDatings[hiddenValue] = undefined;
+		countDatings--;
+	});
+}
 
 
 $('document').ready(function() {
@@ -1131,4 +1199,13 @@ $('document').ready(function() {
 	$('#lost').click(function() {
 		checkLostAction();
 	});
+	
+	$('#selectDating').change(function() {
+		checkPreciseYearAction();
+	});
+	
+	$('#addDating').click(function() {
+		addDatingToTableAction();
+	});
+	
 });

@@ -105,16 +105,26 @@
 						<td><strong>Divergent Text:</strong> <em>{{ e.divergentText }} </em></td>
 						<td><strong>Function:</strong> <em>{{ e.funzione.description }} </em></td>
 					</tr>
-					<tr>
-						<td><strong>Dating:</strong></td>	
-						{% if e.data != null %}
-							<td><strong>from</strong> <em>{{ e.data.from }} </em></td>
-							<td><strong>to</strong> <em>{{ e.data.to }} </em></td>	
-						{% else %}
-							<td><strong>from</strong> <em> n.d. </em></td>
-							<td> <strong>to</strong> <em> n.d. </em></td>
-						{%  endif %}
+					<tr class="warning">
+						<td><strong>Dating</strong></td>
+						<td></td>
+						<td></td>
 					</tr>
+					{% if e.datings|length > 0 %}
+						{% for d in e.datings %}
+						<tr>
+							<td></td>
+							<td><strong>from</strong> <em>{{ d.from }} </em></td>
+							<td><strong>to</strong> <em>{{ d.to }} </em></td>	
+						</tr>
+						{% endfor %}
+					{% else %}
+						<tr>
+							<td></td>
+							<td><strong>from</strong> <em> n.d. </em></td>
+							<td><strong>to</strong> <em> n.d. </em></td>
+						</tr>
+					{%  endif %}
 					<tr>
 						<td><strong>Compilation Date:</strong> <em>{{ e.dataScheda }} </em></td>
 						{% if e.compilator != null %}
