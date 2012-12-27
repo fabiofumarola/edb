@@ -50,7 +50,8 @@ class SearchController extends Controller {
 		$repoSigna = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Signa');
 		$repoEpigraph = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
 		
-		$searchArray = $request->get('search',$this->get('session')->getFlash('search',array()));
+		$searchArray = $request->get('search',$this->get('session')->get('search',array()));
+		
 		$id = null;
 		$icvrId = null;
 		$principalProgNumber = null;
@@ -125,7 +126,7 @@ class SearchController extends Controller {
 				
 		$count = $pagination->getTotalItemCount();
 
-		$this->get('session')->setFlash('search', $searchArray);
+		$this->get('session')->set('search', $searchArray);
 		return $this->render('KddeEdbBundle:Search:result.html.twig',array('pagination' => $pagination, 'count' =>$count));
 	}
 
