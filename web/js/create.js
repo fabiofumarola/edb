@@ -432,18 +432,22 @@ function loadConservationLocation() {
 	$('#selectConservationLocation').html("<option></option>");
 
 	var url = Routing.generate('edb_conservation_location_list');
-
 	$.getJSON(url, function(data) {
 
 		for (i in data) {
-			$('#selectConservationLocation').append(
-					"<option value=\"" + data[i].id + "\">"
-							+ data[i].description + "</option>");
+			if(data[i].id == 20)	
+				$('#selectConservationLocation').append(
+						"<option value=\"" + data[i].id + "\" selected>"
+								+ data[i].description + "</option>");
+			else
+				$('#selectConservationLocation').append(
+						"<option value=\"" + data[i].id + "\">"
+								+ data[i].description + "</option>");
 		}
 		$('#selectConservationLocation').append(
 				"<option value =\"-1\">Add New</option>");
 	});
-
+	
 }
 
 function loadConservationPosition(idContext) {
