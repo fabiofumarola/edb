@@ -1212,4 +1212,6 @@ $('document').ready(function() {
 		addDatingToTableAction();
 	});
 	
+	loadConservationContext(20);
+	
 });
