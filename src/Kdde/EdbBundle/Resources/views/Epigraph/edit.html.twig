@@ -1,0 +1,575 @@
+{% extends '::base.html.twig' %}
+
+{% form_theme form 'KddeEdbBundle:Form:fields.html.twig' %}
+
+{% block title %}
+ EDB new Epigraph
+{% endblock %}
+
+{% block body %}
+
+{% include 'KddeEdbBundle:Literature:modalLiteratures.html.twig' with {'literatures': literatures} %}
+{% include 'KddeEdbBundle:Literature:modalNewLiterature.html.twig' %}
+{% include 'KddeEdbBundle:GeoPosition:modalNewGeoPosition.html.twig' %}
+{% include 'KddeEdbBundle:PertinenceArea:modalNewPertinenceArea.html.twig' %}
+{% include 'KddeEdbBundle:PertinenceContext:modalNewPertinenceContext.html.twig' %}
+{% include 'KddeEdbBundle:PertinencePosition:modalNewPertinencePosition.html.twig' %}
+{% include 'KddeEdbBundle:ConservationLocation:modalNewConservationLocation.html.twig' %}
+{% include 'KddeEdbBundle:ConservationContext:modalNewConservationContext.html.twig' %}
+{% include 'KddeEdbBundle:ConservationPosition:modalNewConservationPosition.html.twig' %}
+{% include 'KddeEdbBundle:Support:modalNewSupport.html.twig' %}
+{% include 'KddeEdbBundle:Technique:modalNewTechnique.html.twig' %}
+{% include 'KddeEdbBundle:Paleography:modalNewPaleography.html.twig' %}
+{% include 'KddeEdbBundle:Function:modalNewFunction.html.twig' %}
+{% include 'KddeEdbBundle:OnomasticArea:modalNewOnomasticArea.html.twig' %}
+{% include 'KddeEdbBundle:Signa:modaViewSignas.html.twig' %}
+{% include 'KddeEdbBundle:Signa:modalNewSigna.html.twig' %}
+
+	<div class="marketing">
+		<h2>Edit Record EDB{{e.id}}</h2>
+		<br>
+	</div>
+	
+	<div class="row">
+		<div class="offset1">
+			<form class="" action="{{ path('edb_epigraph_new')}}" method="post" {{ form_enctype(form) }}>
+				{{ form_errors(form) }}				
+				
+				<div class="row">
+					<h3>Bibliography</h3>
+				</div>
+				<div class="row">
+					<!--  visualizzare il numero di record in edb dopo il salvataggio -->
+					<div class="span2">
+						<label>ICVR Volume</label>
+						<select class="span2" id="epigraph_icvr" name="epigraph[icvr]" required="required">
+							{% for icvr in icvrs %}
+								<option value="{{ icvr.id }}"
+								{% if icvr.id  == e.icvr.id%} 
+									selected
+								{% endif %}
+								> {{ icvr.volume }}</option>
+							{% endfor %}						
+						</select>
+					</div>
+					
+					<div class="span2">
+						<label>Number</label> <input type="text" 
+							name="epigraph[principalProgNumber]" class="span2" value = {{ e.principalProgNumber }}>
+					</div>
+
+					<div class="span2">
+						<label>Sub Number</label> <input type="text" 
+						name="epigraph[subNumeration]" class="span2" value = {{ e.subNumeration }} >
+					</div>
+
+					<div class="span4" id="div_biblio">
+						<label>Other bibliographic references</label>
+						<textarea name="epigraph[literaturesTextArea]" id="literature" class="span3" rows="4"></textarea>
+						<a id="addLiteratureRef" class="btn">Select from existing</a> 
+						<a id="newLiterature" class="btn">Add New</a>
+					</div>
+				</div>
+				<br />
+				<div class="row">
+					<h3>WHERE</h3>
+				</div>
+				
+				<div class="row">
+					<div class="span2">
+						<h4>Original context</h4>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span2">
+						<label>Area</label> <select id="selectPertinenceArea"
+							class="span2" name="epigraph[pertinence][pertinenceArea]" required="required">
+							<option></option>
+						</select>
+					</div>
+					<div class="span2">
+						<label>Location</label> <select id="selectPertinenceContext"
+							class="span2" name="epigraph[pertinence][context]" required="required">
+							<option></option>
+						</select>
+					</div>
+
+					<div class="span2">
+						<label>Position</label> <select id="selectPertinencePosition"
+							class="span2" name="epigraph[pertinence][pertinencePosition]" required="required">
+							<option></option>
+						</select>
+					</div>
+
+					<div class="span1">
+						<label for="insitu">In Situ</label><input type="checkbox"
+							id="insitu" name="epigraph[pertinence][inSitu]">
+					</div>
+					<div class="span1 offset1">
+						<p></p>
+						<button class="btn btn-small btn-warning span1" type="button"
+							id="addOriginalContextToTable">Add</button>
+					</div>
+				</div>		
+				<br><br>
+				<div class="row">
+					<div class="span10">
+						<table class="table table-condensed table-bordered"
+							id="tableOriginalContext">
+							<thead>
+								<tr>
+									<th class="span3">Area</th>
+									<th class="span4">Location</th>
+									<th class="span3">Position</th>
+									<th class="span2">In Situ</th>
+									<th class="span2">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>		
+				<br>
+				<div class="row">
+					<div class="span2">
+						<h4>Conservation</h4>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="span2">
+						<label>City/Town</label> <select id="selectConservationLocation"
+							class="span2" >
+							<option></option>
+						</select>
+					</div>
+					<div class="span2">
+						<label>Location</label> <select id="selectConservationContext"
+							class="span2">
+							<option></option>
+						</select>
+					</div>
+
+					<div class="span2">
+						<label>Position</label> <select id="selectConservationPosition"
+							class="span2">
+							<option></option>
+						</select>
+					</div>
+
+					<div class="span1">
+						<label for="perduta">Lost</label><input type="checkbox"
+							name="epigraph[lost]" id="lost">
+					</div>
+					<div class="span1 offset1">
+						<p></p>
+						<button class="btn btn-small btn-warning span1" type="button"
+							id="addConservationToTable">Add</button>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="span10">
+						<table class="table table-condensed table-bordered"
+							id="tableConservations">
+							<thead>
+								<tr>
+									<th class="span3">City/Town</th>
+									<th class="span4">Location</th>
+									<th class="span3">Position</th>
+									<th class="span2">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<hr>
+				<br />
+				<div class="row">
+					<h3>WHAT AND HOW</h3>
+				</div>
+				<div class="row">
+					<div class="span2">
+						<h4>Used Material</h4>
+					</div>
+				</div>
+				<div class="row ">
+					<div class="span2">
+						<label>Type of Support</label> <select id="selectSupport" class="span2"
+							name="epigraph[material][support]"> 	
+							{% for supp in supports %}
+								<option value="{{ supp.id }}"
+								{% if supp.id == e.material.support.id%} 
+									selected
+								{% endif %}
+								> {{ supp.description }}</option>
+							{% endfor %}
+								<option value="-1"> Add New </option>
+						</select>
+					</div>
+					
+					<div class="span1 offset1">
+						<label>Height</label> <input type="text" name="epigraph[material][height]"
+							class="span1" value = {{ e.material.height }}>
+					</div>
+
+					<div class="span1">
+						<label>Width</label> <input type="text" name="epigraph[material][width]"
+							class="span1" value = {{ e.material.width }}>
+					</div>
+
+					<div class="span1">
+						<label>Tickness</label> <input type="text" name="epigraph[material][tickness]"
+							class="span1" value = {{ e.material.tickness }}>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span2">
+							<label>Executing Technique</label> <select id="selectTechnique"
+								class="span2" name="epigraph[material][technique]">
+								{% for tech in techniques %}
+									<option value="{{ tech.id }}"
+									{% if tech.id == e.material.technique.id%} 
+										selected
+									{% endif %}
+								> {{ tech.description }}</option>
+								{% endfor %}
+									<option value="-1"> Add New </option>
+							</select>
+						</div>
+					</div>
+				<hr>
+	
+				<div class="row">
+					<div class="span2">
+						<label class="labelCentered">Letters Height</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span1">
+						<label>Minimum</label> <input type="text" name="epigraph[altMinLetters]"
+							class="span1" value = {{ e.altMinLetters }}>
+					</div>
+
+					<div class="span1">
+						<label>Maximum</label> <input type="text" name="epigraph[altMaxLetters]"
+							class="span1" value = {{ e.altMaxLetters }}>
+					</div>
+
+					<div class="span2 offset1">
+						<label>Paleographic Notes</label> <select
+							id="selectPaleography" class="span2" name="epigraph[paleography]">
+							{% for pal in paleographies %}
+								<option value="{{ pal.id }}"
+								{% if pal.id == e.paleography.id%} 
+									selected
+								{% endif %}
+								> {{ pal.description }}</option>
+							{% endfor %}
+								<option value="-1"> Add New </option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="span2">
+							<label>Function</label> <select id="selectFunction" class="span2"
+								name="epigraph[funzione]">								
+								{% for fun in functions %}
+									<option value="{{ fun.id  }}"
+									{% if fun.id  == e.funzione.id%} 
+										selected
+									{% endif %}
+								> {{ fun.description }}</option>
+								{% endfor %}
+									<option value="-1"> Add New </option>
+							</select>
+						</div>
+					</div>
+				<hr>
+				
+				<div class="row">
+					<div class="span2">
+						<h4>Text</h4>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="span6">
+						<button id="greekToogle" type="button" class="btn" data-toggle="button">Click to write in Greek</button>
+					</div>
+					
+					<div class="span2">
+						<label>Onomastic Notes</label> <select id="selectOnomasticArea"
+							class="span2" name="epigraph[ambitoOnomastico]">
+							{% for o in onomasticAreas %}
+								<option value="{{ o.id }}"
+								{% if o.id  == e.ambitoOnomastico.id%} 
+										selected
+								{% endif %}
+								> {{ o.description }}</option>
+								
+							{% endfor %}
+								<option value="-1"> Add New </option>
+						</select>
+					</div>
+				</div>
+				<div class="row">
+
+					<div class="span6">
+						<label>Transcription</label>
+						<textarea class="span6" rows="10" name="epigraph[transcription]" id="transcription" 
+						onselect="storeCaret(this);" onclick="storeCaret(this);" 
+						onchange="if (navigator.userAgent.indexOf(&#39;Opera&#39;) &gt; -1) doit();" required="required"
+						>{{ e.trascription}}</textarea>
+					</div>
+
+
+
+					<div class="span5" id="divSigna">
+						<label>Signa Christi</label> 
+						<select id="selectSigna"
+							multiple="multiple" class="span3" name="epigraph[signas][]">
+						</select>
+						<br>
+						<a id="addSigna" class="btn">Add</a> 
+						<a id="newSigna" class="btn">New</a>
+						<a id="removeSigna" class="btn">Remove Selected</a>
+					</div>
+
+				</div>
+				<div class="row">
+					<div class="span5">
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#803;');">&#046;</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#818;');">&#095;</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#773;');">&#175;</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#770;');">&#094;</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#769;');">&#180;</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#768;');">&#096;</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#12314;');">[[</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#12315;');">]]</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#12296;');">&#060;</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#12297;');">&#062;</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#12298;');">&#171;</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#12299;');">&#187;</button>
+
+						<button type="button" unselectable="on" span class="greco"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#8988;');">&#8988;</button>
+
+						<button type="button" unselectable="on" span class="greco"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#8989;');">&#8989;</button>
+						<br>
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#96;');">&#96;</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#180;');">&#180;</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#123;');">&#123;</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#125;');">&#125;</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#183;');">&#183;</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#834;');">
+							<font color="red">&nbsp;&#834;</FONT>
+						</button>
+
+						<button type="button" unselectable="on"
+							onclick="replaceSelection (document.getElementById('transcription'), '&#772;');">
+							<font color="red">&nbsp;&#772;</font>
+						</button>
+					</div>
+				</div>
+				<br />
+				<div class="row">
+
+					<div class="span1">
+						<label>Reuse/Opistograph</label> <input type="checkbox"
+							name="epigraph[reimpiego_opistografia]" id="checkboxOpistografia" 
+							{% if e.ReimpiegoOpistografia == 'S' %} 
+								checked
+							{% endif %}
+							>
+					</div>
+
+					<div class="span2 offset1">
+						<label>Metrical Text</label> <input type="checkbox"
+							name="epigraph[metricText]" id="checkboxMetricText"
+							{% if e.metricText == 'S' %} 
+								checked
+							{% endif %}
+							>
+					</div>
+
+					<div class="span3">
+						<label>Greek language and alphabet</label> <input
+							type="checkbox" name="epigraph[greek]" id="checkboxGreek"
+							{% if e.greek == 'S' %} 
+								checked
+							{% endif %}
+							>
+					</div>
+
+					<div class="span2">
+						<label>Coexistence of latin/greek</label> <input type="checkbox"
+							name="epigraph[presenceLG]" id="checkboxPresenceLG"
+							{% if e.presenceLG == 'S' %} 
+								checked
+							{% endif %}
+							>
+					</div>
+
+				</div>
+				<br />
+				<hr>
+				
+				<div class="row">
+					<h3>WHEN</h3>
+				</div>
+
+				<div class="row">
+
+					<div class="span3">
+						<label>Dating Span</label> <select id="selectDating"
+							class="span3" name="epigraph[dating]">
+							{% for d in datings %}
+								<option value="{{ d.id }}">{{ d.description }}</option>
+							{% endfor %}
+						</select>
+						{% for d in datings %}
+							<input type="hidden" id = "datingFrom{{d.id}}" name="datingFrom{{d.id}}" value="{{ d.from }}">
+							<input type="hidden" id="datingTo{{d.id}}" name="datingTo{{d.id}}" value="{{ d.to }}">
+						{% endfor %}
+						
+					</div>
+
+					<div class="span2">
+						<label>Date in the text</label><input type="checkbox"
+							id="checkPreciseYear" name="epigraph[adAnnum]">
+					</div>
+
+					<div class="span1">
+						<label>From</label> <input id="inputAnnumFrom" name="epigraph[from]" type="text"
+							class="span1" value = "n.d." disabled="disabled">
+					</div>
+					
+					<div class="span1">
+						<label>To</label> <input id="inputAnnumTo" name="epigraph[to]" type="text"
+							class="span1" value = "n.d." disabled="disabled">
+					</div>
+					
+					<div class="span1 offset1">
+						<p></p>
+						<button class="btn btn-small btn-warning span1" type="button"
+							id="addDating">Add</button>
+					</div>
+				</div>
+				<br>
+				<div class="row">
+					<div class="span10">
+						<table class="table table-condensed table-bordered"
+							id="tableDating">
+							<thead>
+								<tr>
+									<th class="span4">Dating Span</th>
+									<th class="span3">From</th>
+									<th class="span3">To</th>
+									<th class="span2">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>		
+				<br />
+				<hr>
+
+				<div class="row">
+					<h3>Comments</h3>
+				</div>
+				
+				<div class="row">
+					<div class="span3">
+							<label>Transcription different from ICVR</label> <input type="checkbox"
+								name="epigraph[divergentText]" id="inputDivergentText"
+								{% if e.divergentText == 'S' %} 
+									checked
+								{% endif %}
+								>
+					</div>
+
+					<div class="span2">
+							<label>Type</label> <select name="epigraph[epi_type]" class="span2" >
+								{% for d in types %}
+									<option value="{{ d.id }}"
+									{% if d.id  == e.EpigraphType.id%} 
+										selected
+									{% endif %}
+									>{{ d.description }}</option>
+								{% endfor %}
+							</select>
+					</div>
+				</div>
+				<br /><br />
+				<div class="row">
+					<div class="span4">
+						<label>Critical Apparatus</label>
+						<textarea rows="3" name="epigraph[criticalApparatus]" class="span4">{{ e.criticalApparatus }}</textarea>
+					</div>
+					<div class="span4">
+						<label>Notes</label>
+						<textarea rows="3" name="epigraph[comment]" class="span4">{{ e.comment }}</textarea>
+					</div>
+				</div>
+
+				<hr>
+				
+    			{{ form_rest(form) }}
+    			
+    				<div class="">
+				      <button type="submit" class="btn">Submit</button>
+				    </div>
+			</form>
+		</div>
+	</div>
+	
+{% endblock %}
+
+{% block javascripts %}
+	
+		{{ parent() }}
+		
+		 <script src="{{ asset('js/create.js') }}"></script>
+		 <script src="{{ asset('js/keyboard.js') }}"></script>
+{% endblock %}
