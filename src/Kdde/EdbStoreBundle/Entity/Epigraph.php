@@ -199,17 +199,19 @@ class Epigraph {
 	protected $isActive = false;
 	
 	
+    
+
 	/**
 	 * @ManyToMany(targetEntity="Pertinence", inversedBy="epigraphes", cascade={"persist", "merge","remove"})
 	 * @JoinTable(name="pertinenza_epigrafe",
 	 *      joinColumns={@JoinColumn(name="id_epigrafe", referencedColumnName="id_edb")},
 	 *      inverseJoinColumns={@JoinColumn(name="id_pertinenza", referencedColumnName="id")}
 	 *      )
-	 */      
+	 */
 	protected $pertinences;
 	
 	
-	
+		
 	
 	/**
 	 * 
@@ -226,8 +228,9 @@ class Epigraph {
 	 */
 	protected $createdAt;
 	
+	
 	/**
-	 * @ManyToMany(targetEntity="Conservation", inversedBy="epigraphes", cascade={"persist", "merge","remove"})
+	 * @ManyToMany(targetEntity="Conservation", inversedBy="epigraphes", cascade={"persist", "merge","remove"}))
 	 * @JoinTable(name="conservazione_epigrafe",
 	 *      joinColumns={@JoinColumn(name="id_epigrafe", referencedColumnName="id_edb")},
 	 *      inverseJoinColumns={@JoinColumn(name="id_conservazione", referencedColumnName="id")}
@@ -236,11 +239,14 @@ class Epigraph {
 	 */
 	protected $conservations;
 	
+	
+		
+	
 	/**
 	 * @ManyToMany(targetEntity="Signa", inversedBy="epigraphes", cascade={"persist", "merge","remove"})
 	 * @JoinTable(name="signa_epigrafe",
 	 *      joinColumns={@JoinColumn(name="epigrafe_id", referencedColumnName="id_edb")},
-	 *      inverseJoinColumns={@JoinColumn(name="signa_code", referencedColumnName="id")}
+	 *      inverseJoinColumns={@JoinColumn(name="signa_code", referencedColumnName="cod_signa")}
 	 *      )
 	 * @var Array Signa
 	 */
@@ -846,7 +852,7 @@ class Epigraph {
     /**
      * Get data
      *
-     * @return Kdde\EdbStoreBundle\Entity\EpigraphDating
+     * @return Doctrine\Common\Collections\Collection 
      */
     public function getDatings()
     {
@@ -982,4 +988,5 @@ class Epigraph {
     {
     	return $this->ts_testo;
     }
+
 }

@@ -6,6 +6,7 @@ use Doctrine\ORM\Query\ResultSetMapping;
 
 class EpigraphRepository extends EntityRepository {
 
+	
 	public function findBasicSearch($id, $icvrId, $principalProgNumber, $areaId,
 			$contextId, $transcription, $useThesaurus, $type) {
 

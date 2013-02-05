@@ -97,8 +97,7 @@ edb_epigraph_show:
 edb_epigraph_edit:
     pattern: /compiler/epigraph/{id}/edit
     defaults: {_controller: KddeEdbBundle:Epigraph:edit}
-    requirements:
-        id: \d+
+
     
 edb_literature_new:
     pattern: /compiler/literature/new
@@ -172,7 +171,34 @@ edb_pertinence_position_list:
         id: \d+    
     options:
         expose: true
-        
+
+edb_epigraph_original_context_list:
+    pattern: /epigraph/context/{id}.{_format}
+    defaults: {_controller: KddeEdbBundle:Epigraph:originalcontextlist, _format: json}
+    requirements:
+        _format: json
+        id: \d+    
+    options:
+        expose: true
+
+edb_epigraph_conservation_list:
+    pattern: /epigraph/conservation/{id}.{_format}
+    defaults: {_controller: KddeEdbBundle:Epigraph:conservationlist, _format: json}
+    requirements:
+        _format: json
+        id: \d+    
+    options:
+        expose: true
+
+edb_epigraph_datings_list:
+    pattern: /epigraph/datings/{id}.{_format}
+    defaults: {_controller: KddeEdbBundle:Epigraph:datingslist, _format: json}
+    requirements:
+        _format: json
+        id: \d+    
+    options:
+        expose: true
+
 edb_conservation_location_list:
     pattern: /conservation/location.{_format}
     defaults: {_controller: KddeEdbBundle:ConservationLocation:list, _format: json}

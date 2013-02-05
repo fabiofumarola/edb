@@ -81,25 +81,113 @@ class EpigraphController extends Controller {
 
 	}
 
-	public function editAction($id) {
+	
+	// Codice duplicato. Vedere se possibile ristrutturare
+	public function editAction($id, Request $request) {
+		
 		$repository = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Epigraph');
+		->getRepository('KddeEdbStoreBundle:Epigraph');
 		$em = $this->getDoctrine()->getEntityManager();
 		$epigraph = $repository->find($id);
-
+		
 		if ($epigraph == null) {
 			$this->get('session')
-					->setFlash('error',
-							'The epigraph with id ' . $id
-									. " it is not in the database!");
+			->setFlash('error',
+					'The epigraph with id ' . $id
+					. " it is not in the database!");
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
-
+		
+		
+		//select all the icvr
+		$repoIcvr = $this->getDoctrine()
+		->getRepository('KddeEdbStoreBundle:Icvr');
+		$icvrs = $repoIcvr->findAll();
+		
+		//select all the bibliography
+		$repoLiterature = $this->getDoctrine()
+		->getRepository('KddeEdbStoreBundle:Literature');
+		$literatures = $repoLiterature->findBy(array(), array('id' => 'ASC'));
+		
+		$repoSupport = $this->getDoctrine()
+		->getRepository('KddeEdbStoreBundle:Support');
+		$supports = $repoSupport
+		->findBy(array(), array('description' => 'ASC'));
+		
+		$repoTechnique = $this->getDoctrine()
+		->getRepository('KddeEdbStoreBundle:Technique');
+		$techniques = $repoTechnique
+		->findBy(array(), array('description' => 'ASC'));
+		
+		$repoPaleography = $this->getDoctrine()
+		->getRepository('KddeEdbStoreBundle:Paleography');
+		$paleographies = $repoPaleography
+		->findBy(array(), array('description' => 'ASC'));
+		
+		$repoFunzione = $this->getDoctrine()
+		->getRepository('KddeEdbStoreBundle:Funzione');
+		$funzioni = $repoFunzione
+		->findBy(array(), array('description' => 'ASC'));
+		
+		$repoAmbito = $this->getDoctrine()
+		->getRepository('KddeEdbStoreBundle:Ambito');
+		$ambiti = $repoAmbito->findBy(array(), array('description' => 'ASC'));
+		
+		$repoDating = $this->getDoctrine()
+		->getRepository('KddeEdbStoreBundle:Dating');
+		$datings = $repoDating->findBy(array(), array('description' => 'ASC'));
+		
+		$repoTypes = $this->getDoctrine()
+		->getRepository('KddeEdbStoreBundle:Type');
+		$types = $repoTypes->findBy(array(), array('description' => 'ASC'));
+		
+		$em = $this->getDoctrine()->getEntityManager();
+		
+		//$form = $this->createForm(new EpigraphType(), new Epigraph());
+		$defaultData = array();
+		$form = $this->createFormBuilder($defaultData)->getForm();
+		
+		if ($request->getMethod() == 'POST') {
+		
+			$serializer = new Serializer(array(new GetSetMethodNormalizer()),
+					array('json' => new JsonEncoder()));
+		
+			$form->bindRequest($request);
+		
+			if ($form->isValid()) {
+		
+				$epigraphArray = $request->get('epigraph');
+		
+				$epigraph = $this->persistEpigraph($epigraphArray);
+				//$em->persist($epigraph);
+		
+				//$em->flush();
+		
+				$this->get('session')
+				->setFlash('notice',
+						'Your changes were saved, the epigraph is saved with id '
+						. $epigraph->getId()) . " !";
+		
+				return $this->redirect($this->generateUrl('edb_homepage'));
+				//return new Response($serializer->serialize($epigraphArray, 'json'));
+			}
+		}
 		return $this
-				->render('KddeEdbBundle:Epigraph:show.html.twig',
-						array('e' => $epigraph));
+		->render('KddeEdbBundle:Epigraph:edit.html.twig',
+				array('form' => $form->createView(), 'icvrs' => $icvrs,
+						'literatures' => $literatures,
+						'supports' => $supports,
+						'techniques' => $techniques,
+						'paleographies' => $paleographies,
+						'functions' => $funzioni,
+						'onomasticAreas' => $ambiti,
+						'datings' => $datings, 'types' => $types,
+						'e' => $epigraph
+		));
 	}
 
+	
+	
 	
 	public function showAction($id) {
 		$repository = $this->getDoctrine()
@@ -120,6 +208,42 @@ class EpigraphController extends Controller {
 						array('e' => $epigraph));
 	}
 	
+	
+	public function originalcontextlistAction($id, $_format) {	
+		if ($_format != "json")
+			return new Response(json_encode("it supports only json"));
+
+		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
+		$em = $this->getDoctrine()->getEntityManager();
+		$epigraph = $repository->find($id);
+		$serializer = $this->get('jms_serializer');
+		$json = $serializer->serialize($epigraph->getPertinence(), 'json');
+		return new Response($json);
+	}
+	
+	public function conservationlistAction($id, $_format) {
+		if ($_format != "json")
+			return new Response(json_encode("it supports only json"));
+
+		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
+		$em = $this->getDoctrine()->getEntityManager();
+		$epigraph = $repository->find($id);
+		$serializer = $this->get('jms_serializer');
+		$json = $serializer->serialize($epigraph->getConservations(), 'json');
+		return new Response($json);
+	}
+	
+	public function datingslistAction($id, $_format) {
+		if ($_format != "json")
+			return new Response(json_encode("it supports only json"));
+	
+		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
+		$em = $this->getDoctrine()->getEntityManager();
+		$epigraph = $repository->find($id);
+		$serializer = $this->get('jms_serializer');
+		$json = $serializer->serialize($epigraph->getDatings(), 'json');
+		return new Response($json);
+	}
 	
 	
 	public function newAction(Request $request) {

@@ -13,10 +13,13 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Column;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * @ORM\Entity(repositoryClass="Kdde\EdbStoreBundle\Entity\ConservationRepository")
  * @ORM\Table(name="conservazione")
+ * @ExclusionPolicy("None")
  */
 class Conservation {
 
@@ -39,6 +42,7 @@ class Conservation {
  	 * @ManyToOne(targetEntity="ConservationContext")
  	 * @JoinColumn(name="contesto", referencedColumnName="id")
  	 * @var ConservationContext
+
 	 */
 	protected $conservationContext;
 	
@@ -52,6 +56,7 @@ class Conservation {
 	/**
 	 * @ManyToMany(targetEntity="Epigraph", mappedBy="conservations")
 	 * @var Epigraph array
+	 * @Exclude
 	 */
 	private $epigraphes;
 	

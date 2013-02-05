@@ -5,16 +5,20 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\ExclusionPolicy;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="data_epigrafe")
+ * @ExclusionPolicy("None")
  */
 class EpigraphDating {
 	
 	/**
 	 * @ORM\ManyToOne(targetEntity="Epigraph", inversedBy="literatures")
 	 * @ORM\JoinColumn(name="id_epigrafe", referencedColumnName="id_edb")
+	 * @Exclude
 	 */
 	protected $id;
 	

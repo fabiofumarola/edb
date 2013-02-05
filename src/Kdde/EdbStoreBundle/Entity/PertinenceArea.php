@@ -9,10 +9,13 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Column;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\ExclusionPolicy; 
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * @ORM\Entity(repositoryClass="Kdde\EdbStoreBundle\Entity\PertinenceAreaRepository")
  * @ORM\Table(name="pertinenza_area")
+ * @ExclusionPolicy("None")
  */
 class PertinenceArea {
 

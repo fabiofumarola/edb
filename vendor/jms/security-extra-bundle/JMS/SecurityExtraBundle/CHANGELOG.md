@@ -1,11 +1,18 @@
 This document details all changes between different versions of JMSSecurityExtraBundle:
 
+1.3
+---
+- added a reverse interpreter for expressions
+- added logging of votes for expressions
+- added a generic expression function compiler for service callbacks making it
+  easier to create custom expression functions
+
 1.2
 ---
 
 - added a secure random number generator service
-- several bug fixes, and forward compatibility for dependencies
-- allow @PreAuthorize on classes
+- several bug fixes
+
 
 1.1
 ---

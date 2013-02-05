@@ -24,6 +24,7 @@ class AppKernel extends Kernel
         	new Craue\FormFlowBundle\CraueFormFlowBundle(),
         	new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
         	new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+        	new JMS\SerializerBundle\JMSSerializerBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

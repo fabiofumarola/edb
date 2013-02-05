@@ -3,7 +3,7 @@
 {% form_theme form 'KddeEdbBundle:Form:fields.html.twig' %}
 
 {% block title %}
- EDB new Epigraph
+ EDB Edit Epigraph
 {% endblock %}
 
 {% block body %}
@@ -65,7 +65,8 @@
 
 					<div class="span4" id="div_biblio">
 						<label>Other bibliographic references</label>
-						<textarea name="epigraph[literaturesTextArea]" id="literature" class="span3" rows="4"></textarea>
+						<textarea name="epigraph[literaturesTextArea]" id="literature" class="span3" rows="4">
+						</textarea>
 						<a id="addLiteratureRef" class="btn">Select from existing</a> 
 						<a id="newLiterature" class="btn">Add New</a>
 					</div>
@@ -126,6 +127,32 @@
 								</tr>
 							</thead>
 							<tbody>
+{# 							{% for oc in e.pertinences %}#}
+{# 								<tr>#}
+{# 									<td>{{ oc.pertinenceArea.description }}</td>#}
+{# 									<td>{{ oc.context.description }} </td>#}
+{# 									<td>{{ oc.pertinencePosition.description }}</td>#}
+									
+{# 									<td>#}
+{# 										{% if oc.inSitu %}		#}
+{# 											<i class="icon-ok"></i></td>#}
+{# 										{% else %}#}
+{# 											<i class="icon-remove"></i>#}
+{# 										{% endif %}#}
+{# 									</td>#}
+{# 									<td id=deletePert1><a href='#'>Delete</a></td>#}
+									
+{# 									<script>#}
+{# 									$("#deletePert1 a").click(function(e) {#}
+{# 									e.preventDefault();#}
+{# 									$(this).parent().parent().remove();#}
+{# 									hashPertinences[hiddenValue] = undefined;#}
+{# 									countPertinences--;#}
+{# 									});#}
+{# 									</script>#}
+{# 									<input type='hidden' name='epigraph[originalIds][]' value={{ oc.pertinenceArea.id }}@-@{{ oc.context.id }}@-@{{ oc.pertinencePosition.id }}@-@{{ oc.inSitu }}/>#}
+{# 								</tr>#}
+{# 							{% endfor %}		#}
 							</tbody>
 						</table>
 					</div>
@@ -332,6 +359,9 @@
 						<label>Signa Christi</label> 
 						<select id="selectSigna"
 							multiple="multiple" class="span3" name="epigraph[signas][]">
+							{% for s in e.signas %}
+								<option value= {{ s.id }}> {{ s.description }} </option>
+							{% endfor %}
 						</select>
 						<br>
 						<a id="addSigna" class="btn">Add</a> 
@@ -523,7 +553,7 @@
 					<div class="span3">
 							<label>Transcription different from ICVR</label> <input type="checkbox"
 								name="epigraph[divergentText]" id="inputDivergentText"
-								{% if e.divergentText == 'S' %} 
+								{% if e.divergentText == 'S' or e.divergentText == '1' %} 
 									checked
 								{% endif %}
 								>
@@ -554,12 +584,12 @@
 				</div>
 
 				<hr>
-				
+				<input type = "hidden" id = "epiid" name = "epiid" value = {{ e.id }} />
     			{{ form_rest(form) }}
     			
-    				<div class="">
-				      <button type="submit" class="btn">Submit</button>
-				    </div>
+{#     				<div class="">#}
+{# 				      <button type="submit" class="btn">Submit</button>#}
+{# 				    </div>#}
 			</form>
 		</div>
 	</div>
@@ -570,6 +600,6 @@
 	
 		{{ parent() }}
 		
-		 <script src="{{ asset('js/create.js') }}"></script>
+		 <script src="{{ asset('js/edit.js') }}"></script>
 		 <script src="{{ asset('js/keyboard.js') }}"></script>
 {% endblock %}
