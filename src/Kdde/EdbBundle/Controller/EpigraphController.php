@@ -450,9 +450,8 @@ class EpigraphController extends Controller {
 				foreach ($originalIds as $ids) {
 					$split = explode("@-@", $ids);
 										
-					$c = $repoPertinence->findOneByAreaContextPosition(1,
-						$split[0],$split[1],$split[2], $split[3]);
-								
+// 					$c = $repoPertinence->findOneByAreaContextPosition(1,$split[0],$split[1],$split[2], $split[3]);
+					$c = $repoPertinence->findOneBy(array('pertinenceArea' => $split[0], 'context' => $split[1], 'pertinencePosition' => $split[2], 'inSitu'=> $split[3]));
 					if ($c == null) {
 						$c = new Pertinence();
 						$locus = $repoLocus->find(1);
@@ -466,11 +465,10 @@ class EpigraphController extends Controller {
 						$c->setPertinenceArea($pertinenceArea);
 						$c->setContext($pertinenceContext);
 						$c->setPertinencePosition($pertinencePosition);
+						
 						$c->setInSitu($split[3]);
-						$epigraph->addPertinence($c);
-					} else {
-						$epigraph->addPertinence($c[0]);
 					}
+					$epigraph->addPertinence($c);
 				}
 			}
 			
@@ -481,18 +479,13 @@ class EpigraphController extends Controller {
 				$conservationIds = $epigraphArray['conservationsIds'];
 				foreach ($conservationIds as $ids) {
 					$split = explode("@-@", $ids);
-					$c = $repoConservation
-							->findOneByLocationContextPosition($split[0],
-									$split[1], $split[2]);
+					$c = $repoConservation->findOneByLocationContextPosition($split[0], $split[1], $split[2]);
 
 					if ($c == null) {
 						$c = new Conservation();
-						$conservationLocation = $repoConservLocation
-								->find($split[0]);
-						$conservationContext = $repoConservContext
-								->find($split[1]);
-						$conservationPosition = $repoConservPosition
-								->find($split[2]);
+						$conservationLocation = $repoConservLocation->find($split[0]);
+						$conservationContext = $repoConservContext->find($split[1]);
+						$conservationPosition = $repoConservPosition->find($split[2]);
 						$c->setConservationLocation($conservationLocation);
 						$c->setConservationContext($conservationContext);
 						$c->setConservationPosition($conservationPosition);
