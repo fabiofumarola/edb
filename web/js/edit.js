@@ -5,6 +5,8 @@ var hashConservations = new Array();
 var hashPertinences = new Array();
 var hashDatings = new Array();
 
+
+
 function cleanNewLiteratureValues() {
 	$('#cod_literature').attr('value', null);
 	$('#div_cod_literature').attr('class', 'control-group');
@@ -652,14 +654,12 @@ function openDialogViewSignas() {
 
 }
 
-function removeLastSigna() {
-
+function removeSelectedSigna() {
 	if ($('#selectSigna option').size() == 0) {
-		alert("there are not element to remove");
+		alert("There are no elements to remove.");
 		return;
 	}
-
-	$('#selectSigna option:last-child').remove();
+	$('#selectSigna option:selected').remove();
 }
 
 function addNewPertinenceArea(desc) {
@@ -1163,6 +1163,8 @@ function loadListOfDatings()
 }
 
 
+
+
 $('document').ready(function() {
 
 	loadPertinenceArea();
@@ -1337,7 +1339,7 @@ $('document').ready(function() {
 	});
 
 	$('#removeSigna').click(function() {
-		removeLastSigna();
+		removeSelectedSigna();
 	});
 
 	$('#addSignum').click(function() {
@@ -1360,6 +1362,10 @@ $('document').ready(function() {
 		addDatingToTableAction();
 	});
 	
+	$('#submitButton').click(function() {
+	    $('#selectSigna option').prop('selected', 'selected');
+	});
+		
 	loadConservationContext(20);
 	
 	loadListOfOriginalContext();

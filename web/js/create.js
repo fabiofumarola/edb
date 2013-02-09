@@ -652,14 +652,12 @@ function openDialogViewSignas() {
 
 }
 
-function removeLastSigna() {
-
+function removeSelectedSigna() {
 	if ($('#selectSigna option').size() == 0) {
-		alert("there are not element to remove");
+		alert("There are no elements to remove.");
 		return;
 	}
-
-	$('#selectSigna option:last-child').remove();
+	$('#selectSigna option:selected').remove();
 }
 
 function addNewPertinenceArea(desc) {
@@ -1189,7 +1187,7 @@ $('document').ready(function() {
 	});
 
 	$('#removeSigna').click(function() {
-		removeLastSigna();
+		removeSelectedSigna();
 	});
 
 	$('#addSignum').click(function() {
@@ -1210,6 +1208,10 @@ $('document').ready(function() {
 	
 	$('#addDating').click(function() {
 		addDatingToTableAction();
+	});
+	
+	$('#submitButton').click(function() {
+	    $('#selectSigna option').prop('selected', 'selected');
 	});
 	
 	loadConservationContext(20);

@@ -267,6 +267,8 @@ class Epigraph {
 	protected $geoPosition;
 	
 	
+
+	
 	/**
 	 * @ORM\Column(type="integer", name="tipo")
 	 * @var integer
@@ -859,15 +861,12 @@ class Epigraph {
         return $this->datings;
     }
 
-//     /**
-//      * Set pertinence
-//      *
-//      * @param Kdde\EdbStoreBundle\Entity\Pertinence $pertinence
-//      */
-//     public function setPertinence(\Kdde\EdbStoreBundle\Entity\Pertinence $pertinence)
-//     {
-//         $this->pertinence = $pertinence;
-//     }
+
+    public function emtpyDatings()
+    {
+    	$this->datings = new ArrayCollection();
+    }
+    
     
     /**
      * Set pertinence
@@ -879,6 +878,11 @@ class Epigraph {
     	$this->pertinences[] = $pertinence;
     }
 
+//     public function removePertinence(\Kdde\EdbStoreBundle\Entity\Pertinence $pertinence)
+//     {
+//     	$this->pertinences->
+//     }
+    
     /**
      * Get pertinence
      *
@@ -889,6 +893,13 @@ class Epigraph {
         return $this->pertinences;
     }
 
+    
+    public function emptyPertinences()
+    {
+    	$this->pertinences = new ArrayCollection();
+    }
+    
+    
     /**
      * Add conservations
      *
@@ -907,6 +918,12 @@ class Epigraph {
     public function getConservations()
     {
         return $this->conservations;
+    }
+    
+    
+    public function emptyConservations()
+    {
+    	$this->conservations = new ArrayCollection();
     }
 
     /**
@@ -929,6 +946,12 @@ class Epigraph {
         return $this->signas;
     } 
 
+    public function emptySignas()
+    {
+    	$this->signas = new ArrayCollection();
+    }
+    
+    
     /**
      * Get oldCompilator
      *

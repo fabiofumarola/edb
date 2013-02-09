@@ -6,8 +6,9 @@
  EDB Edit Epigraph
 {% endblock %}
 
-{% block body %}
 
+
+{% block body %}
 {% include 'KddeEdbBundle:Literature:modalLiteratures.html.twig' with {'literatures': literatures} %}
 {% include 'KddeEdbBundle:Literature:modalNewLiterature.html.twig' %}
 {% include 'KddeEdbBundle:GeoPosition:modalNewGeoPosition.html.twig' %}
@@ -25,6 +26,8 @@
 {% include 'KddeEdbBundle:Signa:modaViewSignas.html.twig' %}
 {% include 'KddeEdbBundle:Signa:modalNewSigna.html.twig' %}
 
+
+
 	<div class="marketing">
 		<h2>Edit Record EDB{{e.id}}</h2>
 		<br>
@@ -32,7 +35,7 @@
 	
 	<div class="row">
 		<div class="offset1">
-			<form class="" action="{{ path('edb_epigraph_new')}}" method="post" {{ form_enctype(form) }}>
+			<form class="" action="{{ path('edb_epigraph_edit', {'id': e.id}) }}" method="post" {{ form_enctype(form) }} ">
 				{{ form_errors(form) }}				
 				
 				<div class="row">
@@ -84,20 +87,20 @@
 				<div class="row">
 					<div class="span2">
 						<label>Area</label> <select id="selectPertinenceArea"
-							class="span2" name="epigraph[pertinence][pertinenceArea]" required="required">
+							class="span2" name="epigraph[pertinence][pertinenceArea]">
 							<option></option>
 						</select>
 					</div>
 					<div class="span2">
 						<label>Location</label> <select id="selectPertinenceContext"
-							class="span2" name="epigraph[pertinence][context]" required="required">
+							class="span2" name="epigraph[pertinence][context]">
 							<option></option>
 						</select>
 					</div>
 
 					<div class="span2">
 						<label>Position</label> <select id="selectPertinencePosition"
-							class="span2" name="epigraph[pertinence][pertinencePosition]" required="required">
+							class="span2" name="epigraph[pertinence][pertinencePosition]">
 							<option></option>
 						</select>
 					</div>
@@ -127,32 +130,6 @@
 								</tr>
 							</thead>
 							<tbody>
-{# 							{% for oc in e.pertinences %}#}
-{# 								<tr>#}
-{# 									<td>{{ oc.pertinenceArea.description }}</td>#}
-{# 									<td>{{ oc.context.description }} </td>#}
-{# 									<td>{{ oc.pertinencePosition.description }}</td>#}
-									
-{# 									<td>#}
-{# 										{% if oc.inSitu %}		#}
-{# 											<i class="icon-ok"></i></td>#}
-{# 										{% else %}#}
-{# 											<i class="icon-remove"></i>#}
-{# 										{% endif %}#}
-{# 									</td>#}
-{# 									<td id=deletePert1><a href='#'>Delete</a></td>#}
-									
-{# 									<script>#}
-{# 									$("#deletePert1 a").click(function(e) {#}
-{# 									e.preventDefault();#}
-{# 									$(this).parent().parent().remove();#}
-{# 									hashPertinences[hiddenValue] = undefined;#}
-{# 									countPertinences--;#}
-{# 									});#}
-{# 									</script>#}
-{# 									<input type='hidden' name='epigraph[originalIds][]' value={{ oc.pertinenceArea.id }}@-@{{ oc.context.id }}@-@{{ oc.pertinencePosition.id }}@-@{{ oc.inSitu }}/>#}
-{# 								</tr>#}
-{# 							{% endfor %}		#}
 							</tbody>
 						</table>
 					</div>
@@ -585,11 +562,10 @@
 
 				<hr>
 				<input type = "hidden" id = "epiid" name = "epiid" value = {{ e.id }} />
-    			{{ form_rest(form) }}
-    			
-{#     				<div class="">#}
-{# 				      <button type="submit" class="btn">Submit</button>#}
-{# 				    </div>#}
+    			{{ form_rest(form) }}    			
+    				<div class="">
+				      <button id ="submitButton" type="submit" class="btn"" >Apply Changes</button>
+				    </div>
 			</form>
 		</div>
 	</div>

@@ -157,8 +157,7 @@ class EpigraphController extends Controller {
 			if ($form->isValid()) {
 		
 				$epigraphArray = $request->get('epigraph');
-		
-				$epigraph = $this->persistEpigraph($epigraphArray);
+				$epigraph = $this->persistEpigraph($epigraphArray, $epigraph);
 				//$em->persist($epigraph);
 		
 				//$em->flush();
@@ -307,7 +306,7 @@ class EpigraphController extends Controller {
 
 				$epigraphArray = $request->get('epigraph');
 
-				$epigraph = $this->persistEpigraph($epigraphArray);
+				$epigraph = $this->persistEpigraph($epigraphArray, null);
 				//$em->persist($epigraph);
 
 				//$em->flush();
@@ -333,73 +332,71 @@ class EpigraphController extends Controller {
 								'datings' => $datings, 'types' => $types));
 	}
 
-	private function persistEpigraph($epigraphArray) {
+	private function persistEpigraph($epigraphArray, $epigraph) {
 
-		$repoIcvr = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Icvr');
-		$repoLiterature = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Literature');
-		$repoSupport = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Support');
-		$repoTechnique = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Technique');
-		$repoPaleography = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Paleography');
-		$repoFunzione = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Funzione');
-		$repoAmbito = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Ambito');
-		$repoDating = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Dating');
-		$repoLocus = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:LocusInventionis');
-		$repoPertinence = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Pertinence');
-		$repoPertinenceArea = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:PertinenceArea');
-		$repoPertinenceContext = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:PertinenceContext');
-		$repoPertinencePosition = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:PertinencePosition');
-		$repoConservLocation = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:ConservationLocation');
-		$repoConservContext = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:ConservationContext');
-		$repoConservPosition = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:ConservationPosition');
-		$repoConservation = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Conservation');
-		$repoSigna = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Signa');
-		$repoTypes = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Type');
+		$repoIcvr = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Icvr');
+		$repoLiterature = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Literature');
+		$repoSupport = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Support');
+		$repoTechnique = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Technique');
+		$repoPaleography = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Paleography');
+		$repoFunzione = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Funzione');
+		$repoAmbito = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Ambito');
+		$repoDating = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Dating');
+		$repoLocus = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:LocusInventionis');
+		$repoPertinence = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Pertinence');
+		$repoPertinenceArea = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:PertinenceArea');
+		$repoPertinenceContext = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:PertinenceContext');
+		$repoPertinencePosition = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:PertinencePosition');
+		$repoConservLocation = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:ConservationLocation');
+		$repoConservContext = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:ConservationContext');
+		$repoConservPosition = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:ConservationPosition');
+		$repoConservation = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Conservation');
+		$repoSigna = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Signa');
+		$repoTypes = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Type');
 		$em = $this->getDoctrine()->getEntityManager();
 
 		$arrayLiteratures = new ArrayCollection();
 		$arrayDatings = new ArrayCollection();
+
 		
 		try {
 
-			$epigraph = new Epigraph();
+			// Check if it is an update
+			$update = true;
+			if($epigraph == null)
+			{
+				$epigraph = new Epigraph();
+				$update = false;
+			}
+
+				
 			if (isset($epigraphArray['icvr'])) {
 				$icvr = $repoIcvr->find($epigraphArray['icvr']);
 				$epigraph->setIcvr($icvr);
 			}
-			if (isset($epigraphArray['principalProgNumber'])) {
-				$epigraph
-						->setPrincipalProgNumber(
-								$epigraphArray['principalProgNumber']);
-			}
+			else
+				$epigraph->setIcvr(null);
+			
+			if (isset($epigraphArray['principalProgNumber']))
+				$epigraph->setPrincipalProgNumber($epigraphArray['principalProgNumber']);
+			else 
+				$epigraph->setPrincipalProgNumber(null);
 
-			$epigraph->setLost('N');
+			
 			if (isSet($epigraphArray['lost']))
 				$epigraph->setLost('S');
+			else
+				$epigraph->setLost('N');
 				
 
-			if (isset($epigraphArray['subNumeration'])) {
+			if (isset($epigraphArray['subNumeration'])) 
 				$epigraph->setSubNumeration($epigraphArray['subNumeration']);
-			}
+			else
+				$epigraph->setSubNumeration(null);
 
+			
+			// GIAN: Letteratura. Ignorata perchè da rifare
+			//------------------------------------------------------
 			if (isset($epigraphArray['literaturesTextArea'])) {
 				//split the inserted literatures
 				$arrayLiteratureIds = explode(";\r\n",
@@ -431,8 +428,9 @@ class EpigraphController extends Controller {
 					$arrayLiteratures->add($epigraphLiterature);
 				}
 			}
+			//------------------------------------------------------
+					
 
-			// GIANV: Cambia per DATINGS
 			if (isset($epigraphArray['datingIds'])) {
 				$datingIds= $epigraphArray['datingIds'];
 				foreach ($datingIds as $ids) {
@@ -445,12 +443,12 @@ class EpigraphController extends Controller {
 				}
 			}
 			
+			$epigraph->emptyPertinences();
 			if (isset($epigraphArray['originalIds'])) {
 				$originalIds = $epigraphArray['originalIds'];
 				foreach ($originalIds as $ids) {
 					$split = explode("@-@", $ids);
 										
-// 					$c = $repoPertinence->findOneByAreaContextPosition(1,$split[0],$split[1],$split[2], $split[3]);
 					$c = $repoPertinence->findOneBy(array('pertinenceArea' => $split[0], 'context' => $split[1], 'pertinencePosition' => $split[2], 'inSitu'=> $split[3]));
 					if ($c == null) {
 						$c = new Pertinence();
@@ -474,7 +472,10 @@ class EpigraphController extends Controller {
 			
 			if (isset($epigraphArray['geoPosition']))
 				$epigraph->setGeoPosition($epigraphArray['geoPosition']);
+			else
+				$epigraph->setGeoPosition(null);
 
+			$epigraph->emptyConservations();
 			if (isset($epigraphArray['conservationsIds'])) {
 				$conservationIds = $epigraphArray['conservationsIds'];
 				foreach ($conservationIds as $ids) {
@@ -490,11 +491,10 @@ class EpigraphController extends Controller {
 						$c->setConservationContext($conservationContext);
 						$c->setConservationPosition($conservationPosition);
 						$epigraph->addConservation($c);
+						
 					} else {
 						$epigraph->addConservation($c[0]);
 					}
-
-					//$arrayConservations->add($c);
 				}
 			}
 
@@ -511,18 +511,25 @@ class EpigraphController extends Controller {
 				$material->setTickness($arrayMaterial['tickness']);
 				$epigraph->setMaterial($material);
 			}
+			else
+				$epigraph->setMaterial(null);
 
 			if (isset($epigraphArray['altMinLetters']))
 				$epigraph->setAltMinLetters($epigraphArray['altMinLetters']);
+			else
+				$epigraph->setAltMinLetters('n.d.');
 
 			if (isset($epigraphArray['altMaxLetters']))
 				$epigraph->setAltMaxLetters($epigraphArray['altMaxLetters']);
-
+			else
+				$epigraph->setAltMaxLetters('n.d.');
+			
 			if (isset($epigraphArray['paleography'])) {
-				$paleography = $repoPaleography
-						->find($epigraphArray['paleography']);
+				$paleography = $repoPaleography->find($epigraphArray['paleography']);
 				$epigraph->setPaleography($paleography);
 			}
+			else
+				$epigraph->setPaleography($null);
 
 			$type = $repoTypes->find($epigraphArray['epi_type']);
 			$epigraph->setEpigraphType($type);
@@ -531,17 +538,24 @@ class EpigraphController extends Controller {
 				$funzione = $repoFunzione->find($epigraphArray['funzione']);
 				$epigraph->setFunzione($funzione);
 			}
+			else
+				$epigraph->setFunzione(null);
 
+			
 			if (isset($epigraphArray['transcription'])) {
 				$epigraph->setTrascription($epigraphArray['transcription']);
 			}
+			else
+				$epigraph->setTrascription(null);
 
 			if (isset($epigraphArray['ambitoOnomastico'])) {
-				$ambitoOnomastico = $repoAmbito
-						->find($epigraphArray['ambitoOnomastico']);
+				$ambitoOnomastico = $repoAmbito->find($epigraphArray['ambitoOnomastico']);
 				$epigraph->setAmbitoOnomastico($ambitoOnomastico);
 			}
+			else 
+				$epigraph->setAmbitoOnomastico(null);
 
+			$epigraph->emptySignas();
 			if (isset($epigraphArray['signas'])) {
 				$signas = $epigraphArray['signas'];
 				foreach ($signas as $s) {
@@ -550,6 +564,7 @@ class EpigraphController extends Controller {
 						$epigraph->addSigna($signa);
 				}
 			}
+			
 			if (isset($epigraphArray['reimpiego_opistografia'])) {
 				if ($epigraphArray['reimpiego_opistografia'] == 'on')
 					$epigraph->setReimpiegoOpistografia('S');
@@ -574,17 +589,8 @@ class EpigraphController extends Controller {
 			} else
 				$epigraph->setPresenceLG('N');
 
-// 			if (isset($epigraphArray['dating'])) {
-// 				$dating = $repoDating->find($epigraphArray['dating']);
-// 				$date = new Data();
-// 				$date->setFrom($dating->getFrom());
-// 				$date->setTo($dating->getTo());
-// 			}
-
 			if (isset($epigraphArray['criticalApparatus'])) {
-				$epigraph
-						->setCriticalApparatus(
-								$epigraphArray['criticalApparatus']);
+				$epigraph->setCriticalApparatus($epigraphArray['criticalApparatus']);
 			}
 
 			if (isset($epigraphArray['divergentText'])) {
@@ -597,37 +603,44 @@ class EpigraphController extends Controller {
 
 			if (isset($epigraphArray['comment']))
 				$epigraph->setComment($epigraphArray['comment']);
+			else
+				$epigraph->setComment(null);
 
 			// Compilator needs User object
 			// old was: $epigraph->setCompilator($this->get('security.context')->getToken()->getUser()->getId());
-			$epigraph
-					->setCompilator(
-							$this->get('security.context')->getToken()
-									->getUser());
+			$epigraph->setCompilator($this->get('security.context')->getToken()->getUser());
 
 			// Backward compatibility for OldCompilator
-			$oldCompilaterUser = $this->get('security.context')->getToken()
-					->getUser();
-			$epigraph
-					->setOldCompilator(
-							$oldCompilaterUser->getFirstname() . ' '
-									. $oldCompilaterUser->getLastname());
-
-			$em->persist($epigraph);
-
+			$oldCompilaterUser = $this->get('security.context')->getToken()->getUser();
+			$epigraph->setOldCompilator($oldCompilaterUser->getFirstname() . ' ' . $oldCompilaterUser->getLastname());
+			
+			
+			
+			// GIAN: Letteratura. Ignorata perchè da rifare
+			//------------------------------------------------------			
 			foreach ($arrayLiteratures as $epLit) {
 				$epLit->setEpigraph($epigraph);
 				$em->persist($epLit);
 			}
+			//------------------------------------------------------
+				
 			
+			if(!$update)
+				$em->persist($epigraph);
+			else
+			{
+				$oldDatings = $epigraph->getDatings();
+				foreach($oldDatings as $oldDating)
+					$em->remove($oldDating);
+			}
+			$em->flush();
+				
 			foreach ($arrayDatings as $epDating) {
 				$epDating->setId($epigraph);
 				$em->persist($epDating);
 			}
-
-					
+			
 			$em->flush();
-
 			return $epigraph;
 
 		} catch (Exception $e) {
