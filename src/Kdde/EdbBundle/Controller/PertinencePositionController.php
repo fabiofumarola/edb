@@ -20,7 +20,8 @@ class PertinencePositionController extends Controller {
 
 		$repo = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:PertinencePosition');
 		
-		$positions = $repo->findAllOrderedByDescriptionAndByContextId($id);
+// 		$positions = $repo->findAllOrderedByDescriptionAndByContextId($id);
+		$positions = $repo->findBy(array('pertinenceContext' => $id), array('description' => 'ASC'));
 		
 		$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new
 				JsonEncoder()));
