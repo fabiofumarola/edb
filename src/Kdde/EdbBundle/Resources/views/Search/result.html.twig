@@ -154,7 +154,8 @@
 	{% endfor %}
 	<div class="pagination offset2">
 		<ul>
-    		{{ pagination.render() | raw }}
+			{{ knp_pagination_render(pagination) }}
+{#     		{{ pagination.render() | raw }}#}
     	</ul>
 	</div>
 {# 	<div class="pagination offset2">#}

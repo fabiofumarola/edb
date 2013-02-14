@@ -119,7 +119,6 @@ class SearchController extends Controller {
 		
 		//do the query
 		$query = $repoEpigraph->findBasicSearch($id, $icvrId, $principalProgNumber,$areaId, $contextId, $transcription, $useThesaurus, $type);
-// 		$count = $repoEpigraph->countBasicSearch($id, $icvrId, $principalProgNumber,$areaId, $contextId, $transcription, $useThesaurus, $type);
 	
 		$paginator = $this->get('knp_paginator');
 		$pagination = $paginator->paginate($query,$request->get('page',1),10);
