@@ -43,8 +43,12 @@ class EpigraphRepository extends EntityRepository {
 			}
 			else{
 				$words = explode(" ", $transcription);
+				$count = 1;
 				foreach($words as $word)
-					$strQueryWhere .= "AND LOWER(ep.trascription) LIKE :transcription" . $word . " ";
+				{
+					$strQueryWhere .= "AND LOWER(ep.trascription) LIKE :transcription" . $count . " ";
+					$count++;
+				}
 			}
 		}
 				
@@ -81,9 +85,12 @@ class EpigraphRepository extends EntityRepository {
 
 		if ($transcription != null) {
 			if ($useThesaurus == false) {
+				$count = 1;
 				foreach($words as $word)	
-// 				$transcription = '%'.$transcription . '%';
-					$query->setParameter('transcription'.$word, '%'.strtolower($word).'%');
+				{
+					$query->setParameter('transcription'.$count, '%'.$word.'%');
+					$count++;
+				}
 			}
 			else
 			{
