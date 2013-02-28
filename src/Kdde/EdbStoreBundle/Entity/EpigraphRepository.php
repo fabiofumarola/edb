@@ -65,7 +65,7 @@ class EpigraphRepository extends EntityRepository {
 		}
 		
 		if ($principalProgNumber != null) {
-			$query->setParameter('principalProgNumber', strtolower($principalProgNumber));
+			$query->setParameter('principalProgNumber', $principalProgNumber);
 		}
 		
 		if ($type != -1)
@@ -83,7 +83,7 @@ class EpigraphRepository extends EntityRepository {
 			if ($useThesaurus == false) {
 				foreach($words as $word)	
 // 				$transcription = '%'.$transcription . '%';
-					$query->setParameter('transcription'.$word, '%'.$word.'%');
+					$query->setParameter('transcription'.$word, '%'.strtolower($word).'%');
 			}
 			else
 			{
