@@ -42,7 +42,9 @@ class EpigraphRepository extends EntityRepository {
 				$strQueryWhere .= "AND MATCHTEXT(:queryWords,ep.ts_testo) = 1 ";
 			}
 			else{
-				$strQueryWhere .= "AND ep.trascription LIKE :transcription ";
+				$words = explode(" ", $transcription);
+				foreach($words as $word)
+					$strQueryWhere .= "AND LOWER(ep.trascription) LIKE :transcription" . $word . " ";
 			}
 		}
 				
@@ -63,7 +65,7 @@ class EpigraphRepository extends EntityRepository {
 		}
 		
 		if ($principalProgNumber != null) {
-			$query->setParameter('principalProgNumber', $principalProgNumber);
+			$query->setParameter('principalProgNumber', strtolower($principalProgNumber));
 		}
 		
 		if ($type != -1)
@@ -79,8 +81,9 @@ class EpigraphRepository extends EntityRepository {
 
 		if ($transcription != null) {
 			if ($useThesaurus == false) {
-				$transcription = '%'.$transcription . '%';
-				$query->setParameter('transcription', $transcription);
+				foreach($words as $word)	
+// 				$transcription = '%'.$transcription . '%';
+					$query->setParameter('transcription'.$word, '%'.$word.'%');
 			}
 			else
 			{
