@@ -315,8 +315,6 @@ map['X'] = 'Χ';
 map['Y'] = 'Ψ';
 map['Z'] = 'Ζ';
 
-
-
 $('document').ready(function() {
 
 	$('#greekToogle').click(function(event) {
@@ -359,7 +357,8 @@ function keyd(e) {
 		e = (e) ? e : window.event;
 		keyCode = (e.keyCode) ? e.keyCode : e.which;
 	}
-	doit();
+	if(e.keyCode !=8)
+		doit();
 }
 
 if (document.all | navigator.userAgent.indexOf('Mozilla') > -1
@@ -409,6 +408,7 @@ function doit() {
 	if (!greekEnabled)
 		return;
 
+	
 	textOriginal = document.getElementById('transcription').value;
 	text2 = textOriginal[textOriginal.length-1];
 	textOriginal = textOriginal.substring(0, textOriginal.length-1);
