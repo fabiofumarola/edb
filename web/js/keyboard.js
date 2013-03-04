@@ -1,5 +1,322 @@
 var greekEnabled = false;
 
+var map = new Array();
+
+map['``'] = '“';
+map['\'\''] = '”';
+map['´´'] = '”';
+map[',,'] = '„';
+map['<<'] = '«';
+map['>>'] = '»';
+map[':'] = '·';
+map['?'] = ';';
+map[' )'] = '᾽';
+
+map['a'] = 'α';
+map['α/'] = 'ά';
+map['α\\'] = 'ὰ';
+map['α='] = 'ᾶ';
+map['α)'] = 'ἀ';
+map['α('] = 'ἁ';
+map['α_'] = 'ᾱ';
+map['α-'] = 'ᾰ';
+map['α|'] = 'ᾳ';
+map['ἀ\\'] = 'ἂ';
+map['ἀ/'] = 'ἄ';
+map['ἁ\\'] = 'ἃ';
+map['ἁ/'] = 'ἅ';
+map['ἁ='] = 'ἇ';
+map['ἀ='] = 'ἆ';
+map['ά|'] = 'ᾴ';
+map['ὰ|'] = 'ᾲ';
+map['ἀ|'] = 'ᾀ';
+map['ἁ|'] = 'ᾁ';
+map['ᾶ|'] = 'ᾷ';
+map['ἆ|'] = 'ᾆ';
+map['ἇ|'] = 'ᾇ';
+map['ἂ|'] = 'ᾂ';
+map['ἄ|'] = 'ᾄ';
+map['ἃ|'] = 'ᾃ';
+map['ἅ|'] = 'ᾅ';
+
+map['b'] = 'β';
+map['c'] = 'ξ';
+map['d'] = 'δ';
+
+map['e'] = 'ε';
+map['ε/'] = 'έ';
+map['ε\\'] = 'ὲ';
+map['ε)'] = 'ἐ';
+map['ε('] = 'ἑ';
+map['ἐ\\'] = 'ἒ';
+map['ἐ/'] = 'ἔ';
+map['ἑ\\'] = 'ἓ';
+map['ἑ/'] = 'ἕ';
+
+map['f'] = 'φ';
+map['g'] = 'γ';
+
+map['h'] = 'η';
+map['η/'] = 'ή';
+map['η\\'] = 'ὴ';
+map['η='] = 'ῆ';
+map['η)'] = 'ἠ';
+map['η('] = 'ἡ';
+map['η|'] = 'ῃ';
+map['ἠ\\'] = 'ἢ';
+map['ἡ\\'] = 'ἣ';
+map['ἠ/'] = 'ἤ';
+map['ἡ/'] = 'ἥ';
+map['ἠ='] = 'ἦ';
+map['ἡ='] = 'ἧ';
+map['ή|'] = 'ῄ';
+map['ὴ|'] = 'ῂ';
+map['ῆ|'] = 'ῇ';
+map['ἠ|'] = 'ᾐ';
+map['ἡ|'] = 'ᾑ';
+map['ἢ|'] = 'ᾒ';
+map['ἣ|'] = 'ᾓ';
+map['ἤ|'] = 'ᾔ';
+map['ἥ|'] = 'ᾕ';
+map['ἦ|'] = 'ᾖ';
+map['ἧ|'] = 'ᾗ';
+
+map['i'] = 'ι';
+map['ι/'] = 'ί';
+map['ι\\'] = 'ὶ';
+map['ι='] = 'ῖ';
+map['ι)'] = 'ἰ';
+map['ι('] = 'ἱ';
+map['ἰ\\'] = 'ἲ';
+map['ἱ/'] = 'ἵ';
+map['ἰ/'] = 'ἴ';
+map['ἱ\\'] = 'ἳ';
+map['ἰ='] = 'ἶ';
+map['ἱ='] = 'ἷ';
+map['ι-'] = 'ῐ';
+map['ι_'] = 'ῑ';
+map['ι+'] = 'ϊ';
+map['ϊ/'] = 'ΐ';
+map['ϊ\\'] = 'ῒ';
+map['ϊ='] = 'ῗ';
+
+map['j'] = 'ς';
+map['k'] = 'κ';
+map['l'] = 'λ';
+map['m'] = 'μ';
+map['n'] = 'ν';
+
+map['o'] = 'ο';
+map['ο/'] = 'ό';
+map['ο\\'] = 'ὸ';
+map['ο)'] = 'ὀ';
+map['ο('] = 'ὁ';
+map['ὀ\\'] = 'ὂ';
+map['ὁ\\'] = 'ὃ';
+map['ὀ/'] = 'ὄ';
+map['ὁ/'] = 'ὅ';
+
+map['p'] = 'π';
+map['q'] = 'θ';
+
+map['r'] = 'ρ';
+map['ρ)'] = 'ῤ';
+map['ρ('] = 'ῥ';
+
+map['s'] = 'σ';
+map['t'] = 'τ';
+
+map['u'] = 'υ';
+map['υ/'] = 'ύ';
+map['υ\\'] = 'ὺ';
+map['υ='] = 'ῦ';
+map['υ)'] = 'ὐ';
+map['υ('] = 'ὑ';
+map['ὐ\\'] = 'ὒ';
+map['ὑ\\'] = 'ὓ';
+map['ὐ/'] = 'ὔ';
+map['ὑ/'] = 'ὕ';
+map['ὐ='] = 'ὖ';
+map['ὑ='] = 'ὗ';
+map['υ+'] = 'ϋ';
+map['ϋ/'] = 'ΰ';
+map['ϋ\\'] = 'ῢ';
+map['ϋ='] = 'ῧ';
+map['υ_'] = 'ῡ';
+map['υ-'] = 'ῠ';
+
+map['v'] = 'ϝ';
+
+map['w'] = 'ω';
+map['ω/'] = 'ώ';
+map['ω\\'] = 'ὼ';
+map['ω='] = 'ῶ';
+map['ω)'] = 'ὠ';
+map['ω('] = 'ὡ';
+map['ω|'] = 'ῳ';
+map['ὠ/'] = 'ὤ';
+map['ὡ/'] = 'ὥ';
+map['ὠ\\'] = 'ὢ';
+map['ὡ\\'] = 'ὣ';
+map['ὠ='] = 'ὦ';
+map['ὡ='] = 'ὧ';
+map['ώ|'] = 'ῴ';
+map['ὼ|'] = 'ῲ';
+map['ῶ|'] = 'ῷ';
+map['ὠ|'] = 'ᾠ';
+map['ὡ|'] = 'ᾡ';
+map['ὤ|'] = 'ᾤ';
+map['ὥ|'] = 'ᾥ';
+map['ὢ|'] = 'ᾢ';
+map['ὣ|'] = 'ᾣ';
+map['ὦ|'] = 'ᾦ';
+map['ὧ|'] = 'ᾧ';
+
+map['x'] = 'χ';
+map['y'] = 'ψ';
+map['z'] = 'ζ';
+
+map['A'] = 'Α';
+map['Α/'] = 'Ά';
+map['Α\\'] = 'Ὰ';
+map['Α('] = 'Ἁ';
+map['Α)'] = 'Ἀ';
+map['Α|'] = 'ᾼ';
+map['Ἁ\\'] = 'Ἃ';
+map['Ἀ\\'] = 'Ἂ';
+map['Ἁ/'] = 'Ἅ';
+map['Ἀ/'] = 'Ἄ';
+map['Ἁ='] = 'Ἇ';
+map['Ἀ='] = 'Ἆ';
+map['Ἁ|'] = 'ᾉ';
+map['Ἀ|'] = 'ᾈ';
+map['Ἃ|'] = 'ᾋ';
+map['Ἂ|'] = 'ᾊ';
+map['Ἅ|'] = 'ᾍ';
+map['Ἄ|'] = 'ᾌ';
+map['Ἇ|'] = 'ᾏ';
+map['Ἆ|'] = 'ᾎ';
+map['Α-'] = 'Ᾰ';
+map['Α_'] = 'Ᾱ';
+
+map['B'] = 'Β';
+map['C'] = 'Ξ';
+map['D'] = 'Δ';
+
+map['E'] = 'Ε';
+map['Ε/'] = 'Έ';
+map['Ε\\'] = 'Ὲ';
+map['Ε)'] = 'Ἐ';
+map['Ε('] = 'Ἑ';
+map['Ἐ\\'] = 'Ἒ';
+map['Ἐ/'] = 'Ἔ';
+map['Ἑ\\'] = 'Ἓ';
+map['Ἑ/'] = 'Ἕ';
+
+map['F'] = 'Φ';
+map['G'] = 'Γ';
+
+map['H'] = 'Η';
+map['Η\\'] = 'Ὴ';
+map['Η/'] = 'Ή';
+map['Η)'] = 'Ἠ';
+map['Η('] = 'Ἡ';
+map['Η|'] = 'ῌ';
+map['Ἠ\\'] = 'Ἢ';
+map['Ἠ/'] = 'Ἤ';
+map['Ἠ='] = 'Ἦ';
+map['Ἡ\\'] = 'Ἣ';
+map['Ἡ/'] = 'Ἥ';
+map['Ἡ='] = 'Ἧ';
+map['Ἠ|'] = 'ᾘ';
+map['Ἡ|'] = 'ᾙ';
+map['Ἢ|'] = 'ᾚ';
+map['Ἤ|'] = 'ᾜ';
+map['Ἦ|'] = 'ᾞ';
+map['Ἣ|'] = 'ᾛ';
+map['Ἥ|'] = 'ᾝ';
+map['Ἧ|'] = 'ᾟ';
+
+map['I'] = 'Ι';
+map['Ι\\'] = 'Ὶ';
+map['Ι/'] = 'Ί';
+map['Ι)'] = 'Ἰ';
+map['Ι('] = 'Ἱ';
+map['Ἰ\\'] = 'Ἲ';
+map['Ἰ/'] = 'Ἴ';
+map['Ἱ\\'] = 'Ἳ';
+map['Ἱ\\'] = 'Ἵ';
+map['Ἰ='] = 'Ἶ';
+map['Ἱ='] = 'Ἷ';
+map['Ι-'] = 'Ῐ';
+map['Ι_'] = 'Ῑ';
+map['Ι+'] = 'Ϊ';
+
+map['J'] = '*';
+map['K'] = 'Κ';
+map['L'] = 'Λ';
+map['M'] = 'Μ';
+map['N'] = 'Ν';
+
+map['O'] = 'Ο';
+map['Ο\\'] = 'Ὸ';
+map['Ο/'] = 'Ό';
+map['Ο('] = 'Ὁ';
+map['Ο)'] = 'Ὀ';
+map['Ὁ\\'] = 'Ὃ';
+map['Ὁ/'] = 'Ὅ';
+map['Ὀ\\'] = 'Ὂ';
+map['Ὀ/'] = 'Ὄ';
+
+map['P'] = 'Π';
+map['Q'] = 'Θ';
+
+map['R'] = 'Ρ';
+map['Ρ('] = 'Ῥ';
+
+map['S'] = 'Σ';
+map['T'] = 'Τ';
+
+map['U'] = 'Υ';
+map['Υ/'] = 'Ύ';
+map['Υ\\'] = 'Ὺ';
+map['Υ('] = 'Ὑ';
+map['Ὑ\\'] = 'Ὓ';
+map['Ὑ/'] = 'Ὕ';
+map['Ὑ='] = 'Ὗ';
+map['Υ-'] = 'Ῠ';
+map['Υ_'] = 'Ῡ';
+map['Υ+'] = 'ϔ';
+
+map['V'] = 'Ϝ';
+
+map['W'] = 'Ω';
+map['Ω\\'] = 'Ὼ';
+map['Ω/'] = 'Ώ';
+map['Ω)'] = 'Ὠ';
+map['Ω('] = 'Ὡ';
+map['Ω|'] = 'ῼ';
+map['Ὠ\\'] = 'Ὢ';
+map['Ὠ/'] = 'Ὤ';
+map['Ὠ='] = 'Ὦ';
+map['Ὡ\\'] = 'Ὣ';
+map['Ὡ/'] = 'Ὥ';
+map['Ὡ='] = 'Ὧ';
+map['Ὠ|'] = 'ᾨ';
+map['Ὡ|'] = 'ᾩ';
+map['Ὢ|'] = 'ᾪ';
+map['Ὤ|'] = 'ᾬ';
+map['Ὦ|'] = 'ᾮ';
+map['Ὣ|'] = 'ᾫ';
+map['Ὥ|'] = 'ᾭ';
+map['Ὧ|'] = 'ᾯ';
+
+map['X'] = 'Χ';
+map['Y'] = 'Ψ';
+map['Z'] = 'Ζ';
+
+
+
 $('document').ready(function() {
 
 	$('#greekToogle').click(function(event) {
@@ -92,8 +409,12 @@ function doit() {
 	if (!greekEnabled)
 		return;
 
-	text2 = document.getElementById('transcription').value;
+	textOriginal = document.getElementById('transcription').value;
+	text2 = textOriginal[textOriginal.length-1];
+	textOriginal = textOriginal.substring(0, textOriginal.length-1);
 
+	
+	
 	if (navigator.userAgent.indexOf('MSIE') > -1) {
 
 		var currentRange = document.selection.createRange();
@@ -150,320 +471,27 @@ function doit() {
 		return;
 	}
 
-	text2 = replace(text2, '``', '“');
-	text2 = replace(text2, '\'\'', '”');
-	text2 = replace(text2, '´´', '”');
-	text2 = replace(text2, ',,', '„');
-	text2 = replace(text2, '<<', '«');
-	text2 = replace(text2, '>>', '»');
-	text2 = replace(text2, ':', '·');
-	text2 = replace(text2, '?', ';');
-	text2 = replace(text2, ' )', '᾽');
+	oldText2 = text2;
+	for (var i in map) {
+		text2 = replace(text2, i, map[i]);
+	}
 
-	text2 = replace(text2, 'a', 'α');
-	text2 = replace(text2, 'α/', 'ά');
-	text2 = replace(text2, 'α\\', 'ὰ');
-	text2 = replace(text2, 'α=', 'ᾶ');
-	text2 = replace(text2, 'α)', 'ἀ');
-	text2 = replace(text2, 'α(', 'ἁ');
-	text2 = replace(text2, 'α_', 'ᾱ');
-	text2 = replace(text2, 'α-', 'ᾰ');
-	text2 = replace(text2, 'α|', 'ᾳ');
-	text2 = replace(text2, 'ἀ\\', 'ἂ');
-	text2 = replace(text2, 'ἀ/', 'ἄ');
-	text2 = replace(text2, 'ἁ\\', 'ἃ');
-	text2 = replace(text2, 'ἁ/', 'ἅ');
-	text2 = replace(text2, 'ἁ=', 'ἇ');
-	text2 = replace(text2, 'ἀ=', 'ἆ');
-	text2 = replace(text2, 'ά|', 'ᾴ');
-	text2 = replace(text2, 'ὰ|', 'ᾲ');
-	text2 = replace(text2, 'ἀ|', 'ᾀ');
-	text2 = replace(text2, 'ἁ|', 'ᾁ');
-	text2 = replace(text2, 'ᾶ|', 'ᾷ');
-	text2 = replace(text2, 'ἆ|', 'ᾆ');
-	text2 = replace(text2, 'ἇ|', 'ᾇ');
-	text2 = replace(text2, 'ἂ|', 'ᾂ');
-	text2 = replace(text2, 'ἄ|', 'ᾄ');
-	text2 = replace(text2, 'ἃ|', 'ᾃ');
-	text2 = replace(text2, 'ἅ|', 'ᾅ');
+	var countChar = 1;
+	while(oldText2 == text2 && countChar < 4)
+	{
+		text2 = textOriginal[textOriginal.length-1] + text2;
+		textOriginal = textOriginal.substring(0, textOriginal.length-1);
+		for (var i in map) {
+			text2 = replace(text2, i, map[i]);
+		}
+		countChar++;
+	}
+	
 
-	text2 = replace(text2, 'b', 'β');
-	text2 = replace(text2, 'c', 'ξ');
-	text2 = replace(text2, 'd', 'δ');
+	
+	
 
-	text2 = replace(text2, 'e', 'ε');
-	text2 = replace(text2, 'ε/', 'έ');
-	text2 = replace(text2, 'ε\\', 'ὲ');
-	text2 = replace(text2, 'ε)', 'ἐ');
-	text2 = replace(text2, 'ε(', 'ἑ');
-	text2 = replace(text2, 'ἐ\\', 'ἒ');
-	text2 = replace(text2, 'ἐ/', 'ἔ');
-	text2 = replace(text2, 'ἑ\\', 'ἓ');
-	text2 = replace(text2, 'ἑ/', 'ἕ');
-
-	text2 = replace(text2, 'f', 'φ');
-	text2 = replace(text2, 'g', 'γ');
-
-	text2 = replace(text2, 'h', 'η');
-	text2 = replace(text2, 'η/', 'ή');
-	text2 = replace(text2, 'η\\', 'ὴ');
-	text2 = replace(text2, 'η=', 'ῆ');
-	text2 = replace(text2, 'η)', 'ἠ');
-	text2 = replace(text2, 'η(', 'ἡ');
-	text2 = replace(text2, 'η|', 'ῃ');
-	text2 = replace(text2, 'ἠ\\', 'ἢ');
-	text2 = replace(text2, 'ἡ\\', 'ἣ');
-	text2 = replace(text2, 'ἠ/', 'ἤ');
-	text2 = replace(text2, 'ἡ/', 'ἥ');
-	text2 = replace(text2, 'ἠ=', 'ἦ');
-	text2 = replace(text2, 'ἡ=', 'ἧ');
-	text2 = replace(text2, 'ή|', 'ῄ');
-	text2 = replace(text2, 'ὴ|', 'ῂ');
-	text2 = replace(text2, 'ῆ|', 'ῇ');
-	text2 = replace(text2, 'ἠ|', 'ᾐ');
-	text2 = replace(text2, 'ἡ|', 'ᾑ');
-	text2 = replace(text2, 'ἢ|', 'ᾒ');
-	text2 = replace(text2, 'ἣ|', 'ᾓ');
-	text2 = replace(text2, 'ἤ|', 'ᾔ');
-	text2 = replace(text2, 'ἥ|', 'ᾕ');
-	text2 = replace(text2, 'ἦ|', 'ᾖ');
-	text2 = replace(text2, 'ἧ|', 'ᾗ');
-
-	text2 = replace(text2, 'i', 'ι');
-	text2 = replace(text2, 'ι/', 'ί');
-	text2 = replace(text2, 'ι\\', 'ὶ');
-	text2 = replace(text2, 'ι=', 'ῖ');
-	text2 = replace(text2, 'ι)', 'ἰ');
-	text2 = replace(text2, 'ι(', 'ἱ');
-	text2 = replace(text2, 'ἰ\\', 'ἲ');
-	text2 = replace(text2, 'ἱ/', 'ἵ');
-	text2 = replace(text2, 'ἰ/', 'ἴ');
-	text2 = replace(text2, 'ἱ\\', 'ἳ');
-	text2 = replace(text2, 'ἰ=', 'ἶ');
-	text2 = replace(text2, 'ἱ=', 'ἷ');
-	text2 = replace(text2, 'ι-', 'ῐ');
-	text2 = replace(text2, 'ι_', 'ῑ');
-	text2 = replace(text2, 'ι+', 'ϊ');
-	text2 = replace(text2, 'ϊ/', 'ΐ');
-	text2 = replace(text2, 'ϊ\\', 'ῒ');
-	text2 = replace(text2, 'ϊ=', 'ῗ');
-
-	text2 = replace(text2, 'j', 'ς');
-	text2 = replace(text2, 'k', 'κ');
-	text2 = replace(text2, 'l', 'λ');
-	text2 = replace(text2, 'm', 'μ');
-	text2 = replace(text2, 'n', 'ν');
-
-	text2 = replace(text2, 'o', 'ο');
-	text2 = replace(text2, 'ο/', 'ό');
-	text2 = replace(text2, 'ο\\', 'ὸ');
-	text2 = replace(text2, 'ο)', 'ὀ');
-	text2 = replace(text2, 'ο(', 'ὁ');
-	text2 = replace(text2, 'ὀ\\', 'ὂ');
-	text2 = replace(text2, 'ὁ\\', 'ὃ');
-	text2 = replace(text2, 'ὀ/', 'ὄ');
-	text2 = replace(text2, 'ὁ/', 'ὅ');
-
-	text2 = replace(text2, 'p', 'π');
-	text2 = replace(text2, 'q', 'θ');
-
-	text2 = replace(text2, 'r', 'ρ');
-	text2 = replace(text2, 'ρ)', 'ῤ');
-	text2 = replace(text2, 'ρ(', 'ῥ');
-
-	text2 = replace(text2, 's', 'σ');
-	text2 = replace(text2, 't', 'τ');
-
-	text2 = replace(text2, 'u', 'υ');
-	text2 = replace(text2, 'υ/', 'ύ');
-	text2 = replace(text2, 'υ\\', 'ὺ');
-	text2 = replace(text2, 'υ=', 'ῦ');
-	text2 = replace(text2, 'υ)', 'ὐ');
-	text2 = replace(text2, 'υ(', 'ὑ');
-	text2 = replace(text2, 'ὐ\\', 'ὒ');
-	text2 = replace(text2, 'ὑ\\', 'ὓ');
-	text2 = replace(text2, 'ὐ/', 'ὔ');
-	text2 = replace(text2, 'ὑ/', 'ὕ');
-	text2 = replace(text2, 'ὐ=', 'ὖ');
-	text2 = replace(text2, 'ὑ=', 'ὗ');
-	text2 = replace(text2, 'υ+', 'ϋ');
-	text2 = replace(text2, 'ϋ/', 'ΰ');
-	text2 = replace(text2, 'ϋ\\', 'ῢ');
-	text2 = replace(text2, 'ϋ=', 'ῧ');
-	text2 = replace(text2, 'υ_', 'ῡ');
-	text2 = replace(text2, 'υ-', 'ῠ');
-
-	text2 = replace(text2, 'v', 'ϝ');
-
-	text2 = replace(text2, 'w', 'ω');
-	text2 = replace(text2, 'ω/', 'ώ');
-	text2 = replace(text2, 'ω\\', 'ὼ');
-	text2 = replace(text2, 'ω=', 'ῶ');
-	text2 = replace(text2, 'ω)', 'ὠ');
-	text2 = replace(text2, 'ω(', 'ὡ');
-	text2 = replace(text2, 'ω|', 'ῳ');
-	text2 = replace(text2, 'ὠ/', 'ὤ');
-	text2 = replace(text2, 'ὡ/', 'ὥ');
-	text2 = replace(text2, 'ὠ\\', 'ὢ');
-	text2 = replace(text2, 'ὡ\\', 'ὣ');
-	text2 = replace(text2, 'ὠ=', 'ὦ');
-	text2 = replace(text2, 'ὡ=', 'ὧ');
-	text2 = replace(text2, 'ώ|', 'ῴ');
-	text2 = replace(text2, 'ὼ|', 'ῲ');
-	text2 = replace(text2, 'ῶ|', 'ῷ');
-	text2 = replace(text2, 'ὠ|', 'ᾠ');
-	text2 = replace(text2, 'ὡ|', 'ᾡ');
-	text2 = replace(text2, 'ὤ|', 'ᾤ');
-	text2 = replace(text2, 'ὥ|', 'ᾥ');
-	text2 = replace(text2, 'ὢ|', 'ᾢ');
-	text2 = replace(text2, 'ὣ|', 'ᾣ');
-	text2 = replace(text2, 'ὦ|', 'ᾦ');
-	text2 = replace(text2, 'ὧ|', 'ᾧ');
-
-	text2 = replace(text2, 'x', 'χ');
-	text2 = replace(text2, 'y', 'ψ');
-	text2 = replace(text2, 'z', 'ζ');
-
-	text2 = replace(text2, 'A', 'Α');
-	text2 = replace(text2, 'Α/', 'Ά');
-	text2 = replace(text2, 'Α\\', 'Ὰ');
-	text2 = replace(text2, 'Α(', 'Ἁ');
-	text2 = replace(text2, 'Α)', 'Ἀ');
-	text2 = replace(text2, 'Α|', 'ᾼ');
-	text2 = replace(text2, 'Ἁ\\', 'Ἃ');
-	text2 = replace(text2, 'Ἀ\\', 'Ἂ');
-	text2 = replace(text2, 'Ἁ/', 'Ἅ');
-	text2 = replace(text2, 'Ἀ/', 'Ἄ');
-	text2 = replace(text2, 'Ἁ=', 'Ἇ');
-	text2 = replace(text2, 'Ἀ=', 'Ἆ');
-	text2 = replace(text2, 'Ἁ|', 'ᾉ');
-	text2 = replace(text2, 'Ἀ|', 'ᾈ');
-	text2 = replace(text2, 'Ἃ|', 'ᾋ');
-	text2 = replace(text2, 'Ἂ|', 'ᾊ');
-	text2 = replace(text2, 'Ἅ|', 'ᾍ');
-	text2 = replace(text2, 'Ἄ|', 'ᾌ');
-	text2 = replace(text2, 'Ἇ|', 'ᾏ');
-	text2 = replace(text2, 'Ἆ|', 'ᾎ');
-	text2 = replace(text2, 'Α-', 'Ᾰ');
-	text2 = replace(text2, 'Α_', 'Ᾱ');
-
-	text2 = replace(text2, 'B', 'Β');
-	text2 = replace(text2, 'C', 'Ξ');
-	text2 = replace(text2, 'D', 'Δ');
-
-	text2 = replace(text2, 'E', 'Ε');
-	text2 = replace(text2, 'Ε/', 'Έ');
-	text2 = replace(text2, 'Ε\\', 'Ὲ');
-	text2 = replace(text2, 'Ε)', 'Ἐ');
-	text2 = replace(text2, 'Ε(', 'Ἑ');
-	text2 = replace(text2, 'Ἐ\\', 'Ἒ');
-	text2 = replace(text2, 'Ἐ/', 'Ἔ');
-	text2 = replace(text2, 'Ἑ\\', 'Ἓ');
-	text2 = replace(text2, 'Ἑ/', 'Ἕ');
-
-	text2 = replace(text2, 'F', 'Φ');
-	text2 = replace(text2, 'G', 'Γ');
-
-	text2 = replace(text2, 'H', 'Η');
-	text2 = replace(text2, 'Η\\', 'Ὴ');
-	text2 = replace(text2, 'Η/', 'Ή');
-	text2 = replace(text2, 'Η)', 'Ἠ');
-	text2 = replace(text2, 'Η(', 'Ἡ');
-	text2 = replace(text2, 'Η|', 'ῌ');
-	text2 = replace(text2, 'Ἠ\\', 'Ἢ');
-	text2 = replace(text2, 'Ἠ/', 'Ἤ');
-	text2 = replace(text2, 'Ἠ=', 'Ἦ');
-	text2 = replace(text2, 'Ἡ\\', 'Ἣ');
-	text2 = replace(text2, 'Ἡ/', 'Ἥ');
-	text2 = replace(text2, 'Ἡ=', 'Ἧ');
-	text2 = replace(text2, 'Ἠ|', 'ᾘ');
-	text2 = replace(text2, 'Ἡ|', 'ᾙ');
-	text2 = replace(text2, 'Ἢ|', 'ᾚ');
-	text2 = replace(text2, 'Ἤ|', 'ᾜ');
-	text2 = replace(text2, 'Ἦ|', 'ᾞ');
-	text2 = replace(text2, 'Ἣ|', 'ᾛ');
-	text2 = replace(text2, 'Ἥ|', 'ᾝ');
-	text2 = replace(text2, 'Ἧ|', 'ᾟ');
-
-	text2 = replace(text2, 'I', 'Ι');
-	text2 = replace(text2, 'Ι\\', 'Ὶ');
-	text2 = replace(text2, 'Ι/', 'Ί');
-	text2 = replace(text2, 'Ι)', 'Ἰ');
-	text2 = replace(text2, 'Ι(', 'Ἱ');
-	text2 = replace(text2, 'Ἰ\\', 'Ἲ');
-	text2 = replace(text2, 'Ἰ/', 'Ἴ');
-	text2 = replace(text2, 'Ἱ\\', 'Ἳ');
-	text2 = replace(text2, 'Ἱ\\', 'Ἵ');
-	text2 = replace(text2, 'Ἰ=', 'Ἶ');
-	text2 = replace(text2, 'Ἱ=', 'Ἷ');
-	text2 = replace(text2, 'Ι-', 'Ῐ');
-	text2 = replace(text2, 'Ι_', 'Ῑ');
-	text2 = replace(text2, 'Ι+', 'Ϊ');
-
-	text2 = replace(text2, 'J', '*');
-	text2 = replace(text2, 'K', 'Κ');
-	text2 = replace(text2, 'L', 'Λ');
-	text2 = replace(text2, 'M', 'Μ');
-	text2 = replace(text2, 'N', 'Ν');
-
-	text2 = replace(text2, 'O', 'Ο');
-	text2 = replace(text2, 'Ο\\', 'Ὸ');
-	text2 = replace(text2, 'Ο/', 'Ό');
-	text2 = replace(text2, 'Ο(', 'Ὁ');
-	text2 = replace(text2, 'Ο)', 'Ὀ');
-	text2 = replace(text2, 'Ὁ\\', 'Ὃ');
-	text2 = replace(text2, 'Ὁ/', 'Ὅ');
-	text2 = replace(text2, 'Ὀ\\', 'Ὂ');
-	text2 = replace(text2, 'Ὀ/', 'Ὄ');
-
-	text2 = replace(text2, 'P', 'Π');
-	text2 = replace(text2, 'Q', 'Θ');
-
-	text2 = replace(text2, 'R', 'Ρ');
-	text2 = replace(text2, 'Ρ(', 'Ῥ');
-
-	text2 = replace(text2, 'S', 'Σ');
-	text2 = replace(text2, 'T', 'Τ');
-
-	text2 = replace(text2, 'U', 'Υ');
-	text2 = replace(text2, 'Υ/', 'Ύ');
-	text2 = replace(text2, 'Υ\\', 'Ὺ');
-	text2 = replace(text2, 'Υ(', 'Ὑ');
-	text2 = replace(text2, 'Ὑ\\', 'Ὓ');
-	text2 = replace(text2, 'Ὑ/', 'Ὕ');
-	text2 = replace(text2, 'Ὑ=', 'Ὗ');
-	text2 = replace(text2, 'Υ-', 'Ῠ');
-	text2 = replace(text2, 'Υ_', 'Ῡ');
-	text2 = replace(text2, 'Υ+', 'ϔ');
-
-	text2 = replace(text2, 'V', 'Ϝ');
-
-	text2 = replace(text2, 'W', 'Ω');
-	text2 = replace(text2, 'Ω\\', 'Ὼ');
-	text2 = replace(text2, 'Ω/', 'Ώ');
-	text2 = replace(text2, 'Ω)', 'Ὠ');
-	text2 = replace(text2, 'Ω(', 'Ὡ');
-	text2 = replace(text2, 'Ω|', 'ῼ');
-	text2 = replace(text2, 'Ὠ\\', 'Ὢ');
-	text2 = replace(text2, 'Ὠ/', 'Ὤ');
-	text2 = replace(text2, 'Ὠ=', 'Ὦ');
-	text2 = replace(text2, 'Ὡ\\', 'Ὣ');
-	text2 = replace(text2, 'Ὡ/', 'Ὥ');
-	text2 = replace(text2, 'Ὡ=', 'Ὧ');
-	text2 = replace(text2, 'Ὠ|', 'ᾨ');
-	text2 = replace(text2, 'Ὡ|', 'ᾩ');
-	text2 = replace(text2, 'Ὢ|', 'ᾪ');
-	text2 = replace(text2, 'Ὤ|', 'ᾬ');
-	text2 = replace(text2, 'Ὦ|', 'ᾮ');
-	text2 = replace(text2, 'Ὣ|', 'ᾫ');
-	text2 = replace(text2, 'Ὥ|', 'ᾭ');
-	text2 = replace(text2, 'Ὧ|', 'ᾯ');
-
-	text2 = replace(text2, 'X', 'Χ');
-	text2 = replace(text2, 'Y', 'Ψ');
-	text2 = replace(text2, 'Z', 'Ζ');
-
-	document.getElementById('transcription').value = text2;
+	document.getElementById('transcription').value = textOriginal+text2;
 
 	if (navigator.userAgent.indexOf('MSIE') > -1) {
 		document.getElementById('transcription').focus();
@@ -483,7 +511,7 @@ function doit() {
 
 		setCaretToPos(document.getElementById('transcription'), len);
 	} else
-		document.getElementById('transcription').value = text2;
+		document.getElementById('transcription').value = textOriginal+text2;
 	storeCaret(document.getElementById('transcription'));
 }
 
