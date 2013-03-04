@@ -1211,9 +1211,9 @@ $('document').ready(function() {
 	});
 	
 	$('#submitButton').click(function() {
-	    $('#selectSigna option').prop('selected', 'selected');
+		$('#selectSigna option').prop('selected', 'selected');
 	});
 	
 	loadConservationContext(20);
-	
 });
+

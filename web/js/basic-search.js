@@ -62,6 +62,5 @@ $('document').ready(function() {
 	$('signa_description').change(function() {
 		if (greekActive) 
 			doit();
-	});
-	
+	});		
 });

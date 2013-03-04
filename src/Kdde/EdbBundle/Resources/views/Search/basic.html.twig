@@ -71,7 +71,7 @@
       				<div class="control-group">
 						<label class="control-label required" for="transcription">Text</label>  
 						<div class="controls">
-						<textarea class="span5"  rows="8" name="search[transcription]" id="transcription"></textarea>
+						<textarea class = "span5" style = "font-family:Cardo" rows="8" name="search[transcription]" id="transcription"></textarea>
 						<br>
 						<button id="greekToogle" type="button" class="btn" data-toggle="button">Click to write in Greek</button>
       					</div>
@@ -87,7 +87,7 @@
 				{{ form_rest(form) }}
     			<div class="control-group">
     				<div class="controls">
-				      <button type="submit" class="btn">Submit</button>
+				      <button id = "submitButton" type="submit" class="btn">Submit</button>
 				    </div>
 				</div>
   				</fieldset>
@@ -100,7 +100,6 @@
 {% block javascripts %}
 	
 		{{ parent() }}
-		
 		 <script src="{{ asset('js/basic-search.js') }}"></script>
 		 <script src="{{ asset('js/keyboard.js') }}"></script>
 {% endblock %}
