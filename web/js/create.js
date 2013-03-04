@@ -328,7 +328,7 @@ function loadTechniques() {
 function checkPreciseYearAction() {
 	var checked = $('#checkPreciseYear').attr('checked') == 'checked' ? true
 			: false;
-
+	
 	if (checked) {
 		$("#selectDating").prop('disabled', true);
 		$("#selectDating").val(0);
@@ -1211,9 +1211,9 @@ $('document').ready(function() {
 	});
 	
 	$('#submitButton').click(function() {
-		$('#selectSigna option').prop('selected', 'selected');
+	    $('#selectSigna option').prop('selected', 'selected');
 	});
 	
 	loadConservationContext(20);
+	
 });
-
