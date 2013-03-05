@@ -357,8 +357,14 @@ function keyd(e) {
 		e = (e) ? e : window.event;
 		keyCode = (e.keyCode) ? e.keyCode : e.which;
 	}
-	if(e.keyCode !=8)
-		doit();
+	
+	var key = e.keyCode; 
+	if (key == 8 || key == 16 || key == 17 || key == 18 || key == 20
+			|| key == 33 || key == 34 || key == 36 || key == 37 || key == 38
+			|| key == 39 || key == 40 || key == 45 || key == 46) {
+		return;
+	}
+	doit();
 }
 
 if (document.all | navigator.userAgent.indexOf('Mozilla') > -1
@@ -386,19 +392,22 @@ function replace(inText, inFindStr, inReplStr) {
 
 	searchText = inText;
 
-	offset = searchText.indexOf(inFindStr, searchFrom);
-	while (offset != -1) {
-		outText += inText.substring(searchFrom, offset);
-		outText += inReplStr;
-		searchFrom = offset + inFindStr.length;
+	if(searchText != undefined)
+	{
 		offset = searchText.indexOf(inFindStr, searchFrom);
-	}
-	outText += inText.substring(searchFrom, inText.length);
+		while (offset != -1) {
+			outText += inText.substring(searchFrom, offset);
+			outText += inReplStr;
+			searchFrom = offset + inFindStr.length;
+			offset = searchText.indexOf(inFindStr, searchFrom);
+		}
+		outText += inText.substring(searchFrom, inText.length);
 
-	return (outText);
-	if (navigator.userAgent.indexOf('MSIE') > -1) {
-		setCaretAtEnd(document.getElementById('transcription'));
-		storeCaret(document.getElementById('transcription'));
+		return (outText);
+		if (navigator.userAgent.indexOf('MSIE') > -1) {
+			setCaretAtEnd(document.getElementById('transcription'));
+			storeCaret(document.getElementById('transcription'));
+		}
 	}
 }
 
@@ -412,9 +421,13 @@ function doit() {
 	textOriginal = document.getElementById('transcription').value;
 	text2 = textOriginal[textOriginal.length-1];
 	textOriginal = textOriginal.substring(0, textOriginal.length-1);
-
 	
+//	alert('textOriginal: ' + textOriginal);
+//	alert('text2: ' + text2);
 	
+	if(textOriginal == undefined || text2 == undefined)
+		return;
+			
 	if (navigator.userAgent.indexOf('MSIE') > -1) {
 
 		var currentRange = document.selection.createRange();
@@ -489,10 +502,11 @@ function doit() {
 	
 
 	
-	
+//	alert('textOriginal: ' + textOriginal);
+//	alert('text2: ' + text2);
 
 	document.getElementById('transcription').value = textOriginal+text2;
-
+//	alert('text2: ' + text2);
 	if (navigator.userAgent.indexOf('MSIE') > -1) {
 		document.getElementById('transcription').focus();
 
