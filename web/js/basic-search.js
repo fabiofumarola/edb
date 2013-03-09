@@ -37,6 +37,24 @@ function cleanPertinenceContexts(){
 	$('#search_context').html("<option></option>");
 }
 
+function checkTesaurus()
+{
+	var checked = $('#search_thesaurus').attr('checked') == 'checked' ? true : false;
+	
+	if(checked)
+	{
+		$("#search_nogreek").prop('checked', '');
+		$("#search_nodiacr").prop('checked', '');
+		$("#search_nogreek").prop('disabled', true);
+		$("#search_nodiacr").prop('disabled', true);
+	}
+	else
+	{
+		$("#search_nogreek").prop('disabled', false);
+		$("#search_nodiacr").prop('disabled', false);
+	}
+}
+
 
 $('document').ready(function() {
 	
@@ -54,13 +72,17 @@ $('document').ready(function() {
 	});
 	
 	$('#greekToogle').click(function(event) {
-		//alert(greekActive);
 		greekActive = !$('#greekToogle').hasClass('active');		
-		//alert(greekActive);
 	});
 	
 	$('signa_description').change(function() {
 		if (greekActive) 
 			doit();
-	});		
+	});	
+	
+	$('#search_thesaurus').click(function(event) {
+		checkTesaurus();
+	});
 });
+
+

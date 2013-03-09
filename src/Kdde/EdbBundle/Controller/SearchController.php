@@ -109,6 +109,14 @@ class SearchController extends Controller {
 		if (isset($searchArray['thesaurus']))
 			$useThesaurus = true;
 	
+		$yesDiacr = false;
+		if (isset($searchArray['yesdiacr']))
+			$yesDiacr = true;
+		
+		$yesGreek = false;
+		if (isset($searchArray['yesgreek']))
+			$yesGreek = true;
+		
 		if (!$anyParameter) {
 			$this->get('session')->setFlash('error','You should insert at least one parameter !');
 			
@@ -118,7 +126,7 @@ class SearchController extends Controller {
 		$em = $this->get('doctrine')->getEntityManager();
 		
 		//do the query
-		$query = $repoEpigraph->findBasicSearch($id, $icvrId, $principalProgNumber,$areaId, $contextId, $transcription, $useThesaurus, $type);
+		$query = $repoEpigraph->findBasicSearch($id, $icvrId, $principalProgNumber,$areaId, $contextId, $transcription, $useThesaurus, $type, $yesGreek, $yesDiacr);
 	
 		$paginator = $this->get('knp_paginator');
 		$pagination = $paginator->paginate($query,$request->get('page',1),10);

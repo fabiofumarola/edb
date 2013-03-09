@@ -78,6 +78,28 @@ class Epigraph {
 	 */
 	protected $trascription;
 	
+		
+	/**
+	 * @ORM\Column(type="text", name="trascrizione_nogreek")
+	 * @var unknown_type
+	 */
+	protected $trascription_nogreek;
+	
+	
+	/**
+	 * @ORM\Column(type="text", name="trascrizione_nodiacr")
+	 * @var unknown_type
+	 */
+	protected $trascription_nodiacr;
+	
+	
+	/**
+	 * @ORM\Column(type="text", name="trascrizione_nodiacr_nogreek")
+	 * @var unknown_type
+	 */
+	protected $trascription_nodiacr_nogreek;
+	
+	
 	/**
 	 * @ORM\Column(type="string", length=1, name="testo_divergente")
 	 * @var string

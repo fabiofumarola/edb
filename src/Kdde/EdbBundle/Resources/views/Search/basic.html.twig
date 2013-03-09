@@ -77,17 +77,31 @@
       					</div>
       				</div> 
 					<br>
-      				<div class="control-group">
+      				<div class="span2">
 						<label class="control-label required" for="search_thesaurus">Use Thesaurus</label>  
 						<div class="controls">
-						<input type="checkbox" id="search_thesaurus" name="search[thesaurus]">
+							<input type="checkbox" id="search_thesaurus" name="search[thesaurus]">
       					</div>
-      				</div> 			
+      				</div> 
+      				<div class="span2">	
+      					<label class="control-label required" for="search_thesaurus">Consider Common Diacritical Marks</label>  
+      					<div class="controls">
+							<input type="checkbox" id="search_nodiacr" name="search[yesdiacr]">
+      					</div>
+      				</div>
+      				<div class="span2">
+      					<label class="control-label required" for="search_thesaurus">Consider Greek Diacritical Marks</label>  
+      					<div class="controls">
+							<input type="checkbox" id="search_nogreek" name="search[yesgreek]">
+      					</div>
+      				</div>		
 				<hr>
 				{{ form_rest(form) }}
-    			<div class="control-group">
+				
+				<br>
+    			<div class="centered">
     				<div class="controls">
-				      <button id = "submitButton" type="submit" class="btn">Submit</button>
+				      <button id = "submitButton" type="submit" class="btn">Search</button>
 				    </div>
 				</div>
   				</fieldset>

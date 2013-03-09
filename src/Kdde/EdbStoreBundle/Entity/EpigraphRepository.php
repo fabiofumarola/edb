@@ -8,7 +8,7 @@ class EpigraphRepository extends EntityRepository {
 
 	
 	public function findBasicSearch($id, $icvrId, $principalProgNumber, $areaId,
-			$contextId, $transcription, $useThesaurus, $type) {
+			$contextId, $transcription, $useThesaurus, $type, $yesGreek, $yesDiacr) {
 
 		$strQuerySelect = "SELECT ep FROM KddeEdbStoreBundle:Epigraph ep ";
 		$strQueryWhere = "";
@@ -42,11 +42,20 @@ class EpigraphRepository extends EntityRepository {
 				$strQueryWhere .= "AND MATCHTEXT(:queryWords,ep.ts_testo) = 1 ";
 			}
 			else{
+				if($yesGreek && $yesDiacr)
+					$field = "ep.trascription";
+				else if($yesGreek)
+					$field = "ep.trascription_nodiacr";
+				else if($yesDiacr)
+					$field = "ep.trascription_nogreek";
+				else
+					$field = "ep.trascription_nodiacr_nogreek";
+				
 				$words = explode(" ", $transcription);
 				$count = 1;
 				foreach($words as $word)
 				{
-					$strQueryWhere .= "AND LOWER(ep.trascription) LIKE :transcription" . $count . " ";
+					$strQueryWhere .= "AND LOWER(" . $field . ") LIKE :transcription" . $count . " ";
 					$count++;
 				}
 			}
