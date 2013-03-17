@@ -317,7 +317,9 @@ class EpigraphController extends Controller {
 								'Your changes were saved, the epigraph is saved with id '
 										. $epigraph->getId()) . " !";
 
-				return $this->redirect($this->generateUrl('edb_homepage'));
+// 				return $this->redirect($this->generateUrl('edb_homepage'));
+				return $this->redirect($this->generateUrl('edb_epigraph_edit', array('id' => $epigraph->getId())));
+				
 				//return new Response($serializer->serialize($epigraphArray, 'json'));
 			}
 		}

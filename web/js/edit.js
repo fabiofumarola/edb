@@ -1365,6 +1365,10 @@ $('document').ready(function() {
 	$('#submitButton').click(function() {
 	    $('#selectSigna option').prop('selected', 'selected');
 	});
+	
+	$('#submitAndApproveButton').click(function() {
+	    $('#selectSigna option').prop('selected', 'selected');
+	});
 		
 	loadConservationContext(20);
 	

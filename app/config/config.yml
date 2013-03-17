@@ -55,7 +55,9 @@ doctrine:
                 dql:
                     numeric_functions:
                         MATCHTEXT: Kdde\EdbBundle\DQL\MatchText
-
+                    string_functions:
+                        REMOVEDIACR: Kdde\EdbBundle\DQL\RemoveDiacr
+                        REMOVEGREEKS: Kdde\EdbBundle\DQL\RemoveGreeks
 
 # Swiftmailer Configuration
 swiftmailer:
