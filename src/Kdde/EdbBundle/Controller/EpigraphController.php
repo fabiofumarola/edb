@@ -45,11 +45,15 @@ class EpigraphController extends Controller {
 	}
 
 	public function statusAction() {
+		$compilator = $this->get('security.context')->getToken()->getUser();
+		$roles = $this->get('security.context')->getToken()->getRoles();
+		
+		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
 
-		$repository = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Epigraph');
-
-		$pendingEpigraphes = $repository->findBy(array('isActive'=> false), array('id' => 'ASC'));
+		if (in_array("administrator", $roles))
+			$pendingEpigraphes = $repository->findBy(array('isActive'=> false), array('id' => 'ASC'));
+		else
+			$pendingEpigraphes = $repository->findBy(array('isActive'=> false, 'compilator' => $compilator), array('id' => 'ASC'));
 
 
 		return $this
