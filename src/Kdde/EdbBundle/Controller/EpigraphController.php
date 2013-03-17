@@ -58,30 +58,37 @@ class EpigraphController extends Controller {
 	}
 
 	public function approveAction($id) {
-		$repository = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Epigraph');
-		$em = $this->getDoctrine()->getEntityManager();
-		$epigraph = $repository->find($id);
-
+		
+		$epigraph = $this->approveEpigraph($id);
 		if ($epigraph == null) {
 			$this->get('session')
-					->setFlash('error',
-							'The epigraph with id ' . $id
-									. " it is not in the database!");
+			->setFlash('error',
+					'The epigraph with id ' . $id
+					. " is not in the database!");
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
-
-		$epigraph->setIsActive(true);
-		$em->flush();
-
-		$this->get('session')
-				->setFlash('notice',
-						'Your changes were saved, the epigraph with id '
-								. $epigraph->getId() . " is approved !");
-		return $this->redirect($this->generateUrl('edb_epigraph_status'));
-
+		else
+		{
+			$this->get('session')
+					->setFlash('notice',
+							'Your changes were saved, the epigraph with id '
+									. $epigraph->getId() . " is approved !");
+			return $this->redirect($this->generateUrl('edb_epigraph_status'));
+		}
 	}
 
+	private function approveEpigraph($id) {
+		$repository = $this->getDoctrine()
+		->getRepository('KddeEdbStoreBundle:Epigraph');
+		$em = $this->getDoctrine()->getEntityManager();
+		$epigraph = $repository->find($id);
+		if($epigraph != null)
+		{
+			$epigraph->setIsActive(true);
+			$em->flush();
+		}	
+		return $epigraph;
+	}
 	
 	// Codice duplicato. Vedere se possibile ristrutturare
 	public function editAction($id, Request $request) {
@@ -159,17 +166,18 @@ class EpigraphController extends Controller {
 		
 				$epigraphArray = $request->get('epigraph');
 				$epigraph = $this->persistEpigraph($epigraphArray, $epigraph);
-				//$em->persist($epigraph);
-		
-				//$em->flush();
-		
-				$this->get('session')
-				->setFlash('notice',
-						'Your changes were saved, the epigraph is saved with id '
-						. $epigraph->getId()) . " !";
-		
-				return $this->redirect($this->generateUrl('edb_homepage'));
-				//return new Response($serializer->serialize($epigraphArray, 'json'));
+				
+				$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been succesfully saved.';
+				
+				$approveButton = $request->get('submitAndApproveButton');
+				if(isset($approveButton))
+				{
+					$this->approveEpigraph($epigraph->getId());
+					$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been succesfully saved and it has been approved!';
+				}
+
+				$this->get('session')->setFlash('notice', $message);
+				return $this->redirect($this->generateUrl('edb_epigraph_edit', array('id' => $epigraph->getId())));
 			}
 		}
 		return $this
@@ -317,7 +325,6 @@ class EpigraphController extends Controller {
 								'Your changes were saved, the epigraph is saved with id '
 										. $epigraph->getId()) . " !";
 
-// 				return $this->redirect($this->generateUrl('edb_homepage'));
 				return $this->redirect($this->generateUrl('edb_epigraph_edit', array('id' => $epigraph->getId())));
 				
 				//return new Response($serializer->serialize($epigraphArray, 'json'));
