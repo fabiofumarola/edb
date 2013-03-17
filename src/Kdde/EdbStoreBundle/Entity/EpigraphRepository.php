@@ -54,8 +54,18 @@ class EpigraphRepository extends EntityRepository {
 				$words = explode(" ", $transcription);
 				$count = 1;
 				foreach($words as $word)
-				{
-					$strQueryWhere .= "AND LOWER(" . $field . ") LIKE :transcription" . $count . " ";
+				{					
+					$strQueryWhere .= "AND LOWER(" . $field . ") LIKE ";
+					if($yesGreek && $yesDiacr)
+						$transc = "CONCAT(CONCAT('%', :transcription" . $count . "),'%') ";
+					else if($yesGreek)
+						$transc = "CONCAT(CONCAT('%',REMOVEDIACR(:transcription" . $count . ")),'%') ";
+					else if($yesDiacr)
+						$transc = "CONCAT(CONCAT('%',REMOVEGREEKS(:transcription" . $count . ")),'%') ";
+					else
+						$transc = "CONCAT(CONCAT('%',REMOVEGREEKS(REMOVEDIACR(:transcription" . $count . "))),'%') ";
+					$strQueryWhere .= $transc;
+					
 					$count++;
 				}
 			}
@@ -97,7 +107,7 @@ class EpigraphRepository extends EntityRepository {
 				$count = 1;
 				foreach($words as $word)	
 				{
-					$query->setParameter('transcription'.$count, '%'.$word.'%');
+					$query->setParameter('transcription'.$count, $word);
 					$count++;
 				}
 			}
