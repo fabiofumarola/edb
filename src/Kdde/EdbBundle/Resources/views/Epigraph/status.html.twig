@@ -11,12 +11,16 @@
 		<br>
 	</div>
 <div class="row">
-	<div class="offset3 span5">
+	<div>
 		<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
 					<th>Epigraph ID</th>
+					<th>N. ICVR</th>
+					<th>Sub Number</th>
 					<th>Compilator</th>
+					<th>Date</th>
+					<th>Text</th>
 {# 					<th>status</th>#}
 {# 					<th>approve</th>#}
 					<th>Action</th>
@@ -26,11 +30,11 @@
 				{% for e in epigraphes %}
 					<tr class="warning">
 						<td> {{ e.id }}</td>	
-						{% if e.compilator != null %}
-							<td> {{ e.compilator.username }}</td>
-						{% else %}
-							<td></td>
-						{% endif %}
+						<td> {{ e.icvr }}</td>	
+						<td> {{ e.subNumeration }}</td>	
+						<td> {{ e.compilator.username }}</td>
+						<td> {{ e.createdAt|date('Y-m-d')  }} </td>
+						<td class = "span8"> {{ e.trascription }} </td>
 {# 						{% if not e.isActive %}#}
 {# 							<td> pending </td>#}
 {# 						{% else %}#}

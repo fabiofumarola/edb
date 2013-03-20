@@ -184,6 +184,11 @@ class EpigraphController extends Controller {
 				return $this->redirect($this->generateUrl('edb_epigraph_edit', array('id' => $epigraph->getId())));
 			}
 		}
+		$isAdmin = false;
+		$roles = $this->get('security.context')->getToken()->getRoles();	
+		if (in_array("administrator", $roles))
+			$isAdmin = true;
+		
 		return $this
 		->render('KddeEdbBundle:Epigraph:edit.html.twig',
 				array('form' => $form->createView(), 'icvrs' => $icvrs,
@@ -194,7 +199,8 @@ class EpigraphController extends Controller {
 						'functions' => $funzioni,
 						'onomasticAreas' => $ambiti,
 						'datings' => $datings, 'types' => $types,
-						'e' => $epigraph
+						'e' => $epigraph,
+						'admin' => $isAdmin 
 		));
 	}
 
