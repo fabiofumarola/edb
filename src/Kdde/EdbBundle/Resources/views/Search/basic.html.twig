@@ -77,23 +77,18 @@
       					</div>
       				</div> 
 					<br>
-      				<div class="span2">
-						<label class="control-label required" for="search_thesaurus">Use Thesaurus</label>  
-						<div class="controls">
-							<input type="checkbox" id="search_thesaurus" name="search[thesaurus]">
-      					</div>
+      				<div class = "offset1">
+						<input type="checkbox" id="search_thesaurus" name="search[thesaurus]">
+						<label class="checkbox inline" for="search_thesaurus">Use Thesaurus</label>  
+						
       				</div> 
-      				<div class="span2">	
-      					<label class="control-label required" for="search_thesaurus">Consider Common Diacritical Marks</label>  
-      					<div class="controls">
-							<input type="checkbox" id="search_nodiacr" name="search[yesdiacr]">
-      					</div>
+      				<div class = "offset1">	
+      					<input type="checkbox" id="search_nodiacr" name="search[yesdiacr]">
+      					<label class="checkbox inline" for="search_nodiacr">Consider Common Diacritical Marks</label>  
       				</div>
-      				<div class="span2">
-      					<label class="control-label required" for="search_thesaurus">Consider Greek Diacritical Marks</label>  
-      					<div class="controls">
-							<input type="checkbox" id="search_nogreek" name="search[yesgreek]">
-      					</div>
+      				<div class = "offset1">
+      					<input type="checkbox" id="search_nogreek" name="search[yesgreek]">
+      					<label class="checkbox inline" for="search_nogreek">Consider Greek Diacritical Marks</label>  
       				</div>		
 				<hr>
 				{{ form_rest(form) }}

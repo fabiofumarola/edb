@@ -65,7 +65,7 @@ class EpigraphRepository extends EntityRepository {
 					else
 						$transc = "CONCAT(CONCAT('%',REMOVEGREEKS(REMOVEDIACR(:transcription" . $count . "))),'%') ";
 					$strQueryWhere .= $transc;
-					
+							
 					$count++;
 				}
 			}
