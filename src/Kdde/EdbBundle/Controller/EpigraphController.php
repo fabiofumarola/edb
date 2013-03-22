@@ -54,7 +54,7 @@ class EpigraphController extends Controller {
 			$pendingEpigraphes = $repository->findBy(array('isActive'=> false), array('id' => 'ASC'));
 		else
 			$pendingEpigraphes = $repository->findBy(array('isActive'=> false, 'compilator' => $compilator), array('id' => 'ASC'));
-
+		
 
 		return $this
 				->render('KddeEdbBundle:Epigraph:status.html.twig',
