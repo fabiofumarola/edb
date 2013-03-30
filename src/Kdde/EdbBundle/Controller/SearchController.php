@@ -52,13 +52,6 @@ class SearchController extends Controller {
 		
 		$searchArray = $request->get('search',$this->get('session')->get('search',array()));
 		
-		$id = null;
-		$icvrId = null;
-		$principalProgNumber = null;
-		$areaId = null;
-		$contextId = null;
-		$transcription = null;
-		$useThesaurus = false;
 	
 		$anyParameter = false;
 	
@@ -67,22 +60,19 @@ class SearchController extends Controller {
 			$anyParameter = true;
 			if (!is_numeric($id)) {
 				$this->get('session')->setFlash('error', 'The id should be a number !');
-				
 				return $this->redirect('KddeEdbBundle:Search:basic');
 			}
 		}
 	
-		if (strlen($searchArray['icvr'])) {
-			$icvrId = $searchArray['icvr'];
+		if (strlen($searchArray['icvr'])) 
 			$anyParameter = true;
-		}
+
 			
 		if (strlen($searchArray['principalProgNumber'])) {
 			$principalProgNumber = $searchArray['principalProgNumber'];
 			$anyParameter = true;
 			if (!is_numeric($principalProgNumber)) {
 				$this->get('session')->setFlash('error', 'The ICVR id should be a number !');
-				
 				return $this->redirect('KddeEdbBundle:Search:basic');
 			}
 		}
@@ -91,20 +81,15 @@ class SearchController extends Controller {
 		if ($type != -1)
 			$anyParameter = true;
 		
-		if (strlen($searchArray['area'])) {
-			$areaId = $searchArray['area'];
+		if (strlen($searchArray['area'])) 
 			$anyParameter = true;
-		}
 	
-		if (strlen($searchArray['context'])) {
-			$contextId = $searchArray['context'];
+		if (strlen($searchArray['cons_area']))
 			$anyParameter = true;
-		}
 	
-		if (strlen($searchArray['transcription'])) {
-			$transcription = $searchArray['transcription'];
+		if (strlen($searchArray['transcription'])) 
 			$anyParameter = true;
-		}
+		
 	
 		if (isset($searchArray['thesaurus']))
 			$useThesaurus = true;
@@ -117,16 +102,19 @@ class SearchController extends Controller {
 		if (isset($searchArray['yesgreek']))
 			$yesGreek = true;
 		
+		
+		
 		if (!$anyParameter) {
 			$this->get('session')->setFlash('error','You should insert at least one parameter !');
-			
 			return $this->forward('KddeEdbBundle:Search:basic');
 		}
+		
+		
 		
 		$em = $this->get('doctrine')->getEntityManager();
 		
 		//do the query
-		$query = $repoEpigraph->findBasicSearch($id, $icvrId, $principalProgNumber,$areaId, $contextId, $transcription, $useThesaurus, $type, $yesGreek, $yesDiacr);
+		$query = $repoEpigraph->findBasicSearch($searchArray);
 	
 		$paginator = $this->get('knp_paginator');
 		$pagination = $paginator->paginate($query,$request->get('page',1),10);

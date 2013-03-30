@@ -7,9 +7,67 @@ use Doctrine\ORM\Query\ResultSetMapping;
 class EpigraphRepository extends EntityRepository {
 
 	
-	public function findBasicSearch($id, $icvrId, $principalProgNumber, $areaId,
-			$contextId, $transcription, $useThesaurus, $type, $yesGreek, $yesDiacr) {
+	public function findBasicSearch($searchArray) {
+		
+		
+		// Read the search parameters
+		//--------------------------------------------------------------------------------
+		$id = null;
+		if (strlen($searchArray['id'])) 
+			$id = $searchArray['id'];
 
+		$icvrId = null;
+		if (strlen($searchArray['icvr']))
+			$icvrId = $searchArray['icvr'];
+		
+		$principalProgNumber = null;
+		if (strlen($searchArray['principalProgNumber']))
+			$principalProgNumber = $searchArray['principalProgNumber'];
+			
+		$type = $searchArray['type'];
+		
+		$areaId = null;
+		if (strlen($searchArray['area']))
+			$areaId = $searchArray['area'];
+
+		$contextId = null;
+		if (strlen($searchArray['context'])) 
+			$contextId = $searchArray['context'];
+		
+		$positionId = null;
+		if (strlen($searchArray['position']))
+			$positionId = $searchArray['position'];
+		
+		$cons_areaId = null;
+		if (strlen($searchArray['cons_area']))
+			$cons_areaId = $searchArray['cons_area'];
+		
+		$cons_contextId = null;
+		if (strlen($searchArray['cons_context']))
+			$cons_contextId = $searchArray['cons_context'];
+		
+		$cons_positionId = null;
+		if (strlen($searchArray['cons_position']))
+			$cons_positionId = $searchArray['cons_position'];
+		
+		$transcription = null;
+		if (strlen($searchArray['transcription']))
+			$transcription = $searchArray['transcription'];
+
+		$useThesaurus = false;
+		if (isset($searchArray['thesaurus']))
+			$useThesaurus = true;
+		
+		$yesDiacr = false;
+		if (isset($searchArray['yesdiacr']))
+			$yesDiacr = true;
+		
+		$yesGreek = false;
+		if (isset($searchArray['yesgreek']))
+			$yesGreek = true;
+		
+		//--------------------------------------------------------------------------------
+				
 		$strQuerySelect = "SELECT ep FROM KddeEdbStoreBundle:Epigraph ep ";
 		$strQueryWhere = "";
 				
@@ -35,6 +93,28 @@ class EpigraphRepository extends EntityRepository {
 			$strQuerySelect .= "JOIN pe.context pc ";
 			$strQueryWhere .= "AND pc.id = :contextId ";
 		}
+		
+		if ($positionId != null) {
+			$strQuerySelect .= "JOIN pe.pertinencePosition po ";
+			$strQueryWhere .= "AND po.id = :positionId ";
+		}
+		
+		if ($cons_areaId != null) {
+			$strQuerySelect .= "JOIN ep.conservations co JOIN co.conservationLocation cl ";
+			$strQueryWhere .= "AND cl.id = :cons_areaId ";
+		}
+		
+		if ($cons_contextId != null) {
+			$strQuerySelect .= "JOIN co.conservationContext cc ";
+			$strQueryWhere .= "AND cc.id = :cons_contextId ";
+		}
+		
+		if ($cons_positionId != null) {
+			$strQuerySelect .= "JOIN co.conservationPosition cp ";
+			$strQueryWhere .= "AND cp.id = :cons_positionId ";
+		}
+		
+		
 
 		if ($transcription != null) {
 			if ($useThesaurus == true) {
@@ -100,6 +180,22 @@ class EpigraphRepository extends EntityRepository {
 
 		if ($contextId != null) {
 			$query->setParameter('contextId', $contextId);
+		}
+		
+		if ($positionId != null) {
+			$query->setParameter('positionId', $positionId);
+		}
+		
+		if ($cons_areaId != null) {
+			$query->setParameter('cons_areaId', $cons_areaId);
+		}
+		
+		if ($cons_contextId != null) {
+			$query->setParameter('cons_contextId', $cons_contextId);
+		}
+		
+		if ($cons_positionId != null) {
+			$query->setParameter('cons_positionId', $cons_positionId);
 		}
 
 		if ($transcription != null) {
