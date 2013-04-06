@@ -144,15 +144,8 @@ function addNewTechnique() {
 }
 
 function addNewSignumChristi() {
-	var id = $('#inputSignaId').val();
 	var desc = $('#inputSignaDescription').val();
 
-	if (id.length == 0) {
-		$('#divSignaId').attr('class', 'control-group error');
-		return;
-	}
-
-	// check if the id is used
 	if (desc.length == 0) {
 		$('#divSignaDesc').attr('class', 'control-group error');
 		return;
@@ -161,12 +154,10 @@ function addNewSignumChristi() {
 	var url = Routing.generate('edb_new_signa');
 
 	$.post(url, {
-		id : id,
 		description : desc
-	}, function(result) {
+	},  function(result) {
 
 		if (result.toString() == '"ok"') {
-			loadTechniques();
 			$('#modalNewSigna').modal('hide');
 		} else {
 			alert(result);
@@ -633,9 +624,6 @@ function openDialogViewSignas() {
 							$('#tbodySigna')
 									.append(
 											'<tr>'
-													+ '<td>'
-													+ data[i].id
-													+ '</td>'
 													+ '<td>'
 													+ data[i].description
 													+ '</td>'

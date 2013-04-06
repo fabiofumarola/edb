@@ -52,20 +52,13 @@ class SignaController extends Controller {
 	
 	public function newModalAction(){
 		
-		$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new
-				JsonEncoder()));
-		
-		$id = $this->getRequest()->get("id");
+		$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
 		$description = $this->getRequest()->get("description");
 		
 		$em = $this->getDoctrine()->getEntityManager();
 		$repo = $em->getRepository('KddeEdbStoreBundle:Signa');
-		
-		if ($repo->find($id) != null)
-			return new Response($serializer->serialize('Error: Existing SignumChristi', 'json'));
-		
+				
 		$signum = new Signa();
-		$signum->setId($id);
 		$signum->setDescription($description);
 		$em->persist($signum);
 		$em->flush();

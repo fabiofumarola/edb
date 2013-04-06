@@ -16,7 +16,8 @@ class Signa {
 
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="string", length=2, name="cod_signa")
+	 * @ORM\Column(type="integer",name="cod_signa")
+	 * @ORM\GeneratedValue(strategy="AUTO")
 	 * @var unknown_type
 	 */
 	protected $id;
