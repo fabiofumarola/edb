@@ -1357,7 +1357,15 @@ $('document').ready(function() {
 	$('#submitAndApproveButton').click(function() {
 	    $('#selectSigna option').prop('selected', 'selected');
 	});
-		
+	
+	$('#submitAndBackButton').click(function() {
+	    $('#selectSigna option').prop('selected', 'selected');
+	});
+	
+	$('#submitToAdminButton').click(function() {
+	    $('#selectSigna option').prop('selected', 'selected');
+	});
+	
 	loadConservationContext(20);
 	
 	loadListOfOriginalContext();

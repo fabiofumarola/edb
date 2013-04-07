@@ -289,6 +289,11 @@ class Epigraph {
 	protected $geoPosition;
 	
 	
+	/**
+	 * @ORM\Column(type="integer", name="stato")
+	 * @var integer
+	 */
+	protected $status = 0;
 
 	
 	/**
@@ -351,6 +356,27 @@ class Epigraph {
     public function getEdb()
     {
         return $this->edb;
+    }
+    
+    
+    /**
+     * Set status
+     *
+     * @param integer $status
+     */
+    public function setStatus($status)
+    {
+    	$this->status = $status;
+    }
+    
+    /**
+     * Get status
+     *
+     * @return integer
+     */
+    public function getStatus()
+    {
+    	return $this->status;
     }
 
     /**

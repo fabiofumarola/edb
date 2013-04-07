@@ -154,10 +154,10 @@ class EpigraphRepository extends EntityRepository {
 		if ($type != -1)
 			$strQueryWhere .= "AND ep.epigraph_type = :epi_type ";
 				
-		$strQuery = $strQuerySelect . "WHERE ep.isActive = :epi_active " . $strQueryWhere;
+		$strQuery = $strQuerySelect . "WHERE ep.status = :status " . $strQueryWhere;
 		$query = $this->getEntityManager()->createQuery($strQuery);
 		
-		$query->setParameter('epi_active', true);
+		$query->setParameter('status', 2);
 		
 		if ($id != null) {
 			$query->setParameter('id', $id);

@@ -571,11 +571,22 @@
     				<div class="span2">
 				      <button id ="submitButton" type="submit" class="btn"" >Apply Changes</button>
 				    </div>
-				    {% if e.isActive == false and admin == true %}
+				    {% if (e.status == 0 or e.status == 1) and admin == true %}
 				    <div class="span4">
 				      <button id ="submitAndApproveButton" name = "submitAndApproveButton" type="submit" class="btn"" >Apply Changes and Approve</button>
 				    </div>
 				    {% endif %}
+				    {% if (e.status == 1) and admin == true %}
+				    <div class="span4">
+				      <button id ="submitAndBackButton" name = "submitAndBackButton" type="submit" class="btn"" >Apply Changes and Return Back to Compiler</button>
+				    </div>
+				    {% endif %}
+				    {% if (e.status == 0) and admin == false %}
+				    <div class="span4">
+				      <button id ="submitToAdminButton" name = "submitToAdminButton" type="submit" class="btn"" >Apply Changes and send to Admins</button>
+				    </div>
+				    {% endif %}
+				    
 			</form>
 		</div>
 	</div>

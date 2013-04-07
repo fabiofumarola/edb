@@ -50,20 +50,19 @@ class EpigraphController extends Controller {
 		
 		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
 
-		if (in_array("administrator", $roles))
-			$pendingEpigraphes = $repository->findBy(array('isActive'=> false), array('id' => 'ASC'));
-		else
-			$pendingEpigraphes = $repository->findBy(array('isActive'=> false, 'compilator' => $compilator), array('id' => 'ASC'));
+		// Get the created epigraph of the logged user only
+		$pendingEpigraphes = $repository->findBy(array('status'=> 0, 'compilator' => $compilator), array('id' => 'ASC'));
 		
-
-		return $this
-				->render('KddeEdbBundle:Epigraph:status.html.twig',
-						array('epigraphes' => $pendingEpigraphes));
+		// If the user is an admin, add the pending epigraphs of all the users
+		if (in_array("administrator", $roles))
+			$pendingEpigraphes = array_merge($pendingEpigraphes, $repository->findBy(array('status'=> 1), array('id' => 'ASC')));
+				
+		return $this->render('KddeEdbBundle:Epigraph:status.html.twig',	array('epigraphes' => $pendingEpigraphes));
 	}
 
 	public function approveAction($id) {
 		
-		$epigraph = $this->approveEpigraph($id);
+		$epigraph = $this->setStatus($id,2);
 		if ($epigraph == null) {
 			$this->get('session')
 			->setFlash('error',
@@ -81,14 +80,14 @@ class EpigraphController extends Controller {
 		}
 	}
 
-	private function approveEpigraph($id) {
+	private function setStatus($id, $status) {
 		$repository = $this->getDoctrine()
 		->getRepository('KddeEdbStoreBundle:Epigraph');
 		$em = $this->getDoctrine()->getEntityManager();
 		$epigraph = $repository->find($id);
 		if($epigraph != null)
 		{
-			$epigraph->setIsActive(true);
+			$epigraph->setStatus($status);
 			$em->flush();
 		}	
 		return $epigraph;
@@ -174,14 +173,29 @@ class EpigraphController extends Controller {
 				$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been succesfully saved.';
 				
 				$approveButton = $request->get('submitAndApproveButton');
+				$backButton = $request->get('submitAndBackButton');
+				$sendToAdminButton = $request->get('submitToAdminButton');
 				if(isset($approveButton))
 				{
-					$this->approveEpigraph($epigraph->getId());
+					$this->setStatus($epigraph->getId(), 2);
 					$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been succesfully saved and it has been approved!';
 				}
-
+				else if(isset($backButton))
+				{
+					$this->setStatus($epigraph->getId(), 0);
+					$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been succesfully saved and it has been returned back to compiler!';
+				}
+				else if(isset($sendToAdminButton))
+				{
+					$this->setStatus($epigraph->getId(), 1);
+					$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been succesfully saved and it has been sent to admins for approval!';
+				}
 				$this->get('session')->setFlash('notice', $message);
-				return $this->redirect($this->generateUrl('edb_epigraph_edit', array('id' => $epigraph->getId())));
+				
+				if(isset($approveButton) || isset($backButton) || isset($sendToAdminButton))
+					return $this->redirect($this->generateUrl('edb_homepage'));
+				else
+					return $this->redirect($this->generateUrl('edb_epigraph_edit', array('id' => $epigraph->getId())));
 			}
 		}
 		$isAdmin = false;
@@ -213,7 +227,7 @@ class EpigraphController extends Controller {
 		$em = $this->getDoctrine()->getEntityManager();
 		$epigraph = $repository->find($id);
 	
-		if ($epigraph == null || $epigraph->getIsActive() == false) {
+		if ($epigraph == null || $epigraph->getStatus() == 0) {
 			$this->get('session')
 					->setFlash('error',
 							'The epigraph with id ' . $id
@@ -326,10 +340,7 @@ class EpigraphController extends Controller {
 				$epigraphArray = $request->get('epigraph');
 
 				$epigraph = $this->persistEpigraph($epigraphArray, null);
-				//$em->persist($epigraph);
-
-				//$em->flush();
-
+			
 				$this->get('session')
 						->setFlash('notice',
 								'Your changes were saved, the epigraph is saved with id '
@@ -629,7 +640,9 @@ class EpigraphController extends Controller {
 
 			// Compilator needs User object
 			// old was: $epigraph->setCompilator($this->get('security.context')->getToken()->getUser()->getId());
-			$epigraph->setCompilator($this->get('security.context')->getToken()->getUser());
+			
+			if(!$update)
+				$epigraph->setCompilator($this->get('security.context')->getToken()->getUser());
 
 			// Backward compatibility for OldCompilator
 			$oldCompilaterUser = $this->get('security.context')->getToken()->getUser();
