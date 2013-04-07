@@ -297,6 +297,7 @@
 					<div class="span2">
 						<label>Onomastic Notes</label> <select id="selectOnomasticArea"
 							class="span2" name="epigraph[ambitoOnomastico]">
+							<option value = "" selected></option>
 							{% for o in onomasticAreas %}
 								<option value="{{ o.id }}"> {{ o.description }}</option>
 							{% endfor %}

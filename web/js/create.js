@@ -166,13 +166,13 @@ function addNewSignumChristi() {
 }
 
 function addNewOnomasticArea() {
-	var id = $('#inputOnomasticAreaId').val();
+//	var id = $('#inputOnomasticAreaId').val();
 	var desc = $('#inputOnomasticAreaDescription').val();
 
-	if (id.length == 0) {
-		$('#divOnomasticAreaId').attr('class', 'control-group error');
-		return;
-	}
+//	if (id.length == 0) {
+//		$('#divOnomasticAreaId').attr('class', 'control-group error');
+//		return;
+//	}
 
 	// check if the id is used
 	if (desc.length == 0) {
@@ -183,7 +183,7 @@ function addNewOnomasticArea() {
 	var url = Routing.generate('edb_new_onomastic_area');
 
 	$.post(url, {
-		id : id,
+//		id : id,
 		description : desc
 	}, function(result) {
 

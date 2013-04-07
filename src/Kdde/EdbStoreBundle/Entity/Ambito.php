@@ -14,7 +14,8 @@ class Ambito {
 
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="string", length=10, name="cod_ambito")
+	 * @ORM\Column(type="integer", name="cod_ambito")
+	 * @ORM\GeneratedValue(strategy="AUTO")
 	 * @var unknown_type
 	 */
 	protected $id;

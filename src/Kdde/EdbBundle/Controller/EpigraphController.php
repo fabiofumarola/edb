@@ -568,12 +568,13 @@ class EpigraphController extends Controller {
 			else
 				$epigraph->setTrascription(null);
 
-			if (isset($epigraphArray['ambitoOnomastico'])) {
+			if ($epigraphArray['ambitoOnomastico'] != '') 
+			{
 				$ambitoOnomastico = $repoAmbito->find($epigraphArray['ambitoOnomastico']);
 				$epigraph->setAmbitoOnomastico($ambitoOnomastico);
 			}
-			else 
-				$epigraph->setAmbitoOnomastico(null);
+			else
+				$epigraph->removeAmbitoOnomastico();
 
 			$epigraph->emptySignas();
 			if (isset($epigraphArray['signas'])) {

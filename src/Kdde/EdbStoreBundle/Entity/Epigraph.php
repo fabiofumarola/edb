@@ -792,6 +792,15 @@ class Epigraph {
     {
         $this->ambitoOnomastico = $ambitoOnomastico;
     }
+    
+    /**
+     * Remove ambitoOnomastico
+     *
+     */
+    public function removeAmbitoOnomastico()
+    {
+    	$this->ambitoOnomastico = null;
+    }
 
     /**
      * Get ambitoOnomastico
