@@ -16,7 +16,7 @@ use JMS\Serializer\Annotation\ExclusionPolicy;
 class EpigraphDating {
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Epigraph", inversedBy="literatures")
+	 * @ORM\ManyToOne(targetEntity="Epigraph", inversedBy="datings")
 	 * @ORM\JoinColumn(name="id_epigrafe", referencedColumnName="id_edb")
 	 * @Exclude
 	 */
