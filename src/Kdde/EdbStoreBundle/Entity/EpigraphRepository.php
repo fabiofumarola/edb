@@ -7,7 +7,11 @@ use Doctrine\ORM\Query\ResultSetMapping;
 class EpigraphRepository extends EntityRepository {
 
 	
-	public function findBasicSearch($searchArray) {
+	public function findBasicSearch($searchArray, $roles) {
+		
+		$isAdmin = false;
+		if (in_array("administrator", $roles))
+			$isAdmin = true;
 		
 		
 		// Read the search parameters
@@ -153,11 +157,15 @@ class EpigraphRepository extends EntityRepository {
 				
 		if ($type != -1)
 			$strQueryWhere .= "AND ep.epigraph_type = :epi_type ";
-				
-		$strQuery = $strQuerySelect . "WHERE ep.status = :status " . $strQueryWhere;
+
+		if (!$isAdmin)
+			$strQuery = $strQuerySelect . "WHERE ep.status = :status " . $strQueryWhere;
+		else
+			$strQuery = $strQuerySelect . "WHERE 1 = 1 " . $strQueryWhere;
 		$query = $this->getEntityManager()->createQuery($strQuery);
 		
-		$query->setParameter('status', 2);
+		if(!$isAdmin)
+			$query->setParameter('status', 2);
 		
 		if ($id != null) {
 			$query->setParameter('id', $id);

@@ -113,8 +113,11 @@ class SearchController extends Controller {
 		
 		$em = $this->get('doctrine')->getEntityManager();
 		
+		
+		$roles = $this->get('security.context')->getToken()->getRoles();
+		
 		//do the query
-		$query = $repoEpigraph->findBasicSearch($searchArray);
+		$query = $repoEpigraph->findBasicSearch($searchArray, $roles);
 	
 		$paginator = $this->get('knp_paginator');
 		$pagination = $paginator->paginate($query,$request->get('page',1),10);
