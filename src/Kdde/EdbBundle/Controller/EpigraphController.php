@@ -102,8 +102,7 @@ class EpigraphController extends Controller {
 		$epigraph = $repository->find($id);
 		
 		if ($epigraph == null) {
-			$this->get('session')
-			->setFlash('error',
+			$this->get('session')->setFlash('error',
 					'The epigraph with id ' . $id
 					. " it is not in the database!");
 			return $this->redirect($this->generateUrl('edb_homepage'));
@@ -111,45 +110,32 @@ class EpigraphController extends Controller {
 		
 		
 		//select all the icvr
-		$repoIcvr = $this->getDoctrine()
-		->getRepository('KddeEdbStoreBundle:Icvr');
+		$repoIcvr = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Icvr');
 		$icvrs = $repoIcvr->findAll();
 		
 		//select all the bibliography
-		$repoLiterature = $this->getDoctrine()
-		->getRepository('KddeEdbStoreBundle:Literature');
+		$repoLiterature = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Literature');
 		$literatures = $repoLiterature->findBy(array(), array('id' => 'ASC'));
 		
-		$repoSupport = $this->getDoctrine()
-		->getRepository('KddeEdbStoreBundle:Support');
-		$supports = $repoSupport
-		->findBy(array(), array('description' => 'ASC'));
+		$repoSupport = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Support');
+		$supports = $repoSupport->findBy(array(), array('description' => 'ASC'));
 		
-		$repoTechnique = $this->getDoctrine()
-		->getRepository('KddeEdbStoreBundle:Technique');
-		$techniques = $repoTechnique
-		->findBy(array(), array('description' => 'ASC'));
+		$repoTechnique = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Technique');
+		$techniques = $repoTechnique->findBy(array(), array('description' => 'ASC'));
 		
-		$repoPaleography = $this->getDoctrine()
-		->getRepository('KddeEdbStoreBundle:Paleography');
-		$paleographies = $repoPaleography
-		->findBy(array(), array('description' => 'ASC'));
+		$repoPaleography = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Paleography');
+		$paleographies = $repoPaleography->findBy(array(), array('description' => 'ASC'));
 		
-		$repoFunzione = $this->getDoctrine()
-		->getRepository('KddeEdbStoreBundle:Funzione');
-		$funzioni = $repoFunzione
-		->findBy(array(), array('description' => 'ASC'));
+		$repoFunzione = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Funzione');
+		$funzioni = $repoFunzione->findBy(array(), array('description' => 'ASC'));
 		
-		$repoAmbito = $this->getDoctrine()
-		->getRepository('KddeEdbStoreBundle:Ambito');
+		$repoAmbito = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Ambito');
 		$ambiti = $repoAmbito->findBy(array(), array('description' => 'ASC'));
 		
-		$repoDating = $this->getDoctrine()
-		->getRepository('KddeEdbStoreBundle:Dating');
+		$repoDating = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Dating');
 		$datings = $repoDating->findBy(array(), array('description' => 'ASC'));
 		
-		$repoTypes = $this->getDoctrine()
-		->getRepository('KddeEdbStoreBundle:Type');
+		$repoTypes = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Type');
 		$types = $repoTypes->findBy(array(), array('description' => 'ASC'));
 		
 		$em = $this->getDoctrine()->getEntityManager();
@@ -165,8 +151,8 @@ class EpigraphController extends Controller {
 		
 			$form->bindRequest($request);
 		
-			if ($form->isValid()) {
-		
+			if ($form->isValid()) 
+			{
 				$epigraphArray = $request->get('epigraph');
 				$epigraph = $this->persistEpigraph($epigraphArray, $epigraph);
 				
@@ -212,7 +198,8 @@ class EpigraphController extends Controller {
 						'paleographies' => $paleographies,
 						'functions' => $funzioni,
 						'onomasticAreas' => $ambiti,
-						'datings' => $datings, 'types' => $types,
+						'datings' => $datings, 
+						'types' => $types,
 						'e' => $epigraph,
 						'admin' => $isAdmin 
 		));
@@ -460,7 +447,13 @@ class EpigraphController extends Controller {
 				}
 			}
 			//------------------------------------------------------
-					
+
+			if (isset($epigraphArray['dateInText'])) {
+				if ($epigraphArray['dateInText'] == 'on')
+					$epigraph->setDateintext(true);
+			} else
+				$epigraph->setDateintext(false);
+			
 
 			if (isset($epigraphArray['datingIds'])) {
 				$datingIds= $epigraphArray['datingIds'];

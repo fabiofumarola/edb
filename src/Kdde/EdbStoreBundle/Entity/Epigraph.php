@@ -221,6 +221,12 @@ class Epigraph {
 	protected $isActive = false;
 	
 	
+	
+	/**
+	 * @ORM\Column(type="boolean", name="date_in_the_text")
+	 * @var boolean
+	 */
+	protected $dateintext;
     
 
 	/**
@@ -809,6 +815,28 @@ class Epigraph {
         return $this->funzione;
     }
 
+    
+    /**
+     * Set date in the text
+     *
+     * @param boolean
+     */
+    public function setDateintext($dateintext)
+    {
+    	$this->dateintext = $dateintext;
+    }
+    
+    /**
+     * Get dateintext
+     *
+     * @return boolean
+     */
+    public function getDateintext()
+    {
+    	return $this->dateintext;
+    }
+    
+    
     /**
      * Set ambitoOnomastico
      *
@@ -838,25 +866,6 @@ class Epigraph {
         return $this->ambitoOnomastico;
     }
 
-//    /**
-//     * Set luogo
- //    *
- //    * @param Kdde\EdbStoreBundle\Entity\Location $luogo
-//     */
-//    public function setLuogo(\Kdde\EdbStoreBundle\Entity\Location $luogo)
-//    {
-//        $this->luogo = $luogo;
-//    }
-//
-//    /**
-//     * Get luogo
-//     *
-//     * @return Kdde\EdbStoreBundle\Entity\Location 
-//     */
-//    public function getLuogo()
-//    {
-//        return $this->luogo;
-//    }
 
     /**
      * Set material

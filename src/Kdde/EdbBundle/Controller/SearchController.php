@@ -115,17 +115,22 @@ class SearchController extends Controller {
 		
 		
 		$roles = $this->get('security.context')->getToken()->getRoles();
+		$isAdmin = false;
+		if (in_array("administrator", $roles))
+			$isAdmin = true;
 		
 		//do the query
 		$query = $repoEpigraph->findBasicSearch($searchArray, $roles);
 	
+			
+		
 		$paginator = $this->get('knp_paginator');
 		$pagination = $paginator->paginate($query,$request->get('page',1),10);
 				
 		$count = $pagination->getTotalItemCount();
 
 		$this->get('session')->set('search', $searchArray);
-		return $this->render('KddeEdbBundle:Search:result.html.twig',array('pagination' => $pagination, 'count' =>$count));
+		return $this->render('KddeEdbBundle:Search:result.html.twig',array('pagination' => $pagination, 'count' =>$count, 'isAdmin' => $isAdmin));
 	}
 
 	public function mediumAction(Request $request){
