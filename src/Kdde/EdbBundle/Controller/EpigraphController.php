@@ -156,7 +156,7 @@ class EpigraphController extends Controller {
 				$epigraphArray = $request->get('epigraph');
 				$epigraph = $this->persistEpigraph($epigraphArray, $epigraph);
 				
-				$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been succesfully saved.';
+				$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been successfully saved.';
 				
 				$approveButton = $request->get('submitAndApproveButton');
 				$backButton = $request->get('submitAndBackButton');
@@ -164,17 +164,17 @@ class EpigraphController extends Controller {
 				if(isset($approveButton))
 				{
 					$this->setStatus($epigraph->getId(), 2);
-					$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been succesfully saved and it has been approved!';
+					$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been successfully saved and it has been approved!';
 				}
 				else if(isset($backButton))
 				{
 					$this->setStatus($epigraph->getId(), 0);
-					$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been succesfully saved and it has been returned back to compiler!';
+					$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been successfully saved and it has been returned back to compiler!';
 				}
 				else if(isset($sendToAdminButton))
 				{
 					$this->setStatus($epigraph->getId(), 1);
-					$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been succesfully saved and it has been sent to admins for approval!';
+					$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been successfully saved and it has been sent to admins for approval!';
 				}
 				$this->get('session')->setFlash('notice', $message);
 				
