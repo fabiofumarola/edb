@@ -190,13 +190,13 @@ class Epigraph {
 	 */
 	protected $material;
 	
-	/**
-	 *
-	 * @var ArrayCollection
-	 * @OneToMany(targetEntity="EpigraphLiterature", mappedBy="epigraph", cascade={"persist", "merge","remove"})
-	 *
-	 */
-	protected $literatures;
+// 	/**
+// 	 *
+// 	 * @var ArrayCollection
+// 	 * @OneToMany(targetEntity="EpigraphLiterature", mappedBy="epigraph", cascade={"persist", "merge","remove"})
+// 	 *
+// 	 */
+// 	protected $literatures;
 		
 	/**
 	 *
@@ -887,25 +887,25 @@ class Epigraph {
         return $this->material;
     }
 
-    /**
-     * Add literatures
-     *
-     * @param Kdde\EdbStoreBundle\Entity\EpigraphLiterature $literatures
-     */
-    public function addEpigraphLiterature(\Kdde\EdbStoreBundle\Entity\EpigraphLiterature $literatures)
-    {
-        $this->literatures[] = $literatures;
-    }
+//     /**
+//      * Add literatures
+//      *
+//      * @param Kdde\EdbStoreBundle\Entity\EpigraphLiterature $literatures
+//      */
+//     public function addEpigraphLiterature(\Kdde\EdbStoreBundle\Entity\EpigraphLiterature $literatures)
+//     {
+//         $this->literatures[] = $literatures;
+//     }
 
-    /**
-     * Get literatures
-     *
-     * @return Doctrine\Common\Collections\Collection 
-     */
-    public function getLiteratures()
-    {
-        return $this->literatures;
-    }
+//     /**
+//      * Get literatures
+//      *
+//      * @return Doctrine\Common\Collections\Collection 
+//      */
+//     public function getLiteratures()
+//     {
+//         return $this->literatures;
+//     }
 
     /**
      * Set data

@@ -114,8 +114,8 @@ class EpigraphController extends Controller {
 		$icvrs = $repoIcvr->findAll();
 		
 		//select all the bibliography
-		$repoLiterature = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Literature');
-		$literatures = $repoLiterature->findBy(array(), array('id' => 'ASC'));
+// 		$repoLiterature = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Literature');
+// 		$literatures = $repoLiterature->findBy(array(), array('id' => 'ASC'));
 		
 		$repoSupport = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Support');
 		$supports = $repoSupport->findBy(array(), array('description' => 'ASC'));
@@ -192,7 +192,6 @@ class EpigraphController extends Controller {
 		return $this
 		->render('KddeEdbBundle:Epigraph:edit.html.twig',
 				array('form' => $form->createView(), 'icvrs' => $icvrs,
-						'literatures' => $literatures,
 						'supports' => $supports,
 						'techniques' => $techniques,
 						'paleographies' => $paleographies,
@@ -273,9 +272,8 @@ class EpigraphController extends Controller {
 		$icvrs = $repoIcvr->findAll();
 
 		//select all the bibliography
-		$repoLiterature = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Literature');
-		$literatures = $repoLiterature->findBy(array(), array('id' => 'ASC'));
+// 		$repoLiterature = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Literature');
+// 		$literatures = $repoLiterature->findBy(array(), array('id' => 'ASC'));
 
 		$repoSupport = $this->getDoctrine()
 				->getRepository('KddeEdbStoreBundle:Support');
@@ -341,7 +339,6 @@ class EpigraphController extends Controller {
 		return $this
 				->render('KddeEdbBundle:Epigraph:new.html.twig',
 						array('form' => $form->createView(), 'icvrs' => $icvrs,
-								'literatures' => $literatures,
 								'supports' => $supports,
 								'techniques' => $techniques,
 								'paleographies' => $paleographies,
@@ -353,7 +350,7 @@ class EpigraphController extends Controller {
 	private function persistEpigraph($epigraphArray, $epigraph) {
 
 		$repoIcvr = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Icvr');
-		$repoLiterature = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Literature');
+// 		$repoLiterature = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Literature');
 		$repoSupport = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Support');
 		$repoTechnique = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Technique');
 		$repoPaleography = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Paleography');
@@ -415,37 +412,37 @@ class EpigraphController extends Controller {
 			
 			// GIAN: Letteratura. Ignorata perchè da rifare
 			//------------------------------------------------------
-			if (isset($epigraphArray['literaturesTextArea'])) {
-				//split the inserted literatures
-				$arrayLiteratureIds = explode(";\r\n",
-						$epigraphArray['literaturesTextArea']);
-				//for each literature
-				foreach ($arrayLiteratureIds as $lit) {
+// 			if (isset($epigraphArray['literaturesTextArea'])) {
+// 				//split the inserted literatures
+// 				$arrayLiteratureIds = explode(";\r\n",
+// 						$epigraphArray['literaturesTextArea']);
+// 				//for each literature
+// 				foreach ($arrayLiteratureIds as $lit) {
 
-					if (strlen($lit) == 0)
-						continue;
+// 					if (strlen($lit) == 0)
+// 						continue;
 
-					//check if there are references about page numbers
-					$arrayLit = explode(",", $lit);
-					if (count($arrayLit) == 0)
-						continue;
-					//get the literature based on the id
-					$literature = $repoLiterature->find(trim($arrayLit[0]));
-					if ($literature == null)
-						continue;
+// 					//check if there are references about page numbers
+// 					$arrayLit = explode(",", $lit);
+// 					if (count($arrayLit) == 0)
+// 						continue;
+// 					//get the literature based on the id
+// 					$literature = $repoLiterature->find(trim($arrayLit[0]));
+// 					if ($literature == null)
+// 						continue;
 
-					$epigraphLiterature = new EpigraphLiterature();
-					$epigraphLiterature->setLiterature($literature);
-					array_shift($arrayLit);
-					if (count($arrayLit) > 0)
-						$epigraphLiterature
-								->setReference(implode(" ", $arrayLit));
+// 					$epigraphLiterature = new EpigraphLiterature();
+// 					$epigraphLiterature->setLiterature($literature);
+// 					array_shift($arrayLit);
+// 					if (count($arrayLit) > 0)
+// 						$epigraphLiterature
+// 								->setReference(implode(" ", $arrayLit));
 
-					//add to the epigraph
-					//$epigraph->addEpigraphLiterature($epigraphLiterature);
-					$arrayLiteratures->add($epigraphLiterature);
-				}
-			}
+// 					//add to the epigraph
+// 					//$epigraph->addEpigraphLiterature($epigraphLiterature);
+// 					$arrayLiteratures->add($epigraphLiterature);
+// 				}
+// 			}
 			//------------------------------------------------------
 
 			if (isset($epigraphArray['dateInText'])) {
