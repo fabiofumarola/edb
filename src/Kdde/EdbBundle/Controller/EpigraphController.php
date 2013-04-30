@@ -114,8 +114,8 @@ class EpigraphController extends Controller {
 		$icvrs = $repoIcvr->findAll();
 		
 		//select all the bibliography
-// 		$repoLiterature = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Literature');
-// 		$literatures = $repoLiterature->findBy(array(), array('id' => 'ASC'));
+		$repoLiterature = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:BiblioRiferimento');
+		$literatures = $repoLiterature->findBy(array(), array('id' => 'ASC'));
 		
 		$repoSupport = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Support');
 		$supports = $repoSupport->findBy(array(), array('description' => 'ASC'));
@@ -192,6 +192,7 @@ class EpigraphController extends Controller {
 		return $this
 		->render('KddeEdbBundle:Epigraph:edit.html.twig',
 				array('form' => $form->createView(), 'icvrs' => $icvrs,
+						'literatures' => $literatures,
 						'supports' => $supports,
 						'techniques' => $techniques,
 						'paleographies' => $paleographies,
@@ -272,8 +273,8 @@ class EpigraphController extends Controller {
 		$icvrs = $repoIcvr->findAll();
 
 		//select all the bibliography
-// 		$repoLiterature = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Literature');
-// 		$literatures = $repoLiterature->findBy(array(), array('id' => 'ASC'));
+		$repoLiterature = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:BiblioRiferimento');
+		$literatures = $repoLiterature->findBy(array(), array('id' => 'ASC'));
 
 		$repoSupport = $this->getDoctrine()
 				->getRepository('KddeEdbStoreBundle:Support');
@@ -339,6 +340,7 @@ class EpigraphController extends Controller {
 		return $this
 				->render('KddeEdbBundle:Epigraph:new.html.twig',
 						array('form' => $form->createView(), 'icvrs' => $icvrs,
+								'literatures' => $literatures,
 								'supports' => $supports,
 								'techniques' => $techniques,
 								'paleographies' => $paleographies,

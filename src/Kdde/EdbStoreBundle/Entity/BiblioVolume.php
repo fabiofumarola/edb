@@ -5,34 +5,41 @@ namespace Kdde\EdbStoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * BiblioVolume
+ * @ORM\Entity
+ * @ORM\Table(name="biblio_volume")
  */
 class BiblioVolume
 {
-    /**
-     * @var integer
-     */
-    private $id;
+   /**
+	 * @ORM\Id
+	 * @ORM\Column(type="integer",name="id")
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	*/
+    protected $id;
 
     /**
+     * @ORM\Column(type="string", name="titolo")
      * @var string
      */
-    private $titolo;
+    protected $titolo;
 
     /**
+     * @ORM\Column(type="string", name="editori")
      * @var string
      */
-    private $editori;
+    protected $editori;
 
     /**
-     * @var integer
-     */
-    private $annoEdizione;
-
-    /**
+     * @ORM\Column(type="integer", name="anno_edizione")
      * @var string
      */
-    private $cittaEdizione;
+    protected $annoEdizione;
+
+    /**
+     * @ORM\Column(type="string", name="citta_edizione")
+     * @var string
+     */
+    protected $cittaEdizione;
 
 
     /**

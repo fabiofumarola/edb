@@ -3,103 +3,119 @@
 namespace Kdde\EdbStoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\JoinColumn;
 
 /**
- * BiblioRiferimento
+ * @ORM\Entity
+ * @ORM\Table(name="biblio_riferimento")
  */
 class BiblioRiferimento
 {
-    /**
-     * @var string
-     */
-    private $id;
+   /**
+	 * @ORM\Id
+	 * @ORM\Column(type="string",name="id")
+	*/
+    protected $id;
 
     /**
-     * @var string
+     * @ORM\Column(type="string", name="tipo")
      */
-    private $tipo;
+    protected $tipo;
 
     /**
+     * @ORM\Column(type="string", name="sigla")
      * @var string
      */
-    private $sigla;
+    protected $sigla;
 
     /**
+     * @ORM\Column(type="string", name="titolo")
      * @var string
      */
-    private $titolo;
+    protected $titolo;
 
     /**
+     * @ORM\Column(type="string", name="volume")
      * @var string
      */
-    private $volume;
+    protected $volume;
 
     /**
+     * @ORM\Column(type="string", name="numero")
      * @var string
      */
-    private $numero;
+    protected $numero;
 
     /**
+     * @ORM\Column(type="integer", name="pagine_da")
      * @var integer
      */
-    private $pagineDa;
+    protected $pagineDa;
 
     /**
+     * @ORM\Column(type="integer", name="pagine_a")
      * @var integer
      */
-    private $pagineA;
+    protected $pagineA;
 
     /**
+     * @ORM\Column(type="string", name="autori")
      * @var string
      */
-    private $autori;
+    protected $autori;
 
     /**
+     * @ORM\Column(type="string", name="anno")
      * @var integer
      */
-    private $anno;
+    protected $anno;
 
     /**
+     * @ORM\Column(type="string", name="citta_edizione")
      * @var string
      */
-    private $cittaEdizione;
+    protected $cittaEdizione;
 
     /**
+     * @ORM\Column(type="string", name="url")
      * @var string
      */
-    private $url;
+    protected $url;
 
     /**
+     * @ORM\Column(type="string", name="doi")
      * @var string
      */
-    private $doi;
+    protected $doi;
 
-    /**
-     * @var \Kdde\EdbStoreBundle\Entity\BiblioRivista
+	/**
+     * @ManyToOne(targetEntity="BiblioRivista")
+     * @JoinColumn(name="id_rivista", referencedColumnName="id")
      */
-    private $idRivista;
+    protected $idRivista;
 
-    /**
-     * @var \Kdde\EdbStoreBundle\Entity\BiblioConvegno
-     */
-    private $idConvegno;
 
-    /**
-     * @var \Kdde\EdbStoreBundle\Entity\BiblioVolume
+	/**
+     * @ManyToOne(targetEntity="BiblioConvegno")
+     * @JoinColumn(name="id_convegno", referencedColumnName="id")
      */
-    private $idVolume;
+    protected $idConvegno;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
+    
+	/**
+     * @ManyToOne(targetEntity="BiblioVolume")
+     * @JoinColumn(name="id_volume", referencedColumnName="id")
      */
-    private $idEpigrafe;
+    protected $idVolume;
+
 
     /**
      * Constructor
      */
     public function __construct()
-    {
-        $this->idEpigrafe = new \Doctrine\Common\Collections\ArrayCollection();
+    { 
+    	
     }
     
     /**
@@ -455,38 +471,5 @@ class BiblioRiferimento
     public function getIdVolume()
     {
         return $this->idVolume;
-    }
-
-    /**
-     * Add idEpigrafe
-     *
-     * @param \Kdde\EdbStoreBundle\Entity\Epigrafe $idEpigrafe
-     * @return BiblioRiferimento
-     */
-    public function addIdEpigrafe(\Kdde\EdbStoreBundle\Entity\Epigrafe $idEpigrafe)
-    {
-        $this->idEpigrafe[] = $idEpigrafe;
-    
-        return $this;
-    }
-
-    /**
-     * Remove idEpigrafe
-     *
-     * @param \Kdde\EdbStoreBundle\Entity\Epigrafe $idEpigrafe
-     */
-    public function removeIdEpigrafe(\Kdde\EdbStoreBundle\Entity\Epigrafe $idEpigrafe)
-    {
-        $this->idEpigrafe->removeElement($idEpigrafe);
-    }
-
-    /**
-     * Get idEpigrafe
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getIdEpigrafe()
-    {
-        return $this->idEpigrafe;
     }
 }

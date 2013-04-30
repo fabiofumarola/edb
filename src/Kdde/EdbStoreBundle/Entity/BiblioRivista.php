@@ -5,16 +5,21 @@ namespace Kdde\EdbStoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * BiblioRivista
+ * @ORM\Entity
+ * @ORM\Table(name="biblio_rivista")
  */
 class BiblioRivista
 {
-    /**
-     * @var integer
-     */
+   /**
+	 * @ORM\Id
+	 * @ORM\Column(type="integer",name="id")
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	*/
     private $id;
 
+    
     /**
+     * @ORM\Column(type="string", name="titolo")
      * @var string
      */
     private $titolo;
