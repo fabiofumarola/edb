@@ -1,20 +1,35 @@
 <div class="modal hide" id="newLiteratureModal">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">x</button>
-		<h3>Add new Bibliography</h3>
+		<h3>Add New Bibliographic Reference</h3>
 	</div>
 	<div class="modal-body">
 		<p>
 			<form class="form-horizontal" id="formNewBiblio" action="{{ path('edb_literature_new_modal') }}">
   				<fieldset>
     				<div id="div_cod_literature" class="control-group">
-      					<label style="text-align: left" class="control-label">Code</label>
+      					<label style="text-align: left" class="control-label">Type</label>
       					<div class="controls">
-        					<input name="literature[id]" id="cod_literature" type="text" class="input-xlarge"
-        						onchange="$('#div_cod_literature').attr('class', 'control-group'); $('#errorCod').html(null)">
-        						<p class="help-block" id="errorCod"></p>
-      					</div>
-
+      						<select id="bibliography[type]"	class="span2" >
+								<option id = "Rivista">Journal</option>
+								<option id = "Convegno">Conference</option>
+								<option id = "Monografia">Monograph</option>
+								<option id = "Corpus">Corpus</option>
+								<option id = "Repertorio">Repertory</option>
+							</select>	
+        				</div>
+      				</div>
+      				<div id="div_cod_literature" class="control-group">
+      					<label style="text-align: left" class="control-label">Type</label>
+      					<div class="controls">
+      						<select id="bibliography[type]"	class="span2" >
+								<option id = "Rivista">Journal</option>
+								<option id = "Convegno">Conference</option>
+								<option id = "Monografia">Monograph</option>
+								<option id = "Corpus">Corpus</option>
+								<option id = "Repertorio">Repertory</option>
+							</select>	
+        				</div>
       				</div>
       				<div id="div_desc_literature" class="control-group">
       					<label style="text-align: left" class="control-label">Description</label>
@@ -24,7 +39,7 @@
       					</div>
       				</div>
       				<div class="control-group">
-      					<label style="text-align: left" class="control-label">Note</label>
+      					<label style="text-align: left" class="control-label">NoteASD</label>
       					<div class="controls">
         					<textarea rows="5" cols="" name="literature[note]" id="note_literature" class="input-xlarge"></textarea>
       					</div>

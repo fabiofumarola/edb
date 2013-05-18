@@ -12,9 +12,6 @@ use Symfony\Component\Serializer\Serializer;
 
 use Symfony\Component\HttpFoundation\Response;
 
-
-use Kdde\EdbStoreBundle\Entity\Literature;
-
 use Kdde\EdbStoreBundle\Entity\Epigraph;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -34,8 +31,18 @@ class LiteratureController extends Controller {
 	public function newAction() {
 
 		$em = $this->getDoctrine()->getEntityManager();
-		$form = $this->createForm(new LiteratureType(), new Literature());
+		$form = $this->createFormBuilder(array())->getForm();
 
+		$repoRiviste = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:BiblioRivista');
+		$riviste = $repoRiviste->findBy(array(), array('titolo' => 'ASC'));
+		
+		$repoConferenze = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:BiblioConvegno');
+		$conferenze = $repoConferenze->findBy(array(), array('titolo' => 'ASC'));
+		
+		$repoVolumi = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:BiblioVolume');
+		$volumi = $repoVolumi->findBy(array(), array('titolo' => 'ASC'));
+		
+		
 		$request = $this->getRequest();
 
 		if ($request->getMethod() == 'POST') {
@@ -49,14 +56,17 @@ class LiteratureController extends Controller {
 				$this->get('session')
 						->setFlash('notice', 'Your changes were saved!');
 
-				return $this
-						->redirect($this->generateUrl('edb_literature_list'));
+				return $this->redirect($this->generateUrl('edb_literature_list'));
 			}
 		}
 
 		return $this
 				->render('KddeEdbBundle:Literature:create.html.twig',
-						array('form' => $form->createView()));
+						array('form' => $form->createView(),
+								'riviste' => $riviste,
+								'conferenze' => $conferenze,
+								'volumi' => $volumi
+		));
 	}
 
 	public function newModalAction() {
