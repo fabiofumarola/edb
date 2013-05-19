@@ -3,10 +3,13 @@
 {% form_theme form 'KddeEdbBundle:Form:fields.html.twig' %}
 
 {% block title %}
- EDB Create new Literature
+ EDB -  Create new Bibliographic Reference
 {% endblock %}
 
 {% block body %}
+{% include 'KddeEdbBundle:Literature:modalNewJournal.html.twig' %}
+{% include 'KddeEdbBundle:Literature:modalNewConference.html.twig' %}
+{% include 'KddeEdbBundle:Literature:modalNewVolume.html.twig' %}
 
 	<div class="marketing">
 		<h2>New Bibliographic Reference</h2>
@@ -32,38 +35,23 @@
 	        	<div id="div_bibliography_journal" class="control-group">
       				<label style="text-align: left" class="control-label">Journal</label>
 					<div class="controls">
-	      				<select name = "bibliography[journal]" id="bibliography_journal" class="span5" >
-						{% for rivista in riviste %}
-							<option value="{{ rivista.id }}"> {{ rivista.titolo }}</option>
-						{% endfor %}
-						<option value ="-1">Add New</option>
-						</select>	
+	      				<select name = "bibliography[journal]" id="bibliography_journal" class="span5" ></select>	
 	        		</div>
 	        	</div>
-	        	<div id="div_bibliography_conference" class="control-group">
+	        	<div id="div_bibliography_conference" class="control-group"  style="display:none">
       				<label style="text-align: left" class="control-label">Conference</label>
 					<div class="controls">
-	      				<select name = "bibliography[conference]" id="bibliography_conference" class="span5" >
-						{% for conf in conferenze %}
-							<option value="{{ conf.id }}"> {{ conf.titolo }}</option>
-						{% endfor %}
-						<option value ="-1">Add New</option>
-						</select>	
+	      				<select name = "bibliography[conference]" id="bibliography_conference" class="span5" ></select>	
 	        		</div>
 	        	</div>
-	        	<div id="div_bibliography_volume" class="control-group">
+	        	<div id="div_bibliography_volume" class="control-group"  style="display:none">
       				<label style="text-align: left" class="control-label">Volume</label>
 					<div class="controls">
-	      				<select name = "bibliography[volume]" id="bibliography_volume" class="span5" >
-						{% for vol in volumi %}
-							<option value="{{ vol.id }}"> {{ vol.titolo }}</option>
-						{% endfor %}
-						<option value ="-1">Add New</option>
-						</select>	
+	      				<select name = "bibliography[volume]" id="bibliography_volume" class="span5" ></select>	
 	        		</div>
 	        	</div>
 	        	
-	        	<div id="div_bibliography_abbr" class="control-group">
+	        	<div id="div_bibliography_abbr" class="control-group"  style="display:none">
       				<label style="text-align: left" class="control-label">Abbreviation</label>
 					<div class="controls">
 	      				<input type ="text" id = "bibliography_abbr" name="bibliography[abbr]" class = "span1" required="required">
@@ -112,7 +100,7 @@
 	        		</div>
 	        	</div>
 	        	
-	        	<div id="div_bibliography_edcity" class="control-group">	
+	        	<div id="div_bibliography_edcity" class="control-group"  style="display:none">	
 	        		<label style="text-align: left" class="control-label">City of Edition</label>
 	        		<div class="controls">
 	        			<input type ="text" id = "bibliography_edcity" name="bibliography[edcity]" class = "span2" required="required">

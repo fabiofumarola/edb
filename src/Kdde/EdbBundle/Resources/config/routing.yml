@@ -109,6 +109,42 @@ edb_literature_new_modal:
     defaults: {_controller: KddeEdbBundle:Literature:newModal} 
     options:
         expose: true
+        
+edb_bibliography_journal_list:
+    pattern: /literature/listJournal.{_format}
+    defaults: {_controller: KddeEdbBundle:Literature:listJournal, _format: json}
+    options:
+        expose: true
+        
+edb_bibliography_conference_list:
+    pattern: /literature/listConference.{_format}
+    defaults: {_controller: KddeEdbBundle:Literature:listConference, _format: json}
+    options:
+        expose: true
+        
+edb_bibliography_volume_list:
+    pattern: /literature/listVolume.{_format}
+    defaults: {_controller: KddeEdbBundle:Literature:listVolume, _format: json}
+    options:
+        expose: true
+
+edb_literature_new_journal_modal:
+    pattern: /compile/literature/newJournal/modal
+    defaults: {_controller: KddeEdbBundle:Literature:newJournalModal} 
+    options:
+        expose: true
+        
+edb_literature_new_conference_modal:
+    pattern: /compile/literature/newConference/modal
+    defaults: {_controller: KddeEdbBundle:Literature:newConferenceModal} 
+    options:
+        expose: true
+
+edb_literature_new_volume_modal:
+    pattern: /compile/literature/newVolume/modal
+    defaults: {_controller: KddeEdbBundle:Literature:newVolumeModal} 
+    options:
+        expose: true
 
 edb_literature_list:
     pattern: /literature
