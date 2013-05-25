@@ -1,6 +1,6 @@
 <div class="modal hide" id="newConferenceModal">
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">x</button>
+{# 		<button type="button" class="close" data-dismiss="modal">x</button>#}
 		<h3>Add New Conference</h3>
 	</div>
 	<div class="modal-body">
@@ -13,12 +13,38 @@
 	      					<input type ="text" id = "conference_name" name="conference[name]" class = "span3" required="required">
 	        			</div>
 	        		</div>
-	        		<div id="div_conference_editors" class="control-group">
-      					<label style="text-align: left" class="control-label">Editors</label>
-						<div class="controls">
-	      					<input type ="text" id = "conference_editors" name="conference[editors]" class = "span3">
-	        			</div>
-	        		</div>
+					<div id="div_bibliography_editors_conf" class="row">
+						<div class="span2">
+							<label>Editor's Surname</label>
+							<input type ="text" id="bibliography_editors_surname_conf" class="span2" name="bibliography[editors_conf][surname]">
+						</div>
+						<div class="span2">
+							<label>Editor's Name</label> 
+							<input type ="text" id="bibliography_editors_name_conf" class="span2" name="bibliography[editors_conf][name]">
+						</div>
+						<div class="span1">
+							<p></p>
+							<button class="btn btn-small btn-warning span1" type="button" id="addEditorToTableConf">Add</button>
+						</div>
+					</div>	
+					
+					<div id="div_bibliography_editors_conf_table" = class="row">
+					<br>	
+						<div class="span5">
+							<table class="table table-condensed table-bordered" id="tableEditors_conf">
+								<thead>
+									<tr>
+										<th class="span3">Surname</th>
+										<th class="span4">Name</th>
+										<th class="span2">Action</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+						<br>
+					</div>		
 	        		
 	        		<div id="div_conference_city" class="control-group">
       					<label style="text-align: left" class="control-label">Conference City*</label>
@@ -50,7 +76,7 @@
 	        		
       				<div class="control-group">
       					<div class="controls">
-      						<a id="addNewConference" class="btn btn-primary">Add</a>
+      						<a id="addNewConference" class="btn btn-primary">Submit</a>
       					</div>
     				</div>
     				<div class="control-group success">
@@ -63,6 +89,6 @@
 		</p>
 	</div>
 	<div class="modal-footer">
-		<a href="#" class="btn" data-dismiss="modal">Close</a>
+		<a href="#" class="btn" data-dismiss="modal" id = "close_conf">Close</a>
 	</div>
 </div>

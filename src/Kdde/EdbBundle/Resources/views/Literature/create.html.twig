@@ -113,12 +113,46 @@
 	        		</div>
 	        	</div>
 	        	
-	        	<div id="div_bibliography_editors" class="control-group" style="display:none">
-      				<label id = "lbl_editors" style="text-align: left" class="control-label">Editors</label>
-					<div class="controls">
-	      				<input type ="text" id = "bibliography_editors" name="bibliography[editors]" class = "span5" required="required">
-	        		</div>
-	        	</div>
+	        	<div id="div_bibliography_editors" class="row" style="display:none">
+				<br>
+					<div class="span2">
+						<label>Editor's Surname</label>
+						<input type ="text" id="bibliography_editors_surname" class="span2" name="bibliography[editors][surname]">
+					</div>
+					<div class="span2">
+						<label>Editor's Name</label> 
+						<input type ="text" id="bibliography_editors_name" class="span2" name="bibliography[editors][name]">
+					</div>
+					<div class="span1 offset1">
+						<p></p>
+						<button class="btn btn-small btn-warning span1" type="button" id="addEditorToTable">Add</button>
+					</div>
+				</div>	
+				
+				<div id="div_bibliography_editors_table" = class="row" style="display:none">
+				<br>	
+					<div class="span6">
+						<table class="table table-condensed table-bordered" id="tableEditors">
+							<thead>
+								<tr>
+									<th class="span3">Surname</th>
+									<th class="span4">Name</th>
+									<th class="span2">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+					<br>
+				</div>		
+	        	
+{# 	        	<div id="div_bibliography_editors" class="control-group" style="display:none">#}
+{#       				<label id = "lbl_editors" style="text-align: left" class="control-label">Editors</label>#}
+{# 					<div class="controls">#}
+{# 	      				<input type ="text" id = "bibliography_editors" name="bibliography[editors]" class = "span5" required="required">#}
+{# 	        		</div>#}
+{# 	        	</div>#}
 	        	  
 	        	<div id="div_bibliography_edcity" class="control-group"  style="display:none">	
 	        		<label id = "lbl_city" style="text-align: left" class="control-label">City of Edition</label>
@@ -147,6 +181,14 @@
 	      				<input type ="text" id = "bibliography_pagesto" name="bibliography[pagesto]" class = "span1" required="required">
 	        		</div>
 	        	</div>
+	        	
+	        	<div id="div_bibliography_fig" class="control-group">
+      				<label style="text-align: left" class="control-label">Fig(s)</label>
+					<div class="controls">
+	      				<input type ="text" id = "bibliography_fig" name="bibliography[fig]" class = "span5">
+	        		</div>
+	        	</div>
+	        	
 	        	<div id="div_bibliography_url" class="control-group">
       				<label style="text-align: left" class="control-label">URL</label>
 					<div class="controls">

@@ -1,6 +1,16 @@
 var countAuthors = 1;
 var hashAuthors = new Array();
 
+var countEditors= 1;
+var hashEditors = new Array();
+
+var countEditorsConf = 1;
+var hashEditorsConf = new Array();
+
+var countEditorsVol = 1;
+var hashEditorsVol = new Array();
+
+
 $('document').ready(function() 
 {
 	loadJournals();
@@ -81,7 +91,14 @@ $('document').ready(function()
 	$('#addNewConference').click(function() 
 	{
 		var name = $('#conference_name').val();
-		var editors = $('#conference_editors').val();
+		
+		var editors = "";
+		for (var i in hashEditorsConf) {
+			 if(hashEditorsConf[i] != undefined)
+				 editors = editors + hashEditorsConf[i] + "@";
+		}
+		editors = editors.substring(0, editors.length-1);
+		
 		var year = $('#conference_year').val();
 		var city_edition = $('#conference_cityedition').val();
 		var city = $('#conference_city').val();
@@ -121,6 +138,11 @@ $('document').ready(function()
 			if (result.toString() == '"ok"') 
 			{
 				loadConferences();
+				countEditorsConf= 1;
+				hashEditorsConf = new Array();
+				$('#bibliography_editors_surname_conf').val("");
+				$('#bibliography_editors_name_conf').val("");	
+				$('#tableEditors_conf > tbody').html("");
 				$('#newConferenceModal').modal('hide');
 			} 
 			else 
@@ -160,7 +182,7 @@ $('document').ready(function()
 	
 	
 	
-	
+
 
 	
 
@@ -177,8 +199,20 @@ $('document').ready(function()
 	// Add a new Conference
 	$('#addNewVolume').click(function() 
 	{
+		if(countEditorsVol == 1)
+		{
+			alert("You must specify at least an editor");
+			return;
+		}
+		
 		var name = $('#volume_name').val();
-		var editors = $('#volume_editors').val();
+		var editors = "";
+		for (var i in hashEditorsVol) {
+			if(hashEditorsVol[i] != undefined)
+				editors = editors + hashEditorsVol[i] + "@";
+		}
+		editors = editors.substring(0, editors.length-1);
+		
 		var year = $('#volume_year').val();
 		var city_edition = $('#volume_cityedition').val();
 
@@ -244,6 +278,7 @@ $('document').ready(function()
 	// Change the showed field when change the type of reference
 	$("#bibliography_type").change(function() 
 	{
+		cleanTables();
 		var id = $(this).val();
 		if (id == 'Rivista')
 		{
@@ -253,6 +288,7 @@ $('document').ready(function()
 			$("#div_bibliography_abbr").hide();
 			$("#div_bibliography_edcity").hide();
 			$("#div_bibliography_editors").hide();
+			$("#div_bibliography_editors_table").hide();
 			$("#div_bibliography_authors").show();
 			$("#div_bibliography_pubyear").show();
 			$("#div_bibliography_pagesfrom").show();
@@ -260,6 +296,7 @@ $('document').ready(function()
 			$("#div_bibliography_authors").show();
 			$("#div_bibliography_authors_table").show();
 			$("#div_bibliography_number").show();
+			$("#div_bibliography_fig").show();			
 			$('#lbl_title').html("Contribute Title*");
 		}
 		else if (id == 'Convegno')
@@ -272,6 +309,8 @@ $('document').ready(function()
 			$("#div_bibliography_pubyear").hide();
 			$("#div_bibliography_number").hide();
 			$("#div_bibliography_editors").hide();
+			$("#div_bibliography_editors_table").hide();
+			$("#div_bibliography_fig").hide();
 			$("#div_bibliography_pagesfrom").show();
 			$("#div_bibliography_pagesto").show();
 			$("#div_bibliography_authors").show();
@@ -288,10 +327,13 @@ $('document').ready(function()
 			$("#div_bibliography_number").hide();
 			$("#div_bibliography_pubyear").hide();
 			$("#div_bibliography_editors").hide();
+			$("#div_bibliography_editors_table").hide();
+			$("#div_bibliography_fig").hide();
 			$("#div_bibliography_pagesfrom").show();
 			$("#div_bibliography_pagesto").show();
 			$("#div_bibliography_authors").show();
 			$("#div_bibliography_authors_table").show();
+			$('#lbl_title').html("Volume Title*");
 		}
 		else if(id == 'Corpus')
 		{
@@ -303,15 +345,17 @@ $('document').ready(function()
 			$("#div_bibliography_pubyear").show();
 			$("#div_bibliography_pagesfrom").hide();
 			$("#div_bibliography_pagesto").hide();
+			$("#div_bibliography_fig").hide();
 			$("#div_bibliography_edcity").show();
 			$("#div_bibliography_abbr").show();
 			$("#div_bibliography_number").show();
 			$("#div_bibliography_editors").show();
+			$("#div_bibliography_editors_table").show();
+			
 			$('#lbl_title').html("Corpus Title*");
 			$('#lbl_number').html("Volume*");
 			$('#lbl_year').html("Year of Edition");
-			$('#lbl_city').html("City of Edition");
-			
+			$('#lbl_city').html("City of Edition");	
 		}
 		else if(id == 'Repertorio')
 		{
@@ -326,6 +370,8 @@ $('document').ready(function()
 			$("#div_bibliography_number").hide();
 			$("#div_bibliography_edcity").hide();
 			$("#div_bibliography_editors").hide();
+			$("#div_bibliography_editors_table").hide();
+			$("#div_bibliography_fig").hide();
 			$("#div_bibliography_abbr").show();
 			$('#lbl_title').html("Repertory Title*");
 		}
@@ -339,6 +385,8 @@ $('document').ready(function()
 			$("#div_bibliography_pagesto").hide();
 			$("#div_bibliography_number").hide();
 			$("#div_bibliography_editors").hide();
+			$("#div_bibliography_editors_table").hide();
+			$("#div_bibliography_fig").hide();
 			$("#div_bibliography_authors").show();
 			$("#div_bibliography_authors_table").show();
 			$("#div_bibliography_pubyear").show();
@@ -354,12 +402,60 @@ $('document').ready(function()
 		addAuthorToTable();
 	});
 	
+	$('#addEditorToTable').click(function() 
+	{
+		addEditorToTable();
+	});
+	
+	$('#addEditorToTableConf').click(function() 
+	{
+		addEditorConfToTable();
+	});
+	
+	$('#addEditorToTableVol').click(function() 
+	{
+		addEditorVolToTable();
+	});
+	
+	$('#close_conf').click(function() 
+	{
+		countEditorsConf= 1;
+		hashEditorsConf = new Array();
+		$('#bibliography_editors_surname_conf').val("");
+		$('#bibliography_editors_name_conf').val("");	
+		$('#conference_name').val("");	
+		$('#conference_city').val("");	
+		$('#conference_date').val("");	
+		$('#conference_cityedition').val("");	
+		$('#conference_year').val("");	
+		$('#tableEditors_conf > tbody').html("");
+		
+	});
+	
+	
+	$('#close_vol').click(function()
+	{
+		countEditorsVol= 1;
+		hashEditorsVol = new Array();
+		$('#bibliography_editors_surname_vol').val("");
+		$('#bibliography_editors_name_vol').val("");	
+		$('#tableEditors_vol > tbody').html("");
+		$('#volume_name').val("");
+		$('#volume_cityedition').val("");
+		$('#volume_year').val("");		
+	});
+	
+	
+	$('#close_journal').click(function()
+	{
+		$('#journal_name').val("");
+	});
 });
 
 
 
 
-// Add an author to the tables
+// Add an author to the table
 function addAuthorToTable() 
 {
 	var surname = $('#bibliography_authors_surname').val();
@@ -409,6 +505,190 @@ function addAuthorToTable()
 
 
 
+
+
+
+
+//Add an editor to the table
+function addEditorToTable() 
+{
+	var surname = $('#bibliography_editors_surname').val();
+	var name = $('#bibliography_editors_name').val();
+	
+	// Check if the surname is compiled
+	if (!surname) {
+		alert('Surname is mandatory!');
+		return;
+	}
+	if (surname.indexOf(";") !=-1 || surname.indexOf("@") !=-1 || name.indexOf(";") !=-1 || name.indexOf("@") !=-1)
+	{
+		alert('Surname and name fields cannot contain the characters ; and @');
+		return;
+	}
+
+	var hiddenValue = surname + ";" + name;	
+	var inputHidden = "<input type='hidden' name='bibliography[editors_list][]' value='" + hiddenValue + "'/>";
+
+	
+	var delTd = "deleteEditor" + countEditors;
+	countEditors++;
+
+	// add values to the table as row
+	var row = "<tr> " + "<td>" + surname + "</td> " + "<td>" + name + "</td>";
+	row = row + "</td> <td id='" + delTd + "'></td> " + inputHidden + "</tr>";
+	
+	if (hashEditors[hiddenValue] != undefined) 
+	{
+		alert('Author already added to the table.');
+		countEditors--;
+		return;
+	}
+
+	$('#tableEditors > tbody:last').append(row);
+	hashEditors[hiddenValue] = hiddenValue;
+
+	$("#" + delTd).wrapInner("<a href='#'>Delete</a>");
+	$("#" + delTd + " a").click(function(e) {
+		e.preventDefault();
+		$(this).parent().parent().remove();
+		hashEditors[hiddenValue] = undefined;
+		countEditors--;
+	});
+	$('#bibliography_editors_surname').val("");
+	$('#bibliography_editors_name').val("");
+}
+
+
+
+//Add an editor to the table of a new conference
+function addEditorConfToTable() 
+{
+	var surname = $('#bibliography_editors_surname_conf').val();
+	var name = $('#bibliography_editors_name_conf').val();
+	
+	// Check if the surname is compiled
+	if (!surname) {
+		alert('Surname is mandatory!');
+		return;
+	}
+	if (surname.indexOf(";") !=-1 || surname.indexOf("@") !=-1 || name.indexOf(";") !=-1 || name.indexOf("@") !=-1)
+	{
+		alert('Surname and name fields cannot contain the characters ; and @');
+		return;
+	}
+
+	var hiddenValue = surname + ";" + name;	
+	var inputHidden = "<input type='hidden' name='bibliography[editors_conf_list][]' value='" + hiddenValue + "'/>";
+
+	
+	var delTd = "deleteEditorConf" + countEditorsConf;
+	countEditorsConf++;
+
+	// add values to the table as row
+	var row = "<tr> " + "<td>" + surname + "</td> " + "<td>" + name + "</td>";
+	row = row + "</td> <td id='" + delTd + "'></td> " + inputHidden + "</tr>";
+	
+	if (hashEditorsConf[hiddenValue] != undefined) 
+	{
+		alert('Author already added to the table.');
+		countEditorsConf--;
+		return;
+	}
+
+	$('#tableEditors_conf > tbody:last').append(row);
+	hashEditorsConf[hiddenValue] = hiddenValue;
+
+	$("#" + delTd).wrapInner("<a href='#'>Delete</a>");
+	$("#" + delTd + " a").click(function(e) {
+		e.preventDefault();
+		$(this).parent().parent().remove();
+		hashEditorsConf[hiddenValue] = undefined;
+		countEditorsConf--;
+	});
+	$('#bibliography_editors_surname_conf').val("");
+	$('#bibliography_editors_name_conf').val("");
+}
+
+
+
+//Add an editor to the table of a new volume
+function addEditorVolToTable() 
+{
+	var surname = $('#bibliography_editors_surname_vol').val();
+	var name = $('#bibliography_editors_name_vol').val();
+	
+	// Check if the surname is compiled
+	if (!surname) {
+		alert('Surname is mandatory!');
+		return;
+	}
+	if (surname.indexOf(";") !=-1 || surname.indexOf("@") !=-1 || name.indexOf(";") !=-1 || name.indexOf("@") !=-1)
+	{
+		alert('Surname and name fields cannot contain the characters ; and @');
+		return;
+	}
+
+	var hiddenValue = surname + ";" + name;	
+	var inputHidden = "<input type='hidden' name='bibliography[editors_vol_list][]' value='" + hiddenValue + "'/>";
+	
+	
+	var delTd = "deleteEditorVol" + countEditorsVol;
+	countEditorsVol++;
+
+	// add values to the table as row
+	var row = "<tr> " + "<td>" + surname + "</td> " + "<td>" + name + "</td>";
+	row = row + "</td> <td id='" + delTd + "'></td> " + inputHidden + "</tr>";
+	
+	if (hashEditorsVol[hiddenValue] != undefined) 
+	{
+		alert('Author already added to the table.');
+		countEditorsVol--;
+		return;
+	}
+
+	$('#tableEditors_vol > tbody:last').append(row);
+	hashEditorsVol[hiddenValue] = hiddenValue;
+
+	$("#" + delTd).wrapInner("<a href='#'>Delete</a>");
+	$("#" + delTd + " a").click(function(e) {
+		e.preventDefault();
+		$(this).parent().parent().remove();
+		hashEditorsVol[hiddenValue] = undefined;
+		countEditorsVol--;
+	});
+	$('#bibliography_editors_surname_vol').val("");
+	$('#bibliography_editors_name_vol').val("");
+}
+
+
+
+// Clean all the tables of authors and editors
+function cleanTables() 
+{
+	countAuthors = 1;
+	hashAuthors = new Array();
+	$('#bibliography_authors_surname').val("");
+	$('#bibliography_authors_name').val("");
+	$('#tableAuthors > tbody').html("");
+	
+	countEditors= 1;
+	hashEditors = new Array();
+	$('#bibliography_editors_surname').val("");
+	$('#bibliography_editors_name').val("");	
+	$('#tableEditors > tbody').html("");
+	
+	countEditorsConf= 1;
+	hashEditorsConf = new Array();
+	$('#bibliography_editors_surname_conf').val("");
+	$('#bibliography_editors_name_conf').val("");	
+	$('#tableEditors_conf > tbody').html("");
+	
+	countEditorsVol= 1;
+	hashEditorsVol = new Array();
+	$('#bibliography_editors_surname_vol').val("");
+	$('#bibliography_editors_name_vol').val("");	
+	$('#tableEditors_vol > tbody').html("");
+}
 
 
 

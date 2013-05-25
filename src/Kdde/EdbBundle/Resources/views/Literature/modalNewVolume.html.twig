@@ -1,6 +1,5 @@
 <div class="modal hide" id="newVolumeModal">
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">x</button>
 		<h3>Add New Volume</h3>
 	</div>
 	<div class="modal-body">
@@ -13,12 +12,38 @@
 	      					<input type ="text" id = "volume_name" name="volume[name]" class = "span3" required="required">
 	        			</div>
 	        		</div>
-	        		<div id="div_volume_editors" class="control-group">
-      					<label style="text-align: left" class="control-label">Editors*</label>
-						<div class="controls">
-	      					<input type ="text" id = "volume_editors" name="volume[editors]" class = "span3" required="required">
-	        			</div>
-	        		</div>
+	        		<div id="div_bibliography_editors_vol" class="row">
+						<div class="span2">
+							<label>Editor's Surname</label>
+							<input type ="text" id="bibliography_editors_surname_vol" class="span2" name="bibliography[editors_vol][surname]">
+						</div>
+						<div class="span2">
+							<label>Editor's Name</label> 
+							<input type ="text" id="bibliography_editors_name_vol" class="span2" name="bibliography[editors_vol][name]">
+						</div>
+						<div class="span1">
+							<p></p>
+							<button class="btn btn-small btn-warning span1" type="button" id="addEditorToTableVol">Add</button>
+						</div>
+					</div>	
+					
+					<div id="div_bibliography_editors_vol_table" = class="row">
+					<br>	
+						<div class="span5">
+							<table class="table table-condensed table-bordered" id="tableEditors_vol">
+								<thead>
+									<tr>
+										<th class="span3">Surname</th>
+										<th class="span4">Name</th>
+										<th class="span2">Action</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+						<br>
+					</div>		
 	        			        		
 	        		<div id="div_volume_cityedition" class="control-group">
       					<label style="text-align: left" class="control-label">City of Edition*</label>
@@ -36,7 +61,7 @@
 	        		
       				<div class="control-group">
       					<div class="controls">
-      						<a id="addNewVolume" class="btn btn-primary">Add</a>
+      						<a id="addNewVolume" class="btn btn-primary">Submit</a>
       					</div>
     				</div>
     				<div class="control-group success">
