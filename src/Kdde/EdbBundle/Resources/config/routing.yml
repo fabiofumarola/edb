@@ -102,7 +102,8 @@ edb_epigraph_edit:
 edb_literature_new:
     pattern: /compiler/literature/new
     defaults: {_controller: KddeEdbBundle:Literature:new}   
- 
+    options:
+        expose: true
     
 edb_literature_new_modal:
     pattern: /compile/literature/new/modal
@@ -131,6 +132,12 @@ edb_bibliography_volume_list:
 edb_literature_new_journal_modal:
     pattern: /compile/literature/newJournal/modal
     defaults: {_controller: KddeEdbBundle:Literature:newJournalModal} 
+    options:
+        expose: true
+        
+edb_literature_new_journal_reference:
+    pattern: /compile/literature/newJournalReference
+    defaults: {_controller: KddeEdbBundle:Literature:newJournalReference} 
     options:
         expose: true
         

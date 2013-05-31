@@ -78,6 +78,12 @@ class BiblioRiferimento
     protected $cittaEdizione;
 
     /**
+     * @ORM\Column(type="string", name="figure")
+     * @var string
+     */
+    protected $figure;
+    
+    /**
      * @ORM\Column(type="string", name="url")
      * @var string
      */
@@ -117,6 +123,17 @@ class BiblioRiferimento
     { 
     	
     }
+    
+    /**
+     * Set id
+     * @param string $id
+     * @return string
+     */
+    public function setId($id)
+    {
+    	$this->id = $id;
+    }
+    
     
     /**
      * Get id
@@ -359,6 +376,31 @@ class BiblioRiferimento
     }
 
     /**
+     * Set figure
+     *
+     * @param string $figure
+     * @return string
+     */
+    public function setFigure($figure)
+    {
+    	$this->figure = $figure;
+    
+    	return $this;
+    }
+    
+    /**
+     * Get figures
+     *
+     * @return string
+     */
+    public function getFigure()
+    {
+    	return $this->figure;
+    }
+    
+    
+    
+    /**
      * Set url
      *
      * @param string $url
@@ -410,7 +452,7 @@ class BiblioRiferimento
      * @param \Kdde\EdbStoreBundle\Entity\BiblioRivista $idRivista
      * @return BiblioRiferimento
      */
-    public function setIdRivista(\Kdde\EdbStoreBundle\Entity\BiblioRivista $idRivista = null)
+    public function setIdRivista($idRivista)
     {
         $this->idRivista = $idRivista;
     

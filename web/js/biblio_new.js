@@ -333,7 +333,7 @@ $('document').ready(function()
 			$("#div_bibliography_pagesto").show();
 			$("#div_bibliography_authors").show();
 			$("#div_bibliography_authors_table").show();
-			$('#lbl_title').html("Volume Title*");
+			$('#lbl_title').html("Contribute Title*");
 		}
 		else if(id == 'Corpus')
 		{
@@ -689,6 +689,131 @@ function cleanTables()
 	$('#bibliography_editors_name_vol').val("");	
 	$('#tableEditors_vol > tbody').html("");
 }
+
+
+//Clean the forms
+function cleanPage() 
+{
+	cleanTables();
+	$('#bibliography_title').val(""); 
+	$('#bibliography_number').val(""); 
+	$('#bibliography_pubyear').val(""); 
+	$('#bibliography_pagesfrom').val(""); 
+	$('#bibliography_pagesto').val("");  
+	$('#bibliography_fig').val("");  
+	$('#bibliography_url').val("");  
+	$('#bibliography_doi').val(""); 
+	$('#bibliography_volume').val(""); 
+	$('#bibliography_abbr').val(""); 
+	$('#bibliography_edcity').val(""); 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Add a new reference
+$('#addNewReference').click(function() 
+{
+	var type = $('#bibliography_type').val();
+	
+	if(type == "Rivista")
+	{
+		var authors = "";
+		for (var i in hashAuthors) {
+			 if(hashAuthors[i] != undefined)
+				 authors = authors + hashAuthors[i] + "@";
+		}
+		authors = authors.substring(0, authors.length-1);
+		
+		var title = $('#bibliography_title').val(); 
+		var journal = $('#bibliography_journal').val(); 
+		var number = $('#bibliography_number').val(); 
+		var year = $('#bibliography_pubyear').val(); 
+		var pagesFrom = $('#bibliography_pagesfrom').val(); 
+		var pagesTo = $('#bibliography_pagesto').val();  
+		var figs = $('#bibliography_fig').val();  
+		var refUrl = $('#bibliography_url').val();  
+		var doi = $('#bibliography_doi').val();  
+		
+		
+		if(authors == "" || title == "" || journal == "" || year == "" || pagesFrom == "" || pagesTo == "")
+		{
+			alert("Please compile all the required fields!");
+			return;
+		}
+		
+		if(!isInteger(year) || !isInteger(pagesFrom) || !isInteger(pagesTo))
+		{
+			alert("The fields Year of Edition, Pages-From and Pages-To must be numeric!");
+			return;
+		}
+			
+		var url = Routing.generate('edb_literature_new_journal_reference');
+
+		// Store the Reference
+		$.post(url, {
+			authors : authors,
+			title : title,
+			journal : journal,
+			number : number,
+			year : year,
+			pagesFrom : pagesFrom,
+			pagesTo : pagesTo,
+			figs : figs,
+			url : refUrl,
+			doi : doi
+			}, function(result) 
+		{
+			if(result.toString() == '"ok"')
+			{
+				alert("The bibliographic reference has been successfully stored!");
+				cleanPage();
+			}
+			else
+				alert(result);
+		});
+	}
+	else
+		return;
+	
+	
+	
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
