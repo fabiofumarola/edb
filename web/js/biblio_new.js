@@ -727,27 +727,44 @@ function cleanPage()
 $('#addNewReference').click(function() 
 {
 	var type = $('#bibliography_type').val();
+
+	var authors = "";
+	for (var i in hashAuthors) {
+		 if(hashAuthors[i] != undefined)
+			 authors = authors + hashAuthors[i] + "@";
+	}
+	authors = authors.substring(0, authors.length-1);
 	
+	var editors = "";
+	for (var i in hashEditors) {
+		 if(hashEditors[i] != undefined)
+			 editors = editors + hashEditors[i] + "@";
+	}
+	editors = editors.substring(0, editors.length-1);
+	
+	var title = $('#bibliography_title').val(); 
+	var journal = $('#bibliography_journal').val(); 
+	var conference = $('#bibliography_conference').val(); 
+	var volume = $('#bibliography_volume').val(); 
+	var number = $('#bibliography_number').val(); 
+	var year = $('#bibliography_pubyear').val(); 
+	var pagesFrom = $('#bibliography_pagesfrom').val(); 
+	var pagesTo = $('#bibliography_pagesto').val();  
+	var figs = $('#bibliography_fig').val();  
+	var refUrl = $('#bibliography_url').val();  
+	var doi = $('#bibliography_doi').val();  
+	var abbr = $('#bibliography_abbr').val();
+	var city = $('#bibliography_edcity').val(); 
+
+	var url = "";
+	var parameters = "";
+	
+
+	
+	// Store an article on journal
+	// --------------------------------------------------------------------------------------------------------------------
 	if(type == "Rivista")
 	{
-		var authors = "";
-		for (var i in hashAuthors) {
-			 if(hashAuthors[i] != undefined)
-				 authors = authors + hashAuthors[i] + "@";
-		}
-		authors = authors.substring(0, authors.length-1);
-		
-		var title = $('#bibliography_title').val(); 
-		var journal = $('#bibliography_journal').val(); 
-		var number = $('#bibliography_number').val(); 
-		var year = $('#bibliography_pubyear').val(); 
-		var pagesFrom = $('#bibliography_pagesfrom').val(); 
-		var pagesTo = $('#bibliography_pagesto').val();  
-		var figs = $('#bibliography_fig').val();  
-		var refUrl = $('#bibliography_url').val();  
-		var doi = $('#bibliography_doi').val();  
-		
-		
 		if(authors == "" || title == "" || journal == "" || year == "" || pagesFrom == "" || pagesTo == "")
 		{
 			alert("Please compile all the required fields!");
@@ -760,36 +777,172 @@ $('#addNewReference').click(function()
 			return;
 		}
 			
-		var url = Routing.generate('edb_literature_new_journal_reference');
-
-		// Store the Reference
-		$.post(url, {
-			authors : authors,
-			title : title,
-			journal : journal,
-			number : number,
-			year : year,
-			pagesFrom : pagesFrom,
-			pagesTo : pagesTo,
-			figs : figs,
-			url : refUrl,
-			doi : doi
-			}, function(result) 
-		{
-			if(result.toString() == '"ok"')
-			{
-				alert("The bibliographic reference has been successfully stored!");
-				cleanPage();
-			}
-			else
-				alert(result);
-		});
+		url = Routing.generate('edb_literature_new_journal_reference');
+		parameters = {
+				authors : authors,
+				title : title,
+				journal : journal,
+				number : number,
+				year : year,
+				pagesFrom : pagesFrom,
+				pagesTo : pagesTo,
+				figs : figs,
+				refUrl : refUrl,
+				doi : doi};
 	}
-	else
-		return;
+	// --------------------------------------------------------------------------------------------------------------------
+	
+	
+	// Store an article for a conference
+	// --------------------------------------------------------------------------------------------------------------------
+	else if(type == "Convegno")
+	{
+		if(authors == "" || title == "" || conference == "" || pagesFrom == "" || pagesTo == "")
+		{
+			alert("Please compile all the required fields!");
+			return;
+		}
+		
+		if(!isInteger(pagesFrom) || !isInteger(pagesTo))
+		{
+			alert("The fields Pages-From and Pages-To must be numeric!");
+			return;
+		}
+			
+		url = Routing.generate('edb_literature_new_conference_reference');
+		parameters = {
+				authors : authors,
+				title : title,
+				conference : conference,
+				pagesFrom : pagesFrom,
+				pagesTo : pagesTo,
+				refUrl : refUrl,
+				doi : doi};
+	}
+	// --------------------------------------------------------------------------------------------------------------------
+
+	
+	
+	// Store an article for a monograph
+	// --------------------------------------------------------------------------------------------------------------------
+	else if(type == "Monografia")
+	{
+		if(authors == "" || title == "" || city == "" || year == "")
+		{
+			alert("Please compile all the required fields!");
+			return;
+		}
+		
+		if(!isInteger(year))
+		{
+			alert("The field Year of Edition must be numeric!");
+			return;
+		}
+		
+		url = Routing.generate('edb_literature_new_monograph_reference');
+		parameters = {
+				authors : authors,
+				title : title,
+				city : city,
+				year : year,
+				refUrl : refUrl,
+				doi : doi};
+	}
+	// --------------------------------------------------------------------------------------------------------------------
+	
+	
+	// Store an article for a corpus
+	// --------------------------------------------------------------------------------------------------------------------
+	else if(type == "Corpus")
+	{
+		if(abbr == "" || title == "" || number == "")
+		{
+			alert("Please compile all the required fields!");
+			return;
+		}
+		
+		if(year != "" && !isInteger(year))
+		{
+			alert("The field Year of Edition must be numeric!");
+			return;
+		}
+			
+		url = Routing.generate('edb_literature_new_corpus_reference');
+		parameters = {
+				abbr : abbr,
+				title : title,
+				number : number, 
+				editors : editors,
+				city : city,
+				year : year,
+				refUrl : refUrl,
+				doi : doi};
+	}
+	// --------------------------------------------------------------------------------------------------------------------
 	
 	
 	
+	// Store an article for a repertory
+	// --------------------------------------------------------------------------------------------------------------------
+	else if(type == "Repertorio")
+	{
+		if(abbr == "" || title == "")
+		{
+			alert("Please compile all the required fields!");
+			return;
+		}
+			
+		url = Routing.generate('edb_literature_new_repertory_reference');
+		parameters = {
+				abbr : abbr,
+				title : title,
+				refUrl : refUrl,
+				doi : doi};
+	}
+	// --------------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	// Store an article for a repertory
+	// --------------------------------------------------------------------------------------------------------------------
+	else if(type == "Volume")
+	{
+		if(authors == "" || title == "" || volume == "" || pagesFrom == "" || pagesTo == "")
+		{
+			alert("Please compile all the required fields!");
+			return;
+		}
+		
+		if(!isInteger(pagesFrom) || !isInteger(pagesTo))
+		{
+			alert("The fields Pages-From and Pages-To must be numeric!");
+			return;
+		}
+			
+		url = Routing.generate('edb_literature_new_volume_reference');
+		parameters = {
+				authors : authors,
+				title : title,
+				volume : volume,
+				pagesFrom : pagesFrom,
+				pagesTo : pagesTo,
+				refUrl : refUrl,
+				doi : doi};
+	}
+	// --------------------------------------------------------------------------------------------------------------------
+
+	
+	// Store the Reference
+	$.post(url, parameters, function(result) 
+	{
+		if(result.toString() == '"ok"')
+		{
+			alert("The bibliographic reference has been successfully stored!");
+			cleanPage();
+		}
+		else
+			alert(result);
+	});
 });
 
 

@@ -183,15 +183,210 @@ class LiteratureController extends Controller {
 			
 			$em->persist($riferimento);		
 			$em->flush();
-
-// 			$this->get('session')->setFlash('notice', 'The bibliographic reference has been successfully stored!');
-// 			return $this->redirect($this->generateUrl('edb_literature_new'));
 			
 			return new Response($serializer->serialize('ok','json'));
 		}
 		return new Response($serializer->serialize('Access by post','json'));
 	}
 	
+	
+	
+	
+	public function newConferenceReferenceAction() {
+	
+		$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
+	
+		$em = $this->getDoctrine()->getEntityManager();
+	
+		$request = $this->getRequest();
+		
+		if ($request->getMethod() == 'POST') {
+			$repo = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:BiblioConvegno');
+			$biblio = $repo->findOneById($request->request->get('conference'));
+				
+			$riferimento = new BiblioRiferimento();
+			$riferimento->setTipo("Convegno");
+			$riferimento->setId("dummy");
+			$riferimento->setAutori($request->request->get('authors'));
+			$riferimento->setTitolo($request->request->get('title'));
+			$riferimento->setIdConvegno($biblio);
+			$riferimento->setPagineDa($request->request->get('pagesFrom'));
+			$riferimento->setPagineA($request->request->get('pagesTo'));
+								
+			$url = $request->request->get('refUrl');
+			if($url != "")
+				$riferimento->setUrl($url);
+				
+			$doi = $request->request->get('doi');
+			if($doi != "")
+				$riferimento->setDoi($doi);
+				
+			$em->persist($riferimento);
+			$em->flush();
+				
+			return new Response($serializer->serialize('ok','json'));
+		}
+		return new Response($serializer->serialize('Access by post','json'));
+	}
+	
+	
+
+
+	public function newVolumeReferenceAction() {
+	
+		$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
+	
+		$em = $this->getDoctrine()->getEntityManager();
+	
+		$request = $this->getRequest();
+	
+		if ($request->getMethod() == 'POST') {
+			$repo = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:BiblioVolume');
+			$biblio = $repo->findOneById($request->request->get('volume'));
+	
+			$riferimento = new BiblioRiferimento();
+			$riferimento->setTipo("Volume");
+			$riferimento->setId("dummy");
+			$riferimento->setAutori($request->request->get('authors'));
+			$riferimento->setTitolo($request->request->get('title'));
+			$riferimento->setIdVolume($biblio);
+			$riferimento->setPagineDa($request->request->get('pagesFrom'));
+			$riferimento->setPagineA($request->request->get('pagesTo'));
+	
+			$url = $request->request->get('refUrl');
+			if($url != "")
+				$riferimento->setUrl($url);
+	
+			$doi = $request->request->get('doi');
+			if($doi != "")
+				$riferimento->setDoi($doi);
+	
+			$em->persist($riferimento);
+			$em->flush();
+	
+			return new Response($serializer->serialize('ok','json'));
+		}
+		return new Response($serializer->serialize('Access by post','json'));
+	}
+	
+
+	
+	
+	public function newMonographReferenceAction() {
+	
+		$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
+	
+		$em = $this->getDoctrine()->getEntityManager();
+	
+		$request = $this->getRequest();
+	
+		if ($request->getMethod() == 'POST') {
+	
+			$riferimento = new BiblioRiferimento();
+			$riferimento->setTipo("Monografia");
+			$riferimento->setId("dummy");
+			$riferimento->setAutori($request->request->get('authors'));
+			$riferimento->setTitolo($request->request->get('title'));
+			$riferimento->setAnno($request->request->get('year'));
+			$riferimento->setCittaEdizione($request->request->get('city'));
+				
+			$url = $request->request->get('refUrl');
+			if($url != "")
+				$riferimento->setUrl($url);
+	
+			$doi = $request->request->get('doi');
+			if($doi != "")
+				$riferimento->setDoi($doi);
+	
+			$em->persist($riferimento);
+			$em->flush();
+	
+			
+			
+			return new Response($serializer->serialize('ok','json'));
+		}
+		return new Response($serializer->serialize('Access by post','json'));
+	}
+	
+	
+
+
+	
+	public function newCorpusReferenceAction() {
+	
+		$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
+	
+		$em = $this->getDoctrine()->getEntityManager();
+	
+		$request = $this->getRequest();
+	
+		if ($request->getMethod() == 'POST') {
+			$riferimento = new BiblioRiferimento();
+			$riferimento->setTipo("Corpus");
+			$riferimento->setId("dummy");
+			$riferimento->setSigla($request->request->get('abbr'));
+			$riferimento->setNumero($request->request->get('number'));
+			$riferimento->setTitolo($request->request->get('title'));
+			
+			$year = $request->request->get('year');
+			if($year != "")
+				$riferimento->setAnno($year);
+			
+			$editors = $request->request->get('editors');
+			if($editors != "")
+				$riferimento->setEditori($editors);
+			
+			$city = $request->request->get('city');
+			if($city != "")
+				$riferimento->setCittaEdizione($request->request->get('city'));
+	
+			$url = $request->request->get('refUrl');
+			if($url != "")
+				$riferimento->setUrl($url);
+	
+			$doi = $request->request->get('doi');
+			if($doi != "")
+				$riferimento->setDoi($doi);
+	
+			$em->persist($riferimento);
+			$em->flush();			
+				
+			return new Response($serializer->serialize('ok','json'));
+		}
+		return new Response($serializer->serialize('Access by post','json'));
+	}
+	
+	
+	public function newRepertoryReferenceAction() {
+	
+		$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
+	
+		$em = $this->getDoctrine()->getEntityManager();
+	
+		$request = $this->getRequest();
+	
+		if ($request->getMethod() == 'POST') {
+			$riferimento = new BiblioRiferimento();
+			$riferimento->setTipo("Repertorio");
+			$riferimento->setId("dummy");
+			$riferimento->setSigla($request->request->get('abbr'));
+			$riferimento->setTitolo($request->request->get('title'));
+				
+			$url = $request->request->get('refUrl');
+			if($url != "")
+				$riferimento->setUrl($url);
+	
+			$doi = $request->request->get('doi');
+			if($doi != "")
+				$riferimento->setDoi($doi);
+	
+			$em->persist($riferimento);
+			$em->flush();
+	
+			return new Response($serializer->serialize('ok','json'));
+		}
+		return new Response($serializer->serialize('Access by post','json'));
+	}
 	
 	
 	

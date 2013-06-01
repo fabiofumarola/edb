@@ -141,6 +141,36 @@ edb_literature_new_journal_reference:
     options:
         expose: true
         
+edb_literature_new_conference_reference:
+    pattern: /compile/literature/newConferenceReference
+    defaults: {_controller: KddeEdbBundle:Literature:newConferenceReference} 
+    options:
+        expose: true
+        
+edb_literature_new_corpus_reference:
+    pattern: /compile/literature/newCorpusReference
+    defaults: {_controller: KddeEdbBundle:Literature:newCorpusReference} 
+    options:
+        expose: true     
+        
+edb_literature_new_volume_reference:
+    pattern: /compile/literature/newVolumeReference
+    defaults: {_controller: KddeEdbBundle:Literature:newVolumeReference} 
+    options:
+        expose: true           
+
+edb_literature_new_monograph_reference:
+    pattern: /compile/literature/newMonographReference
+    defaults: {_controller: KddeEdbBundle:Literature:newMonographReference} 
+    options:
+        expose: true
+        
+edb_literature_new_repertory_reference:
+    pattern: /compile/literature/newRepertoryReference
+    defaults: {_controller: KddeEdbBundle:Literature:newRepertoryReference} 
+    options:
+        expose: true
+        
 edb_literature_new_conference_modal:
     pattern: /compile/literature/newConference/modal
     defaults: {_controller: KddeEdbBundle:Literature:newConferenceModal} 

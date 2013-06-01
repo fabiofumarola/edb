@@ -83,6 +83,14 @@ class BiblioRiferimento
      */
     protected $figure;
     
+    
+    /**
+     * @ORM\Column(type="string", name="editori")
+     * @var string
+     */
+    protected $editori;
+    
+    
     /**
      * @ORM\Column(type="string", name="url")
      * @var string
@@ -398,7 +406,27 @@ class BiblioRiferimento
     	return $this->figure;
     }
     
+    /**
+     * Set editori
+     *
+     * @param string $editori
+     * @return string
+     */
+    public function setEditori($editori)
+    {
+    	$this->editori = $editori;
+    	return $this;
+    }
     
+    /**
+     * Get editori
+     *
+     * @return string
+     */
+    public function getEditori()
+    {
+    	return $this->editori;
+    }
     
     /**
      * Set url
