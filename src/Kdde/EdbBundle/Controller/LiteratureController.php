@@ -23,12 +23,8 @@ class LiteratureController extends Controller {
 	
 
 	public function indexAction() {
-		$literatures = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Literature')->findAll();
-
-		return $this
-				->render('KddeEdbBundle:Literature:literatures.html.twig',
-						array('literatures' => $literatures));
+		$literatures = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:BiblioRiferimento')->findBy(array(), array('tipo' => 'ASC', 'id' => 'ASC'));
+		return $this->render('KddeEdbBundle:Literature:literatures.html.twig',array('literatures' => $literatures));
 	}
 
 	public function newAction() {

@@ -7,7 +7,7 @@
 {% block body %}
 
 	<div class="marketing">
-		<h2>List Literatures</h2>
+		<h2>Bibliographic References</h2>
 		<br>
 	</div>
 <div class="row">
@@ -15,17 +15,122 @@
 		<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
-					<th class="span3">Code</th>
-					<th class="span5">Description</th>
-					<th class="span3">Notes</th>
+					<th class="span2">Type</th>
+					<th class="span3">Generated ID</th>
+					<th class="span8">Reference</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody>		
 				{% for lit in literatures %}
 					<tr>
-						<td> {{ lit.id }}</td>	
-						<td> {{ lit.description }}</td>
-						<td> {{ lit.note }}</td>				
+						<td> {{ lit.tipo }}</td>	
+						<td> {{ lit.id }}</td>
+						<td>
+						{% if lit.tipo == 'Rivista' %}
+							{% for author in lit.autori | split('@') %}
+								{% set surname_name = author | split(';') %}
+									{% if surname_name[1] | length > 0%}
+										{{ surname_name[1] | slice(0,1) }}.
+									{% endif %}
+										{{ surname_name[0] }}, 
+							{% endfor %}
+							<i>{{ lit.titolo }}</i>,
+							{{ lit.idRivista.titolo }},
+							{% if lit.numero | length > 0 %}
+								{{ lit.numero }},
+							{% endif %}
+							{{ lit.anno }},
+							{{ lit.pagineDa }}-{{ lit.pagineA }}
+							
+							
+						{% elseif lit.tipo == 'Convegno' %}
+							{% for author in lit.autori | split('@') %}
+								{% set surname_name = author | split(';') %}
+									{% if surname_name[1] | length > 0%}
+										{{ surname_name[1] | slice(0,1) }}.
+									{% endif %}
+										{{ surname_name[0] }}, 
+							{% endfor %}
+							<i>{{ lit.titolo }}</i>, in
+							{% if lit.idConvegno.editori | length > 0 %}
+								{% set editors = lit.idConvegno.editori | split('@') %}
+								{% for i in 0..editors|length-1 %}
+									{% set surname_name = editors[i] | split(';') %}
+										{% if surname_name[1] | length > 0%}
+											{{ surname_name[1] | slice(0,1) }}.
+										{% endif %}
+											{{ surname_name[0] }}{% if i < editors|length-1 %}, {% endif %}
+										{% if i == editors|length-1 %}
+											(a cura di), 	
+										{% endif %} 
+								{% endfor %}
+							{% endif %}
+							<i>{{  lit.idConvegno.titolo }}</i>,
+							{{ lit.idConvegno.cittaEdizione }}
+							{{ lit.idConvegno.annoEdizione }},
+							{{ lit.pagineDa }}-{{ lit.pagineA }}
+							
+							
+						{% elseif lit.tipo == 'Monografia' %}
+							{% for author in lit.autori | split('@') %}
+								{% set surname_name = author | split(';') %}
+									{% if surname_name[1] | length > 0%}
+										{{ surname_name[1] | slice(0,1) }}.
+									{% endif %}
+										{{ surname_name[0] }}, 
+							{% endfor %}
+							<i>{{lit.titolo }}</i>,
+							{{ lit.cittaEdizione }}
+							{{ lit.anno }}
+						{% elseif lit.tipo == 'Repertorio' %}
+							{{ lit.titolo }}
+						{% elseif lit.tipo == 'Corpus' %}
+							<i>{{ lit.titolo }}</i>. 
+							{{ lit.numero }}
+							{% if lit.editori | length > 0 %},
+								{% set editors = lit.editori | split('@') %}
+								{% for i in 0..editors|length-1 %}
+									{% set surname_name = editors[i] | split(';') %}
+										{% if surname_name[1] | length > 0%}
+											{{ surname_name[1] | slice(0,1) }}.
+										{% endif %}
+											{{ surname_name[0] }}{% if i < editors|length-1 %}, {% endif %}
+										{% if i == editors|length-1 %}
+											(a cura di), 	
+										{% endif %} 
+								{% endfor %}
+							{% endif %}
+							{{ lit.cittaEdizione }}
+							{{ lit.anno }}
+						
+						{% elseif lit.tipo == 'Volume' %}
+							 {% for author in lit.autori | split('@') %}
+								{% set surname_name = author | split(';') %}
+									{% if surname_name[1] | length > 0%}
+										{{ surname_name[1] | slice(0,1) }}.
+									{% endif %}
+										{{ surname_name[0] }}, 
+							{% endfor %}
+							<i>{{ lit.titolo }}</i>, in
+							{% if lit.idVolume.editori | length > 0 %}
+								{% set editors = lit.idVolume.editori | split('@') %}
+								{% for i in 0..editors|length-1 %}
+									{% set surname_name = editors[i] | split(';') %}
+										{% if surname_name[1] | length > 0%}
+											{{ surname_name[1] | slice(0,1) }}.
+										{% endif %}
+											{{ surname_name[0] }}{% if i < editors|length-1 %}, {% endif %}
+										{% if i == editors|length-1 %}
+											(a cura di), 	
+										{% endif %} 
+								{% endfor %}
+							{% endif %}
+							<i>{{  lit.idVolume.titolo }}</i>,
+							{{ lit.idVolume.cittaEdizione }}
+							{{ lit.idVolume.annoEdizione }},
+							{{ lit.pagineDa }}-{{ lit.pagineA }}
+						{% endif %}		
+						</td>		
 					</tr>
 				{% endfor %}
 			</tbody>
