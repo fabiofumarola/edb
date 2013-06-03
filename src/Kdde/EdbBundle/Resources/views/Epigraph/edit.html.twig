@@ -9,8 +9,7 @@
 
 
 {% block body %}
-{# {% include 'KddeEdbBundle:Literature:modalLiteratures.html.twig' with {'literatures': literatures} %}
-{% include 'KddeEdbBundle:Literature:modalNewLiterature.html.twig' %} #}
+{% include 'KddeEdbBundle:Literature:modalLiteratures.html.twig' %}
 {% include 'KddeEdbBundle:GeoPosition:modalNewGeoPosition.html.twig' %}
 {% include 'KddeEdbBundle:PertinenceArea:modalNewPertinenceArea.html.twig' %}
 {% include 'KddeEdbBundle:PertinenceContext:modalNewPertinenceContext.html.twig' %}
@@ -67,11 +66,12 @@
 					</div>
 
 					<div class="span4" id="div_biblio">
-						<label>Other bibliographic references</label>
-						<textarea name="epigraph[literaturesTextArea]" id="literature" class="span3" rows="4">
-						</textarea>
-						<a id="addLiteratureRef" class="btn">Select from existing</a> 
-						<a id="newLiterature" class="btn">Add New</a>
+						<label>Bibliographic References</label>
+						<select id="selectReferences"
+							multiple="multiple" class="span3" name="epigraph[references][]">
+						</select>
+						<a id="addLiteratureRef" class="btn">Add Reference</a> 
+						<a id="removeReference" class="btn">Remove Selected</a>
 					</div>
 				</div>
 				<br />
@@ -331,7 +331,7 @@
 						<label>Transcription</label>
 						<textarea class = "span6" style = "font-family:Cardo" rows="10" name="epigraph[transcription]" id="transcription" 
 						onselect="storeCaret(this);" onclick="storeCaret(this);" 
-						onchange="if (navigator.userAgent.indexOf(&#39;Opera&#39;) &gt; -1) doit();" required="required"
+						onchange="if (navigator.userAgent.indexOf('Opera') > -1) doit();" required="required"	
 						>{{ e.trascription}}</textarea>
 					</div>
 

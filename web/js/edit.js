@@ -4,7 +4,31 @@ var countDatings = 1;
 var hashConservations = new Array();
 var hashPertinences = new Array();
 var hashDatings = new Array();
+var hashReferences = new Array();
 
+
+function addToReferences(id) {
+	if (hashReferences[id] != undefined) 
+	{
+		alert("Error - The selected bibliographic reference (" + id + ")" + " has already been added!");
+		return;
+	}
+	
+	var note = $('#refNote').val();
+	if(note.indexOf('@_@') != -1)
+	{
+		alert("Error - The field Note cannot contain the string @_@");
+		return;
+	}
+	var value = id;
+	if(note.length > 0)
+		value = value + ", " + note;
+	hashReferences[id] = id;
+	
+	$('#selectReferences').append('<option value="' + id + '@_@' + note + '" selected="selected">' + value + '</option>');
+	$('#refNote').val("");
+	$('#viewLiteratureModal').modal('hide');
+}
 
 
 function cleanNewLiteratureValues() {
@@ -42,43 +66,6 @@ function addToSigna(id, description) {
 	$('#modalViewSignas').modal('hide');
 }
 
-function addNewLiterature() {
-
-	var id = $('#cod_literature').val();
-	var description = $('#desc_literature').val();
-	var note = $('#note_literature').val();
-
-	if (id.length == 0) {
-		$('#div_cod_literature').attr('class', 'control-group error');
-		return;
-	}
-
-	// check if the id is used
-	if (description.length == 0) {
-		$('#div_desc_literature').attr('class', 'control-group error');
-		return;
-	}
-
-	var url = Routing.generate('edb_literature_new_modal');
-
-	// insert the biblio
-	$.post(url, {
-		id : id,
-		description : description,
-		note : note
-	}, function(result) {
-
-		if (result.toString() == '"ok"') {
-			addToLiterature(id);
-			cleanNewLiteratureValues();
-			$('#newLiteratureModal').modal('hide');
-			// addToModalLiterature maybe
-		} else {
-			alert(result);
-		}
-
-	});
-}
 
 function addNewSupport() {
 
@@ -1051,6 +1038,30 @@ function loadListOfOriginalContext()
 }
 
 
+
+function loadListOfReferences()
+{
+	var epiid = $('#epiid').val();
+	var url = Routing.generate('edb_epigraph_references_list', {
+		id : epiid
+	});
+
+	$.getJSON(url+".json", function(data) {
+		for (i in data) {
+			var value = data[i].id_riferimento.id;
+			var selectId = value + "@_@"; 
+			if(data[i].note != null && data[i].note.length > 0)
+			{
+				value = value + ", " + data[i].note;
+				selectId = selectId + data[i].note;
+			}
+			$('#selectReferences').append(
+					'<option value="' + selectId + '" selected="selected">' + value	+ '</option>');
+		}
+	});
+}
+
+
 function loadListOfConservation()
 {
 	var epiid = $('#epiid').val();
@@ -1160,19 +1171,174 @@ $('document').ready(function() {
 	
 	// Click to add bibliography
 	$('#addLiteratureRef').click(function() {
+		// Clean the table
+		$('#tBodyReferences').empty();
+
+		// load the data in the modal table
+		var url = Routing.generate('edb_literature_list_modal') + ".json";
+		$.getJSON(url,function(data) 
+		{
+			for (i in data) {
+				var toAppend = "<tr>"
+					+ "<td>" + data[i].tipo + "</td>"
+					+ "<td>" + data[i].id + "</td>";
+				
+				toAppend = toAppend + "<td>";
+				
+				
+				if(data[i].tipo == "Rivista")
+				{
+					var authors = data[i].autori.split('@');
+					for(j in authors)
+					{
+						var surname_name = authors[j].split(';');
+						if(surname_name[1].length > 0)
+							toAppend = toAppend + surname_name[1].substring(0,1) + ". ";
+						toAppend = toAppend + surname_name[0] + ", ";
+					}
+					toAppend = toAppend + "<i>" + data[i].titolo + "</i>, ";
+					toAppend = toAppend + data[i].idRivista.titolo + ", ";
+					if (data[i].numero != null && data[i].numero.length > 0)
+						toAppend = toAppend + data[i].numero + ", ";
+					toAppend = toAppend + data[i].anno + ", ";
+					toAppend = toAppend + data[i].pagineDa + "-" + data[i].pagineA;
+				}
+				
+				else if(data[i].tipo == "Convegno")
+				{
+					var authors = data[i].autori.split('@');
+					for(j in authors)
+					{
+						var surname_name = authors[j].split(';');
+						if(surname_name[1].length > 0)
+							toAppend = toAppend + surname_name[1].substring(0,1) + ". ";
+						toAppend = toAppend + surname_name[0] + ", ";
+					}
+					toAppend = toAppend + "<i>" + data[i].titolo + "</i>, in ";
+					
+					if(data[i].idConvegno.editori != null && data[i].idConvegno.editori.length > 0)
+					{
+						var editors = data[i].idConvegno.editori.split('@');
+						for(j in editors)
+						{
+							var surname_name = editors[j].split(';');
+							if(surname_name[1].length > 0)
+								toAppend = toAppend + surname_name[1].substring(0,1) + ". ";
+							toAppend = toAppend + surname_name[0];
+							if(j == editors.length-1)
+								toAppend = toAppend + " (a cura di)";
+							toAppend = toAppend + ", ";
+						}
+					}
+					toAppend = toAppend + "<i>" + data[i].idConvegno.titolo + "</i> (" + data[i].idConvegno.luogoConvegno + " " + data[i].idConvegno.dataConvegno  + "), ";
+					toAppend = toAppend + data[i].idConvegno.cittaEdizione + " " + data[i].idConvegno.annoEdizione + ", ";
+					toAppend = toAppend + data[i].pagineDa + "-" + data[i].pagineA;
+				}
+				
+				else if(data[i].tipo == "Monografia")
+				{
+					var authors = data[i].autori.split('@');
+					for(j in authors)
+					{
+						var surname_name = authors[j].split(';');
+						if(surname_name[1].length > 0)
+							toAppend = toAppend + surname_name[1].substring(0,1) + ". ";
+						toAppend = toAppend + surname_name[0] + ", ";
+					}
+					toAppend = toAppend + "<i>" + data[i].titolo + "</i>, ";
+					toAppend = toAppend + data[i].cittaEdizione + " " + data[i].anno;
+				}
+				
+				else if(data[i].tipo == "Repertorio")
+					toAppend = toAppend + data[i].titolo;
+				
+				else if(data[i].tipo == "Corpus")
+				{
+					toAppend = toAppend + "<i>" + data[i].titolo + "</i>. ";
+					toAppend = toAppend + data[i].numero + ", ";
+					if(data[i].editori != null && data[i].editori.length >0)
+					{
+						var editors = data[i].editori.split('@');
+						for(j in editors)
+						{
+							var surname_name = editors[j].split(';');
+							if(surname_name[1].length > 0)
+								toAppend = toAppend + surname_name[1].substring(0,1) + ". ";
+							toAppend = toAppend + surname_name[0];
+							if(j == editors.length-1)
+								toAppend = toAppend + " (a cura di)";
+							toAppend = toAppend + ", ";
+						}
+					}
+					if(data[i].cittaEdizione != null)
+					{
+						if(data[i].editori == null)
+							toAppend = toAppend + ", ";	
+						toAppend = toAppend + data[i].cittaEdizione;
+					}
+					if(data[i].anno != null)
+					{
+						if(data[i].cittaEdizione == null && data[i].editori == null)
+							toAppend = toAppend + ", ";
+						toAppend = toAppend + " " + data[i].anno;
+					}						
+				}
+				else if(data[i].tipo == "Volume")
+				{
+					var authors = data[i].autori.split('@');
+					for(j in authors)
+					{
+						var surname_name = authors[j].split(';');
+						if(surname_name[1].length > 0)
+							toAppend = toAppend + surname_name[1].substring(0,1) + ". ";
+						toAppend = toAppend + surname_name[0] + ", ";
+					}
+					toAppend = toAppend + "<i>" + data[i].titolo + "</i>, in ";
+					
+					if(data[i].idVolume.editori != null && data[i].idVolume.editori.length > 0)
+					{
+						var editors = data[i].idVolume.editori.split('@');
+						for(j in editors)
+						{
+							var surname_name = editors[j].split(';');
+							if(surname_name[1].length > 0)
+								toAppend = toAppend + surname_name[1].substring(0,1) + ". ";
+							toAppend = toAppend + surname_name[0];
+							if(j == editors.length-1)
+								toAppend = toAppend + " (a cura di)";
+							toAppend = toAppend + ", ";
+						}
+					}
+					toAppend = toAppend + "<i>" + data[i].idVolume.titolo + "</i>, ";
+					toAppend = toAppend + data[i].idVolume.cittaEdizione + " " + data[i].idVolume.annoEdizione + ", ";
+					toAppend = toAppend + data[i].pagineDa + "-" + data[i].pagineA;
+				}
+				
+				toAppend = toAppend + "</td>";
+
+				toAppend = toAppend + "<td><button class='btn' type='button' onclick=\"addToReferences('" + data[i].id + "')\">Add</button></td>" + "</tr>";
+				$('#tBodyReferences').append(toAppend);
+			}
+		});
 		$('#viewLiteratureModal').modal('show');
 	});
 
-	// Click to new bibliography
-	$('#newLiterature').click(function() {
-		$('#newLiteratureModal').modal('show');
+	$('#removeReference').click(function() {
+		if ($('#selectReferences option').size() == 0) {
+			alert("There is no element to remove.");
+			return;
+		}
+		var selected = $('#selectReferences option:selected').val();
+		var id = selected.split('@_@')[0];
+		hashReferences[id] = null;
+		$('#selectReferences option:selected').remove();
 	});
 
-	// click button add new bibliography
-	$('#addNewBiblio').click(function() {
-		addNewLiterature();
-	});
 
+
+	
+	
+	
 	$("#selectPertinenceArea").change(function() {
 
 		// get the value
@@ -1352,6 +1518,7 @@ $('document').ready(function() {
 	
 	$('#submitButton').click(function() {
 	    $('#selectSigna option').prop('selected', 'selected');
+	    $('#selectReferences option').prop('selected', 'selected');
 	});
 	
 	$('#submitAndApproveButton').click(function() {
@@ -1365,6 +1532,8 @@ $('document').ready(function() {
 	$('#submitToAdminButton').click(function() {
 	    $('#selectSigna option').prop('selected', 'selected');
 	});
+	
+	loadListOfReferences();
 	
 	loadConservationContext(20);
 	

@@ -33,6 +33,7 @@ use Kdde\EdbStoreBundle\Entity\Literature;
 
 use Kdde\EdbStoreBundle\Entity\Epigraph;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Kdde\EdbStoreBundle\Entity\BiblioRiferimentoEpigrafe;
 
 class EpigraphController extends Controller {
 
@@ -228,6 +229,21 @@ class EpigraphController extends Controller {
 	}
 	
 	
+	public function referenceslistAction($id, $_format) 
+	{
+		if ($_format != "json")
+			return new Response(json_encode("it supports only json"));
+		
+		
+		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
+		$em = $this->getDoctrine()->getEntityManager();
+		$epigraph = $repository->find($id);
+		$serializer = $this->get('jms_serializer');
+		$json = $serializer->serialize($epigraph->getLiteratures(), 'json');
+		return new Response($json);
+	}
+	
+	
 	public function originalcontextlistAction($id, $_format) {	
 		if ($_format != "json")
 			return new Response(json_encode("it supports only json"));
@@ -352,7 +368,7 @@ class EpigraphController extends Controller {
 	private function persistEpigraph($epigraphArray, $epigraph) {
 
 		$repoIcvr = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Icvr');
-// 		$repoLiterature = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Literature');
+		$repoReference = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:BiblioRiferimento');
 		$repoSupport = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Support');
 		$repoTechnique = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Technique');
 		$repoPaleography = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Paleography');
@@ -411,42 +427,7 @@ class EpigraphController extends Controller {
 			else
 				$epigraph->setSubNumeration(null);
 
-			
-			// GIAN: Letteratura. Ignorata perchè da rifare
-			//------------------------------------------------------
-// 			if (isset($epigraphArray['literaturesTextArea'])) {
-// 				//split the inserted literatures
-// 				$arrayLiteratureIds = explode(";\r\n",
-// 						$epigraphArray['literaturesTextArea']);
-// 				//for each literature
-// 				foreach ($arrayLiteratureIds as $lit) {
-
-// 					if (strlen($lit) == 0)
-// 						continue;
-
-// 					//check if there are references about page numbers
-// 					$arrayLit = explode(",", $lit);
-// 					if (count($arrayLit) == 0)
-// 						continue;
-// 					//get the literature based on the id
-// 					$literature = $repoLiterature->find(trim($arrayLit[0]));
-// 					if ($literature == null)
-// 						continue;
-
-// 					$epigraphLiterature = new EpigraphLiterature();
-// 					$epigraphLiterature->setLiterature($literature);
-// 					array_shift($arrayLit);
-// 					if (count($arrayLit) > 0)
-// 						$epigraphLiterature
-// 								->setReference(implode(" ", $arrayLit));
-
-// 					//add to the epigraph
-// 					//$epigraph->addEpigraphLiterature($epigraphLiterature);
-// 					$arrayLiteratures->add($epigraphLiterature);
-// 				}
-// 			}
-			//------------------------------------------------------
-
+				
 			if (isset($epigraphArray['dateInText'])) {
 				if ($epigraphArray['dateInText'] == 'on')
 					$epigraph->setDateintext(true);
@@ -641,14 +622,7 @@ class EpigraphController extends Controller {
 			$epigraph->setOldCompilator($oldCompilaterUser->getFirstname() . ' ' . $oldCompilaterUser->getLastname());
 			
 			
-			
-			// GIAN: Letteratura. Ignorata perchè da rifare
-			//------------------------------------------------------			
-			foreach ($arrayLiteratures as $epLit) {
-				$epLit->setEpigraph($epigraph);
-				$em->persist($epLit);
-			}
-			//------------------------------------------------------
+
 				
 			
 			if(!$update)
@@ -658,12 +632,35 @@ class EpigraphController extends Controller {
 				$oldDatings = $epigraph->getDatings();
 				foreach($oldDatings as $oldDating)
 					$em->remove($oldDating);
+				
+				$oldReferences = $epigraph->getLiteratures();
+				foreach($oldReferences as $oldLit)
+					$em->remove($oldLit);
 			}
 			$em->flush();
 				
 			foreach ($arrayDatings as $epDating) {
 				$epDating->setId($epigraph);
 				$em->persist($epDating);
+			}
+			
+			if (isset($epigraphArray['references'])) {
+				$references = $epigraphArray['references'];
+				foreach ($references as $s) {
+					$splits = explode("@_@", $s);
+					$refId = $splits[0];
+					$note = $splits[1];
+					$reference = $repoReference->find($refId);
+					if ($reference)
+					{
+						$biblioReference = new BiblioRiferimentoEpigrafe();
+						$biblioReference->setIdEpigrafe($epigraph);
+						$biblioReference->setIdRiferimento($reference);
+						if(strlen($note) > 0)
+							$biblioReference->setNote($note);
+						$em->persist($biblioReference);
+					}
+				}
 			}
 			
 			$em->flush();

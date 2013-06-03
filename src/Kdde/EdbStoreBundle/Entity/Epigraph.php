@@ -885,6 +885,13 @@ class Epigraph {
     {
         return $this->material;
     }
+    
+    
+   
+    public function emptyLiteratures()
+    {
+    	$this->literatures = new ArrayCollection();
+    }
 
     /**
      * Add literatures

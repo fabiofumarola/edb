@@ -33,7 +33,7 @@ class BiblioRiferimentoEpigrafe
 	
 	public function getIdEpigrafe()
 	{
-		return $idEpigrafe;
+		return $this->idEpigrafe;
 	}
 	
 	public function setIdEpigrafe($idEpigrafe)
@@ -43,7 +43,7 @@ class BiblioRiferimentoEpigrafe
 	
 	public function getIdRiferimento()
 	{
-		return $idRiferimento;
+		return $this->idRiferimento;
 	}
 	
 	public function setIdRiferimento($idRiferimento)
@@ -53,7 +53,7 @@ class BiblioRiferimentoEpigrafe
 	
 	public function getNote()
 	{
-		return $note;
+		return $this->note;
 	}
 	
 	public function setNote($note)

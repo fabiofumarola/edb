@@ -187,6 +187,12 @@ edb_literature_list:
     pattern: /literature
     defaults: {_controller: KddeEdbBundle:Literature:index}
     
+edb_literature_list_modal:
+    pattern: /literature.{_format}
+    defaults: {_controller: KddeEdbBundle:Literature:indexModal, _format: json}    
+    options:
+        expose: true
+        
 edb_pertinence_area_list:
     pattern: /pertinence/area.{_format}
     defaults: {_controller: KddeEdbBundle:PertinenceArea:list, _format: json}    
@@ -248,6 +254,15 @@ edb_pertinence_position_list:
 edb_epigraph_original_context_list:
     pattern: /epigraph/context/{id}.{_format}
     defaults: {_controller: KddeEdbBundle:Epigraph:originalcontextlist, _format: json}
+    requirements:
+        _format: json
+        id: \d+    
+    options:
+        expose: true
+        
+edb_epigraph_references_list:
+    pattern: /epigraph/reference/{id}.{_format}
+    defaults: {_controller: KddeEdbBundle:Epigraph:referenceslist, _format: json}
     requirements:
         _format: json
         id: \d+    

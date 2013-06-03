@@ -65,7 +65,7 @@
 										{% endif %} 
 								{% endfor %}
 							{% endif %}
-							<i>{{  lit.idConvegno.titolo }}</i>,
+							<i>{{  lit.idConvegno.titolo }}</i> ({{ lit.idConvegno.luogoConvegno }} {{ lit.idConvegno.dataConvegno }}),
 							{{ lit.idConvegno.cittaEdizione }}
 							{{ lit.idConvegno.annoEdizione }},
 							{{ lit.pagineDa }}-{{ lit.pagineA }}
@@ -100,6 +100,8 @@
 										{% endif %} 
 								{% endfor %}
 							{% endif %}
+							{% if lit.editori | length == 0 %}, {% endif %}
+							
 							{{ lit.cittaEdizione }}
 							{{ lit.anno }}
 						
