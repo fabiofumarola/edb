@@ -1097,11 +1097,8 @@ $('document').ready(function() {
 						}
 					}
 					if(data[i].cittaEdizione != null)
-					{
-						if(data[i].editori == null)
-							toAppend = toAppend + ", ";	
 						toAppend = toAppend + data[i].cittaEdizione;
-					}
+					
 					if(data[i].anno != null)
 					{
 						if(data[i].cittaEdizione == null && data[i].editori == null)
