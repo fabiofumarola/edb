@@ -10,9 +10,7 @@ function clearPertinenceContextSelect() {
 
 function loadPertinenceContexts(id) {
 
-	var url = Routing.generate('edb_pertinence_context_list', {
-		id : id
-	});
+	var url = Routing.generate('edb_pertinence_context_list', {id : id});
 
 	$.getJSON(url, function(data) {
 

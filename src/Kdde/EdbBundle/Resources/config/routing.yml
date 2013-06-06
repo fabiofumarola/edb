@@ -183,16 +183,16 @@ edb_literature_new_volume_modal:
     options:
         expose: true
 
+edb_literature_list_modal:
+    pattern: /literature/{type}.{_format}
+    defaults: {_controller: KddeEdbBundle:Literature:indexModal, _format: json}    
+    options:
+        expose: true
+
 edb_literature_list:
     pattern: /literature
     defaults: {_controller: KddeEdbBundle:Literature:index}
     
-edb_literature_list_modal:
-    pattern: /literature.{_format}
-    defaults: {_controller: KddeEdbBundle:Literature:indexModal, _format: json}    
-    options:
-        expose: true
-        
 edb_pertinence_area_list:
     pattern: /pertinence/area.{_format}
     defaults: {_controller: KddeEdbBundle:PertinenceArea:list, _format: json}    
