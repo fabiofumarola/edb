@@ -27,8 +27,8 @@ class LiteratureController extends Controller {
 		return $this->render('KddeEdbBundle:Literature:literatures.html.twig',array('literatures' => $literatures));
 	}
 	
-	public function indexModalAction() {
-		$references = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:BiblioRiferimento')->findBy(array(), array('tipo' => 'ASC', 'id' => 'ASC'));
+	public function indexModalAction($type) {
+		$references = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:BiblioRiferimento')->findBy(array('tipo'=>$type), array('tipo' => 'ASC', 'id' => 'ASC'));
 		$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
 		$json = $serializer->serialize($references, 'json');
 		return new Response($json);
