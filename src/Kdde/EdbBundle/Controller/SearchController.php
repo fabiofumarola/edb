@@ -125,7 +125,7 @@ class SearchController extends Controller {
 			
 		
 		$paginator = $this->get('knp_paginator');
-		$pagination = $paginator->paginate($query,$request->get('page',1),10);
+		$pagination = $paginator->paginate($query,$request->get('page',1),50);
 				
 		$count = $pagination->getTotalItemCount();
 
@@ -134,7 +134,7 @@ class SearchController extends Controller {
 		// Experimental. Authentication for pcas
 		//--------------------------------------------------------------------------------------------
 
-// 			$imageUrl = null;
+			$imageUrl = null;
 // 			$curl = curl_init('http://pcas.xdams.net/pcas-web/EDB/17592/scheda.html');
 			
 // 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);

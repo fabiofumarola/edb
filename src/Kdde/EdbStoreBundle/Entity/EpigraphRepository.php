@@ -162,6 +162,8 @@ class EpigraphRepository extends EntityRepository {
 			$strQuery = $strQuerySelect . "WHERE ep.status = :status " . $strQueryWhere;
 		else
 			$strQuery = $strQuerySelect . "WHERE 1 = 1 " . $strQueryWhere;
+		
+		$strQuery = $strQuery . " ORDER BY ep.id";
 		$query = $this->getEntityManager()->createQuery($strQuery);
 		
 		if(!$isAdmin)

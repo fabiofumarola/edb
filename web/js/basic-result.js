@@ -92,7 +92,7 @@ function codeLatLng() {
 
 
 $('document').ready(function() {
-
+	$('#epiResults').tablesorter(); 
 	loadGeoPosition();
 
 	// each item in the result list need a button to show its geographic coordinates on map
