@@ -1153,7 +1153,7 @@ $('document').ready(function() {
 	
 	// Click to add bibliography
 	$('#addLiteratureRef').click(function() {
-		$('bibliography_type selected').val("Rivista");
+		$('#bibliography_type').val("Rivista");
 		loadReferences("Rivista");
 		$('#viewLiteratureModal').modal('show');
 	});
