@@ -34,6 +34,12 @@ class LiteratureController extends Controller {
 		return new Response($json);
 	}
 	
+	public function singleModalAction($refId) {
+		$references = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:BiblioRiferimento')->findBy(array('id'=>$refId));
+		$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
+		$json = $serializer->serialize($references, 'json');
+		return new Response($json);
+	}
 
 	public function newAction() {
 

@@ -188,7 +188,13 @@ edb_literature_list_modal:
     defaults: {_controller: KddeEdbBundle:Literature:indexModal, _format: json}    
     options:
         expose: true
-
+        
+edb_literature_single_modal:
+    pattern: /literature/singleRef/{refId}.{_format}
+    defaults: {_controller: KddeEdbBundle:Literature:singleModal, _format: json}    
+    options:
+        expose: true
+  
 edb_literature_list:
     pattern: /literature
     defaults: {_controller: KddeEdbBundle:Literature:index}

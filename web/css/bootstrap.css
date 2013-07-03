@@ -1843,6 +1843,14 @@ table {
   border-top: 1px solid #dddddd;
 }
 
+table.tdnb td {
+  padding: 8px;
+  line-height: 15px;
+  text-align: left;
+  vertical-align: top;
+  border-top: none;
+}
+
 .table .vertical-middle {
   vertical-align: middle;
 }

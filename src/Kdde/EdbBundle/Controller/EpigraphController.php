@@ -223,9 +223,33 @@ class EpigraphController extends Controller {
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
 		
-		return $this
-				->render('KddeEdbBundle:Epigraph:show.html.twig',
-						array('e' => $epigraph));
+		// Experimental. Authentication for pcas
+		//--------------------------------------------------------------------------------------------
+		
+		$imageUrl = null;
+		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/' . $id . '/scheda.html';
+		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/17592/scheda.html';
+// 		$curl = curl_init('http://www.archeologiasacra.net/pcas-web/EDB/17592/scheda.html');
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_USERPWD, 'pcas:pcas123');
+		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Sample Code');
+
+		$response = curl_exec($curl);
+		$resultStatus = curl_getinfo($curl);
+
+		$split = explode('<img id="fotoSchedaBig" style="max-width:600px;" src="',$response);
+		if(sizeof($split) == 2)
+		{
+			$imageUrl = explode('"', $split[1]);
+			$imageUrl = $imageUrl[0];
+		}
+		//-------------------------------------------------------------------------------------------
+		
+		return $this->render('KddeEdbBundle:Epigraph:show.html.twig', array('e' => $epigraph, 'imageUrl' => $imageUrl));
 	}
 	
 	

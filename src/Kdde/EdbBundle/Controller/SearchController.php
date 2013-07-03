@@ -130,32 +130,8 @@ class SearchController extends Controller {
 		$count = $pagination->getTotalItemCount();
 
 		$this->get('session')->set('search', $searchArray);
-		
-		// Experimental. Authentication for pcas
-		//--------------------------------------------------------------------------------------------
-
-			$imageUrl = null;
-// 			$curl = curl_init('http://pcas.xdams.net/pcas-web/EDB/17592/scheda.html');
-			
-// 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-// 			curl_setopt($curl, CURLOPT_USERPWD, 'pcas:pcas123');
-// 			curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-// 			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-// 			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-// 			curl_setopt($curl, CURLOPT_USERAGENT, 'Sample Code');
-			
-// 			$response = curl_exec($curl);
-// 			$resultStatus = curl_getinfo($curl);
-			
-// 			$split = explode('<img id="fotoSchedaBig" style="max-width:600px;" src="',$response);
-// 			if(sizeof($split) == 2)
-// 			{
-// 				$imageUrl = explode('"', $split[1]); 
-// 				$imageUrl = $imageUrl[0];
-// 			}
-		//-------------------------------------------------------------------------------------------			
-		
-		return $this->render('KddeEdbBundle:Search:result.html.twig',array('pagination' => $pagination, 'count' =>$count, 'isAdmin' => $isAdmin, 'image' => $imageUrl));
+						
+		return $this->render('KddeEdbBundle:Search:result.html.twig',array('pagination' => $pagination, 'count' =>$count, 'isAdmin' => $isAdmin, ));
 	}
 
 	public function mediumAction(Request $request){
