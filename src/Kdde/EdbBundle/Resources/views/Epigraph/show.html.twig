@@ -19,35 +19,38 @@
 {% include 'KddeEdbBundle:GeoPosition:modalViewGeoPosition.html.twig' %}
 {% include 'KddeEdbBundle:Literature:modalSingleLiterature.html.twig' %}
 	<div class="marketing">
-		<h2>EDB{{ e.id }}</h2>
+		<h1>EDB{{ e.id }}</h1>
 		<br>
 	</div>
 	<div class="row">
 				{# <table class="table table-striped table-condensed"> #}
 				<table class="table table-condensed tdnb" >
-						{% for i in 0..e.pertinence | length - 1%}
-							{% set c = e.pertinence[i] %}
-							<tr>
-								<td>
-									{% if i > 0 %}
-										<strong>and in </strong> 
-									{% endif %}
-									Roma 
-									{%- if c.pertinenceArea.description != 'n.d.'-%}
-										, {{ c.pertinenceArea.description -}}
-									{%- endif -%}
-									{%- if c.context.description != 'n.d.'-%}
-										, <a onClick="showMap('{{ c.context.geoposition | slice(1, c.context.geoposition |length-2 ) }}');" style="cursor: pointer; cursor: hand;"> {{ c.context.description -}} </a>
-									{%- endif -%}
-									{%- if c.pertinencePosition.description != 'n.d.'-%}
-										, {{ c.pertinencePosition.description -}}
-									{%- endif -%}
-									{%- if c.inSitu == true -%}
-										, in situ 
-									{%- endif -%} 
-								</td> 
-							<tr>
-						{% endfor %}
+						{% if e.pertinence | length > 0 %}
+							{% for i in 0..e.pertinence | length - 1%}
+								{% set c = e.pertinence[i] %}
+								<tr>
+									<td>
+										{% if i == 0 %}
+											<i style="color:grey;">Pertaining to </i> 
+										{% else %}
+											<i style="color:grey;">and </i> 
+										{% endif %}
+										{%- if c.context.description != 'n.d.'-%}
+											<a onClick="showMap('{{ c.context.geoposition | slice(1, c.context.geoposition |length-2 ) }}');" style="cursor: pointer; cursor: hand;"> {{ c.context.description -}} </a>
+										{%- endif %}
+										{%- if c.pertinencePosition.description != 'n.d.'-%}
+											, {{ c.pertinencePosition.description -}}
+										{%- endif %}
+										{% if c.pertinenceArea.description != 'n.d' -%}
+											({{ c.pertinenceArea.description -}})
+										{%- endif -%}
+										{%- if c.inSitu == true -%}
+											, in situ 
+										{%- endif -%} 
+									</td> 
+								<tr>
+							{% endfor %}
+						{% endif %}
 						
 						<tr>
 							<td>
@@ -89,19 +92,19 @@
 							<tr>
 								<td> Lost </td> 
 							</tr>
-						{% else %}
+						{% elseif e.conservations | length > 0 %}
 							{% for i in 0..e.conservations | length - 1%}
 								{% set c = e.conservations[i] %}
 								<tr>
 									<td> 
 										{%- if c.conservationLocation.description != 'n.d.' -%}
-											<strong>
+											<i style="color:grey;">
 											{%- if i == 0 -%}
 												Now in 
 											{% else -%}
-												and in 
+												and  
 											{% endif -%}
-											</strong>
+											</i>
 											{{- c.conservationLocation.description -}}
 											{%- if c.conservationContext.description != 'n.d.' -%}
 												, {{ c.conservationContext.description -}}
@@ -118,59 +121,75 @@
 						<tr>
 							<td>
 								{{ e.funzione.description }}
-								{% set datings_present = false %}
-								{%- for c in e.datings -%}
-									{%- if(c.from != 'n.d.') -%}
-										{%-  set datings_present = true -%}
-									{%- endif -%}
-								{%- endfor -%}
-								{%- if datings_present -%}(
-									{%- for i in 0..e.datings | length - 1 -%}
-										{%- set c = e.datings[i] -%}
-										{%- if c.from != 'n.d.' -%}
-											{%- if i > 0 %}; {% endif %}
-											{%- if c.from == c.to -%}
-												{{- c.from -}}
-											{%- else -%} 
-												{{- c.from -}}-{{- c.to -}}
-											{%- endif -%}
-										{%- endif -%}
-									{%- endfor -%})
-								{%- endif -%}
 							</td>
-						<tr>
+						</tr>
+						{% set datings_present = false %}
+						{%- for c in e.datings -%}
+							{%- if(c.from != 'n.d.') -%}
+								{%-  set datings_present = true -%}
+							{%- endif -%}
+						{%- endfor -%}
+						{%- if datings_present -%}<tr><td><i style="color:grey;">Date: </i> 
+							{%- for i in 0..e.datings | length - 1 -%}
+								{%- set c = e.datings[i] -%}
+								{%- if c.from != 'n.d.' -%}
+									{%- if i > 0 %}; {% endif %}
+									{%- if c.from == c.to -%}
+										{{- c.from -}}
+									{%- else -%} 
+										{{- c.from -}}-{{- c.to -}}
+									{%- endif -%}
+								{%- endif -%}
+							{%- endfor -%}</td></tr>	
+						{%- endif -%}
 						
 						<tr>
-							<td><strong>Bibliography:</strong> ICVR {{- e.icvr -}}, {{ e.principalProgNumber }} {{ e.subNumeration -}}
-							{%- for b in e.literatures -%}
-								; <a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{ b.idRiferimento.id }}</a> {{ b.note -}}
-							{% endfor %}
+							<td><i style="color:grey;">Bibliography:</i> 
+							{% if e.icvr != '' and e.icvr != 'n.d.' %}
+								ICVR {{ e.icvr -}}, {{ e.principalProgNumber -}}
+								{%- if e.subNumeration != 'n.d.' and e.subNumeration != '' -%}
+									.{{- e.subNumeration -}}
+								{%- endif -%}
+							{%- endif -%}
+							
+							{%- if e.literatures | length > 0 -%}
+								{%- for i in 0..e.literatures | length - 1 -%}
+									{%- set b = e.literatures[i] -%}
+									{%- if i > 0 or (e.icvr != '' and e.icvr != 'n.d.') -%}; 
+									{% endif -%}
+									<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}}</a>{{- b.note -}}
+								{%- endfor -%}
+							{%- endif -%}
 							</td>
 						</tr>
 			
 						{% if imageUrl != null %}
-							<tr><td><br></td></tr>
+							<tr><td></td></tr>
 							<tr>
 						 		<td>
 						 			<div class = "image">
-						 				<img src = {{ imageUrl }} width = 300px>
+						 				<img src = {{ imageUrl }} width = 300px><br>
+						 				<p style="color:grey;"> ©Pontificia Commissione di Archeologia Sacra</p> 
 						 			</div>
 								</td>
 							</tr>						
 						{% endif %}	
-						<tr><td><br></td></tr>
+						<tr><td></td></tr>
 						
 						<tr><td style = "line-height: normal; font-family:Cardo; font-size: 20pt"> {{ e.trascription }} </td></tr>
 						
 						<tr><td><br></td></tr>
-						{% if e.divergentText == 'S' %}
-							<tr><td>Transcription different from ICVR</td></tr>
-						{% endif %}
-						
-						{% if e.criticalApparatus != 'n.d.' and e.criticalApparatus != '' %}
-							<tr><td>({{ e.criticalApparatus }})</td></tr>
-						{% endif %}
-						<tr><td><br></td></tr>
+						<tr>
+							<td>
+							{% if e.divergentText == 'S' or e.divergentText == '1' %}
+								Transcription different from ICVR. 
+							{% endif %}
+							{% if e.criticalApparatus != 'n.d.' and e.criticalApparatus != '' %}
+								{{ e.criticalApparatus -}}.
+							{% endif %}
+							</td>
+						</tr>
+						<tr><td></td></tr>
 						<tr>
 							<td>
 								{{ e.oldCompilator -}} 
