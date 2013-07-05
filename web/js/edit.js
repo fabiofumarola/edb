@@ -1530,16 +1530,24 @@ $('document').ready(function() {
 	    $('#selectReferences option').prop('selected', 'selected');
 	});
 	
+	$('#submitButtonNew').click(function() {
+	    $('#selectSigna option').prop('selected', 'selected');
+	    $('#selectReferences option').prop('selected', 'selected');
+	});
+	
 	$('#submitAndApproveButton').click(function() {
 	    $('#selectSigna option').prop('selected', 'selected');
+	    $('#selectReferences option').prop('selected', 'selected');
 	});
 	
 	$('#submitAndBackButton').click(function() {
 	    $('#selectSigna option').prop('selected', 'selected');
+	    $('#selectReferences option').prop('selected', 'selected');
 	});
 	
 	$('#submitToAdminButton').click(function() {
 	    $('#selectSigna option').prop('selected', 'selected');
+	    $('#selectReferences option').prop('selected', 'selected');
 	});
 	
 	loadListOfReferences();

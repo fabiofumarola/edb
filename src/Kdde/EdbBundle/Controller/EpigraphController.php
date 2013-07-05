@@ -97,18 +97,14 @@ class EpigraphController extends Controller {
 	// Codice duplicato. Vedere se possibile ristrutturare
 	public function editAction($id, Request $request) {
 		
-		$repository = $this->getDoctrine()
-		->getRepository('KddeEdbStoreBundle:Epigraph');
+		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
 		$em = $this->getDoctrine()->getEntityManager();
 		$epigraph = $repository->find($id);
 		
 		if ($epigraph == null) {
-			$this->get('session')->setFlash('error',
-					'The epigraph with id ' . $id
-					. " it is not in the database!");
+			$this->get('session')->setFlash('error', 'The epigraph with id ' . $id . " it is not in the database!");
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
-		
 		
 		//select all the icvr
 		$repoIcvr = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Icvr');
@@ -147,18 +143,22 @@ class EpigraphController extends Controller {
 		
 		if ($request->getMethod() == 'POST') {
 		
-			$serializer = new Serializer(array(new GetSetMethodNormalizer()),
-					array('json' => new JsonEncoder()));
+			$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
 		
 			$form->bindRequest($request);
 		
 			if ($form->isValid()) 
 			{
 				$epigraphArray = $request->get('epigraph');
+				$submitAsNew = $request->get('submitButtonNew');
+				
+				if(isset($submitAsNew))
+					$epigraph = null;
+							
 				$epigraph = $this->persistEpigraph($epigraphArray, $epigraph);
 				
 				$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been successfully saved.';
-				
+								
 				$approveButton = $request->get('submitAndApproveButton');
 				$backButton = $request->get('submitAndBackButton');
 				$sendToAdminButton = $request->get('submitToAdminButton');
@@ -177,6 +177,9 @@ class EpigraphController extends Controller {
 					$this->setStatus($epigraph->getId(), 1);
 					$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been successfully saved and it has been sent to admins for approval!';
 				}
+				else if(isset($submitAsNew))
+					$message = 'A new epigraph with id '. $epigraph->getId() . " has been created!";
+				
 				$this->get('session')->setFlash('notice', $message);
 				
 				if(isset($approveButton) || isset($backButton) || isset($sendToAdminButton))
@@ -308,49 +311,36 @@ class EpigraphController extends Controller {
 	public function newAction(Request $request) {
 
 		//select all the icvr
-		$repoIcvr = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Icvr');
+		$repoIcvr = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Icvr');
 		$icvrs = $repoIcvr->findAll();
 
 		//select all the bibliography
 		$repoLiterature = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:BiblioRiferimento');
 		$literatures = $repoLiterature->findBy(array(), array('id' => 'ASC'));
 
-		$repoSupport = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Support');
-		$supports = $repoSupport
-				->findBy(array(), array('description' => 'ASC'));
+		$repoSupport = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Support');
+		$supports = $repoSupport->findBy(array(), array('description' => 'ASC'));
 
-		$repoTechnique = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Technique');
-		$techniques = $repoTechnique
-				->findBy(array(), array('description' => 'ASC'));
+		$repoTechnique = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Technique');
+		$techniques = $repoTechnique->findBy(array(), array('description' => 'ASC'));
 
-		$repoPaleography = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Paleography');
-		$paleographies = $repoPaleography
-				->findBy(array(), array('description' => 'ASC'));
+		$repoPaleography = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Paleography');
+		$paleographies = $repoPaleography->findBy(array(), array('description' => 'ASC'));
 
-		$repoFunzione = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Funzione');
-		$funzioni = $repoFunzione
-				->findBy(array(), array('description' => 'ASC'));
+		$repoFunzione = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Funzione');
+		$funzioni = $repoFunzione->findBy(array(), array('description' => 'ASC'));
 
-		$repoAmbito = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Ambito');
+		$repoAmbito = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Ambito');
 		$ambiti = $repoAmbito->findBy(array(), array('description' => 'ASC'));
 
-		$repoDating = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Dating');
+		$repoDating = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Dating');
 		$datings = $repoDating->findBy(array(), array('description' => 'ASC'));
 
-		$repoTypes = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Type');
+		$repoTypes = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Type');
 		$types = $repoTypes->findBy(array(), array('description' => 'ASC'));
 
 		$em = $this->getDoctrine()->getEntityManager();
 
-		//$form = $this->createForm(new EpigraphType(), new Epigraph());
 		$defaultData = array();
 		$form = $this->createFormBuilder($defaultData)->getForm();
 
@@ -367,14 +357,9 @@ class EpigraphController extends Controller {
 
 				$epigraph = $this->persistEpigraph($epigraphArray, null);
 			
-				$this->get('session')
-						->setFlash('notice',
-								'Your changes were saved, the epigraph is saved with id '
-										. $epigraph->getId()) . " !";
+				$this->get('session')->setFlash('notice','Your changes were saved, the epigraph is saved with id '. $epigraph->getId()) . " !";
 
 				return $this->redirect($this->generateUrl('edb_epigraph_edit', array('id' => $epigraph->getId())));
-				
-				//return new Response($serializer->serialize($epigraphArray, 'json'));
 			}
 		}
 		return $this
