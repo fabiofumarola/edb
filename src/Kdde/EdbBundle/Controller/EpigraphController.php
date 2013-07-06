@@ -252,6 +252,10 @@ class EpigraphController extends Controller {
 		}
 		//-------------------------------------------------------------------------------------------
 		
+// 		$trascription = $epigraph->getTrascription();
+// 		$trascription = str_replace(' / ', '<br>', $trascription);
+// 		$epigraph->setTrascription($trascription);
+		
 		return $this->render('KddeEdbBundle:Epigraph:show.html.twig', array('e' => $epigraph, 'imageUrl' => $imageUrl));
 	}
 	

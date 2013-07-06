@@ -157,7 +157,7 @@
 									{%- set b = e.literatures[i] -%}
 									{%- if i > 0 or (e.icvr != '' and e.icvr != 'n.d.') -%}; 
 									{% endif -%}
-									<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}}</a>{{- b.note -}}
+									<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}}</a> {{ b.note -}}
 								{%- endfor -%}
 							{%- endif -%}
 							</td>
