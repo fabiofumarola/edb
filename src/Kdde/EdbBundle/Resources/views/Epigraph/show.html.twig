@@ -176,7 +176,7 @@
 						{% endif %}	
 						<tr><td></td></tr>
 						
-						<tr><td style = "line-height: normal; font-family:Cardo; font-size: 20pt"> {{ e.trascription }} </td></tr>
+						<tr><td style = "line-height: normal; font-family:Cardo; font-size: 20pt"> {{ e.trascription | replace({' /' : '<br>'}) | replace({'/' : '-<br>'})| raw }} </td></tr>
 						
 						<tr><td><br></td></tr>
 						<tr>
