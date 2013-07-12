@@ -18,8 +18,9 @@
 {% block body %}
 {% include 'KddeEdbBundle:GeoPosition:modalViewGeoPosition.html.twig' %}
 {% include 'KddeEdbBundle:Literature:modalSingleLiterature.html.twig' %}
+	<br>
 	<div class="marketing">
-		<h3>EDB{{ e.id }}</h3>
+		<h4 style="text-align:left" ><i>EDB{{ e.id }}</i></h4>
 		<br>
 	</div>
 	<div class="row">
@@ -28,7 +29,7 @@
 						{% if e.pertinence | length > 0 %}
 							{% for i in 0..e.pertinence | length - 1%}
 								{% set c = e.pertinence[i] %}
-								<tr>
+								<tr style = "font-size: 12pt">
 									<td>
 										{% if i == 0 %}
 											<i style="color:grey;">Pertaining to </i> 
@@ -48,13 +49,13 @@
 											, in situ 
 										{%- endif -%} 
 									</td> 
-								<tr>
+								</tr>
 							{% endfor %}
 						{% endif %}
 						
-						<tr>
+						<tr style = "font-size: 12pt">
 							<td>
-								{{- e.material.support.description }} - {{ e.material.technique.description-}}
+								{{- e.material.support.description }} - <i style="color:grey;">Titulus</i> {{ e.material.technique.description-}}
 								{%- if e.material.height != 'n.d.' or e.material.width != 'n.d.' or e.material.tickness != 'n.d.' -%}
 									, 
 									{% if e.material.height != 'n.d.' -%} 
@@ -89,13 +90,13 @@
 						</tr>
 						
 						{% if e.lost == 'S' %}
-							<tr>
+							<tr style = "font-size: 12pt">
 								<td> Lost </td> 
 							</tr>
 						{% elseif e.conservations | length > 0 %}
 							{% for i in 0..e.conservations | length - 1%}
 								{% set c = e.conservations[i] %}
-								<tr>
+								<tr style = "font-size: 12pt">
 									<td> 
 										{%- if c.conservationLocation.description != 'n.d.' -%}
 											<i style="color:grey;">
@@ -118,7 +119,7 @@
 							{% endfor %}
 						{% endif %}
 					
-						<tr>
+						<tr style = "font-size: 12pt">
 							<td>
 								{{ e.funzione.description }}
 							</td>
@@ -129,7 +130,7 @@
 								{%-  set datings_present = true -%}
 							{%- endif -%}
 						{%- endfor -%}
-						{%- if datings_present -%}<tr><td><i style="color:grey;">Date: </i> 
+						{%- if datings_present -%}<tr style = "font-size: 12pt"><td><i style="color:grey;">Date: </i> 
 							{%- for i in 0..e.datings | length - 1 -%}
 								{%- set c = e.datings[i] -%}
 								{%- if c.from != 'n.d.' -%}
@@ -143,7 +144,7 @@
 							{%- endfor -%}</td></tr>	
 						{%- endif -%}
 						
-						<tr>
+						<tr style = "font-size: 12pt">
 							<td><i style="color:grey;">Bibliography:</i> 
 							{% if e.icvr != '' and e.icvr != 'n.d.' %}
 								ICVR {{ e.icvr -}}, {{ e.principalProgNumber -}}
@@ -169,14 +170,14 @@
 						 		<td>
 						 			<div class = "image">
 						 				<img src = {{ imageUrl }} width = 300px><br>
-						 				<p style="color:grey;"> ©Pontificia Commissione di Archeologia Sacra</p> 
+						 				<p style="color:grey;"><a href ="http://www.archeologiasacra.net/pcas-web/EDB/{{- e.id -}}/scheda.html"> ©Pontificia Commissione di Archeologia Sacra</a></p> 
 						 			</div>
 								</td>
 							</tr>						
 						{% endif %}	
 						<tr><td></td></tr>
 						
-						<tr><td style = "line-height: normal; font-family:Cardo; font-size: 20pt"> {{ e.trascription | replace({' /' : '<br>'}) | replace({'/' : '-<br>'})| raw }} </td></tr>
+						<tr><td style = "line-height: normal; font-family:Cardo; font-size: 16pt"> {{ e.trascription | replace({' /' : '<br>'}) | replace({'/' : '-<br>'})| raw }} </td></tr>
 						
 						<tr><td><br></td></tr>
 						<tr>
@@ -191,7 +192,7 @@
 						</tr>
 						<tr><td></td></tr>
 						<tr>
-							<td>
+							<td style="color:grey;">
 								{{ e.oldCompilator -}} 
 								{%- if e.dataScheda != '' and e.dataScheda != 'n.d.' -%}
 									, {{ e.dataScheda }}
