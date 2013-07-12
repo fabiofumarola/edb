@@ -198,8 +198,8 @@
 						<tr>
 							<td style="color:grey;">
 								{{ e.oldCompilator -}} 
-								{%- if e.dataScheda != '' and e.dataScheda != 'n.d.' -%}
-									, {{ e.dataScheda }}
+								{%- if e.createdAt != '' and e.createdAt != 'n.d.' -%}
+									, {{ e.createdAt | date('d/m/Y') }}
 								{% endif %}
 							</td>
 						</tr>

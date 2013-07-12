@@ -232,7 +232,6 @@ class EpigraphController extends Controller {
 		$imageUrl = null;
 		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/' . $id . '/scheda.html';
 // 		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/17592/scheda.html';
-// 		$curl = curl_init('http://www.archeologiasacra.net/pcas-web/EDB/17592/scheda.html');
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_USERPWD, 'pcas:pcas123');
@@ -251,10 +250,6 @@ class EpigraphController extends Controller {
 			$imageUrl = $imageUrl[0];
 		}
 		//-------------------------------------------------------------------------------------------
-		
-// 		$trascription = $epigraph->getTrascription();
-// 		$trascription = str_replace(' / ', '<br>', $trascription);
-// 		$epigraph->setTrascription($trascription);
 		
 		return $this->render('KddeEdbBundle:Epigraph:show.html.twig', array('e' => $epigraph, 'imageUrl' => $imageUrl));
 	}
@@ -628,16 +623,19 @@ class EpigraphController extends Controller {
 			// old was: $epigraph->setCompilator($this->get('security.context')->getToken()->getUser()->getId());
 			
 			if(!$update)
+			{
 				$epigraph->setCompilator($this->get('security.context')->getToken()->getUser());
 
-			// Backward compatibility for OldCompilator
-			$oldCompilaterUser = $this->get('security.context')->getToken()->getUser();
-			$epigraph->setOldCompilator($oldCompilaterUser->getFirstname() . ' ' . $oldCompilaterUser->getLastname());
+				// Backward compatibility for OldCompilator
+				$oldCompilaterUser = $this->get('security.context')->getToken()->getUser();
+				$epigraph->setOldCompilator($oldCompilaterUser->getFirstname() . ' ' . $oldCompilaterUser->getLastname());
+			}
+			else
+			new \DateTime("now");
 			
-			
+			$epigraph->setLastCompilator($this->get('security.context')->getToken()->getUser());
+			$epigraph->setEditedAt(new \DateTime("now"));
 
-				
-			
 			if(!$update)
 				$em->persist($epigraph);
 			else

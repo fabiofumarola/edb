@@ -248,12 +248,34 @@ class Epigraph {
 	 */
 	protected $compilator;
 	
+	
+	
+	/**
+	 *
+	 * @var User
+	 * @ManyToOne(targetEntity="User")
+	 * @JoinColumn(name="edited_by", referencedColumnName="id")
+	 */
+	protected $lastCompilator;
+	
+	
+	
+	
 	/**
 	 * @ORM\Column(type="datetimetz", name="created_at")
 	 *
 	 * @var DateTime $createdAt
 	 */
 	protected $createdAt;
+	
+	
+	
+	/**
+	 * @ORM\Column(type="datetimetz", name="edited_at")
+	 *
+	 * @var DateTime $editedAt
+	 */
+	protected $editedAt;
 	
 	
 	/**
@@ -320,6 +342,7 @@ class Epigraph {
 		$this->datings = new ArrayCollection();
 		$this->signas = new ArrayCollection();
 		$this->createdAt = new \DateTime("now");
+		$this->editedAt = new \DateTime("now");
 	}
 
 	
@@ -727,12 +750,35 @@ class Epigraph {
     /**
      * Get compilator
      *
-     * @return Kdde\EdbStoreBundle\Entity\User 
+     * @return Kdde\EdbStoreBundle\Entity\User
      */
     public function getCompilator()
     {
-        return $this->compilator;
+    	return $this->compilator;
     }
+    
+    
+    /**
+     * Get last compilator
+     *
+     * @return Kdde\EdbStoreBundle\Entity\User 
+     */
+    public function getLastCompilator()
+    {
+        return $this->lastCompilator;
+    }
+    
+    /**
+     * Set last compilator
+     *
+     * @param Kdde\EdbStoreBundle\Entity\User $compilator
+     */
+    public function setLastCompilator(\Kdde\EdbStoreBundle\Entity\User $lastCompilator)
+    {
+    	$this->lastCompilator = $lastCompilator;
+    }
+        
+    
 
     /**
      * Set createdAt
@@ -753,6 +799,31 @@ class Epigraph {
     {
         return $this->createdAt;
     }
+    
+    
+    
+    /**
+     * Set editedAt
+     *
+     * @param datetime $editedAt
+     */
+    public function setEditedAt($editedAt)
+    {
+    	$this->editedAt = $editedAt;
+    }
+    
+    /**
+     * Get editedAt
+     *
+     * @return datetime
+     */
+    public function getEditedAt()
+    {
+    	return $this->editedAt;
+    }
+    
+    
+    
 
     /**
      * Set icvr
