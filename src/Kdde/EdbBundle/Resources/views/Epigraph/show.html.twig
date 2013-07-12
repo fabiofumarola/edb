@@ -20,7 +20,7 @@
 {% include 'KddeEdbBundle:Literature:modalSingleLiterature.html.twig' %}
 	<br>
 	<div class="marketing">
-		<h4 style="text-align:left" ><i>EDB{{ e.id }}</i></h4>
+		<h4 style="text-align:left" >EDB{{ e.id }}</h4>
 		<br>
 	</div>
 	<div class="row">
@@ -37,12 +37,16 @@
 											<i style="color:grey;">and </i> 
 										{% endif %}
 										{%- if c.context.description != 'n.d.'-%}
-											<a onClick="showMap('{{ c.context.geoposition | slice(1, c.context.geoposition |length-2 ) }}');" style="cursor: pointer; cursor: hand;"> {{ c.context.description -}} </a>
+											{% if c.context.id != 1 %}
+												<a onClick="showMap('{{ c.context.geoposition | slice(1, c.context.geoposition |length-2 ) }}');" style="cursor: pointer; cursor: hand;"> {{ c.context.description -}} </a>
+											{% else %}
+												{{ c.context.description -}}
+											{% endif %}
 										{%- endif %}
 										{%- if c.pertinencePosition.description != 'n.d.'-%}
 											, {{ c.pertinencePosition.description -}}
 										{%- endif %}
-										{% if c.pertinenceArea.description != 'n.d' -%}
+										{% if c.pertinenceArea.description != 'n.d.' -%}
 											({{ c.pertinenceArea.description -}})
 										{%- endif -%}
 										{%- if c.inSitu == true -%}
@@ -55,7 +59,7 @@
 						
 						<tr style = "font-size: 12pt">
 							<td>
-								{{- e.material.support.description }} - <i style="color:grey;">Titulus</i> {{ e.material.technique.description-}}
+								{{- e.material.support.description }} - Titulus {{ e.material.technique.description-}}
 								{%- if e.material.height != 'n.d.' or e.material.width != 'n.d.' or e.material.tickness != 'n.d.' -%}
 									, 
 									{% if e.material.height != 'n.d.' -%} 
@@ -169,8 +173,8 @@
 							<tr>
 						 		<td>
 						 			<div class = "image">
-						 				<img src = {{ imageUrl }} width = 300px><br>
-						 				<p style="color:grey;"><a href ="http://www.archeologiasacra.net/pcas-web/EDB/{{- e.id -}}/scheda.html"> ©Pontificia Commissione di Archeologia Sacra</a></p> 
+						 				<img src = {{ imageUrl }} width = 350px><br>
+						 				<p style="color:grey; font-size: 9pt"><a href ="http://www.archeologiasacra.net/pcas-web/EDB/{{- e.id -}}/scheda.html"> © Archivio della Pontificia Commissione di Archeologia Sacra</a></p> 
 						 			</div>
 								</td>
 							</tr>						
