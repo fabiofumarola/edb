@@ -173,8 +173,8 @@
 							<tr>
 						 		<td>
 						 			<div class = "image">
-						 				<img src = {{ imageUrl }} width = 350px><br>
-						 				<p style="color:grey; font-size: 9pt"><a href ="http://www.archeologiasacra.net/pcas-web/EDB/{{- e.id -}}/scheda.html"> © Archivio della Pontificia Commissione di Archeologia Sacra</a></p> 
+						 				<img src = {{ imageUrl }} width = 380px><br>
+						 				<p style="color:grey; font-size: 9pt"><a href ="http://www.archeologiasacra.net/pcas-web/EDB/{{- e.id -}}/scheda.html"><strong>© other image(s) available at Archivio della Pontificia Commissione <br> di Archeologia Sacra</strong></a></p> 
 						 			</div>
 								</td>
 							</tr>						
@@ -200,6 +200,9 @@
 								{{ e.oldCompilator -}} 
 								{%- if e.createdAt != '' and e.createdAt != 'n.d.' -%}
 									, {{ e.createdAt | date('d/m/Y') }}
+								{% endif %}
+								{% if e.createdAt | date('d/m/Y') != e.editedAt | date('d/m/Y') and e.compilator != e.lastCompilator %}
+									<br>Last update by {{ e.lastCompilator.firstname }} {{ e.lastCompilator.lastname }} on {{ e.editedAt | date('d/m/Y')  }}
 								{% endif %}
 							</td>
 						</tr>
