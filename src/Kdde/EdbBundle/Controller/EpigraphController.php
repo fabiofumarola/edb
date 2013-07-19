@@ -96,13 +96,15 @@ class EpigraphController extends Controller {
 	
 	// Codice duplicato. Vedere se possibile ristrutturare
 	public function editAction($id, Request $request) {
+		$roles = $this->get('security.context')->getToken()->getRoles();	
 		
 		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
 		$em = $this->getDoctrine()->getEntityManager();
 		$epigraph = $repository->find($id);
-		
-		if ($epigraph == null) {
-			$this->get('session')->setFlash('error', 'The epigraph with id ' . $id . " it is not in the database!");
+
+		if ($epigraph == null || 
+				(!in_array("administrator", $roles) && $epigraph->getStatus() == 1)) {
+			$this->get('session')->setFlash('error', 'The epigraph with id ' . $id . " is not in the database or you cannot access it!");
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
 		
@@ -218,11 +220,12 @@ class EpigraphController extends Controller {
 		$em = $this->getDoctrine()->getEntityManager();
 		$epigraph = $repository->find($id);
 	
-		if ($epigraph == null || $epigraph->getStatus() == 0) {
-			$this->get('session')
-					->setFlash('error',
-							'The epigraph with id ' . $id
-									. " is not in the database or it is still not approved!");
+		$roles = $this->get('security.context')->getToken()->getRoles();
+// 		if (in_array("administrator", $roles))
+		
+		
+		if ($epigraph == null || $epigraph->getStatus() < 2) {
+			$this->get('session')->setFlash('error', 'The epigraph with id ' . $id . " is not in the database or it is still not approved!");
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
 		
