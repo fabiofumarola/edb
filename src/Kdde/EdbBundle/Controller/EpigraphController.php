@@ -102,8 +102,11 @@ class EpigraphController extends Controller {
 		$em = $this->getDoctrine()->getEntityManager();
 		$epigraph = $repository->find($id);
 
+		$currentUser = $this->get('security.context')->getToken()->getUser();
+		
 		if ($epigraph == null || 
-				(!in_array("administrator", $roles) && $epigraph->getStatus() == 1)) {
+				($epigraph->getStatus() == 1 && !in_array("administrator", $roles)) ||
+				($epigraph->getStatus() == 0 && $epigraph->getCompilator() != $currentUser && !in_array("administrator", $roles))) {
 			$this->get('session')->setFlash('error', 'The epigraph with id ' . $id . " is not in the database or you cannot access it!");
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
