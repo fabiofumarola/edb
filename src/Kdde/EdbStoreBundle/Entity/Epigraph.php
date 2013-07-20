@@ -205,6 +205,14 @@ class Epigraph {
 	protected $datings;
 	
 	
+	/**
+	 *
+	 * @var ArrayCollection
+	 * @OneToMany(targetEntity="RelatedResource", mappedBy="id", cascade={"persist", "merge","remove"})
+	 */
+	protected $relatedResources;
+	
+	
 	// 	norm_text text,
 	
 	/**
@@ -341,6 +349,7 @@ class Epigraph {
 		$this->pertinences = new ArrayCollection();
 		$this->datings = new ArrayCollection();
 		$this->signas = new ArrayCollection();
+		$this->relatedResources = new ArrayCollection();
 		$this->createdAt = new \DateTime("now");
 		$this->editedAt = new \DateTime("now");
 	}
@@ -1009,6 +1018,38 @@ class Epigraph {
     {
     	$this->datings = new ArrayCollection();
     }
+    
+    
+    /**
+     * Set Related Resources
+     *
+     * @param Kdde\EdbStoreBundle\Entity\RelatedResource $res
+     */
+    public function addRelatedResource(Kdde\EdbStoreBundle\Entity\RelatedResource $res)
+    {
+    	$this->relatedResources[] = $res;
+    }
+    
+    
+    
+    /**
+     * Get data
+     *
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getRelatedResources()
+    {
+    	return $this->relatedResources;
+    }
+    
+    
+    public function emtpyRelatedResources()
+    {
+    	$this->relatedResources = new ArrayCollection();
+    }
+    
+    
+    
     
     
     /**

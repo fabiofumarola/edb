@@ -1,10 +1,14 @@
 var countConservations = 1;
 var countPertinences = 1;
 var countDatings = 1;
+var countRelatedResources = 1;
 var hashConservations = new Array();
 var hashPertinences = new Array();
 var hashDatings = new Array();
 var hashReferences = new Array();
+var hashRelatedResources = new Array();
+var hashRelationReferences = new Array();
+var addBiblioOpened = 1;
 
 function cleanNewLiteratureValues() {
 	$('#cod_literature').attr('value', null);
@@ -966,24 +970,51 @@ function addDatingToTableAction() {
 
 
 function addToReferences(id) {
-	if (hashReferences[id] != undefined) 
+	
+	if(addBiblioOpened == 1)
 	{
-		alert("Error - The selected bibliographic reference (" + id + ")" + " has already been added!");
-		return;
+		if (hashReferences[id] != undefined) 
+		{
+			alert("Error - The selected bibliographic reference (" + id + ")" + " has already been added!");
+			return;
+		}
+		
+		var note = $('#refNote').val();
+		if(note.indexOf('@_@') != -1)
+		{
+			alert("Error - The field Note cannot contain the string @_@");
+			return;
+		}
+		var value = id;
+		if(note.length > 0)
+			value = value + ", " + note;
+		hashReferences[id] = id;
+		
+		$('#selectReferences').append('<option value="' + id + '@_@' + note + '" selected="selected">' + value + '</option>');
+	}
+	else if(addBiblioOpened == 2)
+	{
+		if (hashRelationReferences[id] != undefined) 
+		{
+			alert("Error - The selected bibliographic reference (" + id + ")" + " has already been added!");
+			return;
+		}
+		
+		var note = $('#refNote').val();
+		if(note.indexOf('@_@') != -1)
+		{
+			alert("Error - The field Note cannot contain the string @_@");
+			return;
+		}
+		var value = id;
+		if(note.length > 0)
+			value = value + ", " + note;
+		hashRelationReferences[id] = id;
+		
+		$('#selectRelationReferences').append('<option value="' + id + '@_@' + note + '" selected="selected">' + value + '</option>');
 	}
 	
-	var note = $('#refNote').val();
-	if(note.indexOf('@_@') != -1)
-	{
-		alert("Error - The field Note cannot contain the string @_@");
-		return;
-	}
-	var value = id;
-	if(note.length > 0)
-		value = value + ", " + note;
-	hashReferences[id] = id;
-	
-	$('#selectReferences').append('<option value="' + id + '@_@' + note + '" selected="selected">' + value + '</option>');
+
 	$('#refNote').val("");
 	$('#viewLiteratureModal').modal('hide');
 }
@@ -1146,23 +1177,87 @@ function loadReferences(type)
 	});	
 }
 
+
+
+function addOtherResourcesToTable() {
+	
+	var resourceSource = $('#epigraph_resource_source :selected').text();
+	var resourceRel = $('#epigraph_resource_relation :selected').val();
+	var resourceRef = $('#resource_reference').val();
+
+	// Check if all the fields are compiled
+	if (!resourceRef) {
+		alert('Please fill the Reference ID field');
+		return;
+	}
+		
+	var hiddenValue = resourceSource + "@-@" + resourceRel + "@-@" + resourceRef;
+		
+	var inputHidden = "<input type='hidden' name='epigraph[relatedResources][]' value='" + hiddenValue + "'/>";
+	var delTd = "deleteDating" + countRelatedResources;
+	countRelatedResources++;
+
+	// add values to the table as row
+	var row = "<tr><td>" + resourceSource + "</td><td>" + resourceRel+ "</td><td>" + resourceRef + "<td id='" + delTd + "'></td>" + inputHidden + "</tr>";
+
+	if (hashRelatedResources[hiddenValue] != undefined) {
+		alert('Values already added to the table.');
+		countRelatedResources--;
+		return;
+	}
+
+	$('#relationTable > tbody:last').append(row);
+	hashRelatedResources[hiddenValue] = hiddenValue;
+
+	$("#" + delTd).wrapInner("<a href='#'>Delete</a>");
+	$("#" + delTd + " a").click(function(e) {
+		e.preventDefault();
+		$(this).parent().parent().remove();
+		hashRelatedResources[hiddenValue] = undefined;
+		countRelatedResources--;
+	});
+}
+
+
 $('document').ready(function() {
 
 	loadPertinenceArea();
 	loadConservationLocation();
 	
-	// Click to add bibliography
-	$('#addLiteratureRef').click(function() {
+	$('#addToRelationTable').click(function() {
+		addOtherResourcesToTable();
+	});
+	
+	
+	$('#addRelationLiteratureRef').click(function() {
+		addBiblioOpened = 2;
 		$('#bibliography_type').val("Rivista");
 		loadReferences("Rivista");
 		$('#viewLiteratureModal').modal('show');
 	});
 	
 	
+	$('#removeRelationReference').click(function() {
+		if ($('#selectRelationReferences option').size() == 0) {
+			alert("There is no element to remove.");
+			return;
+		}
+		var selected = $('#selectRelationReferences option:selected').val();
+		var id = selected.split('@_@')[0];
+		hashRelationReferences[id] = null;
+		$('#selectRelationReferences option:selected').remove();
+	});
 	
 	
+	// Click to add bibliography
+	$('#addLiteratureRef').click(function() {
+		addBiblioOpened = 1;
+		$('#bibliography_type').val("Rivista");
+		loadReferences("Rivista");
+		$('#viewLiteratureModal').modal('show');
+	});
 	
-
+	
 	$('#removeReference').click(function() {
 		if ($('#selectReferences option').size() == 0) {
 			alert("There is no element to remove.");
@@ -1277,7 +1372,8 @@ $('document').ready(function() {
 
 		addNewConservationPosition(description, idContext);
 	});
-
+		
+	
 	$('#addConservationToTable').click(function() {
 		addConservationToTableAction();
 	});
