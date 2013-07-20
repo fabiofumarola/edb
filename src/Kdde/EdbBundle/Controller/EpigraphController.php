@@ -344,6 +344,10 @@ class EpigraphController extends Controller {
 		$repoTypes = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Type');
 		$types = $repoTypes->findBy(array(), array('description' => 'ASC'));
 
+		$repoRefSources = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:ResourceType');
+		$refSources = $repoRefSources->findBy(array(), array('description' => 'ASC'));
+		
+		
 		$em = $this->getDoctrine()->getEntityManager();
 
 		$defaultData = array();
@@ -367,6 +371,8 @@ class EpigraphController extends Controller {
 				return $this->redirect($this->generateUrl('edb_epigraph_edit', array('id' => $epigraph->getId())));
 			}
 		}
+		
+		
 		return $this
 				->render('KddeEdbBundle:Epigraph:new.html.twig',
 						array('form' => $form->createView(), 'icvrs' => $icvrs,
@@ -376,7 +382,10 @@ class EpigraphController extends Controller {
 								'paleographies' => $paleographies,
 								'functions' => $funzioni,
 								'onomasticAreas' => $ambiti,
-								'datings' => $datings, 'types' => $types));
+								'datings' => $datings, 
+								'types' => $types,
+								'refSources' => $refSources
+		));
 	}
 
 	private function persistEpigraph($epigraphArray, $epigraph) {

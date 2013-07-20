@@ -78,6 +78,9 @@
 					<div class="span2">
 						<label>Resource</label>
 						<select class="span2" id="epigraph_resource_source" name="epigraph[resource_source]">
+							{% for refSource in refSources %}
+								<option value="{{ refSource.id }}"> {{ refSource.description }}</option>
+							{% endfor %}
 							<option value = "1">EDB</option>
 							<option value = "2">EDR</option>
 							<option value = "3">EDH</option>
