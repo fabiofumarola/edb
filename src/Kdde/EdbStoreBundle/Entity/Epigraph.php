@@ -1025,7 +1025,7 @@ class Epigraph {
      *
      * @param Kdde\EdbStoreBundle\Entity\RelatedResource $res
      */
-    public function addRelatedResource(Kdde\EdbStoreBundle\Entity\RelatedResource $res)
+    public function addRelatedResource(\Kdde\EdbStoreBundle\Entity\RelatedResource $res)
     {
     	$this->relatedResources[] = $res;
     }

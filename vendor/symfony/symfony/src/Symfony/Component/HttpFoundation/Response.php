@@ -258,7 +258,7 @@ class Response
          * @link http://support.microsoft.com/kb/323308
          */
         if (false !== stripos($this->headers->get('Content-Disposition'), 'attachment') && preg_match('/MSIE (.*?);/i', $request->server->get('HTTP_USER_AGENT'), $match) == 1 && true === $request->isSecure()) {
-            if(intval(preg_replace("/(MSIE )(.*?);/", "$2", $match[0])) < 9) {
+            if (intval(preg_replace("/(MSIE )(.*?);/", "$2", $match[0])) < 9) {
                 $this->headers->remove('Cache-Control');
             }
         }
@@ -690,7 +690,7 @@ class Response
 
     /**
      * Returns the number of seconds after the time specified in the response's Date
-     * header when the the response should no longer be considered fresh.
+     * header when the response should no longer be considered fresh.
      *
      * First, it checks for a s-maxage directive, then a max-age directive, and then it falls
      * back on an expires header. It returns null when no maximum age can be established.
