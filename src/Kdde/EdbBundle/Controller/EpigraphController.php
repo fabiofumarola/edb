@@ -13,6 +13,8 @@ use Kdde\EdbStoreBundle\Entity\Ambito;
 
 use Kdde\EdbStoreBundle\Entity\Material;
 
+use Kdde\EdbStoreBundle\Entity\RelatedResource;
+
 use Kdde\EdbStoreBundle\Entity\Conservation;
 
 use Kdde\EdbStoreBundle\Entity\Pertinence;
@@ -140,6 +142,9 @@ class EpigraphController extends Controller {
 		$repoTypes = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Type');
 		$types = $repoTypes->findBy(array(), array('description' => 'ASC'));
 		
+		$repoRefSources = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:ResourceType');
+		$refSources = $repoRefSources->findBy(array(), array('description' => 'ASC'));
+		
 		$em = $this->getDoctrine()->getEntityManager();
 		
 		//$form = $this->createForm(new EpigraphType(), new Epigraph());
@@ -210,7 +215,8 @@ class EpigraphController extends Controller {
 						'datings' => $datings, 
 						'types' => $types,
 						'e' => $epigraph,
-						'admin' => $isAdmin 
+						'admin' => $isAdmin,
+						'refSources' => $refSources
 		));
 	}
 
@@ -274,6 +280,21 @@ class EpigraphController extends Controller {
 		$json = $serializer->serialize($epigraph->getLiteratures(), 'json');
 		return new Response($json);
 	}
+	
+	public function relresourceslistAction($id, $_format)
+	{
+		if ($_format != "json")
+			return new Response(json_encode("it supports only json"));
+	
+		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:RelatedResource');
+		$em = $this->getDoctrine()->getEntityManager();
+		$relresources = $repository->findBy(array('idEpigrafe' => $id));
+		$serializer = $this->get('jms_serializer');
+		$json = $serializer->serialize($relresources, 'json');
+		return new Response($json);
+	}
+	
+	
 	
 	
 	public function originalcontextlistAction($id, $_format) {	
@@ -409,6 +430,7 @@ class EpigraphController extends Controller {
 		$repoConservation = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Conservation');
 		$repoSigna = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Signa');
 		$repoTypes = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Type');
+		$repoResourceTypes = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:ResourceType');
 		$em = $this->getDoctrine()->getEntityManager();
 
 		$arrayLiteratures = new ArrayCollection();
@@ -524,7 +546,7 @@ class EpigraphController extends Controller {
 					}
 				}
 			}
-
+			
 			if (isset($epigraphArray['material'])) {
 				$arrayMaterial = $epigraphArray['material'];
 				$support = $repoSupport->find($arrayMaterial['support']);
@@ -688,6 +710,20 @@ class EpigraphController extends Controller {
 						$biblioReference->setRelazione($relationship);
 						$em->persist($biblioReference);
 					}
+				}
+			}
+			
+			$epigraph->emtpyRelatedResources();
+			if (isset($epigraphArray['relatedResources'])) {
+				$relatedResources = $epigraphArray['relatedResources'];
+				foreach ($relatedResources as $ids) {
+					$split = explode("@-@", $ids);
+					$c = new RelatedResource();
+					$c->setIdEpigrafe($epigraph);
+					$c->setRelationType($split[1]);
+					$c->setResourceRef($split[2]);
+					$c->setResourceType($repoResourceTypes->find($split[0]));
+					$epigraph->addRelatedResource($c);
 				}
 			}
 			

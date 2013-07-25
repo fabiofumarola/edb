@@ -283,6 +283,16 @@ edb_epigraph_conservation_list:
         id: \d+    
     options:
         expose: true
+        
+        
+edb_epigraph_relresources_list:
+    pattern: /epigraph/relresources/{id}.{_format}
+    defaults: {_controller: KddeEdbBundle:Epigraph:relresourceslist, _format: json}
+    requirements:
+        _format: json
+        id: \d+    
+    options:
+        expose: true
 
 edb_epigraph_datings_list:
     pattern: /epigraph/datings/{id}.{_format}

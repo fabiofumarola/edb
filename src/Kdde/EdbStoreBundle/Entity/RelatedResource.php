@@ -24,7 +24,7 @@ class RelatedResource {
 	 * @ORM\JoinColumn(name="id_epigrafe", referencedColumnName="id_edb")
 	 * @Exclude
 	 */
-	protected $id;
+	protected $idEpigrafe;
 
 	
 	/**
@@ -53,12 +53,12 @@ class RelatedResource {
 
 	
 
-    public function getId()
+    public function getIdEpigrafe()
     {
         return $this->id;
     }
     
-    public function setId($id)
+    public function setIdEpigrafe($id)
     {
     	$this->id = $id;
     }

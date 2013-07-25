@@ -1,11 +1,11 @@
 var countConservations = 1;
 var countPertinences = 1;
 var countDatings = 1;
-var countRelatedResources = 1;
 var hashConservations = new Array();
 var hashPertinences = new Array();
 var hashDatings = new Array();
 var hashReferences = new Array();
+var countRelatedResources = 1;
 var hashRelatedResources = new Array();
 
 function cleanNewLiteratureValues() {
@@ -1158,7 +1158,7 @@ function loadReferences(type)
 
 function addOtherResourcesToTable() {
 	
-	var resourceSource = $('#epigraph_resource_source :selected').text();
+	var resourceSource = $('#epigraph_resource_source :selected').val();
 	var resourceRel = $('#epigraph_resource_relation :selected').val();
 	var resourceRef = $('#resource_reference').val();
 

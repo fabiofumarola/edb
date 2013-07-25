@@ -5,7 +5,8 @@ var hashConservations = new Array();
 var hashPertinences = new Array();
 var hashDatings = new Array();
 var hashReferences = new Array();
-
+var countRelatedResources = 1;
+var hashRelatedResources = new Array();
 
 
 function addToReferences(id) {
@@ -1067,8 +1068,7 @@ function loadListOfReferences()
 			selectId = selectId + "@_@" + data[i].relazione;
 			var toCheck = data[i].id_riferimento.id + "@_@" + data[i].relazione;
 			hashReferences[toCheck] = toCheck;
-			$('#selectReferences').append(
-					'<option value="' + selectId + '" selected="selected">' + value	+ '</option>');
+			$('#selectReferences').append('<option value="' + selectId + '" selected="selected">' + value + '</option>');
 		}
 	});
 }
@@ -1119,6 +1119,53 @@ function loadListOfConservation()
 				$(this).parent().parent().remove();
 				hashConservations[hiddenValue] = undefined;
 				countConservations--;
+			});
+		}
+	});
+}
+
+
+
+
+function loadListOfRelatedResources(){
+
+	var epiid = $('#epiid').val();
+	
+	var url = Routing.generate('edb_epigraph_relresources_list', {
+		id : epiid
+	});
+
+	$.getJSON(url+".json", function(data) {
+		for (i in data) {
+			var resourceSourceId = data[i].resourceType.id;
+//			var resourceSourceName = data[i].resourceType.description;
+			var resourceRel = data[i].resourceRel;
+			var resourceRef = data[i].resourceRef;
+			
+
+			var hiddenValue = resourceSourceId + "@-@" + resourceRel + "@-@" + resourceRef;
+			var inputHidden = "<input type='hidden' name='epigraph[relatedResources][]' value='"
+					+ hiddenValue + "'/>";
+
+			
+			var delTd = "deleteTd" + countRelatedResources;
+			countRelatedResources++;
+
+			// add values to the table as row
+			var row = "<tr> " + "<td>" + resourceSourceName + "</td> " + "<td>" + resourceRef
+					+ "</td> " + "<td>" + resourceRel + "</td> " + "<td id='" + delTd
+					+ "'></td> " + inputHidden + "</tr>";
+
+
+			$('#relationTable > tbody:last').append(row);
+			hashRelatedResources[hiddenValue] = hiddenValue;
+
+			$("#" + delTd).wrapInner("<a href='#'>Delete</a>");
+			$("#" + delTd + " a").click(function(e) {
+				e.preventDefault();
+				$(this).parent().parent().remove();
+				hashRelatedResources[hiddenValue] = undefined;
+				countRelatedResources--;
 			});
 		}
 	});
@@ -1573,4 +1620,6 @@ $('document').ready(function() {
 	loadListOfConservation();	
 	
 	loadListOfDatings();
+	
+	loadListOfRelatedResources();
 });
