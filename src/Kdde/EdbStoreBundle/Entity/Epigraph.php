@@ -208,7 +208,7 @@ class Epigraph {
 	/**
 	 *
 	 * @var ArrayCollection
-	 * @OneToMany(targetEntity="RelatedResource", mappedBy="id", cascade={"persist", "merge","remove"})
+	 * @OneToMany(targetEntity="RelatedResource", mappedBy="idEpigrafe", cascade={"persist", "merge","remove"})
 	 */
 	protected $relatedResources;
 	
@@ -1043,7 +1043,7 @@ class Epigraph {
     }
     
     
-    public function emtpyRelatedResources()
+    public function emptyRelatedResources()
     {
     	$this->relatedResources = new ArrayCollection();
     }

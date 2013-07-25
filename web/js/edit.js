@@ -1137,10 +1137,10 @@ function loadListOfRelatedResources(){
 
 	$.getJSON(url+".json", function(data) {
 		for (i in data) {
-			var resourceSourceId = data[i].resourceType.id;
-//			var resourceSourceName = data[i].resourceType.description;
-			var resourceRel = data[i].resourceRel;
-			var resourceRef = data[i].resourceRef;
+			var resourceSourceId = data[i].resource_type.id;
+			var resourceSourceName = data[i].resource_type.description;
+			var resourceRel = data[i].relation_type;
+			var resourceRef = data[i].resource_ref;
 			
 
 			var hiddenValue = resourceSourceId + "@-@" + resourceRel + "@-@" + resourceRef;
@@ -1378,9 +1378,53 @@ $("#bibliography_type").change(function()
 			});	
 		}
 
+		
+function addOtherResourcesToTable() {
+		var resourceSource = $('#epigraph_resource_source :selected').val();
+		var resourceSourceName = $('#epigraph_resource_source :selected').text();
+		var resourceRel = $('#epigraph_resource_relation :selected').val();
+		var resourceRef = $('#resource_reference').val();
+
+		// Check if all the fields are compiled
+		if (!resourceRef) {
+			alert('Please fill the Reference ID field');
+			return;
+		}
+			
+		var hiddenValue = resourceSource + "@-@" + resourceRel + "@-@" + resourceRef;
+			
+		var inputHidden = "<input type='hidden' name='epigraph[relatedResources][]' value='" + hiddenValue + "'/>";
+		var delTd = "deleteDating" + countRelatedResources;
+		countRelatedResources++;
+
+		// add values to the table as row
+		var row = "<tr><td>" + resourceSourceName + "</td><td>" + resourceRef+ "</td><td>" + resourceRel + "<td id='" + delTd + "'></td>" + inputHidden + "</tr>";
+
+		if (hashRelatedResources[hiddenValue] != undefined) {
+			alert('Values already added to the table.');
+			countRelatedResources--;
+			return;
+		}
+
+		$('#relationTable > tbody:last').append(row);
+		hashRelatedResources[hiddenValue] = hiddenValue;
+
+		$("#" + delTd).wrapInner("<a href='#'>Delete</a>");
+		$("#" + delTd + " a").click(function(e) {
+			e.preventDefault();
+			$(this).parent().parent().remove();
+			hashRelatedResources[hiddenValue] = undefined;
+			countRelatedResources--;
+		});
+}		
+		
 
 $('document').ready(function() {
 
+	$('#addToRelationTable').click(function() {
+		addOtherResourcesToTable();
+	});
+	
 	loadPertinenceArea();
 	loadConservationLocation();
 	

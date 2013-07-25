@@ -20,9 +20,8 @@ class RelatedResource {
 
 	/**
 	 * @ORM\Id
-	 * @ORM\ManyToOne(targetEntity="Epigraph", inversedBy="relatedResources")
+	 * @ORM\ManyToOne(targetEntity="Epigraph")
 	 * @ORM\JoinColumn(name="id_epigrafe", referencedColumnName="id_edb")
-	 * @Exclude
 	 */
 	protected $idEpigrafe;
 
@@ -55,12 +54,12 @@ class RelatedResource {
 
     public function getIdEpigrafe()
     {
-        return $this->id;
+        return $this->idEpigrafe;
     }
     
     public function setIdEpigrafe($id)
     {
-    	$this->id = $id;
+    	$this->idEpigrafe = $id;
     }
     
     public function setResourceType($resourceType)

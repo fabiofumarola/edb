@@ -684,6 +684,10 @@ class EpigraphController extends Controller {
 				$oldReferences = $epigraph->getLiteratures();
 				foreach($oldReferences as $oldLit)
 					$em->remove($oldLit);
+				
+				$oldRelatedResources = $epigraph->getRelatedResources();
+				foreach($oldRelatedResources as $oldLit)
+					$em->remove($oldLit);
 			}
 			$em->flush();
 				
@@ -713,7 +717,6 @@ class EpigraphController extends Controller {
 				}
 			}
 			
-			$epigraph->emtpyRelatedResources();
 			if (isset($epigraphArray['relatedResources'])) {
 				$relatedResources = $epigraphArray['relatedResources'];
 				foreach ($relatedResources as $ids) {
@@ -723,7 +726,7 @@ class EpigraphController extends Controller {
 					$c->setRelationType($split[1]);
 					$c->setResourceRef($split[2]);
 					$c->setResourceType($repoResourceTypes->find($split[0]));
-					$epigraph->addRelatedResource($c);
+					$em->persist($c);
 				}
 			}
 			

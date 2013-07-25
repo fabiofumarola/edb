@@ -1159,6 +1159,7 @@ function loadReferences(type)
 function addOtherResourcesToTable() {
 	
 	var resourceSource = $('#epigraph_resource_source :selected').val();
+	var resourceSourceName = $('#epigraph_resource_source :selected').text();
 	var resourceRel = $('#epigraph_resource_relation :selected').val();
 	var resourceRef = $('#resource_reference').val();
 
@@ -1175,7 +1176,7 @@ function addOtherResourcesToTable() {
 	countRelatedResources++;
 
 	// add values to the table as row
-	var row = "<tr><td>" + resourceSource + "</td><td>" + resourceRef+ "</td><td>" + resourceRel + "<td id='" + delTd + "'></td>" + inputHidden + "</tr>";
+	var row = "<tr><td>" + resourceSourceName + "</td><td>" + resourceRef+ "</td><td>" + resourceRel + "<td id='" + delTd + "'></td>" + inputHidden + "</tr>";
 
 	if (hashRelatedResources[hiddenValue] != undefined) {
 		alert('Values already added to the table.');
