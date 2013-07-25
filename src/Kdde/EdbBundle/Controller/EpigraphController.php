@@ -676,6 +676,7 @@ class EpigraphController extends Controller {
 					$splits = explode("@_@", $s);
 					$refId = $splits[0];
 					$note = $splits[1];
+					$relationship = $splits[2];
 					$reference = $repoReference->find($refId);
 					if ($reference)
 					{
@@ -684,6 +685,7 @@ class EpigraphController extends Controller {
 						$biblioReference->setIdRiferimento($reference);
 						if(strlen($note) > 0)
 							$biblioReference->setNote($note);
+						$biblioReference->setRelazione($relationship);
 						$em->persist($biblioReference);
 					}
 				}

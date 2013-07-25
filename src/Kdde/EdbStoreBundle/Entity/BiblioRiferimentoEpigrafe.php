@@ -25,6 +25,12 @@ class BiblioRiferimentoEpigrafe
 	 * @JoinColumn(name="id_riferimento", referencedColumnName="id")
 	 */
 	protected $idRiferimento;
+
+	/**
+	 * @ORM\Id
+	 * @ORM\Column(type="string",name="relazione")
+	 */
+	protected $relazione;
 	
 	/**
 	 * @ORM\Column(type="string",name="note")
@@ -49,6 +55,16 @@ class BiblioRiferimentoEpigrafe
 	public function setIdRiferimento($idRiferimento)
 	{
 		$this->idRiferimento = $idRiferimento;
+	}
+	
+	public function getRelazione()
+	{
+		return $this->relazione;
+	}
+	
+	public function setRelazione($relazione)
+	{
+		$this->relazione = $relazione;
 	}
 	
 	public function getNote()

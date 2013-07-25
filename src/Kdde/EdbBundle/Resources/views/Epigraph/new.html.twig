@@ -72,7 +72,9 @@
 				</div>
 				<br>
 				<div class="row">
-					<h3>References to Other Resources</h3>
+					<div class="span4">
+						<h4>References to Online Resources</h4>
+					</div>
 				</div>
 				<div class="row">
 					<div class="span2">
@@ -81,15 +83,16 @@
 							{% for refSource in refSources %}
 								<option value="{{ refSource.id }}"> {{ refSource.description }}</option>
 							{% endfor %}
-							<option value = "1">EDB</option>
-							<option value = "2">EDR</option>
-							<option value = "3">EDH</option>
-							<option value = "4">SGI</option>					
 						</select>
 					</div>
 					
 					<div class="span2">
-						<label>Reference Type</label>
+						<label>Reference ID</label> 
+						<input type="text" name="epigraph[resource_reference]" id ="resource_reference" class="span2">
+					</div>
+					
+					<div class="span2">
+						<label>Relationship</label>
 						<select class="span2" id="epigraph_resource_relation" name="epigraph[resource_relation]">
 							<option value = "Identity">Identity</option>
 							<option value = "Integration">Integration</option>
@@ -97,11 +100,6 @@
 							<option value = "Reuse">Reuse</option>
 							<option value = "Other">Other</option>					
 						</select>
-					</div>
-					
-					<div class="span2">
-						<label>Reference ID</label> 
-						<input type="text" name="epigraph[resource_reference]" id ="resource_reference" class="span2">
 					</div>
 					
 					<div class="span1">
@@ -117,8 +115,8 @@
 							<thead>
 								<tr>
 									<th class="span3">Resource</th>
-									<th class="span4">Reference Type</th>
-									<th class="span3">Reference ID</th>
+									<th class="span4">Reference ID</th>
+									<th class="span3">Relationship</th>
 									<th class="span2">Action</th>
 								</tr>
 							</thead>
@@ -126,26 +124,7 @@
 							</tbody>
 						</table>
 					</div>
-				</div>		
-				
-				<br>
-				
-				
-				<div class ="row">
-					<div class="span4" id="div_reference_biblio">
-						<label>Other References</label>
-						<select id="selectRelationReferences" multiple="multiple" class="span3" name="epigraph[relation_references][]">
-						</select>
-						<br>
-						<a id="addRelationLiteratureRef" class="btn">Add</a> 
-						<a id="removeRelationReference" class="btn">Remove</a>	
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;			
-						<a href="{{ path('edb_literature_new') }}" class="btn" target="_blank">New</a>
-					</div>
-				</div>
-				
-				
-				
+				</div>					
 				<br />
 				
 				<div class="row">

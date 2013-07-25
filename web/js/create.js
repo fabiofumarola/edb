@@ -7,8 +7,6 @@ var hashPertinences = new Array();
 var hashDatings = new Array();
 var hashReferences = new Array();
 var hashRelatedResources = new Array();
-var hashRelationReferences = new Array();
-var addBiblioOpened = 1;
 
 function cleanNewLiteratureValues() {
 	$('#cod_literature').attr('value', null);
@@ -970,51 +968,30 @@ function addDatingToTableAction() {
 
 
 function addToReferences(id) {
+	var relationship = $('#bibliography_resource_relation').val();
+	var toCheck = id + "@_@" + relationship;
 	
-	if(addBiblioOpened == 1)
+	if (hashReferences[toCheck] != undefined) 
 	{
-		if (hashReferences[id] != undefined) 
-		{
-			alert("Error - The selected bibliographic reference (" + id + ")" + " has already been added!");
-			return;
-		}
-		
-		var note = $('#refNote').val();
-		if(note.indexOf('@_@') != -1)
-		{
-			alert("Error - The field Note cannot contain the string @_@");
-			return;
-		}
-		var value = id;
-		if(note.length > 0)
-			value = value + ", " + note;
-		hashReferences[id] = id;
-		
-		$('#selectReferences').append('<option value="' + id + '@_@' + note + '" selected="selected">' + value + '</option>');
-	}
-	else if(addBiblioOpened == 2)
-	{
-		if (hashRelationReferences[id] != undefined) 
-		{
-			alert("Error - The selected bibliographic reference (" + id + ")" + " has already been added!");
-			return;
-		}
-		
-		var note = $('#refNote').val();
-		if(note.indexOf('@_@') != -1)
-		{
-			alert("Error - The field Note cannot contain the string @_@");
-			return;
-		}
-		var value = id;
-		if(note.length > 0)
-			value = value + ", " + note;
-		hashRelationReferences[id] = id;
-		
-		$('#selectRelationReferences').append('<option value="' + id + '@_@' + note + '" selected="selected">' + value + '</option>');
+		alert("Error - The selected bibliographic reference (" + id + ")" + " with relationship " + relationship + " has already been added!");
+		return;
 	}
 	
-
+	var note = $('#refNote').val();
+	if(note.indexOf('@_@') != -1)
+	{
+		alert("Error - The field Note cannot contain the string @_@");
+		return;
+	}
+	var value = id;
+	if(note.length > 0)
+		value = value + ", " + note;
+	if(relationship != 'Identity')
+		value = value + " (" + relationship + ")";
+	
+	hashReferences[toCheck] = toCheck;
+	
+	$('#selectReferences').append('<option value="' + id + '@_@' + note + "@_@" + relationship + '" selected="selected">' + value + '</option>');
 	$('#refNote').val("");
 	$('#viewLiteratureModal').modal('hide');
 }
@@ -1198,7 +1175,7 @@ function addOtherResourcesToTable() {
 	countRelatedResources++;
 
 	// add values to the table as row
-	var row = "<tr><td>" + resourceSource + "</td><td>" + resourceRel+ "</td><td>" + resourceRef + "<td id='" + delTd + "'></td>" + inputHidden + "</tr>";
+	var row = "<tr><td>" + resourceSource + "</td><td>" + resourceRef+ "</td><td>" + resourceRel + "<td id='" + delTd + "'></td>" + inputHidden + "</tr>";
 
 	if (hashRelatedResources[hiddenValue] != undefined) {
 		alert('Values already added to the table.');
@@ -1228,31 +1205,12 @@ $('document').ready(function() {
 		addOtherResourcesToTable();
 	});
 	
-	
-	$('#addRelationLiteratureRef').click(function() {
-		addBiblioOpened = 2;
-		$('#bibliography_type').val("Rivista");
-		loadReferences("Rivista");
-		$('#viewLiteratureModal').modal('show');
-	});
-	
-	
-	$('#removeRelationReference').click(function() {
-		if ($('#selectRelationReferences option').size() == 0) {
-			alert("There is no element to remove.");
-			return;
-		}
-		var selected = $('#selectRelationReferences option:selected').val();
-		var id = selected.split('@_@')[0];
-		hashRelationReferences[id] = null;
-		$('#selectRelationReferences option:selected').remove();
-	});
-	
-	
+		
 	// Click to add bibliography
 	$('#addLiteratureRef').click(function() {
-		addBiblioOpened = 1;
 		$('#bibliography_type').val("Rivista");
+		$('#bibliography_resource_relation').val("Identity");
+		$('#refNote').val("");
 		loadReferences("Rivista");
 		$('#viewLiteratureModal').modal('show');
 	});
@@ -1264,7 +1222,7 @@ $('document').ready(function() {
 			return;
 		}
 		var selected = $('#selectReferences option:selected').val();
-		var id = selected.split('@_@')[0];
+		var id = selected.split('@_@')[0]+"@_@"+selected.split('@_@')[2];
 		hashReferences[id] = null;
 		$('#selectReferences option:selected').remove();
 	});

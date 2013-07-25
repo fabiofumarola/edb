@@ -7,10 +7,14 @@ var hashDatings = new Array();
 var hashReferences = new Array();
 
 
+
 function addToReferences(id) {
-	if (hashReferences[id] != undefined) 
+	var relationship = $('#bibliography_resource_relation').val();
+	var toCheck = id + "@_@" + relationship;
+	
+	if (hashReferences[toCheck] != undefined) 
 	{
-		alert("Error - The selected bibliographic reference (" + id + ")" + " has already been added!");
+		alert("Error - The selected bibliographic reference (" + id + ")" + " with relationship " + relationship + " has already been added!");
 		return;
 	}
 	
@@ -23,9 +27,12 @@ function addToReferences(id) {
 	var value = id;
 	if(note.length > 0)
 		value = value + ", " + note;
-	hashReferences[id] = id;
+	if(relationship != 'Identity')
+		value = value + " (" + relationship + ")";
 	
-	$('#selectReferences').append('<option value="' + id + '@_@' + note + '" selected="selected">' + value + '</option>');
+	hashReferences[toCheck] = toCheck;
+	
+	$('#selectReferences').append('<option value="' + id + '@_@' + note + "@_@" + relationship + '" selected="selected">' + value + '</option>');
 	$('#refNote').val("");
 	$('#viewLiteratureModal').modal('hide');
 }
@@ -1055,6 +1062,11 @@ function loadListOfReferences()
 				value = value + ", " + data[i].note;
 				selectId = selectId + data[i].note;
 			}
+			if(data[i].relazione != 'Identity')
+				value = value + " (" + data[i].relazione + ")";
+			selectId = selectId + "@_@" + data[i].relazione;
+			var toCheck = data[i].id_riferimento.id + "@_@" + data[i].relazione;
+			hashReferences[toCheck] = toCheck;
 			$('#selectReferences').append(
 					'<option value="' + selectId + '" selected="selected">' + value	+ '</option>');
 		}
@@ -1328,6 +1340,8 @@ $('document').ready(function() {
 	// Click to add bibliography
 	$('#addLiteratureRef').click(function() {
 		$('#bibliography_type').val("Rivista");
+		$('#bibliography_resource_relation').val("Identity");
+		$('#refNote').val("");
 		loadReferences("Rivista");
 		$('#viewLiteratureModal').modal('show');
 	});
@@ -1338,7 +1352,7 @@ $('document').ready(function() {
 			return;
 		}
 		var selected = $('#selectReferences option:selected').val();
-		var id = selected.split('@_@')[0];
+		var id = selected.split('@_@')[0]+"@_@"+selected.split('@_@')[2];
 		hashReferences[id] = null;
 		$('#selectReferences option:selected').remove();
 	});
