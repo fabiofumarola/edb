@@ -179,7 +179,36 @@
 							{% elseif lit.relationType == 'Integration' %}
 								{% set integration_online = integration_online | merge([lit]) %}
 							{% endif %}
-						{% endfor %}						
+						{% endfor %}
+						
+						<tr style = "font-size: 12pt">
+							<td><i style="color:grey;">Bibliography:</i> 
+							{% if e.icvr != '' and e.icvr != 'n.d.' %}
+								ICVR {{ e.icvr -}}, {{ e.principalProgNumber -}}
+								{%- if e.subNumeration != 'n.d.' and e.subNumeration != '' -%}
+									.{{- e.subNumeration -}}
+								{%- endif -%}
+							{%- endif -%}
+							{%- if identity | length > 0 -%}
+								{%- for i in 0..identity | length - 1 -%}
+									{%- set b = identity[i] -%}
+									{%- if i > 0 or (e.icvr != '' and e.icvr != 'n.d.') -%}; 
+									{% endif -%}
+									<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id }} {{ b.note -}}</a>
+								{%- endfor -%}
+							{%- endif -%}
+							{%- if identity_online | length > 0 -%}
+								{%- for i in 0..identity_online | length - 1 -%}
+									{%- set b = identity_online[i] -%}
+									{%- if i > 0 or (identity | length > 0) -%}; 
+									{% endif -%}
+									<a href = "{{b.resourceType.reference}}{{ b.resourceRef }}">{{- b.resourceRef }} ({{ b.resourceType.description }})</a>
+								{%- endfor -%}
+							{%- endif -%}
+							</td>
+						</tr>
+						
+												
 						{%- if opistographic | length > 0 or opistographic_online | length > 0-%}
 							<tr style = "font-size: 12pt">
 								<td><i style="color:grey;">Other inscription(s) on the back side:</i> 
@@ -208,7 +237,7 @@
 						
 						{%- if reuse | length > 0 or reuse_online | length > 0-%}
 							<tr style = "font-size: 12pt">
-								<td><i style="color:grey;">Other inscription(s) on the same side/support/monument/object:</i> 
+								<td><i style="color:grey;">Other inscription(s) on the same support:</i> 
 						{% endif %}
 						{%- if reuse | length > 0 -%}
 							{%- for i in 0..reuse | length - 1 -%}
@@ -256,33 +285,7 @@
 						</tr>
 						{% endif %}
 						
-						<tr style = "font-size: 12pt">
-							<td><i style="color:grey;">Bibliography:</i> 
-							{% if e.icvr != '' and e.icvr != 'n.d.' %}
-								ICVR {{ e.icvr -}}, {{ e.principalProgNumber -}}
-								{%- if e.subNumeration != 'n.d.' and e.subNumeration != '' -%}
-									.{{- e.subNumeration -}}
-								{%- endif -%}
-							{%- endif -%}
-							{%- if identity | length > 0 -%}
-								{%- for i in 0..identity | length - 1 -%}
-									{%- set b = identity[i] -%}
-									{%- if i > 0 or (e.icvr != '' and e.icvr != 'n.d.') -%}; 
-									{% endif -%}
-									<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id }} {{ b.note -}}</a>
-								{%- endfor -%}
-							{%- endif -%}
-							{%- if identity_online | length > 0 -%}
-								{%- for i in 0..identity_online | length - 1 -%}
-									{%- set b = identity_online[i] -%}
-									{%- if i > 0 or (identity | length > 0) -%}; 
-									{% endif -%}
-									<a href = "{{b.resourceType.reference}}{{ b.resourceRef }}">{{- b.resourceRef }} ({{ b.resourceType.description }})</a>
-								{%- endfor -%}
-							{%- endif -%}
-							</td>
-						</tr>
-						
+							
 						
 						
 						{% if imageUrl != null %}
