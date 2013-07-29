@@ -194,7 +194,11 @@
 									{%- set b = identity[i] -%}
 									{%- if i > 0 or (e.icvr != '' and e.icvr != 'n.d.') -%}; 
 									{% endif -%}
-									<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id }} {{ b.note -}}</a>
+									<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}}
+									{%- if b.note != '' -%},
+									 	{{ b.note -}}
+									{%- endif -%}
+									 </a>
 								{%- endfor -%}
 							{%- endif -%}
 							{%- if identity_online | length > 0 -%}
@@ -202,7 +206,11 @@
 									{%- set b = identity_online[i] -%}
 									{%- if i > 0 or (identity | length > 0) -%}; 
 									{% endif -%}
-									<a href = "{{b.resourceType.reference}}{{ b.resourceRef }}">{{- b.resourceRef }} ({{ b.resourceType.description }})</a>
+									<a href = "{{b.resourceType.reference}}
+									{%- if b.resourceType.idSize and b.resourceType.idSize-b.resourceRef|length > 0 -%}
+										{%- for i in 1..b.resourceType.idSize-b.resourceRef|length -%}0{%- endfor -%}
+									{%- endif -%}
+									{{ b.resourceRef }}" target="_blank">{{ b.resourceType.description -}}{{- b.resourceRef }}</a>
 								{%- endfor -%}
 							{%- endif -%}
 							</td>
@@ -210,7 +218,7 @@
 						
 												
 						{%- if opistographic | length > 0 or opistographic_online | length > 0-%}
-							<tr style = "font-size: 12pt">
+							<tr style = "font-size: 10pt">
 								<td><i style="color:grey;">Other inscription(s) on the back side:</i> 
 						{% endif %}
 						{%- if opistographic | length > 0 -%}
@@ -218,7 +226,11 @@
 								{%- set b = opistographic[i] -%}
 								{%- if i > 0 -%}; 
 								{% endif -%}
-								<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id }} {{ b.note -}}</a>
+								<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}} 
+								{%- if b.note != '' -%},
+								 	{{ b.note -}}
+								{%- endif -%}
+								</a>
 							{%- endfor -%}
 						{%- endif -%}
 						{%- if opistographic_online | length > 0 -%}
@@ -226,7 +238,11 @@
 								{%- set b = opistographic_online[i] -%}
 								{%- if i > 0 or (opistographic | length > 0) -%}; 
 								{% endif -%}
-								<a href = "{{b.resourceType.reference}}{{ b.resourceRef }}">{{- b.resourceRef }} ({{ b.resourceType.description }})</a>
+								<a href = "{{b.resourceType.reference}}
+								{%- if b.resourceType.idSize and b.resourceType.idSize-b.resourceRef|length > 0 -%}
+									{%- for i in 1..b.resourceType.idSize-b.resourceRef|length -%}0{%- endfor -%}
+								{%- endif -%}
+								{{ b.resourceRef }}" target="_blank">{{ b.resourceType.description -}}{{- b.resourceRef }}</a>
 							{%- endfor -%}
 						{%- endif -%}
 						{%- if opistographic | length > 0 or opistographic_online | length > 0-%}
@@ -236,7 +252,7 @@
 						
 						
 						{%- if reuse | length > 0 or reuse_online | length > 0-%}
-							<tr style = "font-size: 12pt">
+							<tr style = "font-size: 10pt">
 								<td><i style="color:grey;">Other inscription(s) on the same support:</i> 
 						{% endif %}
 						{%- if reuse | length > 0 -%}
@@ -244,7 +260,11 @@
 								{%- set b = reuse[i] -%}
 								{%- if i > 0 -%}; 
 								{% endif -%}
-								<a onClick="showRef('{{- b.idRiferimento.id -}}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id }} {{ b.note -}}</a>
+								<a onClick="showRef('{{- b.idRiferimento.id -}}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}} 
+								{%- if b.note != '' -%},
+									 {{ b.note -}}
+								{%- endif -%}			
+								</a>
 							{%- endfor -%}
 						{%- endif -%}
 						{%- if reuse_online | length > 0 -%}
@@ -252,7 +272,11 @@
 								{%- set b = reuse_online[i] -%}
 								{%- if i > 0 or (reuse | length > 0) -%}; 
 								{% endif -%}
-								<a href = "{{b.resourceType.reference}}{{ b.resourceRef }}">{{- b.resourceRef }} ({{ b.resourceType.description }})</a>
+								<a href = "{{b.resourceType.reference}}
+								{%- if b.resourceType.idSize and b.resourceType.idSize-b.resourceRef|length > 0 -%}
+									{%- for i in 1..b.resourceType.idSize-b.resourceRef|length -%}0{%- endfor -%}
+								{%- endif -%}
+								{{ b.resourceRef }}" target="_blank">{{ b.resourceType.description -}}{{- b.resourceRef }}</a>
 							{%- endfor -%}
 						{%- endif -%}
 						{%- if reuse | length > 0 or reuse_online | length > 0-%}
@@ -261,7 +285,7 @@
 						{% endif %}
 						
 						{%- if integration | length > 0 or integration_online | length > 0-%}
-							<tr style = "font-size: 12pt">
+							<tr style = "font-size: 10pt">
 								<td><i style="color:grey;">Other part(s) of the same inscriptions:</i> 
 						{% endif %}
 						{%- if integration | length > 0 -%}
@@ -269,7 +293,11 @@
 								{%- set b = integration[i] -%}
 								{%- if i > 0 -%}; 
 								{% endif -%}
-								<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}}</a> {{ b.note }}
+								<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}} 
+								{%- if b.note != '' -%},
+									{{ b.note -}}
+								{%- endif -%}
+								</a>
 							{%- endfor -%}
 						{%- endif -%}
 						{%- if integration_online | length > 0 -%}
@@ -277,7 +305,11 @@
 								{%- set b = integration_online[i] -%}
 								{%- if i > 0 or (integration | length > 0) -%}; 
 								{% endif -%}
-								<a href = "{{b.resourceType.reference}}{{ b.resourceRef }}">{{- b.resourceRef }} ({{ b.resourceType.description }})</a>
+								<a href = "{{b.resourceType.reference}}
+								{%- if b.resourceType.idSize and b.resourceType.idSize-b.resourceRef|length > 0 -%}
+									{%- for i in 0..(b.resourceType.idSize-b.resourceRef|length) -%}0{%- endfor -%}
+								{%- endif -%}
+								{{ b.resourceRef }}" target="_blank">{{ b.resourceType.description -}}{{- b.resourceRef }}</a>
 							{%- endfor -%}
 						{%- endif -%}
 						{%- if integration | length > 0 or integration_online | length > 0-%}

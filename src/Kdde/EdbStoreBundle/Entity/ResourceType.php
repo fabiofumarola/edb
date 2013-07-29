@@ -33,6 +33,13 @@ class ResourceType {
 	 */
 	protected $reference;
 	
+	
+	/**
+	 * @ORM\Column(type="integer", name="dimensione_id")
+	 * @var string
+	 */
+	protected $idSize;
+	
 
     public function getId()
     {
@@ -57,5 +64,15 @@ class ResourceType {
     public function getReference()
     {
     	return $this->reference;
+    }
+    
+    public function setIdSize($idSize)
+    {
+    	$this->idSize = $idSize;
+    }
+    
+    public function getIdSize()
+    {
+    	return $this->idSize;
     }
 }
