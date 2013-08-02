@@ -57,11 +57,23 @@
 							{% endfor %}
 						{% endif %}
 						
+						{% if e.material.support.id != 0 or e.material.technique.id != 0 or e.material.height != 'n.d.' or e.material.width != 'n.d.' or e.material.tickness != 'n.d.' or e.altMaxLetters != 'n.d.' or e.altMinLetters != 'n.d.'%}
 						<tr style = "font-size: 12pt">
 							<td>
-								{{- e.material.support.description }} - Titulus {{ e.material.technique.description-}}
-								{%- if e.material.height != 'n.d.' or e.material.width != 'n.d.' or e.material.tickness != 'n.d.' -%}
+						{% endif %}
+								{%- if e.material.support.id != 0 -%}
+									{{- e.material.support.description }}
+									{%- if e.material.technique.id != 0 -%}
+										-
+									{%- endif -%}
+								{%- endif -%}
+								{%- if e.material.technique.id != 0 -%}
+									Titulus {{ e.material.technique.description-}}
+								{%- endif -%}
+								{%- if (e.material.height != 'n.d.' or e.material.width != 'n.d.' or e.material.tickness != 'n.d.') and (e.material.technique.id != 0 or e.material.support.id != 0) -%}
 									, 
+								{% endif %}
+								{%- if e.material.height != 'n.d.' or e.material.width != 'n.d.' or e.material.tickness != 'n.d.' -%}
 									{% if e.material.height != 'n.d.' -%} 
 										{{- e.material.height -}} 
 									{%- else -%} 
@@ -90,9 +102,10 @@
 										{{- e.altMinLetters -}}
 									{%- endif -%}
 								{%- endif -%}
+						{% if e.material.support.id != 0 or e.material.technique.id != 0 or e.material.height != 'n.d.' or e.material.width != 'n.d.' or e.material.tickness != 'n.d.' or e.altMaxLetters != 'n.d.' or e.altMinLetters != 'n.d.'%}
 							</td>
 						</tr>
-						
+						{% endif %}
 						{% if e.lost == 'S' %}
 							<tr style = "font-size: 12pt">
 								<td> Lost </td> 
@@ -219,7 +232,7 @@
 												
 						{%- if opistographic | length > 0 or opistographic_online | length > 0-%}
 							<tr style = "font-size: 10pt">
-								<td><i style="color:grey;">Other inscription(s) on the back side:</i> 
+								<td><i style="color:grey;">Other text(s) on the back side:</i> 
 						{% endif %}
 						{%- if opistographic | length > 0 -%}
 							{%- for i in 0..opistographic | length - 1 -%}
@@ -253,7 +266,7 @@
 						
 						{%- if reuse | length > 0 or reuse_online | length > 0-%}
 							<tr style = "font-size: 10pt">
-								<td><i style="color:grey;">Other inscription(s) on the same support:</i> 
+								<td><i style="color:grey;">Other text(s) on the same support:</i> 
 						{% endif %}
 						{%- if reuse | length > 0 -%}
 							{%- for i in 0..reuse | length - 1 -%}
@@ -286,7 +299,7 @@
 						
 						{%- if integration | length > 0 or integration_online | length > 0-%}
 							<tr style = "font-size: 10pt">
-								<td><i style="color:grey;">Other part(s) of the same inscription:</i> 
+								<td><i style="color:grey;">To be joined with:</i> 
 						{% endif %}
 						{%- if integration | length > 0 -%}
 							{%- for i in 0..integration | length - 1 -%}
