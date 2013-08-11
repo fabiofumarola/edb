@@ -32,13 +32,29 @@ class PertinenceContextController extends Controller {
 		$repo = $this->getDoctrine()
 				->getRepository('KddeEdbStoreBundle:PertinenceContext');
 
-		//$areas = $repo->findBy(array(),array('description' => 'ASC'));
-// 		$contexts = $repo->findAllByIdArea($id);
 		$contexts = $repo->findBy(array('area'=>$id), array('description' => 'ASC'));
+				
 		$serializer = new Serializer(array(new GetSetMethodNormalizer()),
 				array('json' => new JsonEncoder()));
 		$json = $serializer->serialize($contexts, 'json');
 
+		return new Response($json);
+	}
+	
+	public function listAllAction($_format) {
+	
+		if ($_format != "json")
+			return new Response(json_encode("it supports only json"));
+	
+		$repo = $this->getDoctrine()
+		->getRepository('KddeEdbStoreBundle:PertinenceContext');
+	
+		$contexts = $repo->findBy(array(), array('description' => 'ASC'));
+	
+		$serializer = new Serializer(array(new GetSetMethodNormalizer()),
+				array('json' => new JsonEncoder()));
+		$json = $serializer->serialize($contexts, 'json');
+	
 		return new Response($json);
 	}
 

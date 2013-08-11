@@ -1,8 +1,6 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}
- EDB Basic Search
-{% endblock %}
+{% block title %}EDB Basic Search{% endblock %}
 
 {% block body %}
 
@@ -43,7 +41,7 @@
       				<h5>Original Context</h5>
       				<div class="control-group">
 						<label class="control-label required" for="search_area">Area</label> 
-						<div class="controls">
+						<div class="ui-widget span3">
 						<select id="search_area"
 							class="span2" name="search[area]">
 							<option></option>
@@ -152,8 +150,10 @@
 {% endblock %}
 
 {% block javascripts %}
-	
 		{{ parent() }}
+		 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 		 <script src="{{ asset('js/basic-search.js') }}"></script>
+		 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		 <script src="{{ asset('js/autocompl.js') }}"></script>
 		 <script src="{{ asset('js/keyboard.js') }}"></script>
 {% endblock %}

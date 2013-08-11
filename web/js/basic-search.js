@@ -1,21 +1,20 @@
-function loadPertinenceAreas() {
+function loadPertinence() {
 
-	// clean the loaded options
-	$('#search_area').html("<option></option>");
-
-	var url = Routing.generate('edb_pertinence_area_list');
-
-	$.getJSON(url + '.json', function(data) {
-
-		for (i in data) {
+	// Get all the contexts
+	var url = Routing.generate('edb_pertinence_context_list_all');
+	
+	// For each context
+	$.getJSON(url, function(data)
+	{
+		for (j in data) 
+		{
 			$('#search_area').append(
-					"<option value=\"" + data[i].id + "\">"
-							+ data[i].description + "</option>");
+					"<option value=\"" + data[j].area.id + "@_@" + data[j].id + "\">"
+							+ data[j].area.description + " - " + data[j].description + "</option>");
 		}
 	});
-
-	cleanPertinenceContexts();
 }
+
 
 function loadPertinenceContexts(id) {
 	cleanPertinenceContexts();
@@ -145,8 +144,12 @@ function loadConservationPosition(idContext) {
 
 $('document').ready(function() {
 	
-	loadPertinenceAreas();
+	loadPertinence();
 	loadConservationArea();
+	
+	$(function() {
+	    $( "#search_area" ).combobox();
+	  });
 	
 	$('#search_area').change(function() {
 		cleanPertinencePosition();
