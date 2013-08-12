@@ -81,7 +81,7 @@ class SignaController extends Controller {
 				$em->persist($signa);
 				$em->flush();
 				
-				$this->get('session')->setFlash('notice', 'Your changes were saved!');
+				$this->get('session')->getFlashBag()->add('notice', 'Your changes were saved!');
 				
 				return $this->redirect($this->generateUrl('edb_signa_list'));
 			}

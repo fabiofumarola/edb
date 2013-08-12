@@ -26,7 +26,7 @@ use Symfony\Component\Finder\Finder;
 class CacheClearCommand extends ContainerAwareCommand
 {
     /**
-     * @see Command
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -139,14 +139,6 @@ EOF
             file_put_contents(str_replace($search, $replace, $file), $content);
             unlink($file);
         }
-    }
-
-    /**
-     * @deprecated to be removed in 2.3
-     */
-    protected function getTempSuffix()
-    {
-        return '';
     }
 
     /**

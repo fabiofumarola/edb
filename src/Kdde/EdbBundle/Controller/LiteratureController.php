@@ -48,15 +48,14 @@ class LiteratureController extends Controller {
 		$request = $this->getRequest();
 
 		if ($request->getMethod() == 'POST') {
-			$form->bindRequest($this->getRequest());
+			$form->bind($this->getRequest());
 
 			if ($form->isValid()) {
 				$literature = $form->getData();
 				$em->persist($literature);
 				$em->flush();
 
-				$this->get('session')
-						->setFlash('notice', 'Your changes were saved!');
+				$this->get('session')->getFlashBag()->add('notice', 'Your changes were saved!');
 
 				return $this->redirect($this->generateUrl('edb_literature_list'));
 			}

@@ -305,6 +305,7 @@ class Configuration implements ConfigurationInterface
                     ->scalarNode('default_repository_class')->defaultValue('Doctrine\ORM\EntityRepository')->end()
                     ->scalarNode('auto_mapping')->defaultFalse()->end()
                     ->scalarNode('naming_strategy')->defaultValue('doctrine.orm.naming_strategy.default')->end()
+                    ->scalarNode('entity_listener_resolver')->defaultNull()->end()
                 ->end()
                 ->fixXmlConfig('hydrator')
                 ->children()
@@ -367,7 +368,9 @@ class Configuration implements ConfigurationInterface
                             ->end()
                             ->beforeNormalization()
                                 // The content of the XML node is returned as the "value" key so we need to rename it
-                                ->ifTrue(function($v) {return is_array($v) && isset($v['value']); })
+                                ->ifTrue(function($v) {
+                                    return is_array($v) && isset($v['value']);
+                                })
                                 ->then(function($v) {
                                     $v['class'] = $v['value'];
                                     unset($v['value']);
@@ -375,9 +378,14 @@ class Configuration implements ConfigurationInterface
                                     return $v;
                                 })
                             ->end()
+                            ->fixXmlConfig('parameter')
                             ->children()
                                 ->scalarNode('class')->isRequired()->end()
                                 ->booleanNode('enabled')->defaultFalse()->end()
+                                ->arrayNode('parameters')
+                                    ->useAttributeAsKey('name')
+                                    ->prototype('variable')->end()
+                                ->end()
                             ->end()
                         ->end()
                     ->end()
@@ -413,6 +421,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('instance_class')->end()
                 ->scalarNode('class')->end()
                 ->scalarNode('id')->end()
+                ->scalarNode('namespace')->defaultNull()->end()
             ->end()
         ;
 

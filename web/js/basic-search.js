@@ -7,10 +7,24 @@ function loadPertinence() {
 	$.getJSON(url, function(data)
 	{
 		for (j in data) 
-		{
-			$('#search_area').append(
-					"<option value=\"" + data[j].area.id + "@_@" + data[j].id + "\">"
-							+ data[j].area.description + " - " + data[j].description + "</option>");
+		{			
+			// If the area is not n.d.
+			if(data[j].area.id != 1)
+			{
+				var context_id = '';
+				var context_desc = '';
+				
+				// If the context is not n.d., set it to the string
+				if(data[j].description != 'n.d.')
+				{
+					context_id = data[j].id;
+					context_desc = data[j].description;
+				}
+								
+				$('#search_area').append(
+						"<option value=\"" + data[j].area.id + "@_@" + context_id+ "\">"
+								+ data[j].area.description + " - " + context_desc + "</option>");
+			}
 		}
 	});
 }

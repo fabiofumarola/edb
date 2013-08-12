@@ -134,7 +134,7 @@ class ArgvInput extends Input
 
                 break;
             } else {
-                $this->addLongOption($option->getName(), true);
+                $this->addLongOption($option->getName(), null);
             }
         }
     }
@@ -218,6 +218,10 @@ class ArgvInput extends Input
         // Convert false values (from a previous call to substr()) to null
         if (false === $value) {
             $value = null;
+        }
+
+        if (null !== $value && !$option->acceptValue()) {
+            throw new \RuntimeException(sprintf('The "--%s" option does not accept a value.', $name, $value));
         }
 
         if (null === $value && $option->acceptValue() && count($this->parsed)) {
@@ -318,5 +322,28 @@ class ArgvInput extends Input
         }
 
         return $default;
+    }
+
+    /**
+     * Returns a stringified representation of the args passed to the command
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $self = $this;
+        $tokens = array_map(function ($token) use ($self) {
+            if (preg_match('{^(-[^=]+=)(.+)}', $token, $match)) {
+                return $match[1] . $self->escapeToken($match[2]);
+            }
+
+            if ($token && $token[0] !== '-') {
+                return $self->escapeToken($token);
+            }
+
+            return $token;
+        }, $this->tokens);
+
+        return implode(' ', $tokens);
     }
 }

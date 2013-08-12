@@ -53,13 +53,13 @@ class UserController extends Controller {
 		$request = $this->getRequest();
 		
 		if ($request->getMethod() == 'POST'){
-			$form->bindRequest($this->getRequest());
+			$form->bind($this->getRequest());
 			
 			if ($form->isValid()) {
 				$user = $form->getData();
 				$em->flush();
 					
-				$this->get('session')->setFlash('notice', 'Your changes were saved!');
+				$this->get('session')->getFlashBag()->add('notice', 'Your changes were saved!');
 					
 				return $this->redirect($this->generateUrl('edb_user_list'));
 			}
@@ -97,7 +97,7 @@ class UserController extends Controller {
 		$user->setIsActive(true);
 		$em->flush();
 		
-		$this->get('session')->setFlash('notice', 'Your changes were saved!');
+		$this->get('session')->getFlashBag()->add('notice', 'Your changes were saved!');
 		
 		return $this->redirect($this->generateUrl('edb_user_list'));
 
@@ -111,7 +111,7 @@ class UserController extends Controller {
 		$user->setIsActive(false);
 		$em->flush();
 		
-		$this->get('session')->setFlash('notice', 'Your changes were saved!');
+		$this->get('session')->getFlashBag()->add('notice', 'Your changes were saved!');
 
 		return $this->redirect($this->generateUrl('edb_user_list'));
 	}
@@ -127,7 +127,7 @@ class UserController extends Controller {
 		
 		if ($request->getMethod() == 'POST'){
 			
-			$form->bindRequest($this->getRequest());
+			$form->bind($this->getRequest());
 			
 			if ($form->isValid()) {
 				$user = $form->getData();
@@ -140,7 +140,7 @@ class UserController extends Controller {
 					
 				$em->flush();
 					
-				$this->get('session')->setFlash('notice', 'Your changes were saved!');
+				$this->get('session')->getFlashBag()->add('notice', 'Your changes were saved!');
 					
 				return $this->redirect($this->generateUrl('edb_user_list'));
 			}

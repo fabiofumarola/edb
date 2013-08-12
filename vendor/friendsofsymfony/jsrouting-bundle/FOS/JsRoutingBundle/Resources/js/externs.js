@@ -4,5 +4,7 @@
  */
 var externs = {
     tokens: '',
-    defaults: ''
+    defaults: '',
+    requirements: '',
+    hosttokens: ''
 };

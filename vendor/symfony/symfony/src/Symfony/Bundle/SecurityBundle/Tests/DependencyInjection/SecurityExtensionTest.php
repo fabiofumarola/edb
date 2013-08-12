@@ -154,6 +154,14 @@ abstract class SecurityExtensionTest extends \PHPUnit_Framework_TestCase
                 'arguments' => array('md5', true, 5000),
             ),
             'JMS\FooBundle\Entity\User4' => new Reference('security.encoder.foo'),
+            'JMS\FooBundle\Entity\User5' => array(
+                'class' => new Parameter('security.encoder.pbkdf2.class'),
+                'arguments' => array('sha1', false, 5, 30),
+            ),
+            'JMS\FooBundle\Entity\User6' => array(
+                'class' => new Parameter('security.encoder.bcrypt.class'),
+                'arguments' => array(15),
+            ),
         )), $container->getDefinition('security.encoder_factory.generic')->getArguments());
     }
 

@@ -17,6 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * MonologExtension is an extension for the Monolog library.
@@ -81,8 +82,12 @@ class MonologExtension extends Extension
                 'Monolog\\Logger',
                 'Symfony\\Bridge\\Monolog\\Logger',
                 'Symfony\\Bridge\\Monolog\\Handler\\DebugHandler',
+                'Monolog\\Handler\\FingersCrossed\\ActivationStrategyInterface',
+                'Monolog\\Handler\\FingersCrossed\\ErrorLevelActivationStrategy',
             ));
         }
+
+        $container->setParameter('monolog.additional_channels', isset($config['channels']) ? $config['channels'] : array());
     }
 
     /**
@@ -118,6 +123,19 @@ class MonologExtension extends Extension
                 $handler['level'],
                 $handler['bubble'],
             ));
+            break;
+
+        case 'console':
+            if (!class_exists('Symfony\Bridge\Monolog\Handler\ConsoleHandler')) {
+                throw new \RuntimeException('The console handler requires symfony/monolog-bridge 2.4+');
+            }
+
+            $definition->setArguments(array(
+                null,
+                $handler['bubble'],
+                isset($handler['verbosity_levels']) ? $handler['verbosity_levels'] : array()
+            ));
+            $definition->addTag('kernel.event_subscriber');
             break;
 
         case 'firephp':
@@ -174,6 +192,11 @@ class MonologExtension extends Extension
 
             if (isset($handler['activation_strategy'])) {
                 $activation = new Reference($handler['activation_strategy']);
+            } elseif (!empty($handler['excluded_404s'])) {
+                $activationDef = new Definition('%monolog.activation_strategy.not_found.class%', array($handler['excluded_404s'], $handler['action_level']));
+                $activationDef->addMethodCall('setRequest', array(new Reference('request', ContainerInterface::NULL_ON_INVALID_REFERENCE, false)));
+                $container->setDefinition($handlerId.'.not_found_strategy', $activationDef);
+                $activation = new Reference($handlerId.'.not_found_strategy');
             } else {
                 $activation = $handler['action_level'];
             }
@@ -238,12 +261,17 @@ class MonologExtension extends Extension
                 $message->addMethodCall('setFrom', array($handler['from_email']));
                 $message->addMethodCall('setTo', array($handler['to_email']));
                 $message->addMethodCall('setSubject', array($handler['subject']));
+
+                if (isset($handler['content_type'])) {
+                    $message->addMethodCall('setContentType', array($handler['content_type']));
+                }
+
                 $messageId = sprintf('%s.mail_prototype', $handlerId);
                 $container->setDefinition($messageId, $message);
                 $prototype = new Reference($messageId);
             }
             $definition->setArguments(array(
-                new Reference('mailer'),
+                new Reference($handler['mailer']),
                 $prototype,
                 $handler['level'],
                 $handler['bubble'],
@@ -277,7 +305,70 @@ class MonologExtension extends Extension
             }
             break;
 
+        case 'pushover':
+            $definition->setArguments(array(
+                $handler['token'],
+                $handler['user'],
+                $handler['title'],
+                $handler['level'],
+                $handler['bubble'],
+            ));
+            break;
+
+        case 'hipchat':
+            $definition->setArguments(array(
+                $handler['token'],
+                $handler['room'],
+                $handler['nickname'],
+                $handler['notify'],
+                $handler['level'],
+                $handler['bubble'],
+            ));
+            break;
+
+        case 'cube':
+            $definition->setArguments(array(
+                $handler['url'],
+                $handler['level'],
+                $handler['bubble'],
+            ));
+            break;
+
+        case 'amqp':
+            $definition->setArguments(array(
+                new Reference($handler['exchange']),
+                $handler['exchange_name'],
+                $handler['level'],
+                $handler['bubble'],
+            ));
+            break;
+
+        case 'error_log':
+            $definition->setArguments(array(
+                $handler['message_type'],
+                $handler['level'],
+                $handler['bubble'],
+            ));
+            break;
+
+        case 'raven':
+            $clientId = 'monolog.raven.client.' . sha1($handler['dsn']);
+            if (!$container->hasDefinition($clientId)) {
+                $client = new Definition("Raven_Client", array(
+                    $handler['dsn']
+                ));
+                $client->setPublic(false);
+                $container->setDefinition($clientId, $client);
+            }
+            $definition->setArguments(array(
+                new Reference($clientId),
+                $handler['level'],
+                $handler['bubble'],
+            ));
+            break;
+
         // Handlers using the constructor of AbstractHandler without adding their own arguments
+        case 'newrelic':
         case 'test':
         case 'null':
         case 'debug':

@@ -29,8 +29,7 @@ class PertinenceContextController extends Controller {
 		if ($_format != "json")
 			return new Response(json_encode("it supports only json"));
 
-		$repo = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:PertinenceContext');
+		$repo = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:PertinenceContext');
 
 		$contexts = $repo->findBy(array('area'=>$id), array('description' => 'ASC'));
 				
@@ -46,10 +45,9 @@ class PertinenceContextController extends Controller {
 		if ($_format != "json")
 			return new Response(json_encode("it supports only json"));
 	
-		$repo = $this->getDoctrine()
-		->getRepository('KddeEdbStoreBundle:PertinenceContext');
+		$repo = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:PertinenceContext');
 	
-		$contexts = $repo->findBy(array(), array('description' => 'ASC'));
+		$contexts = $repo->findBy(array(), array('area' => 'ASC', 'description' => 'ASC'));
 	
 		$serializer = new Serializer(array(new GetSetMethodNormalizer()),
 				array('json' => new JsonEncoder()));
@@ -106,7 +104,7 @@ class PertinenceContextController extends Controller {
 		$request = $this->getRequest();
 
 		if ($request->getMethod() == 'POST') {
-			$form->bindRequest($this->getRequest());
+			$form->bind($this->getRequest());
 
 			if ($form->isValid()) {
 				$pertContext = $form->getData();
@@ -117,8 +115,7 @@ class PertinenceContextController extends Controller {
 				}
 				$em->merge($pertContext);
 				$em->flush();
-				$this->get('session')
-						->setFlash('notice', 'Your changes were saved!');
+				$this->get('session')->getFlashBag()->add('notice', 'Your changes were saved!');
 				
 				return $this->redirect($this->generateUrl('edb_pertinence_context_edit'));
 			}

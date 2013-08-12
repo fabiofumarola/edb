@@ -59,7 +59,7 @@ class SearchController extends Controller {
 			$id = $searchArray['id'];
 			$anyParameter = true;
 			if (!is_numeric($id)) {
-				$this->get('session')->setFlash('error', 'The id should be a number !');
+				$this->get('session')->getFlashBag()->add('error', 'The id should be a number !');
 				return $this->redirect('KddeEdbBundle:Search:basic');
 			}
 		}
@@ -72,7 +72,7 @@ class SearchController extends Controller {
 			$principalProgNumber = $searchArray['principalProgNumber'];
 			$anyParameter = true;
 			if (!is_numeric($principalProgNumber)) {
-				$this->get('session')->setFlash('error', 'The ICVR id should be a number !');
+				$this->get('session')->getFlashBag()->add('error', 'The ICVR id should be a number !');
 				return $this->redirect('KddeEdbBundle:Search:basic');
 			}
 		}
@@ -105,7 +105,7 @@ class SearchController extends Controller {
 		
 		
 		if (!$anyParameter) {
-			$this->get('session')->setFlash('error','You should insert at least one parameter !');
+			$this->get('session')->getFlashBag()->add('error','You should insert at least one parameter !');
 			return $this->forward('KddeEdbBundle:Search:basic');
 		}
 		

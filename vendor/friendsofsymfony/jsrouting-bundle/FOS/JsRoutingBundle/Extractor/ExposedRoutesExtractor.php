@@ -11,7 +11,9 @@
 
 namespace FOS\JsRoutingBundle\Extractor;
 
+use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
+use JMS\I18nRoutingBundle\Router\I18nLoader;
 
 /**
  * @author      William DURAND <william.durand1@gmail.com>
@@ -19,30 +21,45 @@ use Symfony\Component\Routing\RouterInterface;
 class ExposedRoutesExtractor implements ExposedRoutesExtractorInterface
 {
     /**
-     * @var \Symfony\Component\Routing\RouterInterface
+     * @var RouterInterface
      */
     protected $router;
 
     /**
+     * Base cache directory
+     *
+     * @var string
+     */
+    protected $cacheDir;
+
+    /**
+     * @var array
+     */
+    protected $bundles;
+
+    /**
      * Default constructor.
      *
-     * @param \Symfony\Component\Routing\RouterInterface $router  The router.
-     * @param array $routesToExpose Some route names to expose.
+     * @param RouterInterface $router         The router.
+     * @param array           $routesToExpose Some route names to expose.
+     * @param string          $cacheDir
+     * @param array           $bundles        list of loaded bundles to check when generating the prefix
      */
-    public function __construct(RouterInterface $router, array $routesToExpose = array())
+    public function __construct(RouterInterface $router, array $routesToExpose = array(), $cacheDir, $bundles = array())
     {
         $this->router = $router;
         $this->routesToExpose = $routesToExpose;
+        $this->cacheDir = $cacheDir;
+        $this->bundles = $bundles;
     }
 
     /**
-     * Returns an array of exposed routes where keys are the route names.
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function getRoutes()
     {
         $exposedRoutes = array();
+        /** @var $route Route */
         foreach ($this->getExposedRoutes() as $name => $route) {
             // Maybe there is a better way to do that...
             $compiledRoute = $route->compile();
@@ -50,10 +67,13 @@ class ExposedRoutesExtractor implements ExposedRoutesExtractorInterface
                 $route->getDefaults(),
                 array_fill_keys($compiledRoute->getVariables(), null)
             );
-
+            $requirements = $route->getRequirements();
+            $hostTokens = method_exists($compiledRoute, 'getHostTokens') ? $compiledRoute->getHostTokens() : array();
             $exposedRoutes[$name] = new ExtractedRoute(
                 $compiledRoute->getTokens(),
-                $defaults
+                $defaults,
+                $requirements,
+                $hostTokens
             );
         }
 
@@ -61,9 +81,7 @@ class ExposedRoutesExtractor implements ExposedRoutesExtractorInterface
     }
 
     /**
-     * Returns an array of all exposed Route objects.
-     *
-     * @return array
+     * {@inheritDoc}
      */
     public function getExposedRoutes()
     {
@@ -86,9 +104,7 @@ class ExposedRoutesExtractor implements ExposedRoutesExtractorInterface
     }
 
     /**
-     * Returns the Base URL.
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getBaseUrl()
     {
@@ -96,9 +112,54 @@ class ExposedRoutesExtractor implements ExposedRoutesExtractorInterface
     }
 
     /**
-     * Returns an array of routing resources.
-     *
-     * @return array
+     * {@inheritDoc}
+     */
+    public function getPrefix($locale)
+    {
+        if (isset($this->bundles['JMSI18nRoutingBundle'])) {
+            return $locale . I18nLoader::ROUTING_PREFIX;
+        }
+
+        return '';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getHost()
+    {
+        return $this->router->getContext()->getHost();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getScheme()
+    {
+        return $this->router->getContext()->getScheme();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCachePath($locale)
+    {
+        $cachePath = $this->cacheDir . DIRECTORY_SEPARATOR . 'fosJsRouting';
+        if (!file_exists($cachePath)) {
+            mkdir($cachePath);
+        }
+
+        if (isset($this->bundles['JMSI18nRoutingBundle'])) {
+            $cachePath = $cachePath . DIRECTORY_SEPARATOR . 'data.' . $locale . '.json';
+        } else {
+            $cachePath = $cachePath . DIRECTORY_SEPARATOR . 'data.json';
+        }
+
+        return $cachePath;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function getResources()
     {
@@ -116,6 +177,7 @@ class ExposedRoutesExtractor implements ExposedRoutesExtractorInterface
         foreach ($this->routesToExpose as $toExpose) {
             $patterns[] = '(' . $toExpose . ')';
         }
+
         return implode($patterns, '|');
     }
 }

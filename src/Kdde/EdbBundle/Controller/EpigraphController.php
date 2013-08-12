@@ -68,7 +68,7 @@ class EpigraphController extends Controller {
 		$epigraph = $this->setStatus($id,2);
 		if ($epigraph == null) {
 			$this->get('session')
-			->setFlash('error',
+			->getFlashBag()->add('error',
 					'The epigraph with id ' . $id
 					. " is not in the database!");
 			return $this->redirect($this->generateUrl('edb_homepage'));
@@ -76,7 +76,7 @@ class EpigraphController extends Controller {
 		else
 		{
 			$this->get('session')
-					->setFlash('notice',
+					->getFlashBag()->add('notice',
 							'Your changes were saved, the epigraph with id '
 									. $epigraph->getId() . " is approved !");
 			return $this->redirect($this->generateUrl('edb_epigraph_status'));
@@ -109,7 +109,7 @@ class EpigraphController extends Controller {
 		if ($epigraph == null || 
 				($epigraph->getStatus() == 1 && !in_array("administrator", $roles)) ||
 				($epigraph->getStatus() == 0 && $epigraph->getCompilator() != $currentUser && !in_array("administrator", $roles))) {
-			$this->get('session')->setFlash('error', 'The epigraph with id ' . $id . " is not in the database or you cannot access it!");
+			$this->get('session')->getFlashBag()->add('error', 'The epigraph with id ' . $id . " is not in the database or you cannot access it!");
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
 		
@@ -155,7 +155,7 @@ class EpigraphController extends Controller {
 		
 			$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
 		
-			$form->bindRequest($request);
+			$form->bind($request);
 		
 			if ($form->isValid()) 
 			{
@@ -190,7 +190,7 @@ class EpigraphController extends Controller {
 				else if(isset($submitAsNew))
 					$message = 'A new epigraph with id '. $epigraph->getId() . " has been created!";
 				
-				$this->get('session')->setFlash('notice', $message);
+				$this->get('session')->getFlashBag()->add('notice', $message);
 				
 				if(isset($approveButton) || isset($backButton) || isset($sendToAdminButton))
 					return $this->redirect($this->generateUrl('edb_homepage'));
@@ -234,7 +234,7 @@ class EpigraphController extends Controller {
 		
 		
 		if ($epigraph == null || $epigraph->getStatus() < 2) {
-			$this->get('session')->setFlash('error', 'The epigraph with id ' . $id . " is not in the database or it is still not approved!");
+			$this->get('session')->getFlashBag()->add('error', 'The epigraph with id ' . $id . " is not in the database or it is still not approved!");
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
 		
@@ -379,7 +379,7 @@ class EpigraphController extends Controller {
 			$serializer = new Serializer(array(new GetSetMethodNormalizer()),
 					array('json' => new JsonEncoder()));
 
-			$form->bindRequest($request);
+			$form->bind($request);
 
 			if ($form->isValid()) {
 
@@ -387,7 +387,7 @@ class EpigraphController extends Controller {
 
 				$epigraph = $this->persistEpigraph($epigraphArray, null);
 			
-				$this->get('session')->setFlash('notice','Your changes were saved, the epigraph is saved with id '. $epigraph->getId()) . " !";
+				$this->get('session')->getFlashBag()->add('notice','Your changes were saved, the epigraph is saved with id '. $epigraph->getId()) . " !";
 
 				return $this->redirect($this->generateUrl('edb_epigraph_edit', array('id' => $epigraph->getId())));
 			}

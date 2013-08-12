@@ -59,7 +59,7 @@ class CookieJar
         }
 
         // avoid relying on this behavior that is mainly here for BC reasons
-        foreach ($this->cookieJar as $domain => $cookies) {
+        foreach ($this->cookieJar as $cookies) {
             if (isset($cookies[$path][$name])) {
                 return $cookies[$path][$name];
             }
@@ -161,7 +161,7 @@ class CookieJar
     /**
      * Returns not yet expired cookies.
      *
-     * @return array An array of cookies
+     * @return Cookie[] An array of cookies
      */
     public function all()
     {

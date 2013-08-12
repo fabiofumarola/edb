@@ -24,7 +24,7 @@ class AccountController extends Controller {
 		
 		$em = $this->getDoctrine()->getEntityManager();
 		$form = $this->createForm(new RegistrationType(), new Registration());
-		$form->bindRequest($this->getRequest());
+		$form->bind($this->getRequest());
 		
 		if ($form->isValid()) {
 			$user = $form->getData()->getUser();	
