@@ -336,6 +336,14 @@ edb_conservation_context_list:
     options:
         expose: true
 
+edb_conservation_context_list_all:
+    pattern: /conservation/context/{_format}
+    defaults: {_controller: KddeEdbBundle:ConservationContext:listAll, _format: json}
+    requirements:
+        _format: json
+    options:
+        expose: true
+
 edb_conservation_position_list:
     pattern: /conservation/position/{id}.{_format}
     defaults:  {_controller: KddeEdbBundle:ConservationPosition:list, _format: json}

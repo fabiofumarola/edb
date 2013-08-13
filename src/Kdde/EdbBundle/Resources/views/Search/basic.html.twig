@@ -13,91 +13,62 @@
 			<form class="form-horizontal" action="{{ path('edb_search_basic_do')}}" method="post" {{ form_enctype(form) }}>		
 			
 				<fieldset>
-				<h5>Identifier and Bibliography</h5>
-				      <div class="control-group">
-      					<label  class="control-label required" for="search_id">ID EDB</label>
-      					<div class="controls">
-							<input type="text" id="search_id" name="search[id]" class="span2">
+				<h4>Bibliography</h4>
+    				<div class="row">
+    					<div class="span2">
+	      					<label>Volume ICVR</label>
+							<select class = "span2" id="search_icvr" name="search[icvr]">
+								<option value=""></option>
+								{% for icvr in icvrs %}
+									<option value="{{ icvr.id }}"> {{ icvr.volume }}</option>
+								{% endfor %}				
+							</select>
       					</div>
-      				</div>
-    				<div class="control-group">
-      					<label  class="control-label required" for="search_icvr">Volume ICVR</label>
-      					<div class="controls">
-						<select class="span2" id="search_icvr" name="search[icvr]">
-							<option value=""></option>
-							{% for icvr in icvrs %}
-								<option value="{{ icvr.id }}"> {{ icvr.volume }}</option>
-							{% endfor %}				
-						</select>
-      					</div>
-      				</div>
-      				<div class="control-group">
-      					<label  class="control-label required" for="search_principalProgNumber">ICVR Number</label>
-      					<div class="controls">
-							<input type="text" id="search_principalProgNumber" name="search[principalProgNumber]" class="span2">
-      					</div>
-      				</div>
+      				
+	      				<div class="span2">	
+	      					<label>Reference</label>
+							<select class="span2" id="search_biblio" name="search[biblio]">			
+							</select>
+	      				</div>	
+      				</div>	
+      				
       				<hr>   
-      				<h5>Original Context</h5>
-      				<div class="control-group">
-						<label class="control-label required" for="search_area">Area</label> 
-						<div class="ui-widget span3">
-						<select id="search_area"
-							class="span2" name="search[area]">
-							<option></option>
-						</select>
+      			<h4>Location</h4>	
+      				<div class="row">
+      					<div class="span3">
+							<label>Original Context</label> 
+							<select id="search_area" name="search[area]">
+								<option></option>
+							</select>
+						</div>
+							
+						<div class = "span2">
+							<label>In Situ</label>
+							<select class="span1" id="search_insitu" name="search[insitu]">
+								<option value="All">All</option>
+								<option value="Yes">Yes</option>
+								<option value="No">No</option>				
+							</select>
+						</div>
+      				</div>
+      				<br>
+      				<div class="row">
+      					<div class="span3">
+							<label>Conservation</label> 
+							<select id="search_cons_area" name="search[cons_area]">
+								<option></option>
+							</select>
       					</div>
+      					<div class = "span2">
+							<label>Lost</label>
+							<select class="span1" id="search_lost" name="search[lost]">
+								<option value="All">All</option>
+								<option value="Yes">Yes</option>
+								<option value="No">No</option>				
+							</select>
+						</div>
       				</div>  	
-      				<div class="control-group">
-						<label class="control-label required" for="search_context">Location</label> 
-						<div class="controls">
-						<select id="search_context"
-							class="span2" name="search[context]">
-							<option></option>
-						</select>
-      					</div>
-      				</div> 
-      				<div class="control-group">
-						<label class="control-label required" for="search_position">Position</label> 
-						<div class="controls">
-						<select id="search_position"
-							class="span2" name="search[position]">
-							<option></option>
-						</select>
-      					</div>
-      				</div> 
-      				
-      				<h5>Conservation</h5>
-      				<div class="control-group">
-						<label class="control-label required" for="search_cons_area">City/Town</label> 
-						<div class="controls">
-						<select id="search_cons_area"
-							class="span2" name="search[cons_area]">
-							<option></option>
-						</select>
-      					</div>
-      				</div>  	
-      				<div class="control-group">
-						<label class="control-label required" for="search_cons_context">Location</label> 
-						<div class="controls">
-						<select id="search_cons_context"
-							class="span2" name="search[cons_context]">
-							<option></option>
-						</select>
-      					</div>
-      				</div> 
-      				<div class="control-group">
-						<label class="control-label required" for="search_cons_position">Position</label> 
-						<div class="controls">
-						<select id="search_cons_position"
-							class="span2" name="search[cons_position]">
-							<option></option>
-						</select>
-      					</div>
-      				</div> 
-      				
-      				
-      				
+	
       				<h5>Other</h5>
       				<div class="control-group">
       					<label  class="control-label required" for="search_type">Type</label>

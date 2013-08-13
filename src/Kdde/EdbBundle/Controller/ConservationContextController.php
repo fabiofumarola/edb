@@ -33,12 +33,25 @@ class ConservationContextController extends Controller {
 			return new Response(json_encode("it supports only json"));
 
 		$repo = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:ConservationContext');
-// 		$contexts = $repo->findAllByIdLocation($id);
 		$contexts = $repo->findBy(array('conservationLocation' => $id), array('description' => 'ASC'));
 		$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new
 				JsonEncoder()));
 		$json = $serializer->serialize($contexts, 'json');
 		
+		return new Response($json);
+	}
+	
+	
+	public function listAllAction($_format){
+	
+		if ($_format != "json")
+			return new Response(json_encode("it supports only json"));
+	
+		$repo = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:ConservationContext');
+		$contexts = $repo->findBy(array(), array('conservationLocation' => 'ASC', 'description' => 'ASC'));
+		$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
+		$json = $serializer->serialize($contexts, 'json');
+	
 		return new Response($json);
 	}
 	
