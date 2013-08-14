@@ -44,7 +44,7 @@ class Epigraph {
 	protected $icvr;
 	
 	/**
-	 * @ORM\Column(type="string", length=1,name="perduta")
+	 * @ORM\Column(type="string", length=1, name="perduta")
 	 * @var string
 	 */
 	protected $lost = 'N';

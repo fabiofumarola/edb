@@ -16,21 +16,15 @@ class EpigraphRepository extends EntityRepository {
 	
 	
 		// Read the search parameters
-		//--------------------------------------------------------------------------------
-		$id = null;
-		if (strlen($searchArray['id']))
-			$id = $searchArray['id'];
-	
+		//--------------------------------------------------------------------------------	
 		$icvrId = null;
 		if (strlen($searchArray['icvr']))
 			$icvrId = $searchArray['icvr'];
 	
-		$principalProgNumber = null;
-		if (strlen($searchArray['principalProgNumber']))
-			$principalProgNumber = $searchArray['principalProgNumber'];
-			
 		$type = $searchArray['type'];
-	
+		$inSitu = $searchArray['insitu'];
+		$lost = $searchArray['lost'];
+		
 		$areaId = null;
 		if (strlen($searchArray['area']))
 		{
@@ -41,7 +35,6 @@ class EpigraphRepository extends EntityRepository {
 				$contextId = null;
 		}
 	
-		
 		$cons_areaId = null;
 		if (strlen($searchArray['cons_area']))
 		{
@@ -69,33 +62,36 @@ class EpigraphRepository extends EntityRepository {
 			$yesGreek = true;
 	
 		//--------------------------------------------------------------------------------
-	
+
+		
+		
+		// Compose the query
+		//--------------------------------------------------------------------------------
 		$strQuerySelect = "SELECT ep FROM KddeEdbStoreBundle:Epigraph ep ";
 		$strQueryWhere = "";
 	
-		if ($id != null) {
-			$strQueryWhere .= "AND ep.id = :id ";
-		}
 	
 		if ($icvrId != null) {
 			$strQuerySelect .= "JOIN ep.icvr ic ";
 			$strQueryWhere .= "AND ic.id = :icvrId ";
 		}
-	
-		if ($principalProgNumber != null) {
-			$strQueryWhere .= "AND ep.principalProgNumber = :principalProgNumber ";
-		}
-	
-		if ($areaId != null) {
+		
+		
+		if ($areaId != null || $inSitu != "All")
+		{	
 			$strQuerySelect .= "JOIN ep.pertinences pe JOIN pe.pertinenceArea pa ";
-			$strQueryWhere .= "AND pa.id = :areaId ";
+			
+			if($areaId != null)
+				$strQueryWhere .= "AND pa.id = :areaId ";
+			
+			if($inSitu != "All")
+				$strQueryWhere .= "AND pe.inSitu = :inSitu ";	
 		}
 	
 		if ($contextId != null) {
 			$strQuerySelect .= "JOIN pe.context pc ";
 			$strQueryWhere .= "AND pc.id = :contextId ";
 		}
-	
 	
 		if ($cons_areaId != null) {
 			$strQuerySelect .= "JOIN ep.conservations co JOIN co.conservationLocation cl ";
@@ -107,7 +103,6 @@ class EpigraphRepository extends EntityRepository {
 			$strQueryWhere .= "AND cc.id = :cons_contextId ";
 		}
 		
-	
 		if ($transcription != null) {
 			if ($useThesaurus == true) {
 				$words = str_replace(" ", " & ", $transcription);
@@ -145,6 +140,10 @@ class EpigraphRepository extends EntityRepository {
 	
 		if ($type != -1)
 			$strQueryWhere .= "AND ep.epigraph_type = :epi_type ";
+		
+		if ($lost != "All")
+			$strQueryWhere .= "AND ep.lost = :lost ";
+					
 	
 		if (!$isAdmin)
 			$strQuery = $strQuerySelect . "WHERE ep.status = :status " . $strQueryWhere;
@@ -153,42 +152,38 @@ class EpigraphRepository extends EntityRepository {
 	
 		$strQuery = $strQuery . " ORDER BY ep.id";
 		$query = $this->getEntityManager()->createQuery($strQuery);
-	
+		//--------------------------------------------------------------------------------
+				
+		
+		
+		// Set the parameters
+		//--------------------------------------------------------------------------------
 		if(!$isAdmin)
 			$query->setParameter('status', 2);
-	
-		if ($id != null) {
-			$query->setParameter('id', $id);
-		}
-	
-		if ($icvrId != null) {
-			$query->setParameter('icvrId', $icvrId);
-		}
-	
-		if ($principalProgNumber != null) {
-			$query->setParameter('principalProgNumber', $principalProgNumber);
-		}
-	
+		
+		if ($icvrId != null) 
+			$query->setParameter('icvrId', $icvrId);	
+		
 		if ($type != -1)
 			$query->setParameter('epi_type', $type);
 	
-		if ($areaId != null) {
+		if ($lost != 'All')
+			$query->setParameter('lost', $lost);
+		
+		if ($areaId != null) 
 			$query->setParameter('areaId', $areaId);
-		}
 	
-		if ($contextId != null) {
+		if($inSitu != "All")
+			$query->setParameter('inSitu', $inSitu);
+		
+		if ($contextId != null) 
 			$query->setParameter('contextId', $contextId);
-		}
-	
-	
-		if ($cons_areaId != null) {
+		
+		if ($cons_areaId != null) 
 			$query->setParameter('cons_areaId', $cons_areaId);
-		}
-	
-		if ($cons_contextId != null) {
+		
+		if ($cons_contextId != null) 
 			$query->setParameter('cons_contextId', $cons_contextId);
-		}
-	
 		
 		if ($transcription != null) {
 			if ($useThesaurus == false) {
@@ -204,10 +199,27 @@ class EpigraphRepository extends EntityRepository {
 				$query->setParameter('queryWords', $words);
 			}
 		}
-	
+		//--------------------------------------------------------------------------------
 		return $query;
-	
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	public function findBasicSearch_old($searchArray, $roles) {

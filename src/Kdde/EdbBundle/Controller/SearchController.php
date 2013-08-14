@@ -20,10 +20,6 @@ use Doctrine\ORM\Query\ResultSetMapping;
 class SearchController extends Controller {
 
 	public function indexAction() {
-
-		//$users = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Utente')->findAll();
-		//print_r($users);
-
 		return $this->render('KddeEdbBundle:Search:index.html.twig');
 	}
 
@@ -35,6 +31,15 @@ class SearchController extends Controller {
 		$repoTypes = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Type');
 		$types = $repoTypes->findBy(array(), array('description' => 'ASC'));
 		
+		$repoFunctions = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Funzione');
+		$functions = $repoFunctions->findBy(array(), array('description' => 'ASC'));
+		
+		$repoSupport = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Support');
+		$supports = $repoSupport->findBy(array(), array('description' => 'ASC'));
+		
+		$repoTechnique = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Technique');
+		$techniques = $repoTechnique->findBy(array(), array('description' => 'ASC'));
+		
 		$defaultData = array();
 		$form = $this->createFormBuilder($defaultData)->getForm();
 
@@ -42,7 +47,13 @@ class SearchController extends Controller {
 		
 		return $this
 				->render('KddeEdbBundle:Search:basic.html.twig',
-						array('form' => $form->createView(), 'icvrs' => $icvrs, 'types' => $types));
+						array('form' => $form->createView(), 
+								'icvrs' => $icvrs, 
+								'types' => $types,
+								'functions' => $functions,
+								'supports' => $supports,
+								'techniques' => $techniques
+		));
 	}
 	
 	public function basicDoAction(Request $request){
@@ -81,6 +92,12 @@ class SearchController extends Controller {
 		if ($type != -1)
 			$anyParameter = true;
 		
+		if ($searchArray['lost'] != "All")
+		{
+			$anyParameter = true;
+			$searchArray['cons_area'] = null;
+		}
+		
 		if (strlen($searchArray['area'])) 
 			$anyParameter = true;
 	
@@ -89,8 +106,10 @@ class SearchController extends Controller {
 	
 		if (strlen($searchArray['transcription'])) 
 			$anyParameter = true;
+				
+		if ($searchArray['insitu'] != "All")
+			$anyParameter = true;
 		
-	
 		if (isset($searchArray['thesaurus']))
 			$useThesaurus = true;
 	
@@ -105,7 +124,7 @@ class SearchController extends Controller {
 		
 		
 		if (!$anyParameter) {
-			$this->get('session')->getFlashBag()->add('error','You should insert at least one parameter !');
+			$this->get('session')->getFlashBag()->add('error','You should specify at least one parameter !');
 			return $this->forward('KddeEdbBundle:Search:basic');
 		}
 		
