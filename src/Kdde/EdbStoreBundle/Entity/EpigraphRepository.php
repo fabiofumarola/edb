@@ -25,6 +25,14 @@ class EpigraphRepository extends EntityRepository {
 		$inSitu = $searchArray['insitu'];
 		$lost = $searchArray['lost'];
 		
+		$opistographic = $searchArray['opistographic'];
+		$metrical = $searchArray['metrical'];
+		$greek = $searchArray['greek'];
+		$greeklatin = $searchArray['greeklatin'];
+		$support = $searchArray['support'];
+		$technique = $searchArray['technique'];
+		$function = $searchArray['function'];
+			
 		$areaId = null;
 		if (strlen($searchArray['area']))
 		{
@@ -144,7 +152,36 @@ class EpigraphRepository extends EntityRepository {
 		if ($lost != "All")
 			$strQueryWhere .= "AND ep.lost = :lost ";
 					
-	
+		if ($opistographic != "All")
+			$strQueryWhere .= "AND ep.reimpiego_opistografia = :opistographic ";
+		
+		if ($metrical != "All")
+			$strQueryWhere .= "AND ep.metricText = :metrical ";
+		
+		if ($greek != "All")
+			$strQueryWhere .= "AND ep.greek = :greek ";
+		
+		if ($greeklatin != "All")
+			$strQueryWhere .= "AND ep.presenceLG = :greeklatin ";
+		
+		if ($function != "All")
+			$strQueryWhere .= "AND ep.funzione = :function ";
+		
+		
+		
+		if ($support != "All" || $technique != "All")
+		{
+			$strQuerySelect .= "JOIN ep.material mat ";
+			
+			if ($technique != "All")
+				$strQueryWhere .= "AND mat.technique = :technique ";
+		
+			if ($support != "All")
+				$strQueryWhere .= "AND mat.support = :support ";
+		}
+			
+
+		
 		if (!$isAdmin)
 			$strQuery = $strQuerySelect . "WHERE ep.status = :status " . $strQueryWhere;
 		else
@@ -184,6 +221,30 @@ class EpigraphRepository extends EntityRepository {
 		
 		if ($cons_contextId != null) 
 			$query->setParameter('cons_contextId', $cons_contextId);
+		
+		
+		if ($opistographic != "All")
+			$query->setParameter('opistographic', $opistographic);
+		
+		if ($metrical != "All")
+			$query->setParameter('metrical', $metrical);
+						
+		if ($greek != "All")
+			$query->setParameter('greek', $greek);
+						
+		if ($greeklatin != "All")
+			$query->setParameter('greeklatin', $greeklatin);
+		
+		if ($function != "All")
+			$query->setParameter('function', $function);		
+		
+		if ($technique != "All")
+			$query->setParameter('technique', $technique);
+				
+		if ($support != "All")
+			$query->setParameter('support', $support);
+				
+				
 		
 		if ($transcription != null) {
 			if ($useThesaurus == false) {

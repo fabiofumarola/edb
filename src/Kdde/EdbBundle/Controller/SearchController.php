@@ -97,7 +97,28 @@ class SearchController extends Controller {
 			$anyParameter = true;
 			$searchArray['cons_area'] = null;
 		}
+
+		if ($searchArray['opistographic'] != "All")
+			$anyParameter = true;
+
+		if ($searchArray['metrical'] != "All")
+			$anyParameter = true;
 		
+		if ($searchArray['greek'] != "All")
+			$anyParameter = true;
+		
+		if ($searchArray['greeklatin'] != "All")
+			$anyParameter = true;
+		
+		if ($searchArray['support'] != "All")
+			$anyParameter = true;
+		
+		if ($searchArray['technique'] != "All")
+			$anyParameter = true;
+		
+		if ($searchArray['function'] != "All")
+			$anyParameter = true;
+				
 		if (strlen($searchArray['area'])) 
 			$anyParameter = true;
 	
