@@ -43,7 +43,11 @@ class SearchController extends Controller {
 		$defaultData = array();
 		$form = $this->createFormBuilder($defaultData)->getForm();
 
+		$repoDating = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Dating');
+		$datings = $repoDating->findBy(array(), array('description' => 'ASC'));
 		
+		$repoCompilers = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:User');
+		$compilers = $repoCompilers->findBy(array(), array('lastname' => 'ASC'));
 		
 		return $this
 				->render('KddeEdbBundle:Search:basic.html.twig',
@@ -52,7 +56,9 @@ class SearchController extends Controller {
 								'types' => $types,
 								'functions' => $functions,
 								'supports' => $supports,
-								'techniques' => $techniques
+								'techniques' => $techniques,
+								'datings' => $datings,
+								'compilers' => $compilers
 		));
 	}
 	

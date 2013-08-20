@@ -103,6 +103,13 @@ $('document').ready(function() {
 	    $("#search_biblio").combobox();
 	  });
 	
+	$('#checkPreciseYear').click(function() {
+		checkPreciseYearAction();
+	});
+	
+	$('#selectDating').change(function() {
+		checkPreciseYearAction();
+	});
 	
 	$("#search_lost").change(function() 
 	{
@@ -139,5 +146,32 @@ function enableCombo(comboName)
 	$(comboNameJQuery).parent().find("input.ui-autocomplete-input").autocomplete("option", "disabled", false).prop("disabled",false);
 	$(comboNameJQuery).parent().find("a.ui-button").button("enable");
 	
+}
+
+
+function checkPreciseYearAction() 
+{
+	var checked = $('#checkPreciseYear').prop('checked');
+	if (checked) 
+	{
+		$("#selectDating").prop('disabled', true);
+		$("#selectDating").val(0);
+		$("#inputAnnumFrom").prop('disabled', false);
+		$("#inputAnnumTo").prop('disabled', false);
+		$('#inputAnnumFrom').attr('value', null);
+		$('#inputAnnumTo').attr('value', null);
+		$("#inputAnnumFrom").focus();
+	} 
+	else 
+	{
+		$("#selectDating").prop('disabled', false);
+		var idDating = $("#selectDating :selected").val();
+		var from = $('#datingFrom'+idDating).val();
+		var to = $('#datingTo'+idDating).val();
+		$('#inputAnnumFrom').attr('value', from);
+		$('#inputAnnumTo').attr('value', to);
+		$("#inputAnnumFrom").prop('disabled', true);
+		$("#inputAnnumTo").prop('disabled', true);
+	}
 }
 

@@ -244,8 +244,6 @@ class EpigraphRepository extends EntityRepository {
 		if ($support != "All")
 			$query->setParameter('support', $support);
 				
-				
-		
 		if ($transcription != null) {
 			if ($useThesaurus == false) {
 				$count = 1;

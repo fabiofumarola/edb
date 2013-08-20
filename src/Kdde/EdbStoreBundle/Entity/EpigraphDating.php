@@ -25,14 +25,14 @@ class EpigraphDating {
 	
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="string", length=50, name="da")
+	 * @ORM\Column(type="integer", name="da")
 	 * @var unknown_type
 	 */
 	protected $from;
 	
 	/**
 	 * @ORM\Id
-	 * @ORM\Column(type="string", length=50, name="a")
+	 * @ORM\Column(type="integer", name="a")
 	 * @var unknown_type
 	 */
 	protected $to;
