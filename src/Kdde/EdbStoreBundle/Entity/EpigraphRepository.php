@@ -115,18 +115,7 @@ class EpigraphRepository extends EntityRepository {
 			$strQueryWhere .= "AND cc.id = :cons_contextId ";
 		}
 		
-		
-		if($dating != "All")
-		{
-			$strQuerySelect .= "JOIN ep.datings dat ";
-			
-			if($from != null)
-				$strQueryWhere .= "AND dat.to >= :from ";
-			
-			if($to != null)
-				$strQueryWhere .= "AND dat.from <= :to ";
-		}
-		
+				
 		if ($transcription != null) {
 			if ($useThesaurus == true) {
 				$words = str_replace(" ", " & ", $transcription);
@@ -186,6 +175,17 @@ class EpigraphRepository extends EntityRepository {
 		if ($compiler != "All")
 			$strQueryWhere .= "AND ep.oldCompilator = :compiler ";
 				
+		if($dating != "All")
+		{
+			$strQuerySelect .= "JOIN ep.datings dat ";
+				
+			if($from != null)
+				$strQueryWhere .= "AND dat.to >= :from ";
+				
+			if($to != null)
+				$strQueryWhere .= "AND dat.from <= :to ";
+		}
+		
 		if ($support != "All" || $technique != "All")
 		{
 			$strQuerySelect .= "JOIN ep.material mat ";
