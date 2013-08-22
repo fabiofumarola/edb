@@ -843,6 +843,11 @@ class Epigraph {
     {
         $this->icvr = $icvr;
     }
+    
+    public function removeIcvr()
+    {
+    	$this->icvr = null;
+    }
 
     /**
      * Get icvr

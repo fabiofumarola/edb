@@ -197,12 +197,12 @@
 
 						<div class="span1">
 							<label>From</label> 
-							<input id="inputAnnumFrom" name="search[from]" type="text" class="span1" value = "n.d." disabled="disabled">
+							<input id="inputAnnumFrom" name="search[from]" type="text" class="span1" disabled="disabled">
 						</div>
 					
 						<div class="span1">
 							<label>To</label> 
-							<input id="inputAnnumTo" name="search[to]" type="text" class="span1" value = "n.d." disabled="disabled">
+							<input id="inputAnnumTo" name="search[to]" type="text" class="span1" disabled="disabled">
 						</div>
 					</div>
 	
@@ -223,7 +223,7 @@
       					<div class="span2">
 	      					<label>Compiler</label>
 							<select class="span2" id="search_compiler" name="search[compiler]">
-								<option value="-1">All</option>
+								<option value="All">All</option>
 								{% for comp in compilers %}
 									{% if comp.isActive == true %}
 										<option value="{{ comp.firstname }} {{ comp.lastname }}"> {{ comp.firstname }} {{ comp.lastname }}</option>

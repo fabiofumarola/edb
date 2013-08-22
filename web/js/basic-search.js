@@ -107,6 +107,7 @@ $('document').ready(function() {
 		checkPreciseYearAction();
 	});
 	
+	
 	$('#selectDating').change(function() {
 		checkPreciseYearAction();
 	});
@@ -119,7 +120,6 @@ $('document').ready(function() {
 		else
 			enableCombo("search_cons_area");
 	});
-	
 	
 	
 	$('#greekToogle').click(function(event) {

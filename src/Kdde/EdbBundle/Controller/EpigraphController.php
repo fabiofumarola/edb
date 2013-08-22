@@ -448,12 +448,12 @@ class EpigraphController extends Controller {
 			}
 
 				
-			if (isset($epigraphArray['icvr'])) {
+			if (isset($epigraphArray['icvr']) && $epigraphArray['icvr'] != "null") {
 				$icvr = $repoIcvr->find($epigraphArray['icvr']);
 				$epigraph->setIcvr($icvr);
 			}
 			else
-				$epigraph->setIcvr(null);
+				$epigraph->removeIcvr();
 			
 			if (isset($epigraphArray['principalProgNumber']))
 				$epigraph->setPrincipalProgNumber($epigraphArray['principalProgNumber']);

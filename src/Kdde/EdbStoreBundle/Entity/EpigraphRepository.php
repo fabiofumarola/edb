@@ -32,6 +32,11 @@ class EpigraphRepository extends EntityRepository {
 		$support = $searchArray['support'];
 		$technique = $searchArray['technique'];
 		$function = $searchArray['function'];
+		$compiler = $searchArray['compiler'];
+			
+		$dating = $searchArray['dating'];
+		$from = $searchArray['from'];
+		$to = $searchArray['to'];
 			
 		$areaId = null;
 		if (strlen($searchArray['area']))
@@ -68,7 +73,6 @@ class EpigraphRepository extends EntityRepository {
 		$yesGreek = false;
 		if (isset($searchArray['yesgreek']))
 			$yesGreek = true;
-	
 		//--------------------------------------------------------------------------------
 
 		
@@ -109,6 +113,18 @@ class EpigraphRepository extends EntityRepository {
 		if ($cons_contextId != null) {
 			$strQuerySelect .= "JOIN co.conservationContext cc ";
 			$strQueryWhere .= "AND cc.id = :cons_contextId ";
+		}
+		
+		
+		if($dating != "All")
+		{
+			$strQuerySelect .= "JOIN ep.datings dat ";
+			
+			if($from != null)
+				$strQueryWhere .= "AND dat.to >= :from ";
+			
+			if($to != null)
+				$strQueryWhere .= "AND dat.from <= :to ";
 		}
 		
 		if ($transcription != null) {
@@ -167,8 +183,9 @@ class EpigraphRepository extends EntityRepository {
 		if ($function != "All")
 			$strQueryWhere .= "AND ep.funzione = :function ";
 		
-		
-		
+		if ($compiler != "All")
+			$strQueryWhere .= "AND ep.oldCompilator = :compiler ";
+				
 		if ($support != "All" || $technique != "All")
 		{
 			$strQuerySelect .= "JOIN ep.material mat ";
@@ -180,8 +197,6 @@ class EpigraphRepository extends EntityRepository {
 				$strQueryWhere .= "AND mat.support = :support ";
 		}
 			
-
-		
 		if (!$isAdmin)
 			$strQuery = $strQuerySelect . "WHERE ep.status = :status " . $strQueryWhere;
 		else
@@ -243,7 +258,20 @@ class EpigraphRepository extends EntityRepository {
 				
 		if ($support != "All")
 			$query->setParameter('support', $support);
-				
+
+		if ($compiler != "All")
+			$query->setParameter('compiler', $compiler);
+			
+		if($dating != "All")
+		{				
+			if($from != null)
+				$query->setParameter('from', $from);
+								
+			if($to != null)
+				$query->setParameter('to', $to);
+		}
+		
+		
 		if ($transcription != null) {
 			if ($useThesaurus == false) {
 				$count = 1;

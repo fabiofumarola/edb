@@ -41,6 +41,7 @@
 					<div class="span2">
 						<label>ICVR Volume</label>
 						<select class="span2" id="epigraph_icvr" name="epigraph[icvr]" required="required">
+								<option value = "null"></option>
 							{% for icvr in icvrs %}
 								<option value="{{ icvr.id }}"> {{ icvr.volume }}</option>
 							{% endfor %}
@@ -517,13 +518,11 @@
 					</div>
 
 					<div class="span1">
-						<label>From</label> <input id="inputAnnumFrom" name="epigraph[from]" type="text"
-							class="span1" value = "n.d." disabled="disabled">
+						<label>From</label> <input id="inputAnnumFrom" name="epigraph[from]" type="text" class="span1" value = {{ datings[0].from }} disabled="disabled">
 					</div>
 					
 					<div class="span1">
-						<label>To</label> <input id="inputAnnumTo" name="epigraph[to]" type="text"
-							class="span1" value = "n.d." disabled="disabled">
+						<label>To</label> <input id="inputAnnumTo" name="epigraph[to]" type="text" class="span1" value = {{ datings[0].to }} disabled="disabled">
 					</div>
 					
 					<div class="span1 offset1">

@@ -366,7 +366,7 @@
 								{%- if e.createdAt != '' and e.createdAt != 'n.d.' -%}
 									, {{ e.createdAt | date('d/m/Y') }}
 								{% endif %}
-								{% if e.createdAt | date('d/m/Y') != e.editedAt | date('d/m/Y') and e.compilator != e.lastCompilator %}
+								{% if e.createdAt | date('d/m/Y') != e.editedAt | date('d/m/Y') and e.compilator != e.lastCompilator and e.lastCompilator != '' %}
 									<br>Last update by {{ e.lastCompilator.firstname }} {{ e.lastCompilator.lastname }} on {{ e.editedAt | date('d/m/Y')  }}
 								{% endif %}
 							</td>

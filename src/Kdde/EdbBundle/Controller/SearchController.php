@@ -93,11 +93,7 @@ class SearchController extends Controller {
 				return $this->redirect('KddeEdbBundle:Search:basic');
 			}
 		}
-		
-		$type = $searchArray['type'];
-		if ($type != -1)
-			$anyParameter = true;
-		
+				
 		if ($searchArray['lost'] != "All")
 		{
 			$anyParameter = true;
@@ -137,6 +133,9 @@ class SearchController extends Controller {
 		if ($searchArray['insitu'] != "All")
 			$anyParameter = true;
 		
+		if ($searchArray['compiler'] != "All")
+			$anyParameter = true;
+		
 		if (isset($searchArray['thesaurus']))
 			$useThesaurus = true;
 	
@@ -148,10 +147,38 @@ class SearchController extends Controller {
 		if (isset($searchArray['yesgreek']))
 			$yesGreek = true;
 		
+		if(isset($searchArray['from']) || isset($searchArray['to']))
+			$anyParameter = true;
+				
+		$validatedValue = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+		
+		$incorrectDating = false;
+		if(isset($searchArray['from']))
+		{
+			$from = $searchArray['from'];
+			if(!ctype_digit($from))
+				$incorrectDating = true;
+		}
+			
+		if(isset($searchArray['to']))
+		{
+			$to = $searchArray['to'];
+			if(!ctype_digit($to))
+				$incorrectDating = true;
+		}
+		
+		if(isset($searchArray['from']) && isset($searchArray['to']) && !$incorrectDating && $to < $from)
+			$incorrectDating = true;
 		
 		
 		if (!$anyParameter) {
 			$this->get('session')->getFlashBag()->add('error','You should specify at least one parameter !');
+			return $this->forward('KddeEdbBundle:Search:basic');
+		}
+		
+		if($incorrectDating)
+		{
+			$this->get('session')->getFlashBag()->add('error','The specified time span is invalid!');
 			return $this->forward('KddeEdbBundle:Search:basic');
 		}
 		
