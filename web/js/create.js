@@ -920,7 +920,7 @@ function addDatingToTableAction() {
 	}
 
 	// Check if both the fields are integer 
-	if ((fromText != 'n.d.' || toText != 'n.d.') && (!isInteger(fromText) || !isInteger(toText))) {
+	if (!isInteger(fromText) || !isInteger(toText)) {
 		alert('FROM and TO fields must be numeric (integer).');
 		return;
 	}
