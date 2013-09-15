@@ -9,24 +9,24 @@
 		<br>
 	</div>
 	<div class="row">
-		<div class="offset3 span8">
+		<div class="offset2 span10">
 			<form class="form-horizontal" action="{{ path('edb_search_basic_do')}}" method="post" {{ form_enctype(form) }}>		
 			
 				<fieldset>
 				
-				<h4>Inscription</h4>
+				<h4>What and How</h4>
       				<div class="row">
       					<div class="span4">
-							<textarea class = "span4" style = "font-family:Cardo" rows="3" name="search[transcription]" id="transcription"></textarea>
+      						<label>Text</label>
+							<input type="text" class = "span4" style = "font-family:Cardo" name="search[transcription]" id="transcription"></input>
 							<button id="greekToogle" type="button" class="btn" data-toggle="button">Click to write in Greek</button>
       					</div>
       					<div class="span0"></div>
-	      				<div class = "offset1">
-							<input type="checkbox" id="search_thesaurus" name="search[thesaurus]">
-							<label class="checkbox inline" for="search_thesaurus">Use Thesaurus</label>  
-							
-	      				</div> 
-	      				<div class="span0"></div>
+{# 	      				<div class = "offset1">#}
+{# 							<input type="checkbox" id="search_thesaurus" name="search[thesaurus]">#}
+{# 							<label class="checkbox inline" for="search_thesaurus">Use Thesaurus</label>  #}
+{# 	      				</div> #}
+{# 	      				<div class="span0"></div>#}
 	      				<div class = "offset1">	
 	      					<input type="checkbox" id="search_nodiacr" name="search[yesdiacr]">
 	      					<label class="checkbox inline" for="search_nodiacr">Consider Common Diacritical Marks</label>  
@@ -36,7 +36,8 @@
 	      					<input type="checkbox" id="search_nogreek" name="search[yesgreek]">
 	      					<label class="checkbox inline" for="search_nogreek">Consider Greek Diacritical Marks</label>  
 	      				</div>	
-      				</div> 
+      				</div>     				
+      				
       				<br>
       				<div class="row">
 					
@@ -78,77 +79,9 @@
 
 					</div>
 					
-		
-				<hr>
-				
-				<h4>Bibliography</h4>
-    				<div class="row">
-    					<div class="span2">
-	      					<label>ICVR Volume</label>
-							<select class = "span2" id="search_icvr" name="search[icvr]">
-								<option value=""></option>
-								{% for icvr in icvrs %}
-									<option value="{{ icvr.id }}"> {{ icvr.volume }}</option>
-								{% endfor %}				
-							</select>
-      					</div>
-      					
-      					<div class="span2">
-	      					<label>ICVR Number</label>
-							<input id="icvr_number" name="search[icvr_number]" type="text" class="span2">
-      					</div>
-      				
-      					
-      				
-{# 	      				<div class="span2">	#}
-{# 	      					<label>Reference</label>#}
-{# 							<select class="span2" id="search_biblio" name="search[biblio]">			#}
-{# 							</select>#}
-{# 	      				</div>	#}
-      				</div>	
-      				
-      				<hr>   
-      			<h4>Location</h4>	
-      				<div class="row">
-      					<div class="span3">
-							<label>Original Context</label> 
-							<select id="search_area" name="search[area]">
-								<option></option>
-							</select>
-						</div>
-							
-						<div class = "span2">
-							<label>In Situ</label>
-							<select class="span1" id="search_insitu" name="search[insitu]">
-								<option value="All">All</option>
-								<option value="true">Yes</option>
-								<option value="false">No</option>				
-							</select>
-						</div>
-      				</div>
-      				<br>
-      				<div class="row">
-      					<div class="span3">
-							<label>Conservation</label> 
-							<select id="search_cons_area" name="search[cons_area]">
-								<option></option>
-							</select>
-      					</div>
-      					<div class = "span2">
-							<label>Lost</label>
-							<select class="span1" id="search_lost" name="search[lost]">
-								<option value="All">All</option>
-								<option value="S">Yes</option>
-								<option value="N">No</option>				
-							</select>
-						</div>
-      				</div>
-      				  	
 					<br>
 					
-					<h4>What and How</h4>	
 					<div class="row">
-					
 						<div class="span2">
 							<label>Type of Support</label> 
 							<select id="search_support" class = "span2" name="search[support]"> 	
@@ -180,8 +113,74 @@
 						</div>
 					</div>
 					
+		
+				<hr>
+				
+				<h4>Bibliography</h4>
+    				<div class="row">
+    					<div class="span2">
+	      					<label>ICVR Volume</label>
+							<select class = "span2" id="search_icvr" name="search[icvr]">
+								<option value=""></option>
+								{% for icvr in icvrs %}
+									<option value="{{ icvr.id }}"> {{ icvr.volume }}</option>
+								{% endfor %}				
+							</select>
+      					</div>
+      					
+      					<div class="span2">
+	      					<label>ICVR Number</label>
+							<input id="icvr_number" name="search[icvr_number]" type="text" class="span2">
+      					</div>
+      				
+      					
+      				
+{# 	      				<div class="span2">	#}
+{# 	      					<label>Reference</label>#}
+{# 							<select class="span2" id="search_biblio" name="search[biblio]">			#}
+{# 							</select>#}
+{# 	      				</div>	#}
+      				</div>	
+      				
+      				<hr>   
+      			<h4>Where</h4>	
+      				<div class="row">
+      					<div class="span3">
+							<label>Original Context</label> 
+							<select id="search_area" name="search[area]">
+								<option></option>
+							</select>
+						</div>
+							
+						<div class = "span2">
+							<label>In Situ</label>
+							<select class="span1" id="search_insitu" name="search[insitu]">
+								<option value="All">All</option>
+								<option value="true">Yes</option>
+								<option value="false">No</option>				
+							</select>
+						</div>
+{#       				</div>#}
+{#       				<br>#}
+{#       				<div class="row">#}
+      					<div class="span3">
+							<label>Conservation</label> 
+							<select class="span2" id="search_cons_area" name="search[cons_area]">
+								<option></option>
+							</select>
+      					</div>
+      					<div class = "span1">
+							<label>Lost</label>
+							<select class="span1" id="search_lost" name="search[lost]">
+								<option value="All">All</option>
+								<option value="S">Yes</option>
+								<option value="N">No</option>				
+							</select>
+						</div>
+      				</div>
+      				  	
 					<br>
-	
+						
 					<h4>When</h3>
 					<div class="row">
 						<div class="span3">
@@ -218,7 +217,7 @@
       				<h4>Other</h4>
       				<div class="row">
       					<div class="span2">
-	      					<label>Type</label>
+	      					<label>Religion</label>
 							<select class="span2" id="search_type" name="search[type]">
 								<option value="-1">All</option>
 								{% for type in types %}
