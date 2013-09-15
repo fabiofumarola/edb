@@ -7,9 +7,9 @@
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.3.*@dev",
-        "doctrine/orm": "2.4.0-beta2",
-        "doctrine/dbal": "2.4.0-beta2",
-        "doctrine/common": "2.4.0-rc2",
+        "doctrine/orm": "2.4.*",
+        "doctrine/dbal": "2.4.*",
+        "doctrine/common": "2.4.*",
         "doctrine/doctrine-bundle": "1.2.*@dev",
         "twig/twig": "1.12.*@dev",
         "symfony/assetic-bundle": "2.4.*@dev",

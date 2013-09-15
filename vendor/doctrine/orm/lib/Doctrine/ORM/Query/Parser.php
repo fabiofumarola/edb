@@ -670,6 +670,12 @@ class Parser
                     continue;
                 }
 
+                if (isset($class->associationMappings[$field]) &&
+                    $class->associationMappings[$field]['isOwningSide'] &&
+                    $class->associationMappings[$field]['type'] & ClassMetadata::TO_ONE) {
+                    continue;
+                }
+
                 $this->semanticalError(
                     "There is no mapped field named '$field' on class " . $class->name . ".", $deferredItem['token']
                 );
@@ -1538,6 +1544,9 @@ class Parser
     public function IdentificationVariableDeclaration()
     {
         $rangeVariableDeclaration = $this->RangeVariableDeclaration();
+
+        $rangeVariableDeclaration->isRoot = true;
+
         $indexBy = $this->lexer->isNextToken(Lexer::T_INDEX) ? $this->IndexBy() : null;
         $joins   = array();
 
@@ -1616,15 +1625,19 @@ class Parser
         $this->match(Lexer::T_JOIN);
 
         $next            = $this->lexer->glimpse();
-        $joinDeclaration = ($next['type'] === Lexer::T_DOT)
-            ? $this->JoinAssociationDeclaration()
-            : $this->RangeVariableDeclaration();
+        $joinDeclaration = ($next['type'] === Lexer::T_DOT) ? $this->JoinAssociationDeclaration() : $this->RangeVariableDeclaration();
+        $adhocConditions = $this->lexer->isNextToken(Lexer::T_WITH);
+        $join            = new AST\Join($joinType, $joinDeclaration);
 
-        // Create AST node
-        $join = new AST\Join($joinType, $joinDeclaration);
+        // Describe non-root join declaration
+        if ($joinDeclaration instanceof AST\RangeVariableDeclaration) {
+            $joinDeclaration->isRoot = false;
+
+            $adhocConditions = true;
+        }
 
         // Check for ad-hoc Join conditions
-        if ($this->lexer->isNextToken(Lexer::T_WITH) || $joinDeclaration instanceof AST\RangeVariableDeclaration) {
+        if ($adhocConditions) {
             $this->match(Lexer::T_WITH);
 
             $join->conditionalExpression = $this->ConditionalExpression();

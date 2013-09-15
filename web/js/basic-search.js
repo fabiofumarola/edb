@@ -153,25 +153,25 @@ function checkPreciseYearAction()
 {
 	var checked = $('#checkPreciseYear').prop('checked');
 	if (checked) 
-	{
-		$("#selectDating").prop('disabled', true);
+	{;
+		$("#selectDating").attr('readonly', 'readonly');
 		$("#selectDating").val(0);
-		$("#inputAnnumFrom").prop('disabled', false);
-		$("#inputAnnumTo").prop('disabled', false);
-		$('#inputAnnumFrom').attr('value', null);
-		$('#inputAnnumTo').attr('value', null);
+		$("#inputAnnumFrom").removeAttr('readonly');
+		$("#inputAnnumTo").removeAttr('readonly');
+		$('#inputAnnumFrom').attr('value', "");
+		$('#inputAnnumTo').attr('value', "");
 		$("#inputAnnumFrom").focus();
 	} 
 	else 
 	{
-		$("#selectDating").prop('disabled', false);
+		$("#selectDating").removeAttr('readonly');
 		var idDating = $("#selectDating :selected").val();
 		var from = $('#datingFrom'+idDating).val();
 		var to = $('#datingTo'+idDating).val();
 		$('#inputAnnumFrom').attr('value', from);
 		$('#inputAnnumTo').attr('value', to);
-		$("#inputAnnumFrom").prop('disabled', true);
-		$("#inputAnnumTo").prop('disabled', true);
+		$("#inputAnnumFrom").attr('readonly', 'readonly');
+		$("#inputAnnumTo").attr('readonly', 'readonly');
 	}
 }
 

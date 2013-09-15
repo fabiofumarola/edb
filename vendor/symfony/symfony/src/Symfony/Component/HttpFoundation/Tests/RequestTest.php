@@ -211,6 +211,10 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('testnopass', $request->getUser());
         $this->assertNull($request->getPassword());
         $this->assertFalse($request->isSecure());
+
+        $request = Request::create('http://test.com/?foo');
+        $this->assertEquals('/?foo', $request->getRequestUri());
+        $this->assertEquals(array('foo' => ''), $request->query->all());
     }
 
     /**
@@ -250,9 +254,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo=bar', $request->getQueryString());
     }
 
-    /**
-     * @covers Symfony\Component\HttpFoundation\Request::duplicate
-     */
     public function testDuplicate()
     {
         $request = new Request(array('foo' => 'bar'), array('foo' => 'bar'), array('foo' => 'bar'), array(), array(), array('HTTP_FOO' => 'bar'));
@@ -269,6 +270,21 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('foo' => 'foobar'), $dup->request->all(), '->duplicate() overrides the request parameters if provided');
         $this->assertEquals(array('foo' => 'foobar'), $dup->attributes->all(), '->duplicate() overrides the attributes if provided');
         $this->assertEquals(array('foo' => array('foobar')), $dup->headers->all(), '->duplicate() overrides the HTTP header if provided');
+    }
+
+    public function testDuplicateWithFormat()
+    {
+        $request = new Request(array(), array(), array('_format' => 'json'));
+        $dup = $request->duplicate();
+
+        $this->assertEquals('json', $dup->getRequestFormat());
+        $this->assertEquals('json', $dup->attributes->get('_format'));
+
+        $request = new Request();
+        $request->setRequestFormat('xml');
+        $dup = $request->duplicate();
+
+        $this->assertEquals('xml', $dup->getRequestFormat());
     }
 
     /**
@@ -1520,12 +1536,24 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             $request->getHost();
             $this->fail('Request::getHost() should throw an exception when host is not trusted.');
         } catch (\UnexpectedValueException $e) {
-            $this->assertEquals('Untrusted Host', $e->getMessage());
+            $this->assertEquals('Untrusted Host "evil.com"', $e->getMessage());
         }
 
         // trusted hosts
         $request->headers->set('host', 'trusted.com');
         $this->assertEquals('trusted.com', $request->getHost());
+        $this->assertEquals(80, $request->getPort());
+
+        $request->server->set('HTTPS', true);
+        $request->headers->set('host', 'trusted.com');
+        $this->assertEquals('trusted.com', $request->getHost());
+        $this->assertEquals(443, $request->getPort());
+        $request->server->set('HTTPS', false);
+
+        $request->headers->set('host', 'trusted.com:8000');
+        $this->assertEquals('trusted.com', $request->getHost());
+        $this->assertEquals(8000, $request->getPort());
+
         $request->headers->set('host', 'subdomain.trusted.com');
         $this->assertEquals('subdomain.trusted.com', $request->getHost());
 

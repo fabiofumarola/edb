@@ -64,6 +64,13 @@ class SearchController extends Controller {
 	
 	public function basicDoAction(Request $request){
 		
+		//Enable LOG of query
+// 		$this
+// 		->get('doctrine')
+// 		->getConnection()
+// 		->getConfiguration()
+// 		->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
+		
 		$repoSigna = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Signa');
 		$repoEpigraph = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
 		
@@ -85,11 +92,11 @@ class SearchController extends Controller {
 			$anyParameter = true;
 
 			
-		if (strlen($searchArray['principalProgNumber'])) {
-			$principalProgNumber = $searchArray['principalProgNumber'];
+		if (strlen($searchArray['icvr_number'])) {
+			$principalProgNumber = $searchArray['icvr_number'];
 			$anyParameter = true;
 			if (!is_numeric($principalProgNumber)) {
-				$this->get('session')->getFlashBag()->add('error', 'The ICVR id should be a number !');
+				$this->get('session')->getFlashBag()->add('error', 'The ICVR number should be an integer!');
 				return $this->redirect('KddeEdbBundle:Search:basic');
 			}
 		}
@@ -147,23 +154,22 @@ class SearchController extends Controller {
 		if (isset($searchArray['yesgreek']))
 			$yesGreek = true;
 		
-		if(isset($searchArray['from']) || isset($searchArray['to']))
+		if($searchArray['dating'] != 'All' || $searchArray['from'] != '' || $searchArray['to'] != '')
 			$anyParameter = true;
 				
-		$validatedValue = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 		
 		$incorrectDating = false;
 		if(isset($searchArray['from']))
 		{
 			$from = $searchArray['from'];
-			if(!ctype_digit($from))
+			if(strlen($from) && !ctype_digit($from))
 				$incorrectDating = true;
 		}
 			
 		if(isset($searchArray['to']))
 		{
 			$to = $searchArray['to'];
-			if(!ctype_digit($to))
+			if(strlen($to) && !ctype_digit($to))
 				$incorrectDating = true;
 		}
 		
@@ -191,6 +197,8 @@ class SearchController extends Controller {
 		$isAdmin = false;
 		if (in_array("administrator", $roles))
 			$isAdmin = true;
+		
+
 		
 		//do the query
 		$query = $repoEpigraph->findBasicSearch($searchArray, $roles);

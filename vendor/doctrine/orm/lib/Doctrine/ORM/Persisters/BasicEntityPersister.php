@@ -85,7 +85,7 @@ class BasicEntityPersister
      */
     static private $comparisonMap = array(
         Comparison::EQ       => '= %s',
-        Comparison::IS       => 'IS %s',
+        Comparison::IS       => '= %s',
         Comparison::NEQ      => '!= %s',
         Comparison::GT       => '> %s',
         Comparison::GTE      => '>= %s',
@@ -567,8 +567,8 @@ class BasicEntityPersister
         $tableName  = $this->quoteStrategy->getTableName($class, $this->platform);
         $idColumns  = $this->quoteStrategy->getIdentifierColumnNames($class, $this->platform);
         $id         = array_combine($idColumns, $identifier);
+        $types      = array_map(function ($identifier) use ($class, $em) {
 
-        $types = array_map(function ($identifier) use ($class, $em) {
             if (isset($class->fieldMappings[$identifier])) {
                 return $class->fieldMappings[$identifier]['type'];
             }
@@ -580,7 +580,7 @@ class BasicEntityPersister
             }
 
             if (isset($targetMapping->associationMappings[$targetMapping->identifier[0]])) {
-                $types[] = $targetMapping->associationMappings[$targetMapping->identifier[0]]['type'];
+                return $targetMapping->associationMappings[$targetMapping->identifier[0]]['type'];
             }
 
             throw ORMException::unrecognizedField($targetMapping->identifier[0]);
@@ -1334,16 +1334,22 @@ class BasicEntityPersister
             return '';
         }
 
-        $columnList = array();
+        $columnList  = array();
+        $targetClass = $this->em->getClassMetadata($assoc['targetEntity']);
 
         foreach ($assoc['joinColumns'] as $joinColumn) {
-
+            $type             = null;
+            $isIdentifier     = isset($assoc['id']) && $assoc['id'] === true;
             $quotedColumn     = $this->quoteStrategy->getJoinColumnName($joinColumn, $this->class, $this->platform);
             $resultColumnName = $this->getSQLColumnAlias($joinColumn['name']);
             $columnList[]     = $this->getSQLTableAlias($class->name, ($alias == 'r' ? '' : $alias) )
                                 . '.' . $quotedColumn . ' AS ' . $resultColumnName;
 
-            $this->rsm->addMetaResult($alias, $resultColumnName, $quotedColumn, isset($assoc['id']) && $assoc['id'] === true);
+            if (isset($targetClass->fieldNames[$joinColumn['referencedColumnName']])) {
+                $type  = $targetClass->fieldMappings[$targetClass->fieldNames[$joinColumn['referencedColumnName']]]['type'];
+            }
+
+            $this->rsm->addMetaResult($alias, $resultColumnName, $quotedColumn, $isIdentifier, $type);
         }
 
         return implode(', ', $columnList);
@@ -1608,6 +1614,14 @@ class BasicEntityPersister
         }
 
         if ($comparison !== null) {
+
+            // special case null value handling
+            if (($comparison === Comparison::EQ || $comparison === Comparison::IS) && $value === null) {
+                return $condition . ' IS NULL';
+            } else if ($comparison === Comparison::NEQ && $value === null) {
+                return $condition . ' IS NOT NULL';
+            }
+
             return $condition . ' ' . sprintf(self::$comparisonMap[$comparison], $placeholder);
         }
 

@@ -20,7 +20,8 @@ class EpigraphRepository extends EntityRepository {
 		$icvrId = null;
 		if (strlen($searchArray['icvr']))
 			$icvrId = $searchArray['icvr'];
-	
+
+		$icvrNumber = $searchArray['icvr_number'];
 		$type = $searchArray['type'];
 		$inSitu = $searchArray['insitu'];
 		$lost = $searchArray['lost'];
@@ -38,6 +39,7 @@ class EpigraphRepository extends EntityRepository {
 		$from = $searchArray['from'];
 		$to = $searchArray['to'];
 			
+		
 		$areaId = null;
 		if (strlen($searchArray['area']))
 		{
@@ -88,6 +90,9 @@ class EpigraphRepository extends EntityRepository {
 			$strQueryWhere .= "AND ic.id = :icvrId ";
 		}
 		
+		if (strlen($icvrNumber)) 
+			$strQueryWhere .= "AND ep.principalProgNumber = :icvrNumber ";
+				
 		
 		if ($areaId != null || $inSitu != "All")
 		{	
@@ -175,15 +180,15 @@ class EpigraphRepository extends EntityRepository {
 		if ($compiler != "All")
 			$strQueryWhere .= "AND ep.oldCompilator = :compiler ";
 				
-		if($dating != "All")
+		if(strlen($from) || strlen($to))
 		{
 			$strQuerySelect .= "JOIN ep.datings dat ";
 				
-			if($from != null)
-				$strQueryWhere .= "AND dat.to >= :from ";
+			if(strlen($from))
+				$strQueryWhere .= "AND dat.to >= :datefrom ";
 				
-			if($to != null)
-				$strQueryWhere .= "AND dat.from <= :to ";
+			if(strlen($to))
+				$strQueryWhere .= "AND dat.from <= :dateto ";
 		}
 		
 		if ($support != "All" || $technique != "All")
@@ -216,6 +221,9 @@ class EpigraphRepository extends EntityRepository {
 		if ($icvrId != null) 
 			$query->setParameter('icvrId', $icvrId);	
 		
+		if ($icvrNumber != null) 
+			$query->setParameter('icvrNumber', $icvrNumber);
+				
 		if ($type != -1)
 			$query->setParameter('epi_type', $type);
 	
@@ -262,13 +270,13 @@ class EpigraphRepository extends EntityRepository {
 		if ($compiler != "All")
 			$query->setParameter('compiler', $compiler);
 			
-		if($dating != "All")
+		if(strlen($from) || strlen($to))
 		{				
-			if($from != null)
-				$query->setParameter('from', $from);
+			if(strlen($from))
+				$query->setParameter('datefrom', $from);
 								
-			if($to != null)
-				$query->setParameter('to', $to);
+			if(strlen($to))
+				$query->setParameter('dateto', $to);
 		}
 		
 		

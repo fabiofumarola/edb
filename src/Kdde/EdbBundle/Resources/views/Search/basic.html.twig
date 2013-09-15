@@ -84,7 +84,7 @@
 				<h4>Bibliography</h4>
     				<div class="row">
     					<div class="span2">
-	      					<label>Volume ICVR</label>
+	      					<label>ICVR Volume</label>
 							<select class = "span2" id="search_icvr" name="search[icvr]">
 								<option value=""></option>
 								{% for icvr in icvrs %}
@@ -92,12 +92,19 @@
 								{% endfor %}				
 							</select>
       					</div>
+      					
+      					<div class="span2">
+	      					<label>ICVR Number</label>
+							<input id="icvr_number" name="search[icvr_number]" type="text" class="span2">
+      					</div>
       				
-	      				<div class="span2">	
-	      					<label>Reference</label>
-							<select class="span2" id="search_biblio" name="search[biblio]">			
-							</select>
-	      				</div>	
+      					
+      				
+{# 	      				<div class="span2">	#}
+{# 	      					<label>Reference</label>#}
+{# 							<select class="span2" id="search_biblio" name="search[biblio]">			#}
+{# 							</select>#}
+{# 	      				</div>	#}
       				</div>	
       				
       				<hr>   
@@ -197,12 +204,12 @@
 
 						<div class="span1">
 							<label>From</label> 
-							<input id="inputAnnumFrom" name="search[from]" type="text" class="span1" disabled="disabled">
+							<input readonly id="inputAnnumFrom" name="search[from]" type="text" class="span1">
 						</div>
 					
 						<div class="span1">
-							<label>To</label> 
-							<input id="inputAnnumTo" name="search[to]" type="text" class="span1" disabled="disabled">
+							<label>To</label>
+							<input readonly id="inputAnnumTo" name="search[to]" type="text" class="span1">
 						</div>
 					</div>
 	

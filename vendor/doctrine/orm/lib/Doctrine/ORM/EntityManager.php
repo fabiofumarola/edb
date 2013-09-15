@@ -86,13 +86,6 @@ use Doctrine\Common\Util\ClassUtils;
     private $metadataFactory;
 
     /**
-     * The EntityRepository instances.
-     *
-     * @var array
-     */
-    private $repositories = array();
-
-    /**
      * The UnitOfWork used to coordinate object-level transactions.
      *
      * @var \Doctrine\ORM\UnitOfWork
@@ -107,18 +100,18 @@ use Doctrine\Common\Util\ClassUtils;
     private $eventManager;
 
     /**
-     * The maintained (cached) hydrators. One instance per type.
-     *
-     * @var array
-     */
-    private $hydrators = array();
-
-    /**
      * The proxy factory used to create dynamic proxies.
      *
      * @var \Doctrine\ORM\Proxy\ProxyFactory
      */
     private $proxyFactory;
+
+    /**
+     * The repository factory used to create dynamic repositories.
+     *
+     * @var \Doctrine\ORM\Repository\RepositoryFactory
+     */
+    private $repositoryFactory;
 
     /**
      * The expression builder instance used to generate query expressions.
@@ -151,9 +144,9 @@ use Doctrine\Common\Util\ClassUtils;
      */
     protected function __construct(Connection $conn, Configuration $config, EventManager $eventManager)
     {
-        $this->conn         = $conn;
-        $this->config       = $config;
-        $this->eventManager = $eventManager;
+        $this->conn              = $conn;
+        $this->config            = $config;
+        $this->eventManager      = $eventManager;
 
         $metadataFactoryClassName = $config->getClassMetadataFactoryName();
 
@@ -161,8 +154,9 @@ use Doctrine\Common\Util\ClassUtils;
         $this->metadataFactory->setEntityManager($this);
         $this->metadataFactory->setCacheDriver($this->config->getMetadataCacheImpl());
 
-        $this->unitOfWork   = new UnitOfWork($this);
-        $this->proxyFactory = new ProxyFactory(
+        $this->repositoryFactory = $config->getRepositoryFactory();
+        $this->unitOfWork        = new UnitOfWork($this);
+        $this->proxyFactory      = new ProxyFactory(
             $this,
             $config->getProxyDir(),
             $config->getProxyNamespace(),
@@ -758,28 +752,11 @@ use Doctrine\Common\Util\ClassUtils;
      *
      * @param string $entityName The name of the entity.
      *
-     * @return EntityRepository The repository class.
+     * @return \Doctrine\ORM\EntityRepository The repository class.
      */
     public function getRepository($entityName)
     {
-        $entityName = ltrim($entityName, '\\');
-
-        if (isset($this->repositories[$entityName])) {
-            return $this->repositories[$entityName];
-        }
-
-        $metadata = $this->getClassMetadata($entityName);
-        $repositoryClassName = $metadata->customRepositoryClassName;
-
-        if ($repositoryClassName === null) {
-            $repositoryClassName = $this->config->getDefaultRepositoryClassName();
-        }
-
-        $repository = new $repositoryClassName($this, $metadata);
-
-        $this->repositories[$entityName] = $repository;
-
-        return $repository;
+        return $this->repositoryFactory->getRepository($this, $entityName);
     }
 
     /**
@@ -856,17 +833,15 @@ use Doctrine\Common\Util\ClassUtils;
      * This method caches the hydrator instances which is used for all queries that don't
      * selectively iterate over the result.
      *
+     * @deprecated
+     *
      * @param int $hydrationMode
      *
      * @return \Doctrine\ORM\Internal\Hydration\AbstractHydrator
      */
     public function getHydrator($hydrationMode)
     {
-        if ( ! isset($this->hydrators[$hydrationMode])) {
-            $this->hydrators[$hydrationMode] = $this->newHydrator($hydrationMode);
-        }
-
-        return $this->hydrators[$hydrationMode];
+        return $this->newHydrator($hydrationMode);
     }
 
     /**
