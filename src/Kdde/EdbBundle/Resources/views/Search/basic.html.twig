@@ -9,13 +9,14 @@
 		<br>
 	</div>
 	<div class="row">
-		<div class="offset2 span10">
+		<div class="offset1 span11">
 			<form class="form-horizontal" action="{{ path('edb_search_basic_do')}}" method="post" {{ form_enctype(form) }}>		
 			
 				<fieldset>
-				
-				<h4>What and How</h4>
       				<div class="row">
+      					<div class="span2">
+      						<h4>What and How</h4>
+      					</div>
       					<div class="span4">
       						<label>Text</label>
 							<input type="text" class = "span4" style = "font-family:Cardo" name="search[transcription]" id="transcription"></input>
@@ -40,7 +41,7 @@
       				
       				<br>
       				<div class="row">
-					
+						<div class="span2"></div>
 						<div class="span2">
 							<label>Reuse/Opistographic</label> 
 							<select id="search_opistographic" class = "span1" name="search[opistographic]"> 	
@@ -82,6 +83,7 @@
 					<br>
 					
 					<div class="row">
+						<div class="span2"></div>
 						<div class="span2">
 							<label>Type of Support</label> 
 							<select id="search_support" class = "span2" name="search[support]"> 	
@@ -115,9 +117,8 @@
 					
 		
 				<hr>
-				
-				<h4>Bibliography</h4>
     				<div class="row">
+    					<div class="span2"><h4>Bibliography</h4></div>
     					<div class="span2">
 	      					<label>ICVR Volume</label>
 							<select class = "span2" id="search_icvr" name="search[icvr]">
@@ -143,8 +144,9 @@
       				</div>	
       				
       				<hr>   
-      			<h4>Where</h4>	
+      			
       				<div class="row">
+      					<div class="span2"><h4>Where</h4></div>
       					<div class="span3">
 							<label>Original Context</label> 
 							<select id="search_area" name="search[area]">
@@ -160,9 +162,6 @@
 								<option value="false">No</option>				
 							</select>
 						</div>
-{#       				</div>#}
-{#       				<br>#}
-{#       				<div class="row">#}
       					<div class="span3">
 							<label>Conservation</label> 
 							<select class="span2" id="search_cons_area" name="search[cons_area]">
@@ -181,8 +180,9 @@
       				  	
 					<br>
 						
-					<h4>When</h3>
+					<hr>
 					<div class="row">
+						<div class="span2"><h4>When</h3></div>
 						<div class="span3">
 						<label>Dating Interval</label> 
 						<select id="selectDating" class="span3" name="search[dating]">
@@ -213,9 +213,9 @@
 					</div>
 	
 					<br>
-					
-      				<h4>Other</h4>
+					<hr>
       				<div class="row">
+      					<div class="span2"><h4>Other</h4></div>
       					<div class="span2">
 	      					<label>Religion</label>
 							<select class="span2" id="search_type" name="search[type]">
@@ -241,8 +241,11 @@
       				
 				{{ form_rest(form) }}
 				<br>
-    			<div class="centered">
-    				<div class="controls">
+    			<div class="row">
+    				<div class="span1 offset8">
+				      <button id = "resetButton" type="button" class="btn" onclick="location.href='{{ path('edb_search') }}';">Reset</button>
+				    </div>
+    				<div class="span1">
 				      <button id = "submitButton" type="submit" class="btn">Search</button>
 				    </div>
 				</div>
