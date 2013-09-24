@@ -122,7 +122,9 @@
     					<div class="span2">
 	      					<label>ICVR Volume</label>
 							<select class = "span2" id="search_icvr" name="search[icvr]">
-								<option value=""></option>
+								<option value="All">All</option>
+								<option value="AllIcvr">All in ICVR</option>
+								<option value="AllNotIcvr">All not in ICVR</option>
 								{% for icvr in icvrs %}
 									<option value="{{ icvr.id }}"> {{ icvr.volume }}</option>
 								{% endfor %}				
@@ -231,7 +233,7 @@
 							<select class="span2" id="search_compiler" name="search[compiler]">
 								<option value="All">All</option>
 								{% for comp in compilers %}
-									{% if comp.isActive == true %}
+									{% if comp.isActive == true and ('administrator' in comp.groups|keys or 'compiler' in comp.groups|keys) %}
 										<option value="{{ comp.firstname }} {{ comp.lastname }}"> {{ comp.firstname }} {{ comp.lastname }}</option>
 									{% endif %}
 								{% endfor %}				

@@ -41,7 +41,11 @@ EDB Search Result Page
 					<tr class="warning">
 						<td> {{ e.id }}</td>	
 						<td> {{ e.principalProgNumber }} {{ e.subNumeration }}</td>	
-						<td> {{ e.pertinence[0].context.description }}</td>
+						<td>
+						{% if e.pertinence | length > 0 %}
+							{{ e.pertinence[0].context.description }}
+						{% endif %}
+						</td>
 						<td class = "span8"> {{ e.trascription | slice(0,80) }} 
 						{% if e.trascription|length > 80 %}
     						...

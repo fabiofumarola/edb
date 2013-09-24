@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "7ee5826738c3990d8e3ca3109dbf188b",
+    "hash": "07961fd8150d075e3dbcdfde696d920a",
     "packages": [
         {
             "name": "craue/formflow-bundle",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/craue/CraueFormFlowBundle.git",
-                "reference": "c8b203347ca62359f8fa56678385ce0818313549"
+                "reference": "4590cca368d741b193ef9e00b09575c4006e5189"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craue/CraueFormFlowBundle/zipball/c8b203347ca62359f8fa56678385ce0818313549",
-                "reference": "c8b203347ca62359f8fa56678385ce0818313549",
+                "url": "https://api.github.com/repos/craue/CraueFormFlowBundle/zipball/4590cca368d741b193ef9e00b09575c4006e5189",
+                "reference": "4590cca368d741b193ef9e00b09575c4006e5189",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +57,7 @@
                 "Symfony2",
                 "form"
             ],
-            "time": "2013-09-09 14:31:43"
+            "time": "2013-09-24 10:06:31"
         },
         {
             "name": "doctrine/annotations",
@@ -1698,12 +1698,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioGeneratorBundle.git",
-                "reference": "3035d2e89cb0e28bb4e11920bd67c2f521841def"
+                "reference": "766205eccd54314beec018a13d6f7fd0c42d45a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/3035d2e89cb0e28bb4e11920bd67c2f521841def",
-                "reference": "3035d2e89cb0e28bb4e11920bd67c2f521841def",
+                "url": "https://api.github.com/repos/sensiolabs/SensioGeneratorBundle/zipball/766205eccd54314beec018a13d6f7fd0c42d45a1",
+                "reference": "766205eccd54314beec018a13d6f7fd0c42d45a1",
                 "shasum": ""
             },
             "require": {
@@ -1737,7 +1737,7 @@
                 }
             ],
             "description": "This bundle generates code for you",
-            "time": "2013-09-16 07:54:59"
+            "time": "2013-09-23 18:03:41"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2020,12 +2020,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "775a39c5c3abf5917e36701db18f74f6c65f45c8"
+                "reference": "c60a8e962b03b6476db70c962a839b98127b1743"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/775a39c5c3abf5917e36701db18f74f6c65f45c8",
-                "reference": "775a39c5c3abf5917e36701db18f74f6c65f45c8",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/c60a8e962b03b6476db70c962a839b98127b1743",
+                "reference": "c60a8e962b03b6476db70c962a839b98127b1743",
                 "shasum": ""
             },
             "require": {
@@ -2120,7 +2120,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-09-22 18:04:39"
+            "time": "2013-09-23 15:56:30"
         },
         {
             "name": "twig/twig",

@@ -229,12 +229,11 @@ class EpigraphController extends Controller {
 		$em = $this->getDoctrine()->getEntityManager();
 		$epigraph = $repository->find($id);
 	
-		$roles = $this->get('security.context')->getToken()->getRoles();
-// 		if (in_array("administrator", $roles))
+		$roles = $this->get('security.context')->getToken()->getRoles();	
 		
-		
-		if ($epigraph == null || $epigraph->getStatus() < 2) {
-			$this->get('session')->getFlashBag()->add('error', 'The epigraph with id ' . $id . " is not in the database or it is still not approved!");
+		if ($epigraph == null || (!in_array("administrator", $roles) && $epigraph->getStatus() < 2)) 
+		{
+			$this->get('session')->getFlashBag()->add('error', 'The epigraph  EDB' . $id . " is not in the database or you do not have enough privileges to access it!");
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
 		

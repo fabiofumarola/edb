@@ -637,6 +637,20 @@
 
 				<hr>
 				<input type = "hidden" id = "epiid" name = "epiid" value = {{ e.id }} />
+				
+				<div class="row">
+					<div class="span2">
+						{{ e.oldCompilator -}} 
+						{%- if e.createdAt != '' and e.createdAt != 'n.d.' -%}
+							, {{ e.createdAt | date('d/m/Y') }}
+						{% endif %}
+						{% if e.createdAt | date('d/m/Y') != e.editedAt | date('d/m/Y') and e.compilator != e.lastCompilator and e.lastCompilator != '' %}
+							<br>Last update by {{ e.lastCompilator.firstname }} {{ e.lastCompilator.lastname }} on {{ e.editedAt | date('d/m/Y')  }}
+						{% endif %}
+					</div>
+				</div>
+				<br>
+								
     			{{ form_rest(form) }}    			
     				<div class="span2">
 				      <button id ="submitButton" type="submit" class="btn"" >Apply Changes</button>

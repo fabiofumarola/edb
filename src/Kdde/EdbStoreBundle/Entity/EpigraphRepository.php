@@ -17,10 +17,7 @@ class EpigraphRepository extends EntityRepository {
 	
 		// Read the search parameters
 		//--------------------------------------------------------------------------------	
-		$icvrId = null;
-		if (strlen($searchArray['icvr']))
-			$icvrId = $searchArray['icvr'];
-
+		$icvrId = $searchArray['icvr'];
 		$icvrNumber = $searchArray['icvr_number'];
 		$type = $searchArray['type'];
 		$inSitu = $searchArray['insitu'];
@@ -85,9 +82,17 @@ class EpigraphRepository extends EntityRepository {
 		$strQueryWhere = "";
 	
 	
-		if ($icvrId != null) {
-			$strQuerySelect .= "JOIN ep.icvr ic ";
-			$strQueryWhere .= "AND ic.id = :icvrId ";
+		if ($icvrId != "All") 
+		{
+			if($icvrId == "AllIcvr")
+				$strQueryWhere .= "AND ep.icvr is NOT NULL ";
+			else if($icvrId == "AllNotIcvr")
+				$strQueryWhere .= "AND ep.icvr is NULL ";
+			else	
+			{
+				$strQuerySelect .= "JOIN ep.icvr ic ";
+				$strQueryWhere .= "AND ic.id = :icvrId ";
+			}
 		}
 		
 		if (strlen($icvrNumber)) 
@@ -218,7 +223,7 @@ class EpigraphRepository extends EntityRepository {
 		if(!$isAdmin)
 			$query->setParameter('status', 2);
 		
-		if ($icvrId != null) 
+		if ($icvrId != "All" && $icvrId != "AllIcvr" && $icvrId != "AllNotIcvr")
 			$query->setParameter('icvrId', $icvrId);	
 		
 		if ($icvrNumber != null) 

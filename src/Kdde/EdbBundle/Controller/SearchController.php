@@ -23,8 +23,8 @@ class SearchController extends Controller {
 		return $this->render('KddeEdbBundle:Search:index.html.twig');
 	}
 
-	public function basicAction(Request $request) {
-
+	public function basicAction(Request $request) 
+	{
 		$repoIcvr = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Icvr');
 		$icvrs = $repoIcvr->findAll();
 		
@@ -65,11 +65,11 @@ class SearchController extends Controller {
 	public function basicDoAction(Request $request){
 		
 		//Enable LOG of query
-// 		$this
-// 		->get('doctrine')
-// 		->getConnection()
-// 		->getConfiguration()
-// 		->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
+		$this
+		->get('doctrine')
+		->getConnection()
+		->getConfiguration()
+		->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
 		
 		$repoSigna = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Signa');
 		$repoEpigraph = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
@@ -88,7 +88,7 @@ class SearchController extends Controller {
 			}
 		}
 	
-		if (strlen($searchArray['icvr'])) 
+		if ($searchArray['icvr'] != "All" && $searchArray['icvr'] != 'AllIcvr' && $searchArray['icvr'] != 'AllNotIcvr') 
 			$anyParameter = true;
 
 			
@@ -197,16 +197,12 @@ class SearchController extends Controller {
 		$isAdmin = false;
 		if (in_array("administrator", $roles))
 			$isAdmin = true;
-		
-
-		
+				
 		//do the query
 		$query = $repoEpigraph->findBasicSearch($searchArray, $roles);
 	
-			
-		
 		$paginator = $this->get('knp_paginator');
-		$pagination = $paginator->paginate($query,$request->get('page',1),50);
+		$pagination = $paginator->paginate($query,$request->get('page',1),500);
 				
 		$count = $pagination->getTotalItemCount();
 
