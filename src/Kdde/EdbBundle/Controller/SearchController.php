@@ -65,11 +65,11 @@ class SearchController extends Controller {
 	public function basicDoAction(Request $request){
 		
 		//Enable LOG of query
-		$this
-		->get('doctrine')
-		->getConnection()
-		->getConfiguration()
-		->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
+// 		$this
+// 		->get('doctrine')
+// 		->getConnection()
+// 		->getConfiguration()
+// 		->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
 		
 		$repoSigna = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Signa');
 		$repoEpigraph = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
