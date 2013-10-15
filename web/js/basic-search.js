@@ -90,24 +90,48 @@ $('document').ready(function() {
 	
 	loadPertinence();
 	loadConservation();
+	$("#search_area").combobox();
+	$("#search_cons_area").combobox();
+	$("#search_biblio").combobox();
 	
-	$(function() {
-	    $("#search_area").combobox();
-	  });
+	$('#search_support').change(function() {
+		if($('#search_support').val() == 'All')
+		{
+			$("#notSupport").prop('disabled', true);
+			$("#notSupport").prop('checked', false);
+		}
+		else
+			$("#notSupport").prop('disabled', false);
+	});
 	
-	$(function() {
-	    $("#search_cons_area").combobox();
-	  });
+	$('#search_technique').change(function() {
+		if($('#search_technique').val() == 'All')
+		{
+			$("#notTechnique").prop('disabled', true);
+			$("#notTechnique").prop('checked', false);
+		}
+		else
+			$("#notTechnique").prop('disabled', false);
+	});
 	
-	$(function() {
-	    $("#search_biblio").combobox();
-	  });
+	$('#search_function').change(function() {
+		if($('#search_function').val() == 'All')
+		{
+			$("#notFunction").prop('disabled', true);
+			$("#notFunction").prop('checked', false);
+		}
+		else
+			$("#notFunction").prop('disabled', false);
+	});
+	
+	
+	  
 	
 	$('#checkPreciseYear').click(function() {
 		checkPreciseYearAction();
 	});
 	
-	
+
 	$('#selectDating').change(function() {
 		checkPreciseYearAction();
 	});

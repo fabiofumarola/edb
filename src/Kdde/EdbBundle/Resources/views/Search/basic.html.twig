@@ -9,7 +9,7 @@
 		<br>
 	</div>
 	<div class="row">
-		<div class="offset1 span11">
+		<div class="offset1 span10">
 			<form class="form-horizontal" action="{{ path('edb_search_basic_do')}}" method="post" {{ form_enctype(form) }}>		
 			
 				<fieldset>
@@ -84,6 +84,10 @@
 					
 					<div class="row">
 						<div class="span2"></div>
+						
+						<div class="span0">
+      						<label>Not</label><input disabled="disabled" type="checkbox" id="notSupport" name="search[notSupport]">
+      					</div> 
 						<div class="span2">
 							<label>Type of Support</label> 
 							<select id="search_support" class = "span2" name="search[support]"> 	
@@ -94,6 +98,9 @@
 							</select>
 						</div>
 						
+						<div class="span0">
+      						<label>Not</label><input disabled="disabled" type="checkbox" id="notTechnique" name="search[notTechnique]">
+      					</div> 
 						<div class="span2">
 							<label>Executing Technique</label> 
 							<select id="search_technique" class="span2" name="search[technique]">
@@ -102,8 +109,11 @@
 									<option value="{{ tech.id }}"> {{ tech.description }}</option>
 								{% endfor %}
 							</select>
-						</div>				
-					
+						</div>		
+								
+						<div class="span0">
+      						<label>Not</label><input disabled="disabled" type="checkbox" id="notFunction" name="search[notFunction]">
+      					</div> 
 						<div class="span2">
 							<label>Function</label> 
 							<select id="search_function" class="span2" name="search[function]">								
@@ -146,12 +156,12 @@
       				</div>	
       				
       				<hr>   
-      			
+      				<br>
       				<div class="row">
       					<div class="span2"><h4>Where</h4></div>
- {#    					<div class="span0">
-      						<label>Not at</label><input type="checkbox" id="notOriginalContext" name="search[notOriginalContext]">
-      					</div> #}
+    					<div class="span0">
+      						<label>Not at</label><input disabled="disabled" type="checkbox" id="notOriginalContext" name="search[notOriginalContext]">
+      					</div> 
       					
       					<div class="span3">
 							<label>Original Context</label> 
@@ -160,7 +170,7 @@
 							</select>
 						</div>
 							
-						<div class = "span2">
+						<div class = "span1">
 							<label>In Situ</label>
 							<select class="span1" id="search_insitu" name="search[insitu]">
 								<option value="All">All</option>
@@ -168,10 +178,12 @@
 								<option value="false">No</option>				
 							</select>
 						</div>
-						
-{#						<div class="span0">
-      						<label>Not at</label><input type="checkbox" id="notConservation" name="search[notConservation]">
-      					</div> #}
+					</div>
+					<div class="row">
+						<div class="span2"></div>
+						<div class="span0">
+      						<label>Not at</label><input disabled="disabled" type="checkbox" id="notConservation" name="search[notConservation]">
+      					</div> 
       					
       					<div class="span3">
 							<label>Conservation</label> 
