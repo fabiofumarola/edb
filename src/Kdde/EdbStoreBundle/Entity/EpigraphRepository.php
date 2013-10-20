@@ -27,9 +27,16 @@ class EpigraphRepository extends EntityRepository {
 		$metrical = $searchArray['metrical'];
 		$greek = $searchArray['greek'];
 		$greeklatin = $searchArray['greeklatin'];
+		
 		$support = $searchArray['support'];
+		$notSupport = $searchArray['notSupport'];
+		
 		$technique = $searchArray['technique'];
+		$notTechnique = $searchArray['notTechnique'];
+		
 		$function = $searchArray['function'];
+		$notFunction = $searchArray['notFunction'];
+		
 		$compiler = $searchArray['compiler'];
 			
 		$dating = $searchArray['dating'];
@@ -38,6 +45,7 @@ class EpigraphRepository extends EntityRepository {
 			
 		
 		$areaId = null;
+		$notArea = $searchArray['notOriginalContext'];
 		if (strlen($searchArray['area']))
 		{
 			$areaContext = explode('@_@', $searchArray['area']);
@@ -48,13 +56,14 @@ class EpigraphRepository extends EntityRepository {
 		}
 	
 		$cons_areaId = null;
+		$notConsArea = $searchArray['notConservation'];
 		if (strlen($searchArray['cons_area']))
 		{
 			$consareaContext = explode('@_@', $searchArray['cons_area']);
 			$cons_areaId = $consareaContext[0];
 			$cons_contextId = $consareaContext[1];
 			if($cons_contextId == '')
-				$cons_contextId = null;
+				$cons_contextId = null;	
 		}
 			
 		$transcription = null;
@@ -101,29 +110,49 @@ class EpigraphRepository extends EntityRepository {
 		
 		if ($areaId != null || $inSitu != "All")
 		{	
-			$strQuerySelect .= "JOIN ep.pertinences pe JOIN pe.pertinenceArea pa ";
+			$strQuerySelect .= "JOIN ep.pertinences pe ";
 			
 			if($areaId != null)
-				$strQueryWhere .= "AND pa.id = :areaId ";
-			
+			{
+				if($notArea)
+					$strQueryWhere .= "AND pe.pertinenceArea <> :areaId ";
+				else 
+					$strQueryWhere .= "AND pe.pertinenceArea = :areaId ";
+			}
+				
 			if($inSitu != "All")
 				$strQueryWhere .= "AND pe.inSitu = :inSitu ";	
+			
+			if ($contextId != null) 
+			{
+				if($notArea)
+					$strQueryWhere .= "AND pe.context <> :contextId ";
+				else
+					$strQueryWhere .= "AND pe.context = :contextId ";
+			}
 		}
 	
-		if ($contextId != null) {
-			$strQuerySelect .= "JOIN pe.context pc ";
-			$strQueryWhere .= "AND pc.id = :contextId ";
+
+	
+		if ($cons_areaId != null) 
+		{
+			$strQuerySelect .= "JOIN ep.conservations co ";
+			
+			if($notConsArea)
+				$strQueryWhere .= "AND co.conservationLocation <> :cons_areaId ";
+			else
+				$strQueryWhere .= "AND co.conservationLocation = :cons_areaId ";
+									
+			if ($cons_contextId != null) 
+			{
+				if($notConsArea)
+					$strQueryWhere .= "AND co.conservationContext <> :cons_contextId ";
+				else
+					$strQueryWhere .= "AND co.conservationContext = :cons_contextId ";
+			}
 		}
 	
-		if ($cons_areaId != null) {
-			$strQuerySelect .= "JOIN ep.conservations co JOIN co.conservationLocation cl ";
-			$strQueryWhere .= "AND cl.id = :cons_areaId ";
-		}
-	
-		if ($cons_contextId != null) {
-			$strQuerySelect .= "JOIN co.conservationContext cc ";
-			$strQueryWhere .= "AND cc.id = :cons_contextId ";
-		}
+		
 		
 				
 		if ($transcription != null) {
@@ -180,7 +209,33 @@ class EpigraphRepository extends EntityRepository {
 			$strQueryWhere .= "AND ep.presenceLG = :greeklatin ";
 		
 		if ($function != "All")
-			$strQueryWhere .= "AND ep.funzione = :function ";
+		{
+			if($notFunction)
+				$strQueryWhere .= "AND ep.funzione <> :function ";
+			else
+				$strQueryWhere .= "AND ep.funzione = :function ";
+		}
+		
+		if ($support != "All" || $technique != "All")
+		{
+			$strQuerySelect .= "JOIN ep.material mat ";
+				
+			if ($technique != "All")
+			{
+				if($notTechnique)
+					$strQueryWhere .= "AND mat.technique <> :technique ";
+				else
+					$strQueryWhere .= "AND mat.technique = :technique ";		
+			}
+		
+			if ($support != "All")
+			{
+				if($notSupport)
+					$strQueryWhere .= "AND mat.support <> :support ";
+				else		
+					$strQueryWhere .= "AND mat.support = :support ";
+			}
+		}
 		
 		if ($compiler != "All")
 			$strQueryWhere .= "AND ep.oldCompilator = :compiler ";
@@ -196,16 +251,7 @@ class EpigraphRepository extends EntityRepository {
 				$strQueryWhere .= "AND dat.from <= :dateto ";
 		}
 		
-		if ($support != "All" || $technique != "All")
-		{
-			$strQuerySelect .= "JOIN ep.material mat ";
-			
-			if ($technique != "All")
-				$strQueryWhere .= "AND mat.technique = :technique ";
 		
-			if ($support != "All")
-				$strQueryWhere .= "AND mat.support = :support ";
-		}
 			
 		if (!$isAdmin)
 			$strQuery = $strQuerySelect . "WHERE ep.status = :status " . $strQueryWhere;

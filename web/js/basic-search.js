@@ -125,7 +125,11 @@ $('document').ready(function() {
 	});
 	
 	
-	  
+//	$("#search_area").combobox({ 
+//        select: function (event, ui) { 
+//            alert("the select event has fired!"); 
+//        } 
+//	});
 	
 	$('#checkPreciseYear').click(function() {
 		checkPreciseYearAction();
