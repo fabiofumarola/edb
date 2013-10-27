@@ -534,7 +534,7 @@ function addEditorToTable()
 	countEditors++;
 
 	// add values to the table as row
-	var row = "<tr> " + "<td>" + surname + "</td> " + "<td>" + name + "</td>";
+	var row = "<tr> " + "<td>" + name + "</td> " + "<td>" + surname + "</td>";
 	row = row + "</td> <td id='" + delTd + "'></td> " + inputHidden + "</tr>";
 	
 	if (hashEditors[hiddenValue] != undefined) 
