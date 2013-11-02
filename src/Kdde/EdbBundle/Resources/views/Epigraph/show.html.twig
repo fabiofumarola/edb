@@ -202,6 +202,7 @@
 									.{{- e.subNumeration -}}
 								{%- endif -%}
 							{%- endif -%}
+							{%- if identity | length > 0 or identity_online | length > 0 %}, {% endif %}
 							{%- if identity | length > 0 -%}
 								{%- for i in 0..identity | length - 1 -%}
 									{%- set b = identity[i] -%}
