@@ -19,6 +19,11 @@ class EpigraphRepository extends EntityRepository {
 		//--------------------------------------------------------------------------------	
 		$icvrId = $searchArray['icvr'];
 		$icvrNumber = $searchArray['icvr_number'];
+		
+		$biblio = null;
+		if (strlen($searchArray['biblio']))
+			$biblio = $searchArray['biblio'];
+
 		$type = $searchArray['type'];
 		$inSitu = $searchArray['insitu'];
 		$lost = $searchArray['lost'];
@@ -152,6 +157,20 @@ class EpigraphRepository extends EntityRepository {
 			}
 		}
 	
+		
+		
+		if ($biblio != null) 
+		{	
+			$strQuerySelect .= "JOIN ep.literatures lit_epi JOIN lit_epi.idRiferimento lit ";
+			
+			$biblio_words = explode(" ", $biblio);
+			$count_biblio = 1;
+			foreach($biblio_words as $word)
+			{
+				$strQueryWhere .= "AND LOWER(lit.ricerca) LIKE CONCAT(CONCAT('%', :biblio" . $count_biblio . "),'%') ";
+				$count_biblio++;
+			}
+		}
 		
 		
 				
@@ -329,6 +348,19 @@ class EpigraphRepository extends EntityRepository {
 			if(strlen($to))
 				$query->setParameter('dateto', $to);
 		}
+		
+		
+		
+		if ($biblio != null) 
+		{
+			$count_biblio = 1;
+			foreach($biblio_words as $word)
+			{
+				$query->setParameter('biblio'.$count_biblio, $word);
+				$count_biblio++;
+			}
+		}
+		
 		
 		
 		if ($transcription != null) {

@@ -122,6 +122,15 @@ class BiblioRiferimento
      * @JoinColumn(name="id_volume", referencedColumnName="id")
      */
     protected $idVolume;
+    
+    
+    /**
+     * @ORM\Column(type="string", name="campo_ricerca")
+     * @var string
+     */
+    protected $ricerca;
+    
+    
 
 
     /**
@@ -541,5 +550,17 @@ class BiblioRiferimento
     public function getIdVolume()
     {
         return $this->idVolume;
+    }
+    
+    
+    public function setRicerca($ricerca)
+    {
+    	$this->ricerca = $ricerca;
+    	return $this;
+    }
+    
+    public function getRicerca()
+    {
+    	return $this->ricerca;
     }
 }

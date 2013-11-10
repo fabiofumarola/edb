@@ -92,7 +92,6 @@ $('document').ready(function() {
 	loadConservation();
 	$("#search_area").combobox();
 	$("#search_cons_area").combobox();
-	$("#search_biblio").combobox();
 	
 	$('#search_support').change(function() {
 		if($('#search_support').val() == 'All')
@@ -124,12 +123,6 @@ $('document').ready(function() {
 			$("#notFunction").prop('disabled', false);
 	});
 	
-	
-//	$("#search_area").combobox({ 
-//        select: function (event, ui) { 
-//            alert("the select event has fired!"); 
-//        } 
-//	});
 	
 	$('#checkPreciseYear').click(function() {
 		checkPreciseYearAction();

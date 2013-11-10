@@ -91,6 +91,8 @@ class SearchController extends Controller {
 		if ($searchArray['icvr'] != "All" && $searchArray['icvr'] != 'AllIcvr' && $searchArray['icvr'] != 'AllNotIcvr') 
 			$anyParameter = true;
 
+		if (strlen($searchArray['biblio']))
+			$anyParameter = true;
 			
 		if (strlen($searchArray['icvr_number'])) {
 			$principalProgNumber = $searchArray['icvr_number'];
