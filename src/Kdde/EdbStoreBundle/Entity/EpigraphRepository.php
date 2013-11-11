@@ -356,7 +356,7 @@ class EpigraphRepository extends EntityRepository {
 			$count_biblio = 1;
 			foreach($biblio_words as $word)
 			{
-				$query->setParameter('biblio'.$count_biblio, $word);
+				$query->setParameter('biblio'.$count_biblio, strtolower($word));
 				$count_biblio++;
 			}
 		}
