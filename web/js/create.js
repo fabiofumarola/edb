@@ -1202,6 +1202,71 @@ $('document').ready(function() {
 	loadPertinenceArea();
 	loadConservationLocation();
 	
+	
+	
+	$('#selectPertinenceArea').combobox();	
+	$('#selectPertinenceArea').combobox(
+	{ 
+        select: function (event, ui) 
+        { 
+        	// get the value
+    		var id = $(this).val();
+    		
+    		if (id == -1) 
+    			openDialogCreatePertinenceArea();
+    		else
+    		{
+    			loadPertinenceContexts(id);
+    		}
+    	} 
+    });
+	$("#addPertinenceArea").click(function() {
+		var description = $('#inputPertinenceAreaDescription').val();
+		addNewPertinenceArea(description);
+	});
+	
+	
+	
+	$('#selectPertinenceContext').combobox();
+	$('#selectPertinenceContext').combobox(
+	{ 
+        select: function (event, ui) 
+        { 
+        	var id = $(this).val();
+
+    		if (id == -1)
+    			openDialogCreatePertinenceContext();
+    		else
+    			loadPertinencePositions(id);
+        } 
+    });
+	$('#addPertinenceContext').click(function() {
+		var description = $('#inputPertinenceContextDescription').val();
+		var idArea = $('#selectPertinenceArea').val();
+		addNewPertinenceContext(description, idArea);
+	});
+
+	
+	
+	$('#selectPertinencePosition').combobox();
+	$("#selectPertinencePosition").combobox(
+	{ 
+        select: function (event, ui) 
+        { 
+        	var id = $(this).val();
+
+    		if (id == -1)
+    			openDialogCreatePertinencePosition();
+        } 
+    });	
+	$('#addPertinencePosition').click(function() {
+		var description = $('#inputPertinencePositionDescription').val();
+		var idContext = $('#selectPertinenceContext').val();
+		addNewPertinencePosition(description, idContext);
+	});
+	
+	
+	
 	$('#addToRelationTable').click(function() {
 		addOtherResourcesToTable();
 	});
@@ -1240,53 +1305,11 @@ $('document').ready(function() {
 		addNewLiterature();
 	});
 
-	$("#selectPertinenceArea").change(function() {
+	
 
-		// get the value
-		var id = $(this).val();
+	
 
-		if (id == -1) {
-			// open the dialog to add a new PertinenceArea
-			openDialogCreatePertinenceArea();
-		} else {
-			// load from the db the Pertinence Context for the id
-			loadPertinenceContexts(id);
-		}
-
-	});
-
-	$("#addPertinenceArea").click(function() {
-		var description = $('#inputPertinenceAreaDescription').val();
-		addNewPertinenceArea(description);
-	});
-
-	$('#selectPertinenceContext').change(function() {
-		var id = $(this).val();
-
-		if (id == -1)
-			openDialogCreatePertinenceContext();
-		else
-			loadPertinencePositions(id);
-	});
-
-	$('#addPertinenceContext').click(function() {
-		var description = $('#inputPertinenceContextDescription').val();
-		var idArea = $('#selectPertinenceArea').val();
-		addNewPertinenceContext(description, idArea);
-	});
-
-	$('#selectPertinencePosition').change(function() {
-		var id = $(this).val();
-
-		if (id == -1)
-			openDialogCreatePertinencePosition();
-	});
-
-	$('#addPertinencePosition').click(function() {
-		var description = $('#inputPertinencePositionDescription').val();
-		var idContext = $('#selectPertinenceContext').val();
-		addNewPertinencePosition(description, idContext);
-	});
+	
 
 	$('#selectConservationLocation').change(function() {
 		var id = $(this).val();
