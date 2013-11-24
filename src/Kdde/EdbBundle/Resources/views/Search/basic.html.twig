@@ -251,7 +251,7 @@
 							<select class="span2" id="search_compiler" name="search[compiler]">
 								<option value="All">All</option>
 								{% for comp in compilers %}
-									{% if comp.isActive == true and ('administrator' in comp.groups|keys or 'compiler' in comp.groups|keys) %}
+									{% if 'compilator' in comp.groups%}									
 										<option value="{{ comp.firstname }} {{ comp.lastname }}"> {{ comp.firstname }} {{ comp.lastname }}</option>
 									{% endif %}
 								{% endfor %}				
