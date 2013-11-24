@@ -1202,8 +1202,7 @@ $('document').ready(function() {
 	loadPertinenceArea();
 	loadConservationLocation();
 	
-	
-	
+		
 	$('#selectPertinenceArea').combobox();	
 	$('#selectPertinenceArea').combobox(
 	{ 

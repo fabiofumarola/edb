@@ -47,8 +47,8 @@ class SearchController extends Controller {
 		$datings = $repoDating->findBy(array(), array('description' => 'ASC'));
 		
 		$repoCompilers = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:User');
-		$compilers = $repoCompilers->findBy(array(), array('lastname' => 'ASC'));
-		
+		$compilers = $repoCompilers->findBy(array(), array('firstname' => 'ASC'));
+				
 		return $this
 				->render('KddeEdbBundle:Search:basic.html.twig',
 						array('form' => $form->createView(), 

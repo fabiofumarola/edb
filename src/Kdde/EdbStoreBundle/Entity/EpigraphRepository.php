@@ -257,8 +257,8 @@ class EpigraphRepository extends EntityRepository {
 		}
 		
 		if ($compiler != "All")
-			$strQueryWhere .= "AND ep.oldCompilator = :compiler ";
-				
+			$strQueryWhere .= "AND ep.oldCompilator LIKE CONCAT(CONCAT('%', :compiler),'%') ";
+
 		if(strlen($from) || strlen($to))
 		{
 			$strQuerySelect .= "JOIN ep.datings dat ";
