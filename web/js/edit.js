@@ -314,8 +314,7 @@ function loadTechniques() {
 }
 
 function checkPreciseYearAction() {
-	var checked = $('#checkPreciseYear').attr('checked') == 'checked' ? true
-			: false;
+	var checked = $('#checkPreciseYear').prop('checked');
 
 	if (checked) {
 		$("#selectDating").prop('disabled', true);
@@ -338,8 +337,7 @@ function checkPreciseYearAction() {
 }
 
 function checkLostAction() {
-	var checked = $('#lost').attr('checked') == 'checked' ? true
-			: false;
+	var checked = $('#lost').prop('checked');
 	
 	if (checked) {
 		$("#selectConservationLocation").val('15');
@@ -889,7 +887,7 @@ function addOriginalContextToTableAction() {
 	var contextText = $('#selectPertinenceContext :selected').text();
 	var positionText = $('#selectPertinencePosition :selected').text();
 	
-	var inSituVal = $('#insitu').attr('checked') == 'checked' ? true : false;
+	var inSituVal = $('#insitu').prop('checked');
 	
 	// Check if all the fields are selected
 	if (!locationText || !contextText || !positionText) {
@@ -963,7 +961,7 @@ function addDatingToTableAction() {
 	}
 	
 	
-	var preciseYear = $('#checkPreciseYear').attr('checked') == 'checked' ? true : false;	
+	var preciseYear = $('#checkPreciseYear').prop('checked');
 	var hiddenValue = fromText + "@-@" + toText;
 		
 	var inputHidden = "<input type='hidden' name='epigraph[datingIds][]' value='" + hiddenValue + "'/>";
