@@ -134,10 +134,6 @@ function addNewOnomasticArea() {
 //	var id = $('#inputOnomasticAreaId').val();
 	var desc = $('#inputOnomasticAreaDescription').val();
 
-//	if (id.length == 0) {
-//		$('#divOnomasticAreaId').attr('class', 'control-group error');
-//		return;
-//	}
 
 	// check if the id is used
 	if (desc.length == 0) {
@@ -282,8 +278,7 @@ function loadTechniques() {
 }
 
 function checkPreciseYearAction() {
-	var checked = $('#checkPreciseYear').attr('checked') == 'checked' ? true
-			: false;
+	var checked = $('#checkPreciseYear').prop('checked');
 	
 	if (checked) {
 		$("#selectDating").prop('disabled', true);
@@ -306,26 +301,27 @@ function checkPreciseYearAction() {
 }
 
 function checkLostAction() {
-	var checked = $('#lost').attr('checked') == 'checked' ? true
-			: false;
+	var checked = $('#lost').prop('checked');
 	
-	if (checked) {
-		$("#selectConservationLocation").val('15');
-		$('#selectConservationContext').html("<option value=\"17\" selected>n.d.</option>");
-		$('#selectConservationPosition').html("<option value=\"19\" selected>n.d.</option>");
+	if (checked) 
+	{
+		resetConservationLocation('15', null);
+		resetConservationContext(null, "<option value=\"17\" selected>n.d.</option>");
+		resetConservationPosition(null, "<option value=\"19\" selected>n.d.</option>");
 		
-		$("#selectConservationLocation").prop('disabled', true);
-		$("#selectConservationContext").prop('disabled', true);
-		$("#selectConservationPosition").prop('disabled', true);
+		disableCombo("selectConservationLocation");
+		disableCombo("selectConservationContext");
+		disableCombo("selectConservationPosition");	
+	} 
+	else 
+	{
+		resetConservationLocation('0', null);
+		resetConservationContext(null, "<option></option>");
+		resetConservationPosition(null, "<option></option>");
 		
-	} else {
-		$("#selectConservationLocation").val('0');
-		$('#selectConservationContext').html("<option></option>");
-		$('#selectConservationPosition').html("<option></option>");
-		
-		$("#selectConservationLocation").prop('disabled', false);
-		$("#selectConservationContext").prop('disabled', false);
-		$("#selectConservationPosition").prop('disabled', false);
+		enableCombo("selectConservationLocation");
+		enableCombo("selectConservationContext");
+		enableCombo("selectConservationPosition");	
 	}
 	
 }
@@ -391,17 +387,13 @@ function loadConservationLocation() {
 	$.getJSON(url, function(data) {
 
 		for (i in data) {
-			if(data[i].id == 20)	
-				$('#selectConservationLocation').append(
-						"<option value=\"" + data[i].id + "\" selected>"
-								+ data[i].description + "</option>");
+			if(data[i].id == 20)
+				$('#selectConservationLocation').append("<option value=\"" + data[i].id + "\" selected>" + data[i].description + "</option>");
 			else
-				$('#selectConservationLocation').append(
-						"<option value=\"" + data[i].id + "\">"
-								+ data[i].description + "</option>");
+				$('#selectConservationLocation').append("<option value=\"" + data[i].id + "\">"	+ data[i].description + "</option>");
 		}
-		$('#selectConservationLocation').append(
-				"<option value =\"-1\">Add New</option>");
+		$('#selectConservationLocation').append("<option value =\"-1\">Add New</option>");
+		resetConservationLocation('20', null);
 	});
 	
 }
@@ -865,7 +857,7 @@ function addOriginalContextToTableAction() {
 	var contextText = $('#selectPertinenceContext :selected').text();
 	var positionText = $('#selectPertinencePosition :selected').text();
 	
-	var inSituVal = $('#insitu').attr('checked') == 'checked' ? true : false;
+	var inSituVal = $('#insitu').prop('checked');
 	
 	// Check if all the fields are selected
 	if (!locationText || !contextText || !positionText) {
@@ -939,7 +931,7 @@ function addDatingToTableAction() {
 	}
 	
 	
-	var preciseYear = $('#checkPreciseYear').attr('checked') == 'checked' ? true : false;	
+	var preciseYear = $('#checkPreciseYear').prop('checked');
 	var hiddenValue = fromText + "@-@" + toText;
 		
 	var inputHidden = "<input type='hidden' name='epigraph[datingIds][]' value='" + hiddenValue + "'/>";
@@ -1205,60 +1197,120 @@ function addOtherResourcesToTable() {
 
 
 
-
-
-
-
-$('document').ready(function() {
-
-	// Comboboxes for original context
-	// ----------------------------------------------------------------------------------------
-	function resetPertinenceContext()
-	{
-		$('#selectPertinenceContext').combobox();
-		$('#selectPertinenceContext').val('');
-		$('#selectPertinenceContext').combobox('destroy');
-		$('#selectPertinenceContext').combobox();
-		
-		$('#selectPertinenceContext').combobox(
-		{ 
-	        select: function (event, ui) 
-	        { 
-	        	var id = $(this).val();
-
-	    		if (id == -1)
-	    			openDialogCreatePertinenceContext();
-	    		else
-	    		{
-	    			loadPertinencePositions(id);
-	    			resetPertinencePosition();
-	    		}
-	        } 
-	    });
-	}
-
-
-	function resetPertinencePosition()
-	{	
-		$('#selectPertinencePosition').combobox();
-		$('#selectPertinencePosition').val('');
-		$('#selectPertinencePosition').combobox('destroy');
-		$('#selectPertinencePosition').combobox();
-		$("#selectPertinencePosition").combobox(
-		{ 
-	        select: function (event, ui) 
-	        { 
-	        	var id = $(this).val();
-
-	    		if (id == -1)
-	    			openDialogCreatePertinencePosition();
-	        } 
-	    });	
-	}
+//Comboboxes for conservation
+// ----------------------------------------------------------------------------------------
+function resetConservationLocation(value, html)
+{
+	$('#selectConservationLocation').combobox();
 	
-	loadPertinenceArea();
+	if(value == null)
+		$('#selectConservationLocation').val('');
+	else
+		$('#selectConservationLocation').val(value);
+
+	if(html != null)
+		$('#selectConservationLocation').html(html);
 	
-	$('#selectPertinenceArea').combobox();	
+	$('#selectConservationLocation').combobox('destroy');
+	$('#selectConservationLocation').combobox();
+	$('#selectConservationLocation').combobox(
+	{ 
+        select: function (event, ui) 
+        { 
+        	var id = $(this).val();
+        	if (id == -1)
+    			openDialogCreateConservationLocation();
+    		else
+    		{
+    			loadConservationContext(id);
+    			resetConservationContext(null, null);
+    			
+    			loadConservationPosition(null);
+    			resetConservationPosition(null, null);
+    		}
+        } 
+    });
+}
+
+
+
+function resetConservationContext(value, html)
+{
+	$('#selectConservationContext').combobox();
+	
+	if(value == null)
+		$('#selectConservationContext').val('');
+	else
+		$('#selectConservationContext').val(value);
+	
+	if(html != null)
+		$('#selectConservationContext').html(html);
+	
+	$('#selectConservationContext').combobox('destroy');
+	$('#selectConservationContext').combobox();
+	
+	$('#selectConservationContext').combobox(
+	{ 
+        select: function (event, ui) 
+        { 
+        	var id = $(this).val();
+
+    		if (id == -1)
+    			openDialogCreateConservationContext();
+    		else
+    		{
+    			loadConservationPosition(id);
+    			resetConservationPosition(null, null);
+    		}
+        } 
+    });
+}
+
+function resetConservationPosition(value, html)
+{	
+	$('#selectConservationPosition').combobox();
+	
+	if(value == null)
+		$('#selectConservationPosition').val('');
+	else
+		$('#selectConservationPosition').val(value);
+
+	if(html != null)
+		$('#selectConservationPosition').html(html);
+
+	
+	$('#selectConservationPosition').combobox('destroy');
+	$('#selectConservationPosition').combobox();
+	$("#selectConservationPosition").combobox(
+	{ 
+        select: function (event, ui) 
+        { 
+        	var id = $(this).val();
+
+    		if (id == -1)
+    			openDialogCreateConservationPosition();
+        } 
+    });	
+}
+//----------------------------------------------------------------------------------------
+
+
+//Comboboxes for original context
+// ----------------------------------------------------------------------------------------
+function resetPertinenceArea(value, html)
+{
+	$('#selectPertinenceArea').combobox();
+	if(value == null)
+		$('#selectPertinenceArea').val('');
+	else
+		$('#selectPertinenceArea').val(value);
+	
+	if(html != null)
+		$('#selectPertinenceArea').html(value);
+	
+	$('#selectPertinenceArea').combobox('destroy');
+	$('#selectPertinenceArea').combobox();
+	
 	$('#selectPertinenceArea').combobox(
 	{ 
         select: function (event, ui) 
@@ -1271,20 +1323,92 @@ $('document').ready(function() {
     		else
     		{
     			loadPertinenceContexts(id);
-    			resetPertinenceContext();
+    			resetPertinenceContext(null, null);
     			
     			loadPertinencePositions(null);
-    			resetPertinencePosition();
+    			resetPertinencePosition(null, null);
     		}
-    	} 
+        } 
     });
+}
+
+
+
+function resetPertinenceContext(value, html)
+{
+	$('#selectPertinenceContext').combobox();
+	if(value == null)
+		$('#selectPertinenceContext').val('');
+	else
+		$('#selectPertinenceContext').val(value);
+	
+	if(html != null)
+		$('#selectPertinenceContext').html(value);
+	
+	$('#selectPertinenceContext').combobox('destroy');
+	$('#selectPertinenceContext').combobox();
+	
+	$('#selectPertinenceContext').combobox(
+	{ 
+        select: function (event, ui) 
+        { 
+        	var id = $(this).val();
+
+    		if (id == -1)
+    			openDialogCreatePertinenceContext();
+    		else
+    		{
+    			loadPertinencePositions(id);
+    			resetPertinencePosition(null, null);
+    		}
+        } 
+    });
+}
+
+
+function resetPertinencePosition(value, html)
+{	
+	$('#selectPertinencePosition').combobox();
+	
+	if(value == null)
+		$('#selectPertinencePosition').val('');
+	else
+		$('#selectPertinencePosition').val(value);
+	
+	if(html != null)
+		$('#selectPertinencePosition').html(html);
+	
+	$('#selectPertinencePosition').combobox('destroy');
+	$('#selectPertinencePosition').combobox();
+	$("#selectPertinencePosition").combobox(
+	{ 
+        select: function (event, ui) 
+        { 
+        	var id = $(this).val();
+
+    		if (id == -1)
+    			openDialogCreatePertinencePosition();
+        } 
+    });	
+}
+//----------------------------------------------------------------------------------------
+
+
+
+
+
+
+$('document').ready(function() {
+	loadPertinenceArea();
+	
+	resetPertinenceArea(null, null);
 	$("#addPertinenceArea").click(function() {
 		var description = $('#inputPertinenceAreaDescription').val();
 		addNewPertinenceArea(description);
 	});
 	
 	
-	resetPertinenceContext();
+	resetPertinenceContext(null, null);
 	$('#addPertinenceContext').click(function() {
 		var description = $('#inputPertinenceContextDescription').val();
 		var idArea = $('#selectPertinenceArea').val();
@@ -1292,7 +1416,7 @@ $('document').ready(function() {
 	});
 
 		
-	resetPertinencePosition();
+	resetPertinencePosition(null, null);
 	$('#addPertinencePosition').click(function() {
 		var description = $('#inputPertinencePositionDescription').val();
 		var idContext = $('#selectPertinenceContext').val();
@@ -1302,94 +1426,26 @@ $('document').ready(function() {
 	$('#addOriginalContextToTable').click(function() {
 		addOriginalContextToTableAction();
 	});
-	// ----------------------------------------------------------------------------------------
 
-	
-	
-	
-	
-	// Comboboxes for conservation
-	// ----------------------------------------------------------------------------------------
-	function resetConservationContext()
-	{
-		$('#selectConservationContext').combobox();
-		$('#selectConservationContext').val('');
-		$('#selectConservationContext').combobox('destroy');
-		$('#selectConservationContext').combobox();
-		
-		$('#selectConservationContext').combobox(
-		{ 
-	        select: function (event, ui) 
-	        { 
-	        	var id = $(this).val();
-
-	    		if (id == -1)
-	    			openDialogCreateConservationContext();
-	    		else
-	    		{
-	    			loadConservationPosition(id);
-	    			resetConservationPosition();
-	    		}
-	        } 
-	    });
-	}
-	
-	function resetConservationPosition()
-	{	
-		$('#selectConservationPosition').combobox();
-		$('#selectConservationPosition').val('');
-		$('#selectConservationPosition').combobox('destroy');
-		$('#selectConservationPosition').combobox();
-		$("#selectConservationPosition").combobox(
-		{ 
-	        select: function (event, ui) 
-	        { 
-	        	var id = $(this).val();
-
-	    		if (id == -1)
-	    			openDialogCreateConservationPosition();
-	        } 
-	    });	
-	}
-	
 	
 	
 	loadConservationLocation();
-	
-	$('#selectConservationLocation').combobox();	
-	$('#selectConservationLocation').combobox(
-	{ 
-        select: function (event, ui) 
-        { 
-        	var id = $(this).val();
-        	if (id == -1)
-    			openDialogCreateConservationLocation();
-    		else
-    		{
-    			loadConservationContext(id);
-    			resetConservationContext();
-    			
-    			loadConservationPosition(null);
-    			resetConservationPosition();
-    		}
-        }
-    });
 	$('#addConservationLocation').click(function() {
 		var description = $('#inputConservationLocationDescription').val();
 		addNewConservationLocation(description);
 	});
-	
+	resetConservationLocation('20', null);
 
-	resetConservationContext();
+	resetConservationContext(null, null);
 	$('#addConservationContext').click(function() {
 		var description = $('#inputConservationContextDescription').val();
 		var idLocation = $('#selectConservationLocation').val();
 
 		addNewConservationContext(description, idLocation);
 	});
+	loadConservationContext(20);
 
-
-	resetConservationPosition();
+	resetConservationPosition(null, null);
 	$('#addConservationPosition').click(function() {
 		var description = $('#inputConservationPositionDescription').val();
 		var idContext = $('#selectConservationContext').val();
@@ -1401,6 +1457,7 @@ $('document').ready(function() {
 	$('#addConservationToTable').click(function() {
 		addConservationToTableAction();
 	});
+	
 	// ----------------------------------------------------------------------------------------
 	
 	
@@ -1531,6 +1588,19 @@ $('document').ready(function() {
 	    $('#selectReferences option').prop('selected', 'selected');
 	});
 	
-	loadConservationContext(20);
-	
 });
+
+function disableCombo(comboName)
+{
+	var comboNameJQuery = "#" + comboName;
+	$(comboNameJQuery).parent().find("input.ui-autocomplete-input").autocomplete("option", "disabled", true).prop("disabled",true);
+	$(comboNameJQuery).parent().find("a.ui-button").button("disable");
+}
+
+function enableCombo(comboName)
+{
+	var comboNameJQuery = "#" + comboName;
+	$(comboNameJQuery).parent().find("input.ui-autocomplete-input").autocomplete("option", "disabled", false).prop("disabled",false);
+	$(comboNameJQuery).parent().find("a.ui-button").button("enable");
+}
+

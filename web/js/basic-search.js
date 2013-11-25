@@ -166,7 +166,6 @@ function enableCombo(comboName)
 	var comboNameJQuery = "#" + comboName;
 	$(comboNameJQuery).parent().find("input.ui-autocomplete-input").autocomplete("option", "disabled", false).prop("disabled",false);
 	$(comboNameJQuery).parent().find("a.ui-button").button("enable");
-	
 }
 
 
