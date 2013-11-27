@@ -27,21 +27,17 @@
 				{# <table class="table table-striped table-condensed"> #}
 				<table class="table table-condensed tdnb" >
 						{% if e.pertinence | length > 0 %}
-							{% for i in 0..e.pertinence | length - 1%}
-								{% set c = e.pertinence[i] %}
+{# 							// Loop each pertinence, excluding the incertae origin (id = 1)#}
+							{% for c in e.pertinence if c.context.id != 1 %}
 								<tr style = "font-size: 12pt">
 									<td>
-										{% if i == 0 %}
+										{% if loop.index  == 1 %}
 											<i style="color:grey;">Pertaining to </i> 
 										{% else %}
 											<i style="color:grey;">and </i> 
 										{% endif %}
 										{%- if c.context.description != 'n.d.'-%}
-											{% if c.context.id != 1 %}
-												<a onClick="showMap('{{ c.context.geoposition | slice(1, c.context.geoposition |length-2 ) }}');" style="cursor: pointer; cursor: hand;"> {{ c.context.description -}} </a>
-											{% else %}
-												{{ c.context.description -}}
-											{% endif %}
+											<a onClick="showMap('{{ c.context.geoposition | slice(1, c.context.geoposition |length-2 ) }}');" style="cursor: pointer; cursor: hand;"> {{ c.context.description -}} </a>
 										{%- endif %}
 										{%- if c.pertinencePosition.description != 'n.d.'-%}
 											, {{ c.pertinencePosition.description -}}
@@ -55,92 +51,87 @@
 									</td> 
 								</tr>
 							{% endfor %}
-						{% endif %}
-						
-						{% if e.material.support.id != 0 or e.material.technique.id != 0 or e.material.height != 'n.d.' or e.material.width != 'n.d.' or e.material.tickness != 'n.d.' or e.altMaxLetters != 'n.d.' or e.altMinLetters != 'n.d.'%}
-						<tr style = "font-size: 12pt">
-							<td>
-						{% endif %}
-								{%- if e.material.support.id != 0 -%}
-									{{- e.material.support.description }}
+						{% endif %}				
+						{% if e.material.support.id != 0 or e.material.technique.id != 0 or e.material.height != '' or e.material.width != '' or e.material.tickness != '' or e.altMaxLetters != '' or e.altMinLetters != ''%}
+							<tr style = "font-size: 12pt">
+								<td>
+									{%- if e.material.support.id != 0 -%}
+										{{- e.material.support.description }}
+										{%- if e.material.technique.id != 0 -%}
+											-
+										{%- endif -%}
+									{%- endif -%}
 									{%- if e.material.technique.id != 0 -%}
-										-
+										Titulus {{ e.material.technique.description-}}
 									{%- endif -%}
-								{%- endif -%}
-								{%- if e.material.technique.id != 0 -%}
-									Titulus {{ e.material.technique.description-}}
-								{%- endif -%}
-								{%- if (e.material.height != 'n.d.' or e.material.width != 'n.d.' or e.material.tickness != 'n.d.') and (e.material.technique.id != 0 or e.material.support.id != 0) -%}
-									, 
-								{% endif %}
-								{%- if e.material.height != 'n.d.' or e.material.width != 'n.d.' or e.material.tickness != 'n.d.' -%}
-									{% if e.material.height != 'n.d.' -%} 
-										{{- e.material.height -}} 
-									{%- else -%} 
-										? 
-									{%- endif %} 
-									x 
-									{% if e.material.width != 'n.d.' -%} 
-										{{- e.material.width -}} 
-									{%- else -%} 
-										? 
-									{%- endif %}  
-									x 
-									{% if e.material.tickness != 'n.d.' -%}
-										{{- e.material.tickness -}} 
-									{%- else -%} 
-										? 
+									{%- if (e.material.height != '' or e.material.width != '' or e.material.tickness != '') and (e.material.technique.id != 0 or e.material.support.id != 0) -%}
+										, 
+									{% endif %}
+									{%- if e.material.height != '' or e.material.width != '' or e.material.tickness != '' -%}
+										{% if e.material.height != '' -%} 
+											{{- e.material.height -}} 
+										{%- else -%} 
+											? 
+										{%- endif %} 
+										x 
+										{% if e.material.width != '' -%} 
+											{{- e.material.width -}} 
+										{%- else -%} 
+											? 
+										{%- endif %}  
+										x 
+										{% if e.material.tickness != '' -%}
+											{{- e.material.tickness -}} 
+										{%- else -%} 
+											? 
+										{%- endif -%}
 									{%- endif -%}
-								{%- endif -%}
-								{%- if e.altMaxLetters != 'n.d.' or e.altMinLetters != 'n.d.' -%}
-									. Letters  
-									{% if e.altMaxLetters != 'n.d.' and e.altMinLetters != 'n.d.' -%}	
-										({{- e.altMinLetters -}}-{{- e.altMaxletters -}})
-									{%- elseif e.altMaxLetters != 'n.d.' -%}
-										{{- e.altMaxLetters -}}
-									{%- elseif e.altMinLetters != 'n.d.' -%}
-										{{- e.altMinLetters -}}
+									{%- if e.altMaxLetters != '' or e.altMinLetters != '' -%}
+										. Letters  
+										{% if e.altMaxLetters != '' and e.altMinLetters != '' -%}	
+											({{- e.altMinLetters -}}-{{- e.altMaxletters -}})
+										{%- elseif e.altMaxLetters != '' -%}
+											{{- e.altMaxLetters -}}
+										{%- elseif e.altMinLetters != '' -%}
+											{{- e.altMinLetters -}}
+										{%- endif -%}
 									{%- endif -%}
-								{%- endif -%}
-						{% if e.material.support.id != 0 or e.material.technique.id != 0 or e.material.height != 'n.d.' or e.material.width != 'n.d.' or e.material.tickness != 'n.d.' or e.altMaxLetters != 'n.d.' or e.altMinLetters != 'n.d.'%}
-							</td>
-						</tr>
+								</td>
+							</tr>
 						{% endif %}
 						{% if e.lost == 'S' %}
 							<tr style = "font-size: 12pt">
 								<td> Lost </td> 
 							</tr>
 						{% elseif e.conservations | length > 0 %}
-							{% for i in 0..e.conservations | length - 1%}
-								{% set c = e.conservations[i] %}
+							{% for c in e.conservations if c.conservationLocation.description != 'n.d.' %}
 								<tr style = "font-size: 12pt">
 									<td> 
-										{%- if c.conservationLocation.description != 'n.d.' -%}
-											<i style="color:grey;">
-											{%- if i == 0 -%}
-												Now in 
-											{% else -%}
-												and  
-											{% endif -%}
-											</i>
-											{{- c.conservationLocation.description -}}
-											{%- if c.conservationContext.description != 'n.d.' -%}
-												, {{ c.conservationContext.description -}}
-											{%- endif -%}
-											{%- if c.conservationPosition.description != 'n.d.' -%}
-												, {{ c.conservationPosition.description -}}
-											{%- endif -%}
+										<i style="color:grey;">
+										{%- if loop.index == 1 -%}
+											Now in 
+										{% else -%}
+											and  
+										{% endif -%}
+										</i>
+										{{- c.conservationLocation.description -}}
+										{%- if c.conservationContext.description != 'n.d.' -%}
+											, {{ c.conservationContext.description -}}
+										{%- endif -%}
+										{%- if c.conservationPosition.description != 'n.d.' -%}
+											, {{ c.conservationPosition.description -}}
 										{%- endif -%}
 									</td> 
 								<tr>
 							{% endfor %}
 						{% endif %}
-					
+						
 						<tr style = "font-size: 12pt">
 							<td>
 								{{ e.funzione.description }}
 							</td>
 						</tr>
+						
 						{% set datings_present = false %}
 						{%- for c in e.datings -%}
 							{%- if(c.from != 'n.d.') -%}
@@ -148,10 +139,9 @@
 							{%- endif -%}
 						{%- endfor -%}
 						{%- if datings_present -%}<tr style = "font-size: 12pt"><td><i style="color:grey;">Date: </i> 
-							{%- for i in 0..e.datings | length - 1 -%}
-								{%- set c = e.datings[i] -%}
+							{%- for c in e.datings -%}
 								{%- if c.from != 'n.d.' -%}
-									{%- if i > 0 %}; {% endif %}
+									{%- if loop.index > 1 %}; {% endif %}
 									{%- if c.from == c.to -%}
 										{{- c.from -}}
 									{%- else -%} 
@@ -202,11 +192,9 @@
 									.{{- e.subNumeration -}}
 								{%- endif -%}
 							{%- endif -%}
-							{%- if identity | length > 0 or identity_online | length > 0 %}, {% endif %}
 							{%- if identity | length > 0 -%}
-								{%- for i in 0..identity | length - 1 -%}
-									{%- set b = identity[i] -%}
-									{%- if i > 0 or (e.icvr != '' and e.icvr != 'n.d.') -%}; 
+								{%- for b in identity -%}
+									{%- if loop.index > 1 or (e.icvr != '' and e.icvr != 'n.d.') -%}; 
 									{% endif -%}
 									<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}}
 									{%- if b.note != '' -%},
@@ -216,10 +204,8 @@
 								{%- endfor -%}
 							{%- endif -%}
 							{%- if identity_online | length > 0 -%}
-								{%- for i in 0..identity_online | length - 1 -%}
-									{%- set b = identity_online[i] -%}
-									{%- if i > 0 or (identity | length > 0) -%}; 
-									{% endif -%}
+								{%- for b in identity_online -%}
+									{%- if loop.index > 1 or (identity | length > 0) -%};{% endif -%}
 									<a href = "{{b.resourceType.reference}}
 									{%- if b.resourceType.idSize and b.resourceType.idSize-b.resourceRef|length > 0 -%}
 										{%- for i in 1..b.resourceType.idSize-b.resourceRef|length -%}0{%- endfor -%}
@@ -236,10 +222,8 @@
 								<td><i style="color:grey;">Other text(s) on the back side:</i> 
 						{% endif %}
 						{%- if opistographic | length > 0 -%}
-							{%- for i in 0..opistographic | length - 1 -%}
-								{%- set b = opistographic[i] -%}
-								{%- if i > 0 -%}; 
-								{% endif -%}
+							{%- for b in opistographic -%}
+								{%- if loop.index > 1 -%}; {% endif -%}
 								<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}} 
 								{%- if b.note != '' -%},
 								 	{{ b.note -}}
@@ -248,9 +232,8 @@
 							{%- endfor -%}
 						{%- endif -%}
 						{%- if opistographic_online | length > 0 -%}
-							{%- for i in 0..opistographic_online | length - 1 -%}
-								{%- set b = opistographic_online[i] -%}
-								{%- if i > 0 or (opistographic | length > 0) -%}; 
+							{%- for b in opistographic_online -%}
+								{%- if loop.index > 1 or (opistographic | length > 0) -%}; 
 								{% endif -%}
 								<a href = "{{b.resourceType.reference}}
 								{%- if b.resourceType.idSize and b.resourceType.idSize-b.resourceRef|length > 0 -%}
@@ -270,10 +253,8 @@
 								<td><i style="color:grey;">Other text(s) on the same support:</i> 
 						{% endif %}
 						{%- if reuse | length > 0 -%}
-							{%- for i in 0..reuse | length - 1 -%}
-								{%- set b = reuse[i] -%}
-								{%- if i > 0 -%}; 
-								{% endif -%}
+							{%- for b in reuse -%}
+								{%- if loop.index > 1 -%}; {% endif -%}
 								<a onClick="showRef('{{- b.idRiferimento.id -}}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}} 
 								{%- if b.note != '' -%},
 									 {{ b.note -}}
@@ -282,9 +263,8 @@
 							{%- endfor -%}
 						{%- endif -%}
 						{%- if reuse_online | length > 0 -%}
-							{%- for i in 0..reuse_online | length - 1 -%}
-								{%- set b = reuse_online[i] -%}
-								{%- if i > 0 or (reuse | length > 0) -%}; 
+							{%- for b in reuse_online -%}
+								{%- if loop.index > 0 or (reuse | length > 0) -%}; 
 								{% endif -%}
 								<a href = "{{b.resourceType.reference}}
 								{%- if b.resourceType.idSize and b.resourceType.idSize-b.resourceRef|length > 0 -%}
@@ -303,9 +283,8 @@
 								<td><i style="color:grey;">To be joined with:</i> 
 						{% endif %}
 						{%- if integration | length > 0 -%}
-							{%- for i in 0..integration | length - 1 -%}
-								{%- set b = integration[i] -%}
-								{%- if i > 0 -%}; 
+							{%- for b in integration -%}
+								{%- if loop.index > 1 -%}; 
 								{% endif -%}
 								<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}} 
 								{%- if b.note != '' -%},
@@ -315,8 +294,7 @@
 							{%- endfor -%}
 						{%- endif -%}
 						{%- if integration_online | length > 0 -%}
-							{%- for i in 0..integration_online | length - 1 -%}
-								{%- set b = integration_online[i] -%}
+							{%- for b in integration_online -%}
 								{%- if i > 0 or (integration | length > 0) -%}; 
 								{% endif -%}
 								<a href = "{{b.resourceType.reference}}
@@ -347,7 +325,7 @@
 						{% endif %}	
 						<tr><td></td></tr>
 						
-						<tr><td style = "line-height: normal; font-family:Cardo; font-size: 16pt"> {{ e.trascription | replace({' /' : '<br>'}) | replace({'/' : '-<br>'})| raw }} </td></tr>
+						<tr><td style = "line-height: 1.8; font-family:Cardo; font-size: 16pt"> {{ e.trascription | replace({' /' : '<br>'}) | replace({'/' : '-<br>'})| raw }} </td></tr>
 						
 						<tr><td><br></td></tr>
 						<tr>
@@ -367,8 +345,14 @@
 								{%- if e.createdAt != '' and e.createdAt != 'n.d.' -%}
 									, {{ e.createdAt | date('d/m/Y') }}
 								{% endif %}
-								{% if e.createdAt | date('d/m/Y') != e.editedAt | date('d/m/Y') and e.compilator != e.lastCompilator and e.lastCompilator != '' %}
-									<br>Last update by {{ e.lastCompilator.firstname }} {{ e.lastCompilator.lastname }} on {{ e.editedAt | date('d/m/Y')  }}
+							</td>
+						</tr>
+						{% if e.createdAt | date('d/m/Y') != e.editedAt | date('d/m/Y') and e.compilator != e.lastCompilator and e.lastCompilator != '' %}
+							<tr>
+								<td style="color:grey; font-size: 9pt">	
+									Last update by {{ e.lastCompilator.firstname }} {{ e.lastCompilator.lastname }} on {{ e.editedAt | date('d/m/Y')  }}
+								</td>
+							</tr>
 								{% endif %}
 							</td>
 						</tr>

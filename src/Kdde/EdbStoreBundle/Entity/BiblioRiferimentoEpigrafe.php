@@ -33,9 +33,10 @@ class BiblioRiferimentoEpigrafe
 	protected $relazione;
 	
 	/**
+	 * @ORM\Id
 	 * @ORM\Column(type="string",name="note")
 	 */
-	protected $note;
+	protected $note = '';
 	
 	public function getIdEpigrafe()
 	{

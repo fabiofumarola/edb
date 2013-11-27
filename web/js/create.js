@@ -323,7 +323,6 @@ function checkLostAction() {
 		enableCombo("selectConservationContext");
 		enableCombo("selectConservationPosition");	
 	}
-	
 }
 
 function loadOnomasticAreas() {
@@ -966,31 +965,33 @@ function addDatingToTableAction() {
 }
 
 
-function addToReferences(id) {
+function addToReferences(id) 
+{
 	var relationship = $('#bibliography_resource_relation').val();
-	var toCheck = id + "@_@" + relationship;
-	
-	if (hashReferences[toCheck] != undefined) 
-	{
-		alert("Error - The selected bibliographic reference (" + id + ")" + " with relationship " + relationship + " has already been added!");
-		return;
-	}
-	
 	var note = $('#refNote').val();
 	if(note.indexOf('@_@') != -1)
 	{
 		alert("Error - The field Note cannot contain the string @_@");
 		return;
 	}
+	
+	var toCheck = id + "@_@" + note + "@_@" + relationship;
+	if (hashReferences[toCheck] != undefined) 
+	{
+		alert("Error - The selected bibliographic reference (" + id + ")" + ", with note '" + note + "' and relationship " + relationship + " has already been added!");
+		return;
+	}
+	
 	var value = id;
 	if(note.length > 0)
 		value = value + ", " + note;
+	
 	if(relationship != 'Identity')
 		value = value + " (" + relationship + ")";
 	
 	hashReferences[toCheck] = toCheck;
 	
-	$('#selectReferences').append('<option value="' + id + '@_@' + note + "@_@" + relationship + '" selected="selected">' + value + '</option>');
+	$('#selectReferences').append('<option value="' + toCheck + '" selected="selected">' + value + '</option>');
 	$('#refNote').val("");
 	$('#viewLiteratureModal').modal('hide');
 }
@@ -1485,8 +1486,7 @@ $('document').ready(function() {
 			return;
 		}
 		var selected = $('#selectReferences option:selected').val();
-		var id = selected.split('@_@')[0]+"@_@"+selected.split('@_@')[2];
-		hashReferences[id] = null;
+		hashReferences[selected] = null;
 		$('#selectReferences option:selected').remove();
 	});
 	

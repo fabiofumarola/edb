@@ -104,7 +104,7 @@
 						<select class="span2" id="epigraph_resource_relation" name="epigraph[resource_relation]">
 							<option value = "Identity">Identity</option>
 							<option value = "Integration">Integration</option>
-							<option value = "Opistographic">Opistographic</option>
+							<option value = "Opistographic">Opisthographic</option>
 							<option value = "Reuse">Reuse</option>					
 						</select>
 					</div>
@@ -145,22 +145,19 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="span2">
-						<label>Area</label> <select id="selectPertinenceArea"
-							class="span2" name="epigraph[pertinence][pertinenceArea]">
+					<div class="span3">
+						<label>Area</label> <select id="selectPertinenceArea" class="span3">
 							<option></option>
 						</select>
 					</div>
-					<div class="span2">
-						<label>Location</label> <select id="selectPertinenceContext"
-							class="span2" name="epigraph[pertinence][context]">
+					<div class="span3">
+						<label>Location</label> <select id="selectPertinenceContext" class="span3">
 							<option></option>
 						</select>
 					</div>
 
-					<div class="span2">
-						<label>Position</label> <select id="selectPertinencePosition"
-							class="span2" name="epigraph[pertinence][pertinencePosition]">
+					<div class="span3">
+						<label>Position</label> <select id="selectPertinencePosition" class="span3">
 							<option></option>
 						</select>
 					</div>
@@ -169,7 +166,7 @@
 						<label for="insitu">In Situ</label><input type="checkbox"
 							id="insitu" name="epigraph[pertinence][inSitu]">
 					</div>
-					<div class="span1 offset1">
+					<div class="span1">
 						<p></p>
 						<button class="btn btn-small btn-warning span1" type="button"
 							id="addOriginalContextToTable">Add</button>
@@ -202,34 +199,29 @@
 				</div>
 
 				<div class="row">
-					<div class="span2">
-						<label>City/Town</label> <select id="selectConservationLocation"
-							class="span2" >
+					<div class="span3">
+						<label>City/Town</label> <select id="selectConservationLocation" class="span3" >
 							<option></option>
 						</select>
 					</div>
-					<div class="span2">
-						<label>Location</label> <select id="selectConservationContext"
-							class="span2">
+					<div class="span3">
+						<label>Location</label> <select id="selectConservationContext" class="span3">
 							<option></option>
 						</select>
 					</div>
 
-					<div class="span2">
-						<label>Position</label> <select id="selectConservationPosition"
-							class="span2">
+					<div class="span3">
+						<label>Position</label> <select id="selectConservationPosition" class="span3">
 							<option></option>
 						</select>
 					</div>
 
 					<div class="span1">
-						<label for="perduta">Lost</label><input type="checkbox"
-							name="epigraph[lost]" id="lost">
+						<label for="perduta">Lost</label><input type="checkbox" name="epigraph[lost]" id="lost">
 					</div>
-					<div class="span1 offset1">
+					<div class="span1">
 						<p></p>
-						<button class="btn btn-small btn-warning span1" type="button"
-							id="addConservationToTable">Add</button>
+						<button class="btn btn-small btn-warning span1" type="button" id="addConservationToTable">Add</button>
 					</div>
 				</div>
 				<br>
@@ -389,7 +381,7 @@
 
 					<div class="span6">
 						<label>Transcription</label>
-						<textarea class = "span6" style = "font-family:Cardo" rows="10" name="epigraph[transcription]" id="transcription" 
+						<textarea class = "span6" style = "line-height: 1.8; font-family:Cardo" rows="4" name="epigraph[transcription]" id="transcription" 
 						onselect="storeCaret(this);" onclick="storeCaret(this);" 
 						onchange="if (navigator.userAgent.indexOf('Opera') > -1) doit();" required="required"	
 						>{{ e.trascription}}</textarea>
@@ -487,7 +479,7 @@
 				<div class="row">
 
 					<div class="span1">
-						<label>Reuse/Opistograph</label> <input type="checkbox"
+						<label>Reuse/Opisthograph</label> <input type="checkbox"
 							name="epigraph[reimpiego_opistografia]" id="checkboxOpistografia" 
 							{% if e.ReimpiegoOpistografia == 'S' %} 
 								checked
@@ -683,7 +675,7 @@
 {% block javascripts %}
 	
 		{{ parent() }}
-		
+		<script src="{{ asset('js/autocompl.js') }}"></script>
 		 <script src="{{ asset('js/edit.js') }}"></script>
 		 <script src="{{ asset('js/keyboard.js') }}"></script>
 {% endblock %}
