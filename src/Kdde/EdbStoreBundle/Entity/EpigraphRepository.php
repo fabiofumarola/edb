@@ -195,13 +195,13 @@ class EpigraphRepository extends EntityRepository {
 				{
 					$strQueryWhere .= "AND LOWER(" . $field . ") LIKE ";
 					if($yesGreek && $yesDiacr)
-						$transc = "CONCAT(CONCAT('%', :transcription" . $count . "),'%') ";
+						$transc = "LOWER(CONCAT(CONCAT('%', :transcription" . $count . "),'%')) ";
 					else if($yesGreek)
-						$transc = "CONCAT(CONCAT('%',REMOVEDIACR(:transcription" . $count . ")),'%') ";
+						$transc = "LOWER(CONCAT(CONCAT('%',REMOVEDIACR(:transcription" . $count . ")),'%')) ";
 					else if($yesDiacr)
-						$transc = "CONCAT(CONCAT('%',REMOVEGREEKS(:transcription" . $count . ")),'%') ";
+						$transc = "LOWER(CONCAT(CONCAT('%',REMOVEGREEKS(:transcription" . $count . ")),'%')) ";
 					else
-						$transc = "CONCAT(CONCAT('%',REMOVEGREEKS(REMOVEDIACR(:transcription" . $count . "))),'%') ";
+						$transc = "LOWER(CONCAT(CONCAT('%',REMOVEGREEKS(REMOVEDIACR(:transcription" . $count . "))),'%')) ";
 					$strQueryWhere .= $transc;
 						
 					$count++;
