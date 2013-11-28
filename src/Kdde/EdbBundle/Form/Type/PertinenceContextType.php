@@ -13,6 +13,7 @@ class PertinenceContextType extends AbstractType {
 		$builder->add('id', 'hidden');
 		$builder->add('description', 'text');
 		$builder->add('area', 'hidden', array('property_path' => false));
+// 		$builder->add('area', 'hidden');
 		$builder->add('geoposition', 'text');
 
 	}

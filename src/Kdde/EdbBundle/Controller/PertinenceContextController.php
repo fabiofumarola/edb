@@ -91,10 +91,8 @@ class PertinenceContextController extends Controller {
 
 		$em = $this->getDoctrine()->getEntityManager();
 
-		$repo = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:PertinenceContext');
-		$repoArea = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:PertinenceArea');
+		$repo = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:PertinenceContext');
+		$repoArea = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:PertinenceArea');
 		$pertContext = new PertinenceContext();
 
 		$areas = $repoArea->findAll();

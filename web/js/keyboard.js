@@ -319,7 +319,8 @@ $('document').ready(function() {
 
 	$('#greekToogle').click(function(event) {
 		// alert(greekEnabled);
-		greekEnabled = !$('#greekToogle').hasClass('active');
+//		greekEnabled = !$('#greekToogle').hasClass('active');
+		greekEnabled = !greekEnabled;
 		// alert(greekEnabled);
 	});
 });
