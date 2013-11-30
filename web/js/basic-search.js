@@ -144,6 +144,7 @@ $('document').ready(function() {
 	
 	
 	$('#greekToogle').click(function(event) {
+		alert($('#greekToogle').hasClass('active'));
 		greekActive = !$('#greekToogle').hasClass('active');		
 	});
 	

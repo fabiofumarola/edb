@@ -68,17 +68,12 @@ class EpigraphController extends Controller {
 		$epigraph = $this->setStatus($id,2);
 		if ($epigraph == null) {
 			$this->get('session')
-			->getFlashBag()->add('error',
-					'The epigraph with id ' . $id
-					. " is not in the database!");
+			->getFlashBag()->add('error', 'The epigraph with id ' . $id . " is not in the database!");
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
 		else
 		{
-			$this->get('session')
-					->getFlashBag()->add('notice',
-							'Your changes were saved, the epigraph with id '
-									. $epigraph->getId() . " is approved !");
+			$this->get('session')->getFlashBag()->add('notice', 'Your changes were saved, the epigraph with id '	. $epigraph->getId() . " is approved !");
 			return $this->redirect($this->generateUrl('edb_epigraph_status'));
 		}
 	}
@@ -192,7 +187,9 @@ class EpigraphController extends Controller {
 				
 				$this->get('session')->getFlashBag()->add('notice', $message);
 				
-				if(isset($approveButton) || isset($backButton) || isset($sendToAdminButton))
+				if(isset($approveButton) || isset($backButton)) 
+					return $this->redirect($this->generateUrl('edb_epigraph_status'));
+				else if(isset($sendToAdminButton))
 					return $this->redirect($this->generateUrl('edb_homepage'));
 				else
 					return $this->redirect($this->generateUrl('edb_epigraph_edit', array('id' => $epigraph->getId())));
