@@ -1,3 +1,5 @@
+var greekActive = false;
+
 function loadPertinence() 
 {
 	// Get all the contexts
@@ -144,8 +146,7 @@ $('document').ready(function() {
 	
 	
 	$('#greekToogle').click(function(event) {
-		alert($('#greekToogle').hasClass('active'));
-		greekActive = !$('#greekToogle').hasClass('active');		
+		greekActive = !greekActive;
 	});
 	
 	
