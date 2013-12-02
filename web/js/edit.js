@@ -1627,7 +1627,6 @@ function resetPertinencePosition(value, html)
 
 
 $('document').ready(function() {
-
 	loadPertinenceArea();
 	
 	resetPertinenceArea(null, null);
@@ -1830,7 +1829,7 @@ $('document').ready(function() {
 	
 	loadListOfReferences();
 	
-	loadConservationContext(20);
+//	loadConservationContext(20);
 	
 	loadListOfOriginalContext();
 	
