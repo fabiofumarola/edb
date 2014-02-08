@@ -1,17 +1,17 @@
-{% extends '::base.html.twig' %}
+{% extends '::base_reduct.html.twig' %}
 
-{% block title %}EDB Basic Search{% endblock %}
+{% block title %}EDB Advanced Search{% endblock %}
 
 {% block body %}
 
 	<div class="marketing">
-		<h2>Search Epigraphs</h2>
-		<br>
+		<h2>Advanced Search </h2><button id = "advancedButton" type="button" class="btn" onclick="location.href='{{ path('edb_search_quick') }}';">Switch to Quick Search</button>
+			<br><br>
 	</div>
 	<div class="row">
 		<div class="offset1 span10">
 			<form class="form-horizontal" action="{{ path('edb_search_basic_do')}}" method="post" {{ form_enctype(form) }}>		
-			
+			{{ form_errors(form) }}	
 				<fieldset>
       				<div class="row">
       					<div class="span2">
@@ -263,7 +263,7 @@
 				<br>
     			<div class="row">
     				<div class="span1 offset8">
-				      <button id = "resetButton" type="button" class="btn" onclick="location.href='{{ path('edb_search') }}';">Reset</button>
+				      <button id = "resetButton" type="button" class="btn" onclick="location.href='{{ path('edb_search_basic') }}';">Reset</button>
 				    </div>
     				<div class="span1">
 				      <button id = "submitButton" type="submit" class="btn">Search</button>

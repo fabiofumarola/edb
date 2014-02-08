@@ -6,6 +6,41 @@ use Doctrine\ORM\Query\ResultSetMapping;
 
 class EpigraphRepository extends EntityRepository {
 
+	public function findQuickSearch($searchArray, $roles)
+	{
+		$id = $searchArray['id_edb'];
+		$icvrNumber = $searchArray['icvr_number'];
+		$icvrSubNumber = $searchArray['icvr_subnumber'];
+		$text = $searchArray['freetext'];
+		$biblio = $searchArray['bibliography'];
+		
+		// Compose the query
+		// --------------------------------------------------------------------------------------------------------
+		$strQuery = "SELECT ep FROM KddeEdbStoreBundle:Epigraph ep WHERE 1 = 1";
+		
+		
+		if(strlen($id))
+			$strQuery .= " AND ep.id = :id"; 
+		
+
+		$strQuery = $strQuery . " ORDER BY ep.id";
+		$query = $this->getEntityManager()->createQuery($strQuery);
+		// --------------------------------------------------------------------------------------------------------
+		
+	
+		// Set the parameters
+		// --------------------------------------------------------------------------------------------------------
+		if(strlen($id))
+			$query->setParameter('id', $id);
+			
+		// --------------------------------------------------------------------------------------------------------
+		return $query;
+	}
+	
+	
+	
+	
+	
 	
 	
 	public function findBasicSearch($searchArray, $roles) {
@@ -34,13 +69,13 @@ class EpigraphRepository extends EntityRepository {
 		$greeklatin = $searchArray['greeklatin'];
 		
 		$support = $searchArray['support'];
-		$notSupport = $searchArray['notSupport'];
+		$notSupport = isset($searchArray['notSupport']);
 		
 		$technique = $searchArray['technique'];
-		$notTechnique = $searchArray['notTechnique'];
+		$notTechnique = isset($searchArray['notTechnique']);
 		
 		$function = $searchArray['function'];
-		$notFunction = $searchArray['notFunction'];
+		$notFunction = isset($searchArray['notFunction']);
 		
 		$compiler = $searchArray['compiler'];
 			
@@ -50,7 +85,8 @@ class EpigraphRepository extends EntityRepository {
 			
 		
 		$areaId = null;
-		$notArea = $searchArray['notOriginalContext'];
+		$notArea = isset($searchArray['notOriginalContext']);
+		$contextId = null;
 		if (strlen($searchArray['area']))
 		{
 			$areaContext = explode('@_@', $searchArray['area']);
@@ -61,7 +97,8 @@ class EpigraphRepository extends EntityRepository {
 		}
 	
 		$cons_areaId = null;
-		$notConsArea = $searchArray['notConservation'];
+		$cons_contextId = null;
+		$notConsArea = isset($searchArray['notConservation']);
 		if (strlen($searchArray['cons_area']))
 		{
 			$consareaContext = explode('@_@', $searchArray['cons_area']);

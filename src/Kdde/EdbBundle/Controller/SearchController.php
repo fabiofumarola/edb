@@ -23,6 +23,50 @@ class SearchController extends Controller {
 		return $this->render('KddeEdbBundle:Search:index.html.twig');
 	}
 
+	
+	public function quickAction(Request $request)
+	{
+		$form = $this->createFormBuilder(array())->getForm();
+		return $this->render('KddeEdbBundle:Search:quick.html.twig',
+				array('form' => $form->createView()
+					));
+	}
+	
+	public function quickDoAction(Request $request)
+	{
+		// Read the search parameters
+		$searchArray = $request->get('search',$this->get('session')->get('search',array()));
+		
+		// Get the epigraph repository
+		$repoEpigraph = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
+		
+		// Check if an EDB ID has been specified and if it is numeric
+		if (strlen($searchArray['id_edb'])) 
+		{
+			$id = $searchArray['id_edb'];
+			$anyParameter = true;
+			if (!is_numeric($id)) {
+				$this->get('session')->getFlashBag()->add('error', 'The ID EDB must be a number!');
+				return $this->redirect('KddeEdbBundle:Search:quick');
+			}
+		}
+		
+		// Perform the query
+		$query = $repoEpigraph->findQuickSearch($searchArray, $roles);
+		
+		// Paginate the results
+		$paginator = $this->get('knp_paginator');
+		$pagination = $paginator->paginate($query,$request->get('page',1),500);
+		
+		// Return the results
+		$this->get('session')->set('search', $searchArray);		
+		return $this->render('KddeEdbBundle:Search:result.html.twig',array('pagination' => $pagination, 'count' =>$pagination->getTotalItemCount(), 'isAdmin' => $isAdmin, ));
+	}
+	
+	
+	
+	
+	
 	public function basicAction(Request $request) 
 	{
 		$repoIcvr = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Icvr');
@@ -77,17 +121,7 @@ class SearchController extends Controller {
 		$searchArray = $request->get('search',$this->get('session')->get('search',array()));
 		
 	
-		$anyParameter = false;
-	
-		if (strlen($searchArray['id'])) {
-			$id = $searchArray['id'];
-			$anyParameter = true;
-			if (!is_numeric($id)) {
-				$this->get('session')->getFlashBag()->add('error', 'The id should be a number !');
-				return $this->redirect('KddeEdbBundle:Search:basic');
-			}
-		}
-	
+		$anyParameter = false;	
 		if ($searchArray['icvr'] != "All" && $searchArray['icvr'] != 'AllIcvr' && $searchArray['icvr'] != 'AllNotIcvr') 
 			$anyParameter = true;
 
@@ -192,7 +226,7 @@ class SearchController extends Controller {
 		
 		
 		
-		$em = $this->get('doctrine')->getEntityManager();
+		$em = $this->get('doctrine')->getManager();
 		
 		
 		$roles = $this->get('security.context')->getToken()->getRoles();
@@ -206,22 +240,9 @@ class SearchController extends Controller {
 		$paginator = $this->get('knp_paginator');
 		$pagination = $paginator->paginate($query,$request->get('page',1),500);
 				
-		$count = $pagination->getTotalItemCount();
 
 		$this->get('session')->set('search', $searchArray);
 						
-		return $this->render('KddeEdbBundle:Search:result.html.twig',array('pagination' => $pagination, 'count' =>$count, 'isAdmin' => $isAdmin, ));
-	}
-
-	public function mediumAction(Request $request){
-		$defaultData = array();
-		$form = $this->createFormBuilder($defaultData)->getForm();
-		return $this->render('KddeEdbBundle:Search:medium.html.twig',array('form'=> $form->createView()));
-	}
-	
-	public function advancedAction(Request $request){
-		$defaultData = array();
-		$form = $this->createFormBuilder($defaultData)->getForm();
-		return $this->render('KddeEdbBundle:Search:advanced.html.twig',array('form'=> $form->createView()));
+		return $this->render('KddeEdbBundle:Search:result.html.twig',array('pagination' => $pagination, 'count' => $pagination->getTotalItemCount(), 'isAdmin' => $isAdmin, ));
 	}
 }

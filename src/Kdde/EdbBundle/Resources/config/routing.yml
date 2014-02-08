@@ -496,10 +496,14 @@ edb_link:
 edb_people:
     pattern: /people
     defaults: {_controller: KddeEdbBundle:People:index}
+        
+edb_search_quick:
+    pattern: /search/quick
+    defaults: {_controller: KddeEdbBundle:Search:quick}
     
-edb_search:
-    pattern: /search/basic
-    defaults: {_controller: KddeEdbBundle:Search:basic}
+edb_search_quick_do:
+    pattern: /search/quick/do
+    defaults: {_controller: KddeEdbBundle:Search:quickDo}        
     
 edb_search_basic:
     pattern: /search/basic
@@ -508,11 +512,3 @@ edb_search_basic:
 edb_search_basic_do:
     pattern: /search/basic/do
     defaults: {_controller: KddeEdbBundle:Search:basicDo}
-    
-edb_search_medium:
-    pattern: /search/medium
-    defaults: {_controller: KddeEdbBundle:Search:medium}
-      
-edb_search_advanced:
-    pattern: /search/advanced
-    defaults: {_controller: KddeEdbBundle:Search:advanced}     

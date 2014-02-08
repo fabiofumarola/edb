@@ -1,0 +1,96 @@
+{% extends '::base_reduct.html.twig' %}
+
+{% block title %}EDB Quick Search{% endblock %}
+
+{% block body %}
+
+	<div class="marketing">
+		<h2>Quick Search </h2> 	 <button id = "advancedButton" type="button" class="btn" onclick="location.href='{{ path('edb_search_basic') }}';">Switch to Advanced Search</button>
+		<br><br>
+	</div>
+	<div class="row">
+		<div class="offset3 span8">
+			<form class="form-horizontal" action="{{ path('edb_search_quick_do')}}" method="post" {{ form_enctype(form) }}>		
+    			<br>
+				<fieldset>
+      				<div class="row">
+      					<div class="span0">
+      						<input type="radio" name="search_type" value="id_edb" id="radio_id_edb" checked />
+      					</div>
+      					<div class="span1">
+      						<strong>ID EDB</strong>
+      					</div>
+      					<div class="span1">	
+      						<input type="text" class="span1" name="search[id_edb]" id = "id_edb"/>
+      					</div>
+      				</div>	
+      				
+      					<br>
+      				<div class="row">	
+      					<div class="span0">
+      						<input type="radio" name="search_type" value="icvr" id="radio_icvr" />
+      					</div>
+      				
+      					<div class="span1">
+      						<strong>ICVR Number</strong>
+      					</div>
+      					
+      					<div class="span1">
+      						<input type="text" class="span1" name="search[icvr_number]" id = "icvr_number"> </input>
+      					</div>
+      						
+      					<div class="span1">
+      						<strong>ICVR Subnumber</strong>
+      					</div>
+      					
+      					<div class="span1">
+      						<input type="text" class="span1" name="search[icvr_subnumber]" id = "icvr_subnumber"/>
+      					</div>
+      				</div>	
+      				<br>
+      				
+      				<div class="row">	
+      					<div class="span0">
+      						<input type="radio" name="search_type" value="textbiblio" id="radio_textbiblio" />
+      					</div>
+      				      					
+      					<div class="span1">
+      						<strong>Free Text</strong>
+      					</div>
+      					
+      					<div class="span2">
+      						<input type="text" class ="span2"  name="search[freetext]" id = "freetext"> </input>
+      					</div>
+      				
+      				
+      					<div class="span1">
+      						<strong>Bibliography</strong>
+      					</div>
+      					
+      					<div class="span2">
+      						<input type="text" class ="span2" name="search[bibliography]" id = "bibliography"> </input>
+      					</div>
+
+      				</div>	     
+      					
+					{{ form_rest(form) }}
+					<br>
+	    			<div class="row">	    			
+	    				<div class="span1 offset4">
+					      <button id = "resetButton" type="button" class="btn" onclick="location.href='{{ path('edb_search_quick') }}';">Reset</button>
+					    </div>
+	    				<div class="span1">
+					      <button id = "submitButton" type="submit" class="btn">Search</button>
+					    </div>
+					</div>
+  				</fieldset>
+			</form>
+		</div>
+	</div>
+	
+{% endblock %}
+
+{% block javascripts %}
+		{{ parent() }}
+		 <script src="{{ asset('js/quick-search.js') }}"></script>
+{% endblock %}

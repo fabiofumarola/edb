@@ -4,11 +4,11 @@
 	{{ parent() }}
 
 	<!-- google maps v3 -->
-	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<!--<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<style type="text/css">
   		#map_canvas { width:550px;height: 300px; margin-right: auto ;margin-left: auto ; }
 	</style>
-	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true" ></script>
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true" ></script>-->
 {% endblock %}
 
 {% block title %}
@@ -31,7 +31,9 @@ EDB Search Result Page
 				<tr>
 					<th>ID</th>
 					<th>ICVR</th>
-					<th>Location</th>
+					<th>Bibliography</th>
+					<th>Pertinence</th>
+					<th>Conservation</th>
 					<th>Text</th>
 					<th>Action</th>
 				</tr>
@@ -42,19 +44,33 @@ EDB Search Result Page
 						<td> {{ e.id }}</td>	
 						<td> {{ e.principalProgNumber }} {{ e.subNumeration }}</td>	
 						<td>
+							{% for lit in e.literatures %}
+								{{ lit.idRiferimento.id }}<br>
+							{% endfor %}
+						</td>
+						<td>
 						{% if e.pertinence | length > 0 %}
 							{{ e.pertinence[0].context.description }}
 						{% endif %}
 						</td>
-						<td class = "span8"> {{ e.trascription | slice(0,80) }} 
+						<td>
+						{% if e.conservations | length > 0 %}
+							{% if e.conservations[0].conservationLocation.description == 'n.d.' %}
+								-
+							{% else %}
+								{{ e.conservations[0].conservationLocation.description }} <br> {{ e.conservations[0].conservationContext.description}}
+							{% endif %}	
+						{% endif %}
+						</td>
+						<td class = "span7"> {{ e.trascription | slice(0,80) }} 
 						{% if e.trascription|length > 80 %}
     						...
 						{% endif %}
 						</td>
 						{% if isAdmin == true %}		
-							<td><a href="{{ path('edb_epigraph_show', {'id': e.id}) }}" >Show </a> &nbsp; <a href="{{ path('edb_epigraph_edit', {'id': e.id}) }}" >Edit</a> </td>	
+							<td><a target = "_blank" href="{{ path('edb_epigraph_show', {'id': e.id}) }}" >Show </a> &nbsp; <a target = "_blank" href="{{ path('edb_epigraph_edit', {'id': e.id}) }}" >Edit</a> </td>	
 						{% else %}
-							<td><a href="{{ path('edb_epigraph_show', {'id': e.id}) }}" >Show </a></td>	
+							<td><a target = "_blank" href="{{ path('edb_epigraph_show', {'id': e.id}) }}" >Show </a></td>	
 						{% endif %}			
 					</tr>
 				{% endfor %}
