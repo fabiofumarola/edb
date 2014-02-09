@@ -11,6 +11,7 @@
 	<div class="row">
 		<div class="offset3 span8">
 			<form class="form-horizontal" action="{{ path('edb_search_quick_do')}}" method="post" {{ form_enctype(form) }}>		
+    			{{ form_errors(form) }}	
     			<br>
 				<fieldset>
       				<div class="row">
@@ -36,7 +37,7 @@
       					</div>
       					
       					<div class="span1">
-      						<input type="text" class="span1" name="search[icvr_number]" id = "icvr_number"> </input>
+      						<input type="text" class="span1" name="search[icvr_number]" id = "icvr_number" value="" readonly> </input>
       					</div>
       						
       					<div class="span1">
@@ -44,7 +45,7 @@
       					</div>
       					
       					<div class="span1">
-      						<input type="text" class="span1" name="search[icvr_subnumber]" id = "icvr_subnumber"/>
+      						<input type="text" class="span1" name="search[icvr_subnumber]" id = "icvr_subnumber" readonly/>
       					</div>
       				</div>	
       				<br>
@@ -54,13 +55,13 @@
       						<input type="radio" name="search_type" value="textbiblio" id="radio_textbiblio" />
       					</div>
       				      					
-      					<div class="span1">
+      					<!-- <div class="span1">
       						<strong>Free Text</strong>
       					</div>
       					
       					<div class="span2">
-      						<input type="text" class ="span2"  name="search[freetext]" id = "freetext"> </input>
-      					</div>
+      						<input type="text" class ="span2"  name="search[freetext]" id = "freetext" readonly /> 
+      					</div> -->
       				
       				
       					<div class="span1">
@@ -68,7 +69,7 @@
       					</div>
       					
       					<div class="span2">
-      						<input type="text" class ="span2" name="search[bibliography]" id = "bibliography"> </input>
+      						<input type="text" class ="span2" name="search[bibliography]" id = "bibliography" readonly/>
       					</div>
 
       				</div>	     

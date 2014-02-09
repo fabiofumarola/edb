@@ -46,11 +46,42 @@ class SearchController extends Controller {
 			$id = $searchArray['id_edb'];
 			$anyParameter = true;
 			if (!is_numeric($id)) {
-				$this->get('session')->getFlashBag()->add('error', 'The ID EDB must be a number!');
-				return $this->redirect('KddeEdbBundle:Search:quick');
+				$this->get('session')->getFlashBag()->add('error', 'ID EDB must be a number!');				
+				return $this->redirect($this->generateUrl('edb_search_quick'));
 			}
 		}
 		
+		// Check if the ICVR number is specified
+		if (strlen($searchArray['icvr_number']))
+			$anyParameter = true;
+				
+		// Check if the ICVR subnumber is specified alone
+		if (strlen($searchArray['icvr_subnumber']))
+		{
+			$anyParameter = true;
+	
+			if (!strlen($searchArray['icvr_number']))
+			{
+				$this->get('session')->getFlashBag()->add('error', 'ICVR subnumber cannot be specified without the ICVR number!');
+				return $this->redirect($this->generateUrl('edb_search_quick'));
+			}
+		}
+		
+		// Check if the Free Text is specified
+		if (strlen($searchArray['freetext']))
+			$anyParameter = true;
+		
+		// Check if the Bibliography is specified
+		if (strlen($searchArray['bibliography']))
+			$anyParameter = true;
+		
+		// Check if at least a search parameter has been specified		
+		if(!$anyParameter)
+		{
+			$this->get('session')->getFlashBag()->add('error', 'You should specify at least one search parameter!');
+			return $this->redirect($this->generateUrl('edb_search_quick'));
+		}
+			
 		// Perform the query
 		$query = $repoEpigraph->findQuickSearch($searchArray, $roles);
 		
@@ -133,7 +164,7 @@ class SearchController extends Controller {
 			$anyParameter = true;
 			if (!is_numeric($principalProgNumber)) {
 				$this->get('session')->getFlashBag()->add('error', 'The ICVR number should be an integer!');
-				return $this->redirect('KddeEdbBundle:Search:basic');
+				return $this->redirect($this->generateUrl('edb_search_basic'));
 			}
 		}
 				
@@ -214,7 +245,7 @@ class SearchController extends Controller {
 		
 		
 		if (!$anyParameter) {
-			$this->get('session')->getFlashBag()->add('error','You should specify at least one parameter !');
+			$this->get('session')->getFlashBag()->add('error','You should specify at least one search parameter!');
 			return $this->forward('KddeEdbBundle:Search:basic');
 		}
 		

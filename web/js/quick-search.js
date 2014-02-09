@@ -1,11 +1,9 @@
 $('document').ready(function() {
 	
-	// Enable by default the search on the basis of the ID
-	// -------------------------------------------------------------
-	disableAll();
+	// Set the default values
+	disableAll(); 
 	$('#id_edb').removeAttr('readonly');
-	// -------------------------------------------------------------
-
+	$('#radio_id_edb').prop("checked", true);
 	
 	// Enable/disable text boxes on the basis of the radio button
 	// -------------------------------------------------------------
@@ -22,7 +20,7 @@ $('document').ready(function() {
 	
 	$('#radio_textbiblio').click(function() {
 		disableAll();
-		$('#freetext').removeAttr('readonly');
+//		$('#freetext').removeAttr('readonly');
 		$('#bibliography').removeAttr('readonly');
 	});
 	// -------------------------------------------------------------

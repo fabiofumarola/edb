@@ -16,14 +16,45 @@ class EpigraphRepository extends EntityRepository {
 		
 		// Compose the query
 		// --------------------------------------------------------------------------------------------------------
-		$strQuery = "SELECT ep FROM KddeEdbStoreBundle:Epigraph ep WHERE 1 = 1";
+		$strQuerySelect = "SELECT ep FROM KddeEdbStoreBundle:Epigraph ep ";
+		$strQueryWhere = " WHERE 1 = 1 ";
 		
-		
+		// Search by ID
 		if(strlen($id))
-			$strQuery .= " AND ep.id = :id"; 
+			$strQueryWhere .= " AND ep.id = :id"; 
 		
+		// Search by ICVR number and subnumber
+		else if(strlen($icvrNumber))
+		{
+			$strQueryWhere .= " AND ep.principalProgNumber = :icvrNumber";
+			
+			if(strlen($icvrSubNumber))
+				$strQueryWhere .= " AND ep.subNumeration = :icvrSubNumber";
+				
+		}
+		
+		// Search by bibliography
+		else if(strlen($biblio))
+		{
+			$strQuerySelect .= " JOIN ep.literatures lit_epi JOIN lit_epi.idRiferimento lit";
+				
+			$biblio_words = explode(" ", $biblio);
+			$count_biblio = 1;
+			foreach($biblio_words as $word)
+			{
+				$strQueryWhere .= " AND LOWER(lit.ricerca) LIKE CONCAT(CONCAT('%', :biblio" . $count_biblio . "),'%')";
+				$count_biblio++;
+			}
+		}
+		
+		
+		
+		// Set the constraint on the status, if not admin
+		if (!$isAdmin)
+			$strQueryWhere = $strQueryWhere . " AND ep.status = :status";
 
-		$strQuery = $strQuery . " ORDER BY ep.id";
+		
+		$strQuery = $strQuerySelect . $strQueryWhere . " ORDER BY ep.id";
 		$query = $this->getEntityManager()->createQuery($strQuery);
 		// --------------------------------------------------------------------------------------------------------
 		
@@ -33,6 +64,28 @@ class EpigraphRepository extends EntityRepository {
 		if(strlen($id))
 			$query->setParameter('id', $id);
 			
+		else if(strlen($icvrNumber))
+		{
+			$query->setParameter('icvrNumber', $icvrNumber);
+				
+			if(strlen($icvrSubNumber))
+				$query->setParameter('icvrSubNumber', $icvrSubNumber);
+		
+		}
+		
+		else if (strlen($biblio))
+		{
+			$count_biblio = 1;
+			foreach($biblio_words as $word)
+			{
+				$query->setParameter('biblio'.$count_biblio, strtolower($word));
+				$count_biblio++;
+			}
+		}
+		
+		if (!$isAdmin)
+			$query->setParameter('status', 2);
+		
 		// --------------------------------------------------------------------------------------------------------
 		return $query;
 	}
