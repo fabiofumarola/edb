@@ -14,6 +14,10 @@ class EpigraphRepository extends EntityRepository {
 		$text = $searchArray['freetext'];
 		$biblio = $searchArray['bibliography'];
 		
+		$isAdmin = false;
+		if (in_array("administrator", $roles))
+			$isAdmin = true;
+		
 		// Compose the query
 		// --------------------------------------------------------------------------------------------------------
 		$strQuerySelect = "SELECT ep FROM KddeEdbStoreBundle:Epigraph ep ";

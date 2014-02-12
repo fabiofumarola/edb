@@ -83,6 +83,10 @@ class SearchController extends Controller {
 		}
 			
 		// Perform the query
+		$roles = $this->get('security.context')->getToken()->getRoles();
+		$isAdmin = false;
+		if (in_array("administrator", $roles))
+			$isAdmin = true;
 		$query = $repoEpigraph->findQuickSearch($searchArray, $roles);
 		
 		// Paginate the results
