@@ -496,6 +496,10 @@ edb_link:
 edb_people:
     pattern: /people
     defaults: {_controller: KddeEdbBundle:People:index}
+
+edb_about:
+    pattern: /about
+    defaults: {_controller: KddeEdbBundle:About:index}
         
 edb_search_quick:
     pattern: /search/quick
