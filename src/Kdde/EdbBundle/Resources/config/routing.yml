@@ -489,9 +489,9 @@ edb_collaboration:
     pattern: /collaboration
     defaults: {_controller: KddeEdbBundle:Collaboration:index}
     
-edb_link:
-    pattern: /link
-    defaults: {_controller: KddeEdbBundle:Link:index}
+edb_publications:
+    pattern: /publications
+    defaults: {_controller: KddeEdbBundle:Publications:index}
     
 edb_people:
     pattern: /people
