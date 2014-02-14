@@ -1,0 +1,69 @@
+{% extends '::base_reduct.html.twig' %}
+
+ {% block title %}
+ EDB - People
+{% endblock %}
+
+{% block body %}
+
+
+<div class = "row">
+	<div class = "span8 offset2">
+	<h3>About EDB</h3>
+	<p class = "text-justify">
+	The <i>Epigraphic Database Bari project (EDB)</i>, started in 1988, specializes in the epigraphic documents by Christians 
+	of Rome between III-rd and VIII-th cent. CE in the framework of the Electronic Archive of Greek and Latin Epigraphy 
+	<strong><a href="http://eagle-network.eu/" target="_blank">(EAGLE)</a></strong>, to whom it participates as founding-member - with 
+	<strong><a href = "http://edh-www.adw.uni-heidelberg.de/" target="_blank"> EDH</a></strong> and 
+	<strong><a href="http://www.edr-edr.it/" target="_blank"> EDR</a></strong> - since 2004.
+		
+	<br><br>
+
+	Most of these epigraphic documents were published in the <i>Inscriptiones Christianae Vrbis Romae, nova series</i>, voll. I-X, 
+	<strong><a href = "http://www.piac.it/" target = "_blank">Pontificio Istituto di Archeologia Cristiana</a></strong>, in civitate Vaticana 1922-1992 (ICVR). 
+	EDB plains to update ICVR and to collect also the other Christian inscriptions from Rome and its suburbium published elsewhere*. 
+
+	<br><br>
+
+	The total amount of Christian inscriptions from Late Ancient Rome is estimated to be around <i>40,000</i>, although this number is  
+	increasing continually. Currently, EDB have <strong>{{ numberTotal }}</strong> items (online: <strong>{{ numberOnline }}</strong>; 
+	awaiting definitive approval: <strong>{{ numberPending }}</strong>). 
+	
+	
+	<br><br>
+	
+	Every epigraphic document is accompanied by data about bibliographical informations, contexts, material, graphical and linguistic elements. 
+	The transcription of texts is obviously offered as well, and the entire document is accompanied by its estimated date of production (if possible)
+	and short comments, when necessary.
+	Based an agreement established between the EDB and the Papal Commission of Sacred Archeology 
+	(<strong><a href="http://www.vatican.va/roman_curia/pontifical_commissions/archeo/index_it.htm" target="_blank">PCAS</a></strong>), 
+	a dynamic link to the <strong><a href="http://pcas.xdams.net/pcas-web/" target="_blank">Archive of the PCAS</a></strong> allows the visualization of pictures - if existing - of the documents.
+	
+	<br><br>
+	
+	The interrogation of the database features more research criteria, both within the texts (various possibilities for textual research are featured,
+	included a thesaurus finalized to search also aberrant forms) and in relation to the other descriptive elements of the documents. 
+	Research on the texts in Latin and Greek, within which the figurative apparatus is also described (signa Christi, symbols, various representations) 
+	can be made in combination with the other provided data.  
+	</p>
+	
+		<p style = "font-size: 8pt"> 
+		*In agreement with the Vatican and Italian authorities in charge of protection and conservation of the Christian inscriptions from Rome. 
+		</p>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
