@@ -5,77 +5,12 @@
 {% endblock %}
 
 {% block body %}
-	
-{# 	{% if is_granted('ROLE_ADMIN') %}#}
-{#     	<p>Nome utente: {{ app.user.username }}</p>#}
-{# 	{% endif %}#}
-	<div class="marketing">
-	<div class="row pagination-centered">
-		<img alt="EDB Logo" src="{{ asset('img/imgHP.jpg') }}" class="">
-	</div>
-	<div class="row">
-		<div class="span4">
-			<img class="bs-icon"
-				src="{{ asset('img/glyphicons/glyphicons_266_book_open.png') }}">
-			<h2>La Storia</h2>
-			<p>Le iscrizioni urbane latine e greche di committenza cristiana sono
-				in gran parte edite nei dieci volumi finora apparsi delle
-				<i>Inscriptiones Christianae Vrbis Romae septimo saeculo antiquiores,
-				nova series</i> (ICVR), promosse dal Pontificio Istituto di Archeologia
-				Cristiana. Iniziata nel 1922 da A. Silvagni, l'opera è proseguita
-				per oltre mezzo secolo per l'incessante attività di A. Ferrua S.
-				I., al quale si devono i volumi II, III, IV, V, VI, VII, VIII; i
-				successivi volumi IX e X sono stati curati da D. Mazzoleni (vol. IX
-				e X) e C. Carletti (vol. X)...</p>
-			<p>
-				<a href={{ path('edb_history') }} class="btn">more</a>
-			</p>
-		</div>
-		<div class="span4">
-			<img class="bs-icon"
-				src="{{ asset('img/glyphicons/glyphicons_079_podium.png')}}">
-			<h2>Lo Stato Attuale</h2>
-			<p>
-				In EDB attualmente sono presenti <strong>26164</strong> testi
-				epigrafici, in massima parte elaborati sulla base della edizione
-				ICVR, <i>nova series</i>: <strong>22265</strong> latini e <strong>3899</strong>
-				greci (o con compresenza di greco e latino), provenienti
-				essenzialmente dai contesti cimiteriali cristiani del suburbio
-				romano. La trascrizione dal testo-base ICVR nell'<strong>EDB</strong>,
-				lungi dall'essere una mera operazione meccanica di immissione di
-				dati, <i>consiste di fatto in una vera e propria pre-edizione</i>, con
-				sistematico scioglimento delle abbreviazioni, ipotesi di
-				integrazione...
-			</p>
-			<p>
-				<a href={{ path('edb_status')}} class="btn">more</a>
-			</p>
-		</div>
-		<div class="span4">
-			<img class="bs-icon"
-				src="{{ asset('img/glyphicons/glyphicons_009_magic.png')}}">
-			<h2>Le Prospettive</h2>
-			<p>
-				Oltre al completamento della informatizzazione del materiale ICVR,
-				le future attivit&agrave; dell'<strong>EDB</strong> prevedono: gli
-				aggiornamenti <em>al corpus delle ICVR (come edizioni successive,
-					nuove letture e correzioni), condotto in primis sulla base de
-					L'Ann&eacute;e Epigraphique e de L'Ann&eacute;e Philologique;
-					l'inserimento di iscrizioni cristiane di Roma non comprese nelle
-					ICVR, d'intesa con gli Enti preposti alla tutela e alla
-					conservazione dei documenti; in primo luogo la Pontificia
-					Commissione di Archeologia Sacra, con il cui archivio digitale di
-					immagini &egrave; in fieri la creazione di un collegamento
-					dinamico...</em>
-			</p>
-			<p>
-				<a href={{ path('edb_perspective')}} class="btn">more</a>
-			</p>
-		</div>
-	</div>
-	<!--/row-->
+<br>
+<div class = "row">
+	<div class = "span2"></div>
+	<div class = "span8"><img src = {{asset('img/SfondoHome.png') }}></div>
+	<div class = "span2"></div>
 </div>
-<!-- /.marketing -->
 {% endblock %}
 
 
