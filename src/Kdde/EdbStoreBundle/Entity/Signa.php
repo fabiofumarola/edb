@@ -23,7 +23,7 @@ class Signa {
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string", length=50, name="desc_signa")
+	 * @ORM\Column(type="string", name="desc_signa")
 	 * @var unknown_type
 	 */
 	protected $description;
