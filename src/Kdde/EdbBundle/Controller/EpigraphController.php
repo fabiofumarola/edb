@@ -265,7 +265,7 @@ class EpigraphController extends Controller {
 		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
 		$em = $this->getDoctrine()->getManager();
 		
-		$epigraph = $repository->findBy(array('principalProgNumber' => $splitNumber[0]));
+		$epigraph = $repository->findBy(array('principalProgNumber' => $id));
 		$roles = $this->get('security.context')->getToken()->getRoles();
 	
 		if(sizeof($epigraph) > 1)
