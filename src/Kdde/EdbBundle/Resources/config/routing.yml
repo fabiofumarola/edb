@@ -93,7 +93,19 @@ edb_epigraph_show:
     defaults: {_controller: KddeEdbBundle:Epigraph:show}
     requirements:
         id: \d+
-                
+        
+edb_epigraph_show_icvr_sub:
+    pattern: /epigraph/icvr/{id}/{sub}
+    defaults: {_controller: KddeEdbBundle:Epigraph:showicvrsub}
+    requirements:
+        id: \d+
+        
+edb_epigraph_show_icvr:
+    pattern: /epigraph/icvr/{id}
+    defaults: {_controller: KddeEdbBundle:Epigraph:showicvr}
+    requirements:
+        id: \d+
+                 
 edb_epigraph_edit:
     pattern: /compiler/epigraph/{id}/edit
     defaults: {_controller: KddeEdbBundle:Epigraph:edit}

@@ -261,6 +261,98 @@ class EpigraphController extends Controller {
 	}
 	
 	
+	public function showicvrAction($id) {
+		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
+		$em = $this->getDoctrine()->getManager();
+		
+		$epigraph = $repository->findBy(array('principalProgNumber' => $splitNumber[0]));
+		$roles = $this->get('security.context')->getToken()->getRoles();
+	
+		if(sizeof($epigraph) > 1)
+		{
+			$this->get('session')->getFlashBag()->add('error', 'There are multiple epigraphs corresponding to ICVR ' . $id . "!");
+			return $this->redirect($this->generateUrl('edb_homepage'));
+		}
+		$epigraph = $epigraph[0];
+		if ($epigraph == null || (!in_array("administrator", $roles) && $epigraph->getStatus() < 2))
+		{
+			$this->get('session')->getFlashBag()->add('error', 'The epigraph corresponding to ICVR ' . $id . " is not in the database or you do not have enough privileges to access it!");
+			return $this->redirect($this->generateUrl('edb_homepage'));
+		}
+	
+		// Experimental. Authentication for pcas
+		//--------------------------------------------------------------------------------------------
+	
+		$imageUrl = null;
+		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/' . $id . '/scheda.html';
+		// 		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/17592/scheda.html';
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_USERPWD, 'pcas:pcas123');
+		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Sample Code');
+	
+		$response = curl_exec($curl);
+		$resultStatus = curl_getinfo($curl);
+	
+		$split = explode('<img id="fotoSchedaBig" style="max-width:600px;" src="',$response);
+		if(sizeof($split) == 2)
+		{
+			$imageUrl = explode('"', $split[1]);
+			$imageUrl = $imageUrl[0];
+		}
+		//-------------------------------------------------------------------------------------------
+	
+		return $this->render('KddeEdbBundle:Epigraph:show.html.twig', array('e' => $epigraph, 'imageUrl' => $imageUrl));
+	}
+	
+	
+	public function showicvrsubAction($id, $sub) {
+		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
+		$em = $this->getDoctrine()->getManager();
+	
+		// Explode number and subnumber	
+		$epigraph = $repository->findBy(array('principalProgNumber' => $id, 'subNumeration' => $sub));
+		$epigraph = $epigraph[0];
+		$roles = $this->get('security.context')->getToken()->getRoles();
+		
+		if ($epigraph == null || (!in_array("administrator", $roles) && $epigraph->getStatus() < 2))
+		{
+			$this->get('session')->getFlashBag()->add('error', 'The epigraph corresponding to ICVR ' . $id . " is not in the database or you do not have enough privileges to access it!");
+			return $this->redirect($this->generateUrl('edb_homepage'));
+		}
+	
+		// Experimental. Authentication for pcas
+		//--------------------------------------------------------------------------------------------
+	
+		$imageUrl = null;
+		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/' . $id . '/scheda.html';
+		// 		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/17592/scheda.html';
+		$curl = curl_init($url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_USERPWD, 'pcas:pcas123');
+		curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Sample Code');
+	
+		$response = curl_exec($curl);
+		$resultStatus = curl_getinfo($curl);
+	
+		$split = explode('<img id="fotoSchedaBig" style="max-width:600px;" src="',$response);
+		if(sizeof($split) == 2)
+		{
+			$imageUrl = explode('"', $split[1]);
+			$imageUrl = $imageUrl[0];
+		}
+		//-------------------------------------------------------------------------------------------
+	
+		return $this->render('KddeEdbBundle:Epigraph:show.html.twig', array('e' => $epigraph, 'imageUrl' => $imageUrl));
+	}
+	
+	
 	public function referenceslistAction($id, $_format) 
 	{
 		if ($_format != "json")
