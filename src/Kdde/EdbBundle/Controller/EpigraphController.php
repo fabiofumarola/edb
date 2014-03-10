@@ -190,7 +190,7 @@ class EpigraphController extends Controller {
 // 				if(isset($approveButton) || isset($backButton) || isset($sendToAdminButton)) 
 // 					return $this->redirect($this->generateUrl('edb_epigraph_status'));
 // 				else
-					return $this->redirect($this->generateUrl('edb_epigraph_edit', array('id' => $epigraph->getId())));
+				return $this->redirect($this->generateUrl('edb_epigraph_show', array('id' => $epigraph->getId())));
 			}
 		}
 		$isAdmin = false;
@@ -472,7 +472,7 @@ class EpigraphController extends Controller {
 			
 				$this->get('session')->getFlashBag()->add('notice','Your changes were saved, the epigraph is saved with id '. $epigraph->getId()) . " !";
 
-				return $this->redirect($this->generateUrl('edb_epigraph_edit', array('id' => $epigraph->getId())));
+				return $this->redirect($this->generateUrl('edb_epigraph_show', array('id' => $epigraph->getId())));
 			}
 		}
 		
