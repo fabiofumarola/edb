@@ -187,9 +187,9 @@ class EpigraphController extends Controller {
 				
 				$this->get('session')->getFlashBag()->add('notice', $message);
 				
-				if(isset($approveButton) || isset($backButton) || isset($sendToAdminButton)) 
-					return $this->redirect($this->generateUrl('edb_epigraph_status'));
-				else
+// 				if(isset($approveButton) || isset($backButton) || isset($sendToAdminButton)) 
+// 					return $this->redirect($this->generateUrl('edb_epigraph_status'));
+// 				else
 					return $this->redirect($this->generateUrl('edb_epigraph_edit', array('id' => $epigraph->getId())));
 			}
 		}
@@ -237,7 +237,6 @@ class EpigraphController extends Controller {
 		
 		$imageUrl = null;
 		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/' . $id . '/scheda.html';
-// 		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/17592/scheda.html';
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_USERPWD, 'pcas:pcas123');
@@ -285,7 +284,6 @@ class EpigraphController extends Controller {
 	
 		$imageUrl = null;
 		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/' . $id . '/scheda.html';
-		// 		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/17592/scheda.html';
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_USERPWD, 'pcas:pcas123');
@@ -329,7 +327,6 @@ class EpigraphController extends Controller {
 	
 		$imageUrl = null;
 		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/' . $id . '/scheda.html';
-		// 		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/17592/scheda.html';
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_USERPWD, 'pcas:pcas123');
