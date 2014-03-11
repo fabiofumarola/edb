@@ -81,7 +81,7 @@ class EpigraphController extends Controller {
 	private function setStatus($id, $status) {
 		$repository = $this->getDoctrine()
 		->getRepository('KddeEdbStoreBundle:Epigraph');
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 		$epigraph = $repository->find($id);
 		if($epigraph != null)
 		{
@@ -96,7 +96,7 @@ class EpigraphController extends Controller {
 		$roles = $this->get('security.context')->getToken()->getRoles();	
 		
 		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 		$epigraph = $repository->find($id);
 
 		$currentUser = $this->get('security.context')->getToken()->getUser();
@@ -140,7 +140,7 @@ class EpigraphController extends Controller {
 		$repoRefSources = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:ResourceType');
 		$refSources = $repoRefSources->findBy(array(), array('description' => 'ASC'));
 		
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 		
 		//$form = $this->createForm(new EpigraphType(), new Epigraph());
 		$defaultData = array();
@@ -219,17 +219,23 @@ class EpigraphController extends Controller {
 	
 	
 	public function showAction($id) {
-		$repository = $this->getDoctrine()
-				->getRepository('KddeEdbStoreBundle:Epigraph');
-		$em = $this->getDoctrine()->getEntityManager();
+		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
+		$em = $this->getDoctrine()->getManager();
 		$epigraph = $repository->find($id);
 	
 		$roles = $this->get('security.context')->getToken()->getRoles();	
 		
-		if ($epigraph == null || (!in_array("administrator", $roles) && $epigraph->getStatus() < 2)) 
+		if ($epigraph == null || (!in_array("administrator", $roles) && $epigraph->getStatus() < 2))	
 		{
-			$this->get('session')->getFlashBag()->add('error', 'The epigraph  EDB' . $id . " is not in the database or you do not have enough privileges to access it!");
-			return $this->redirect($this->generateUrl('edb_homepage'));
+			// Check if the logged user is the author
+			$loggedUsername = $this->get('security.context')->getToken()->getUser();
+			$userRepository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:User');
+			$compilator = $userRepository->find($epigraph->getCompilator());
+			if($compilator != $loggedUsername)
+			{	
+				$this->get('session')->getFlashBag()->add('error', 'The epigraph  EDB' . $id . " is not in the database or you do not have enough privileges to access it!");
+				return $this->redirect($this->generateUrl('edb_homepage'));
+			}
 		}
 		
 		// Experimental. Authentication for pcas
@@ -273,10 +279,18 @@ class EpigraphController extends Controller {
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
 		$epigraph = $epigraph[0];
-		if ($epigraph == null || (!in_array("administrator", $roles) && $epigraph->getStatus() < 2))
+		
+		if ($epigraph == null || (!in_array("administrator", $roles) && $epigraph->getStatus() < 2))	
 		{
-			$this->get('session')->getFlashBag()->add('error', 'The epigraph corresponding to ICVR ' . $id . " is not in the database or you do not have enough privileges to access it!");
-			return $this->redirect($this->generateUrl('edb_homepage'));
+			// Check if the logged user is the author
+			$loggedUsername = $this->get('security.context')->getToken()->getUser();
+			$userRepository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:User');
+			$compilator = $userRepository->find($epigraph->getCompilator());
+			if($compilator != $loggedUsername)
+			{	
+				$this->get('session')->getFlashBag()->add('error', 'The epigraph  EDB' . $id . " is not in the database or you do not have enough privileges to access it!");
+				return $this->redirect($this->generateUrl('edb_homepage'));
+			}
 		}
 	
 		// Experimental. Authentication for pcas
@@ -316,10 +330,17 @@ class EpigraphController extends Controller {
 		$epigraph = $epigraph[0];
 		$roles = $this->get('security.context')->getToken()->getRoles();
 		
-		if ($epigraph == null || (!in_array("administrator", $roles) && $epigraph->getStatus() < 2))
+		if ($epigraph == null || (!in_array("administrator", $roles) && $epigraph->getStatus() < 2))	
 		{
-			$this->get('session')->getFlashBag()->add('error', 'The epigraph corresponding to ICVR ' . $id . " is not in the database or you do not have enough privileges to access it!");
-			return $this->redirect($this->generateUrl('edb_homepage'));
+			// Check if the logged user is the author
+			$loggedUsername = $this->get('security.context')->getToken()->getUser();
+			$userRepository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:User');
+			$compilator = $userRepository->find($epigraph->getCompilator());
+			if($compilator != $loggedUsername)
+			{	
+				$this->get('session')->getFlashBag()->add('error', 'The epigraph  EDB' . $id . " is not in the database or you do not have enough privileges to access it!");
+				return $this->redirect($this->generateUrl('edb_homepage'));
+			}
 		}
 	
 		// Experimental. Authentication for pcas
@@ -357,7 +378,7 @@ class EpigraphController extends Controller {
 		
 		
 		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 		$epigraph = $repository->find($id);
 		$serializer = $this->get('jms_serializer');
 		$json = $serializer->serialize($epigraph->getLiteratures(), 'json');
@@ -370,7 +391,7 @@ class EpigraphController extends Controller {
 			return new Response(json_encode("it supports only json"));
 	
 		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:RelatedResource');
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 		$relresources = $repository->findBy(array('idEpigrafe' => $id));
 		$serializer = $this->get('jms_serializer');
 		$json = $serializer->serialize($relresources, 'json');
@@ -385,7 +406,7 @@ class EpigraphController extends Controller {
 			return new Response(json_encode("it supports only json"));
 
 		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 		$epigraph = $repository->find($id);
 		$serializer = $this->get('jms_serializer');
 		$json = $serializer->serialize($epigraph->getPertinence(), 'json');
@@ -397,7 +418,7 @@ class EpigraphController extends Controller {
 			return new Response(json_encode("it supports only json"));
 
 		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 		$epigraph = $repository->find($id);
 		$serializer = $this->get('jms_serializer');
 		$json = $serializer->serialize($epigraph->getConservations(), 'json');
@@ -409,7 +430,7 @@ class EpigraphController extends Controller {
 			return new Response(json_encode("it supports only json"));
 	
 		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 		$epigraph = $repository->find($id);
 		$serializer = $this->get('jms_serializer');
 		$json = $serializer->serialize($epigraph->getDatings(), 'json');
@@ -452,7 +473,7 @@ class EpigraphController extends Controller {
 		$refSources = $repoRefSources->findBy(array(), array('description' => 'ASC'));
 		
 		
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 
 		$defaultData = array();
 		$form = $this->createFormBuilder($defaultData)->getForm();
@@ -514,7 +535,7 @@ class EpigraphController extends Controller {
 		$repoSigna = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Signa');
 		$repoTypes = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Type');
 		$repoResourceTypes = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:ResourceType');
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 
 		$arrayLiteratures = new ArrayCollection();
 		$arrayDatings = new ArrayCollection();
