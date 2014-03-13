@@ -347,50 +347,50 @@
 					</div>
 				<hr>
 	
-				<div class="row">
-					<div class="span2">
-						<label class="labelCentered">Letters Height</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="span1">
-						<label>Minimum</label> <input type="text" name="epigraph[altMinLetters]"
-							class="span1" value = {{ e.altMinLetters }}>
-					</div>
-					<div class="span1">
-						<label>Maximum</label> <input type="text" name="epigraph[altMaxLetters]"
-							class="span1" value = {{ e.altMaxLetters }}>
-					</div>
-					<div class="span2 offset1">
-						<label>Paleographic Notes</label> <select
-							id="selectPaleography" class="span2" name="epigraph[paleography]">
-							{% for pal in paleographies %}
-								<option value="{{ pal.id }}"
-								{% if pal.id == e.paleography.id%} 
-									selected
-								{% endif %}
-								> {{ pal.description }}</option>
-							{% endfor %}
-								<option value="-1"> Add New </option>
-						</select>
-					</div>
-				</div>
-				<div class="row">
-					<div class="span2">
-							<label>Function</label> <select id="selectFunction" class="span2"
-								name="epigraph[funzione]">								
-								{% for fun in functions %}
-									<option value="{{ fun.id  }}"
-									{% if fun.id  == e.funzione.id%} 
-										selected
-									{% endif %}
-								> {{ fun.description }}</option>
-								{% endfor %}
-									<option value="-1"> Add New </option>
-							</select>
-						</div>
-					</div>
-				<hr>
+{# 				<div class="row">#}
+{# 					<div class="span2">#}
+{# 						<label class="labelCentered">Letters Height</label>#}
+{# 					</div>#}
+{# 				</div>#}
+{# 				<div class="row">#}
+{# 					<div class="span1">#}
+{# 						<label>Minimum</label> <input type="text" name="epigraph[altMinLetters]"#}
+{# 							class="span1" value = {{ e.altMinLetters }}>#}
+{# 					</div>#}
+{# 					<div class="span1">#}
+{# 						<label>Maximum</label> <input type="text" name="epigraph[altMaxLetters]"#}
+{# 							class="span1" value = {{ e.altMaxLetters }}>#}
+{# 					</div>#}
+{# 					<div class="span2 offset1">#}
+{# 						<label>Paleographic Notes</label> <select#}
+{# 							id="selectPaleography" class="span2" name="epigraph[paleography]">#}
+{# 							{% for pal in paleographies %}#}
+{# 								<option value="{{ pal.id }}"#}
+{# 								{% if pal.id == e.paleography.id%} #}
+{# 									selected#}
+{# 								{% endif %}#}
+{# 								> {{ pal.description }}</option>#}
+{# 							{% endfor %}#}
+{# 								<option value="-1"> Add New </option>#}
+{# 						</select>#}
+{# 					</div>#}
+{# 				</div>#}
+{# 				<div class="row">#}
+{# 					<div class="span2">#}
+{# 							<label>Function</label> <select id="selectFunction" class="span2"#}
+{# 								name="epigraph[funzione]">								#}
+{# 								{% for fun in functions %}#}
+{# 									<option value="{{ fun.id  }}"#}
+{# 									{% if fun.id  == e.funzione.id%} #}
+{# 										selected#}
+{# 									{% endif %}#}
+{# 								> {{ fun.description }}</option>#}
+{# 								{% endfor %}#}
+{# 									<option value="-1"> Add New </option>#}
+{# 							</select>#}
+{# 						</div>#}
+{# 					</div>#}
+{# 				<hr>#}
 				
 				<div class="row">
 					<div class="span2">
@@ -525,17 +525,16 @@
 				<br>
 				<div class="row">
 					<div class="span4">
-						<label>Critical Apparatus</label>
-						<textarea rows="3" name="epigraph[criticalApparatus]" class="span4">{{ e.criticalApparatus }}</textarea>
-					</div>
-				
-					<div class="span4">
 						<label>Transcription different from ICVR</label> <input type="checkbox"
 							name="epigraph[divergentText]" id="inputDivergentText"
 							{% if e.divergentText == 'S' or e.divergentText == '1' %} 
 								checked
 							{% endif %}
 							>
+					</div>
+					<div class="span4">
+						<label>Critical Apparatus</label>
+						<textarea rows="3" name="epigraph[criticalApparatus]" class="span4">{{ e.criticalApparatus }}</textarea>
 					</div>
 				</div>
 				<br>
