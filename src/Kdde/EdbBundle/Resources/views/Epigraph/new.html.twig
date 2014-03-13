@@ -499,8 +499,14 @@
 					<label>Critical Apparatus</label>
  						<textarea rows="3" name="epigraph[criticalApparatus]" class="span4"></textarea>
  					</div>
+ 					
+ 					<div class="span3">
+							<label>Transcription different from ICVR</label> <input type="checkbox"
+								name="epigraph[divergentText]" id="inputDivergentText">
+					</div>
+ 					
 				</div>
-				
+				<br>
 				<div class="row">
 
 					<div class="span1">
@@ -597,11 +603,6 @@
 				</div>
 				
 				<div class="row">
-					<div class="span3">
-							<label>Transcription different from ICVR</label> <input type="checkbox"
-								name="epigraph[divergentText]" id="inputDivergentText">
-					</div>
-
 					<div class="span2">
 							<label>Type</label> <select name="epigraph[epi_type]" class="span2" >
 								{% for d in types %}
