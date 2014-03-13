@@ -477,7 +477,15 @@
 						</button>
 					</div>
 				</div>
-				<br />
+	
+				<br>
+				<div class="row">
+					<div class="span4">
+						<label>Critical Apparatus</label>
+						<textarea rows="3" name="epigraph[criticalApparatus]" class="span4">{{ e.criticalApparatus }}</textarea>
+					</div>
+				</div>
+				
 				<div class="row">
 
 					<div class="span1">
@@ -616,18 +624,23 @@
 								{% endfor %}
 							</select>
 					</div>
-				</div>
-				<br /><br />
-				<div class="row">
-					<div class="span4">
-						<label>Critical Apparatus</label>
-						<textarea rows="3" name="epigraph[criticalApparatus]" class="span4">{{ e.criticalApparatus }}</textarea>
-					</div>
+					
 					<div class="span4">
 						<label>Notes</label>
 						<textarea rows="3" name="epigraph[comment]" class="span4">{{ e.comment }}</textarea>
 					</div>
 				</div>
+				<br /><br />
+{# 				<div class="row">#}
+{# 					<div class="span4">#}
+{# 						<label>Critical Apparatus</label>#}
+{# 						<textarea rows="3" name="epigraph[criticalApparatus]" class="span4">{{ e.criticalApparatus }}</textarea>#}
+{# 					</div>#}
+{# 					<div class="span4">#}
+{# 						<label>Notes</label>#}
+{# 						<textarea rows="3" name="epigraph[comment]" class="span4">{{ e.comment }}</textarea>#}
+{# 					</div>#}
+{# 				</div>#}
 
 				<hr>
 				<input type = "hidden" id = "epiid" name = "epiid" value = {{ e.id }} />
