@@ -218,7 +218,8 @@
 					</div>
 
 					<div class="span1">
-						<label for="perduta">Lost</label><input type="checkbox" name="epigraph[lost]" id="lost">
+						<label for="perduta">Lost</label><input type="checkbox" name="epigraph[lost]" id="lost" 
+						{% if e.lost == 'S' %}checked{% endif %}>
 					</div>
 					<div class="span1">
 						<p></p>
