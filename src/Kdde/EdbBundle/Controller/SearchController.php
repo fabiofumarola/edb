@@ -178,7 +178,7 @@ class SearchController extends Controller {
 			$searchArray['cons_area'] = null;
 		}
 
-		if ($searchArray['opistographic'] != "All")
+		if ($searchArray['opisthographic'] != "All")
 			$anyParameter = true;
 
 		if ($searchArray['metrical'] != "All")

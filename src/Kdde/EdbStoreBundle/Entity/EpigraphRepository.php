@@ -120,7 +120,7 @@ class EpigraphRepository extends EntityRepository {
 		$inSitu = $searchArray['insitu'];
 		$lost = $searchArray['lost'];
 		
-		$opistographic = $searchArray['opistographic'];
+		$opisthographic = $searchArray['opisthographic'];
 		$metrical = $searchArray['metrical'];
 		$greek = $searchArray['greek'];
 		$greeklatin = $searchArray['greeklatin'];
@@ -309,8 +309,8 @@ class EpigraphRepository extends EntityRepository {
 		if ($lost != "All")
 			$strQueryWhere .= "AND ep.lost = :lost ";
 					
-		if ($opistographic != "All")
-			$strQueryWhere .= "AND ep.reimpiego_opistografia = :opistographic ";
+		if ($opisthographic != "All")
+			$strQueryWhere .= "AND ep.reimpiego_opistografia = :opisthographic ";
 		
 		if ($metrical != "All")
 			$strQueryWhere .= "AND ep.metricText = :metrical ";
@@ -410,8 +410,8 @@ class EpigraphRepository extends EntityRepository {
 			$query->setParameter('cons_contextId', $cons_contextId);
 		
 		
-		if ($opistographic != "All")
-			$query->setParameter('opistographic', $opistographic);
+		if ($opisthographic != "All")
+			$query->setParameter('opisthographic', $opisthographic);
 		
 		if ($metrical != "All")
 			$query->setParameter('metrical', $metrical);
