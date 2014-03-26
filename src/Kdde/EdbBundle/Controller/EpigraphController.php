@@ -287,7 +287,7 @@ class EpigraphController extends Controller {
 		
 		if ($epigraph == null)
 		{
-			$this->get('session')->getFlashBag()->add('error', 'The epigraph  EDB' . $id . " is not in the database!");
+			$this->get('session')->getFlashBag()->add('error', 'The epigraph corresponding to ICVR ' . $id . " is not in the database!");
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
 			
