@@ -283,9 +283,6 @@ class EpigraphController extends Controller {
 		if(sizeof($epigraph) > 0)
 			$epigraph = $epigraph[0];
 		else
-			$epigraph = null;
-		
-		if ($epigraph == null)
 		{
 			$this->get('session')->getFlashBag()->add('error', 'The epigraph corresponding to ICVR ' . $id . " is not in the database!");
 			return $this->redirect($this->generateUrl('edb_homepage'));
@@ -338,11 +335,20 @@ class EpigraphController extends Controller {
 	
 		// Explode number and subnumber	
 		$epigraph = $repository->findBy(array('principalProgNumber' => $id, 'subNumeration' => $sub));
-		$epigraph = $epigraph[0];
-		$roles = $this->get('security.context')->getToken()->getRoles();
 		
+		if(sizeof($epigraph) >0)
+			$epigraph = $epigraph[0];
+		else
+		{
+			$this->get('session')->getFlashBag()->add('error', 'The epigraph corresponding to ICVR ' . $id . "." . $sub . " is not in the database!");
+			return $this->redirect($this->generateUrl('edb_homepage'));
+		}
+		
+		$roles = $this->get('security.context')->getToken()->getRoles();
 		if ($epigraph == null || (!in_array("administrator", $roles) && $epigraph->getStatus() < 2))	
 		{
+			
+			
 			// Check if the logged user is the author
 			$loggedUsername = $this->get('security.context')->getToken()->getUser();
 			$userRepository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:User');
