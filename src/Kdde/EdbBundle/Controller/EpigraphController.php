@@ -278,9 +278,20 @@ class EpigraphController extends Controller {
 			$this->get('session')->getFlashBag()->add('error', 'There are multiple epigraphs corresponding to ICVR ' . $id . "!");
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
-		$epigraph = $epigraph[0];
+		else if(sizeof($epigraph) > 0)
+			
+		if(sizeof($epigraph) > 0)
+			$epigraph = $epigraph[0];
+		else
+			$epigraph = null;
 		
-		if ($epigraph == null || (!in_array("administrator", $roles) && $epigraph->getStatus() < 2))	
+		if ($epigraph == null)
+		{
+			$this->get('session')->getFlashBag()->add('error', 'The epigraph  EDB' . $id . " is not in the database!");
+			return $this->redirect($this->generateUrl('edb_homepage'));
+		}
+			
+		if(!in_array("administrator", $roles) && $epigraph->getStatus() < 2)	
 		{
 			// Check if the logged user is the author
 			$loggedUsername = $this->get('security.context')->getToken()->getUser();
@@ -288,7 +299,7 @@ class EpigraphController extends Controller {
 			$compilator = $userRepository->find($epigraph->getCompilator());
 			if($compilator != $loggedUsername)
 			{	
-				$this->get('session')->getFlashBag()->add('error', 'The epigraph  EDB' . $id . " is not in the database or you do not have enough privileges to access it!");
+				$this->get('session')->getFlashBag()->add('error', 'You do not have enough privileges to access the requested epigraph!');
 				return $this->redirect($this->generateUrl('edb_homepage'));
 			}
 		}
