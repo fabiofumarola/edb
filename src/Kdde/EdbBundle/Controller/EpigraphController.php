@@ -279,8 +279,6 @@ class EpigraphController extends Controller {
 			return $this->redirect($this->generateUrl('edb_homepage'));
 		}
 		else if(sizeof($epigraph) > 0)
-			
-		if(sizeof($epigraph) > 0)
 			$epigraph = $epigraph[0];
 		else
 		{
