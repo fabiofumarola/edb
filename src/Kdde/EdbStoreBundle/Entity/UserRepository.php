@@ -20,11 +20,8 @@ class UserRepository extends EntityRepository implements UserProviderInterface {
 			// if there is no record matching the criteria.
 			$user = $q->getSingleResult();
 		} catch (NoResultException $e) {
-			throw new UsernameNotFoundException(
-					sprintf(
-							'Unable to find an active admin
-		  			KddeEdbStoreBundle:User object identified by "%s".',
-							$username), null, 0, $e);
+			$message = 'Unable to find an active admin KddeEdbStoreBundle:User object identified by ' . $username;
+			throw new UsernameNotFoundException($message, 0, $e);
 		}
 		return $user;
 
