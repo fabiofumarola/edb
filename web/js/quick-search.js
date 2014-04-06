@@ -20,7 +20,7 @@ $('document').ready(function() {
 	
 	$('#radio_textbiblio').click(function() {
 		disableAll();
-//		$('#freetext').removeAttr('readonly');
+		$('#freetext').removeAttr('readonly');
 		$('#bibliography').removeAttr('readonly');
 	});
 	// -------------------------------------------------------------

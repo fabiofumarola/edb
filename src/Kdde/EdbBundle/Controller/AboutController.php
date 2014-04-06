@@ -11,10 +11,10 @@ class AboutController extends Controller
     public function indexAction()
     {    	
     	$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
-    	$em = $this->getDoctrine()->getEntityManager();
+    	$em = $this->getDoctrine()->getManager();
 
     	// Get the total number of epigraphs
-    	$em = $this->getDoctrine()->getEntityManager();
+    	$em = $this->getDoctrine()->getManager();
     	$qb = $em->createQueryBuilder();
     	$qb->select('count(ep.id)');
     	$qb->from('KddeEdbStoreBundle:Epigraph','ep');

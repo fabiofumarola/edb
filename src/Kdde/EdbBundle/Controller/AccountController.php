@@ -15,16 +15,14 @@ class AccountController extends Controller {
 	public function registerAction() {
 		$form = $this->createForm(new RegistrationType(), new Registration());
 
-		return $this
-				->render('KddeEdbBundle:Account:register.html.twig',
-						array('form' => $form->createView()));
+		return $this->render('KddeEdbBundle:Account:register.html.twig', array('form' => $form->createView()));
 	}
 
 	public function createAction() {
 		
-		$em = $this->getDoctrine()->getEntityManager();
+		$em = $this->getDoctrine()->getManager();
 		$form = $this->createForm(new RegistrationType(), new Registration());
-		$form->bind($this->getRequest());
+		$form->handleRequest($this->getRequest());
 		
 		if ($form->isValid()) {
 			$user = $form->getData()->getUser();	

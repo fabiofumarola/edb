@@ -36,20 +36,37 @@ class EpigraphRepository extends EntityRepository {
 				$strQueryWhere .= " AND ep.subNumeration = :icvrSubNumber";
 				
 		}
-		
-		// Search by bibliography
-		else if(strlen($biblio))
+		else
 		{
-			$strQuerySelect .= " JOIN ep.literatures lit_epi JOIN lit_epi.idRiferimento lit";
-				
-			$biblio_words = explode(" ", $biblio);
-			$count_biblio = 1;
-			foreach($biblio_words as $word)
+			// Search by free text
+			if(strlen($text))
+			{		
+				$text_words = explode(" ", $text);
+				$count_text = 1;
+				foreach($text_words as $word)
+				{
+					$strQueryWhere .= " AND LOWER(ep.ricerca_libera) LIKE CONCAT(CONCAT('%', :text" . $count_text . "),'%')";
+					$count_text++;
+				}
+			}
+			
+			
+			// Search by bibliography
+			if(strlen($biblio))
 			{
-				$strQueryWhere .= " AND LOWER(lit.ricerca) LIKE CONCAT(CONCAT('%', :biblio" . $count_biblio . "),'%')";
-				$count_biblio++;
+				$strQuerySelect .= " JOIN ep.literatures lit_epi JOIN lit_epi.idRiferimento lit";
+					
+				$biblio_words = explode(" ", $biblio);
+				$count_biblio = 1;
+				foreach($biblio_words as $word)
+				{
+					$strQueryWhere .= " AND LOWER(lit.ricerca) LIKE CONCAT(CONCAT('%', :biblio" . $count_biblio . "),'%')";
+					$count_biblio++;
+				}
 			}
 		}
+		
+
 		
 		
 		
@@ -77,13 +94,26 @@ class EpigraphRepository extends EntityRepository {
 		
 		}
 		
-		else if (strlen($biblio))
+		else
 		{
-			$count_biblio = 1;
-			foreach($biblio_words as $word)
+			if (strlen($text))
 			{
-				$query->setParameter('biblio'.$count_biblio, strtolower($word));
-				$count_biblio++;
+				$count_text = 1;
+				foreach($text_words as $word)
+				{
+					$query->setParameter('text'.$count_text, strtolower($word));
+					$count_text++;
+				}
+			}
+			
+			if (strlen($biblio))
+			{
+				$count_biblio = 1;
+				foreach($biblio_words as $word)
+				{
+					$query->setParameter('biblio'.$count_biblio, strtolower($word));
+					$count_biblio++;
+				}
 			}
 		}
 		

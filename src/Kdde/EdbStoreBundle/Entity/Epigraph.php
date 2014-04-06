@@ -343,6 +343,13 @@ class Epigraph {
 	protected $epigraph_type;
 	
 	
+	/**
+	 * @ORM\Column(name="ricerca_libera")
+	 * @var string
+	 */
+	protected $ricerca_libera;
+	
+	
 	public function __construct(){
 		$this->literatures = new ArrayCollection();
 		$this->conservations = new ArrayCollection();
