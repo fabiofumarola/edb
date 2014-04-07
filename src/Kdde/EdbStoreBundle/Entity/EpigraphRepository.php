@@ -54,13 +54,13 @@ class EpigraphRepository extends EntityRepository {
 			// Search by bibliography
 			if(strlen($biblio))
 			{
-				$strQuerySelect .= " JOIN ep.literatures lit_epi JOIN lit_epi.idRiferimento lit";
+				$strQuerySelect .= " JOIN ep.literatures lit_epi";
 					
 				$biblio_words = explode(" ", $biblio);
 				$count_biblio = 1;
 				foreach($biblio_words as $word)
 				{
-					$strQueryWhere .= " AND LOWER(lit.ricerca) LIKE CONCAT(CONCAT('%', :biblio" . $count_biblio . "),'%')";
+					$strQueryWhere .= " AND LOWER(lit_epi.ricerca) LIKE CONCAT(CONCAT('%', :biblio" . $count_biblio . "),'%')";
 					$count_biblio++;
 				}
 			}

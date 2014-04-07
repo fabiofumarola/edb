@@ -38,6 +38,12 @@ class BiblioRiferimentoEpigrafe
 	 */
 	protected $note = '';
 	
+	/**
+	 * @ORM\Column(type="string", name="campo_ricerca")
+	 * @var string
+	 */
+	protected $ricerca;
+	
 	public function getIdEpigrafe()
 	{
 		return $this->idEpigrafe;

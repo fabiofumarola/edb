@@ -124,12 +124,6 @@ class BiblioRiferimento
     protected $idVolume;
     
     
-    /**
-     * @ORM\Column(type="string", name="campo_ricerca")
-     * @var string
-     */
-    protected $ricerca;
-    
     
 
 
