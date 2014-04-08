@@ -25,6 +25,11 @@ class Funzione {
 	 */
 	protected $description;
 	
+	/**
+	 * @ORM\Column(type="string", name="url_funzione")
+	 * @var string
+	 */
+	protected $url;
 
 
     /**
@@ -65,5 +70,15 @@ class Funzione {
     public function getDescription()
     {
         return $this->description;
+    }
+    
+    /**
+     * Get url
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+    	return $this->url;
     }
 }

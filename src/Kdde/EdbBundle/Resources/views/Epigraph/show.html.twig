@@ -51,19 +51,28 @@
 									</td> 
 								</tr>
 							{% endfor %}
-						{% endif %}				
-						{% if e.material.support.id != 0 or e.material.technique.id != 0 or e.material.height != '' or e.material.width != '' or e.material.tickness != '' or e.altMaxLetters != '' or e.altMinLetters != ''%}
+						{% endif %}		
+						
+						<tr style = "font-size: 12pt">
+							<td>
+								<a href={{ e.funzione.url }} target="_blank">{{ e.funzione.description }}</a>
+								{% if e.material.technique.id != '0' -%}
+									<a href={{ e.material.technique.url}} target="_blank">{{ e.material.technique.description-}}</a>
+								{%- endif -%}	
+							</td>
+						</tr>	
+						{% if e.material.support.id != '0' or e.material.technique.id != '0' or e.material.height != '' or e.material.width != '' or e.material.tickness != '' or e.altMaxLetters != '' or e.altMinLetters != ''%}
 							<tr style = "font-size: 12pt">
 								<td>
-									{%- if e.material.support.id != 0 -%}
-										{{- e.material.support.description }}
-										{%- if e.material.technique.id != 0 -%}
-											-
+									{%- if e.material.support.id != '0' -%}
+										<a href={{ e.material.support.url}} target="_blank">{{- e.material.support.description }}</a>
+										{%- if e.material.technique.id != '0' -%}
+											&nbsp;-&nbsp;
 										{%- endif -%}
 									{%- endif -%}
-									{%- if e.material.technique.id != 0 -%}
-										Titulus {{ e.material.technique.description-}}
-									{%- endif -%}
+{# 									{%- if e.material.technique.id != 0 -%}#}
+{# 										Titulus {{ e.material.technique.description-}}#}
+{# 									{%- endif -%}#}
 									{%- if (e.material.height != '' or e.material.width != '' or e.material.tickness != '') and (e.material.technique.id != 0 or e.material.support.id != 0) -%}
 										, 
 									{% endif %}
@@ -125,13 +134,7 @@
 								<tr>
 							{% endfor %}
 						{% endif %}
-						
-						<tr style = "font-size: 12pt">
-							<td>
-								{{ e.funzione.description }}
-							</td>
-						</tr>
-						
+												
 						{% set datings_present = false %}
 						{%- for c in e.datings -%}
 							{%- if(c.from != 'n.d.') -%}
@@ -185,7 +188,7 @@
 						{% endfor %}
 						
 						<tr style = "font-size: 12pt">
-							<td><i style="color:grey;">Bibliography:</i> 
+							<td><i style="color:grey;">Edition(s):</i> 
 							{% if e.icvr != '' and e.icvr != 'n.d.' %}
 								ICVR {{ e.icvr -}}, {{ e.principalProgNumber -}}
 								{%- if e.subNumeration != 'n.d.' and e.subNumeration != '' -%}

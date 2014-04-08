@@ -29,6 +29,13 @@ class Technique {
 	 */
 	protected $description;
 
+	
+	/**
+	 * @ORM\Column(type="string", name="url_tecnica")
+	 * @var string
+	 */
+	protected $url;
+	
 
     /**
      * Set id
@@ -68,5 +75,16 @@ class Technique {
     public function getDescription()
     {
         return $this->description;
+    }
+    
+    
+    /**
+     * Get url
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+    	return $this->url;
     }
 }
