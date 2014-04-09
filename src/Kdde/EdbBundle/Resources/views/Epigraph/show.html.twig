@@ -162,7 +162,7 @@
 						{% for lit in e.literatures %}
 							{% if lit.relazione == 'Identity' %}
 								{% set identity = identity | merge([lit]) %}
-							{% elseif lit.relazione == 'opisthographic' %}
+							{% elseif lit.relazione == 'Opisthographic' %}
 								{% set opisthographic = opisthographic | merge([lit]) %}
 							{% elseif lit.relazione == 'Reuse' %}
 								{% set reuse = reuse | merge([lit]) %}
@@ -218,8 +218,7 @@
 							{%- endif -%}
 							</td>
 						</tr>
-						
-												
+											
 						{%- if opisthographic | length > 0 or opisthographic_online | length > 0-%}
 							<tr style = "font-size: 10pt">
 								<td><i style="color:grey;">Other text(s) on the back side:</i> 
@@ -298,7 +297,7 @@
 						{%- endif -%}
 						{%- if integration_online | length > 0 -%}
 							{%- for b in integration_online -%}
-								{%- if i > 0 or (integration | length > 0) -%}; 
+								{%- if loop.index > 1 or (integration | length > 0) -%}; 
 								{% endif -%}
 								<a href = "{{b.resourceType.reference}}
 								{%- if b.resourceType.idSize and b.resourceType.idSize-b.resourceRef|length > 0 -%}
