@@ -23,6 +23,7 @@ class BiblioRiferimentoEpigrafe
 	 * @ORM\Id
 	 * @ManyToOne(targetEntity="BiblioRiferimento")
 	 * @JoinColumn(name="id_riferimento", referencedColumnName="id")
+	 * @ORM\OrderBy({"anno" = "ASC"})
 	 */
 	protected $idRiferimento;
 

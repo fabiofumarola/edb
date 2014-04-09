@@ -37,7 +37,7 @@
 											<i style="color:grey;">and </i> 
 										{% endif %}
 										{%- if c.context.description != 'n.d.'-%}
-											<a onClick="showMap('{{ c.context.geoposition | slice(1, c.context.geoposition |length-2 ) }}');" style="cursor: pointer; cursor: hand;"> {{ c.context.description -}} </a>
+											<a onClick="showMap('{{ c.context.geoposition | slice(1, c.context.geoposition |length-2 ) }}');" style="cursor: pointer; cursor: hand; color:black"> {{ c.context.description -}} </a>
 										{%- endif %}
 										{%- if c.pertinencePosition.description != 'n.d.'-%}
 											, {{ c.pertinencePosition.description -}}
@@ -173,7 +173,7 @@
 								{% set comment = comment | merge([lit]) %}
 							{% endif %}
 						{% endfor %}
-							
+
 						{% set identity_online = [] %}
 						{% set opisthographic_online = [] %}
 						{% set reuse_online = [] %}
@@ -182,7 +182,7 @@
 						{% for lit in e.relatedResources %}
 							{% if lit.relationType == 'Identity' %}
 								{% set identity_online = identity_online | merge([lit]) %}
-							{% elseif lit.relationType == 'opisthographic' %}
+							{% elseif lit.relationType == 'Opisthographic' %}
 								{% set opisthographic_online = opisthographic_online | merge([lit]) %}
 							{% elseif lit.relationType == 'Reuse' %}
 								{% set reuse_online = reuse_online | merge([lit]) %}
@@ -192,7 +192,6 @@
 								{% set comment_online = comment_online | merge([lit]) %}
 							{% endif %}
 						{% endfor %}
-						
 						<tr style = "font-size: 12pt">
 							<td><i style="color:grey;">Edition(s):</i> 
 							{% if e.icvr != '' and e.icvr != 'n.d.' %}
@@ -205,16 +204,23 @@
 								{%- for b in identity -%}
 									{%- if loop.index > 1 or (e.icvr != '' and e.icvr != 'n.d.') -%}; 
 									{% endif -%}
-									<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}}
+									<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand; color:black">{{- b.idRiferimento.id -}}
 									{%- if b.note != '' -%},
 									 	{{ b.note -}}
 									{%- endif -%}
 									 </a>
 								{%- endfor -%}
 							{%- endif -%}
+							
+							
+							{%- if (identity | length == 0) -%} - {% endif -%}
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							
 							{%- if identity_online | length > 0 -%}
 								{%- for b in identity_online -%}
-									{%- if loop.index > 1 or (identity | length > 0) -%};{% endif -%}
+									{%- if loop.index == 1 -%}Online: 
+									{% else %};
+									{% endif -%}
 									<a href = "{{b.resourceType.reference}}
 									{%- if b.resourceType.idSize and b.resourceType.idSize-b.resourceRef|length > 0 -%}
 										{%- for i in 1..b.resourceType.idSize-b.resourceRef|length -%}0{%- endfor -%}
@@ -232,16 +238,21 @@
 						{%- if opisthographic | length > 0 -%}
 							{%- for b in opisthographic -%}
 								{%- if loop.index > 1 -%}; {% endif -%}
-								<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}} 
+								<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand; color:black">{{- b.idRiferimento.id -}} 
 								{%- if b.note != '' -%},
 								 	{{ b.note -}}
 								{%- endif -%}
 								</a>
 							{%- endfor -%}
 						{%- endif -%}
+						
+						{%- if (opisthographic | length == 0) -%} - {% endif -%}
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						
 						{%- if opisthographic_online | length > 0 -%}
 							{%- for b in opisthographic_online -%}
-								{%- if loop.index > 1 or (opisthographic | length > 0) -%}; 
+								{%- if loop.index == 1 -%}Online: 
+								{% else %};
 								{% endif -%}
 								<a href = "{{b.resourceType.reference}}
 								{%- if b.resourceType.idSize and b.resourceType.idSize-b.resourceRef|length > 0 -%}
@@ -263,16 +274,22 @@
 						{%- if reuse | length > 0 -%}
 							{%- for b in reuse -%}
 								{%- if loop.index > 1 -%}; {% endif -%}
-								<a onClick="showRef('{{- b.idRiferimento.id -}}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}} 
+								<a onClick="showRef('{{- b.idRiferimento.id -}}');" style="cursor: pointer; cursor: hand; color:black">{{- b.idRiferimento.id -}} 
 								{%- if b.note != '' -%},
 									 {{ b.note -}}
 								{%- endif -%}			
 								</a>
 							{%- endfor -%}
 						{%- endif -%}
+						
+						{%- if (reuse | length == 0) -%} - {% endif -%}
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						
 						{%- if reuse_online | length > 0 -%}
 							{%- for b in reuse_online -%}
-								{%- if loop.index > 0 or (reuse | length > 0) -%}; 
+								{%- if loop.index == 1 -%}Online: 
+								{% else %};
 								{% endif -%}
 								<a href = "{{b.resourceType.reference}}
 								{%- if b.resourceType.idSize and b.resourceType.idSize-b.resourceRef|length > 0 -%}
@@ -294,16 +311,21 @@
 							{%- for b in integration -%}
 								{%- if loop.index > 1 -%}; 
 								{% endif -%}
-								<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}} 
+								<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand; color:black">{{- b.idRiferimento.id -}} 
 								{%- if b.note != '' -%},
 									{{ b.note -}}
 								{%- endif -%}
 								</a>
 							{%- endfor -%}
 						{%- endif -%}
+						
+						{%- if (integration | length == 0) -%} - {% endif -%}
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						
 						{%- if integration_online | length > 0 -%}
 							{%- for b in integration_online -%}
-								{%- if loop.index > 1 or (integration | length > 0) -%}; 
+								{%- if loop.index == 1 -%}Online: 
+								{% else %};
 								{% endif -%}
 								<a href = "{{b.resourceType.reference}}
 								{%- if b.resourceType.idSize and b.resourceType.idSize-b.resourceRef|length > 0 -%}
@@ -324,16 +346,21 @@
 						{%- if comment | length > 0 -%}
 							{%- for b in comment -%}
 								{%- if loop.index > 1 -%}; {% endif -%}
-								<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}} 
+								<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand; color:black" >{{- b.idRiferimento.id -}} 
 								{%- if b.note != '' -%},
 								 	{{ b.note -}}
 								{%- endif -%}
 								</a>
 							{%- endfor -%}
 						{%- endif -%}
+						
+						{%- if (comment | length == 0) -%} - {% endif -%}
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						
 						{%- if comment_online | length > 0 -%}
 							{%- for b in comment_online -%}
-								{%- if loop.index > 1 or (comment| length > 0) -%}; 
+								{%- if loop.index == 1 -%}Online: 
+								{% else %};
 								{% endif -%}
 								<a href = "{{b.resourceType.reference}}
 								{%- if b.resourceType.idSize and b.resourceType.idSize-b.resourceRef|length > 0 -%}

@@ -209,7 +209,8 @@ class Epigraph {
 	 *
 	 * @var ArrayCollection
 	 * @OneToMany(targetEntity="RelatedResource", mappedBy="idEpigrafe", cascade={"persist", "merge","remove"})
-	 */
+ 	 * @ORM\OrderBy({"resourceType" = "ASC"})
+     */
 	protected $relatedResources;
 	
 	
