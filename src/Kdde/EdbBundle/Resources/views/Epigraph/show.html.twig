@@ -64,13 +64,7 @@
 								<td>
 									{%- if e.material.support.id != '0' -%}
 										<a href={{ e.material.support.url}} target="_blank">{{- e.material.support.description }}</a>
-										{%- if e.material.technique.id != '0' -%}
-											&nbsp;-&nbsp;
-										{%- endif -%}
 									{%- endif -%}
-{# 									{%- if e.material.technique.id != 0 -%}#}
-{# 										Titulus {{ e.material.technique.description-}}#}
-{# 									{%- endif -%}#}
 									{%- if (e.material.height != '' or e.material.width != '' or e.material.tickness != '') and (e.material.technique.id != 0 or e.material.support.id != 0) -%}
 										, 
 									{% endif %}
