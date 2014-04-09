@@ -159,6 +159,7 @@
 						{% set opisthographic = [] %}
 						{% set reuse = [] %}
 						{% set integration = [] %}
+						{% set comment = [] %}
 						{% for lit in e.literatures %}
 							{% if lit.relazione == 'Identity' %}
 								{% set identity = identity | merge([lit]) %}
@@ -168,6 +169,8 @@
 								{% set reuse = reuse | merge([lit]) %}
 							{% elseif lit.relazione == 'Integration' %}
 								{% set integration = integration | merge([lit]) %}
+							{% elseif lit.relazione == 'Comment' %}
+								{% set comment = comment | merge([lit]) %}
 							{% endif %}
 						{% endfor %}
 							
@@ -175,6 +178,7 @@
 						{% set opisthographic_online = [] %}
 						{% set reuse_online = [] %}
 						{% set integration_online = [] %}
+						{% set comment_online = [] %}
 						{% for lit in e.relatedResources %}
 							{% if lit.relationType == 'Identity' %}
 								{% set identity_online = identity_online | merge([lit]) %}
@@ -184,6 +188,8 @@
 								{% set reuse_online = reuse_online | merge([lit]) %}
 							{% elseif lit.relationType == 'Integration' %}
 								{% set integration_online = integration_online | merge([lit]) %}
+							{% elseif lit.relationType == 'Comment' %}
+								{% set comment_online = comment_online | merge([lit]) %}
 							{% endif %}
 						{% endfor %}
 						
@@ -311,7 +317,35 @@
 						</tr>
 						{% endif %}
 						
-							
+						{%- if comment | length > 0 or comment_online | length > 0-%}
+							<tr style = "font-size: 10pt">
+								<td><i style="color:grey;">Other bibliography:</i> 
+						{% endif %}
+						{%- if comment | length > 0 -%}
+							{%- for b in comment -%}
+								{%- if loop.index > 1 -%}; {% endif -%}
+								<a onClick="showRef('{{ b.idRiferimento.id }}');" style="cursor: pointer; cursor: hand;">{{- b.idRiferimento.id -}} 
+								{%- if b.note != '' -%},
+								 	{{ b.note -}}
+								{%- endif -%}
+								</a>
+							{%- endfor -%}
+						{%- endif -%}
+						{%- if comment_online | length > 0 -%}
+							{%- for b in comment_online -%}
+								{%- if loop.index > 1 or (comment| length > 0) -%}; 
+								{% endif -%}
+								<a href = "{{b.resourceType.reference}}
+								{%- if b.resourceType.idSize and b.resourceType.idSize-b.resourceRef|length > 0 -%}
+									{%- for i in 1..b.resourceType.idSize-b.resourceRef|length -%}0{%- endfor -%}
+								{%- endif -%}
+								{{ b.resourceRef }}" target="_blank">{{ b.resourceType.description -}}{{- b.resourceRef }}</a>
+							{%- endfor -%}
+						{%- endif -%}
+						{%- if comment | length > 0 or comment_online | length > 0-%}
+							</td>
+						</tr>
+						{% endif %}	
 						
 						
 						{% if imageUrl != null %}
