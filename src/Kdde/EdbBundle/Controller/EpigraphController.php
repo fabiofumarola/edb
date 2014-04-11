@@ -225,7 +225,12 @@ class EpigraphController extends Controller {
 	
 		$roles = $this->get('security.context')->getToken()->getRoles();	
 		
-		if ($epigraph == null || (!in_array("administrator", $roles) && $epigraph->getStatus() < 2))	
+		if ($epigraph == null)
+		{
+			$this->get('session')->getFlashBag()->add('error', 'The epigraph  EDB' . $id . " is not in the database or you do not have enough privileges to access it!");
+				return $this->redirect($this->generateUrl('edb_homepage')); 
+		}
+		else if(!in_array("administrator", $roles) && $epigraph->getStatus() < 2)
 		{
 			// Check if the logged user is the author
 			$loggedUsername = $this->get('security.context')->getToken()->getUser();

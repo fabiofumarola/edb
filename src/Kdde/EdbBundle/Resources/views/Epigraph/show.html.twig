@@ -53,9 +53,9 @@
 						
 						<tr style = "font-size: 12pt">
 							<td>
-								<a href={{ e.funzione.url }} target="_blank">{{ e.funzione.description }}</a>
+								<a href={{ e.funzione.url }} target="_blank" style="cursor: pointer; cursor: hand; color:black">{{ e.funzione.description }}</a>
 								{% if e.material.technique.id != '0' -%}
-									<a href={{ e.material.technique.url}} target="_blank">{{ e.material.technique.description-}}</a>
+									<a href={{ e.material.technique.url}} target="_blank" style="cursor: pointer; cursor: hand; color:black">{{ e.material.technique.description-}}</a>
 								{%- endif -%}	
 							</td>
 						</tr>	
@@ -63,12 +63,12 @@
 							<tr style = "font-size: 12pt">
 								<td>
 									{%- if e.material.support.id != '0' -%}
-										<a href={{ e.material.support.url}} target="_blank">{{- e.material.support.description }}</a>
+										<a href={{ e.material.support.url}} target="_blank" style="cursor: pointer; cursor: hand; color:black">{{- e.material.support.description }}</a>
 									{%- endif -%}
 									{%- if (e.material.height != '' or e.material.width != '' or e.material.tickness != '') and (e.material.technique.id != 0 or e.material.support.id != 0) -%}
 										, 
 									{% endif %}
-									{%- if e.material.height != '' or e.material.width != '' or e.material.tickness != '' -%}
+									{% if e.material.height != '' or e.material.width != '' or e.material.tickness != '' -%}
 										{% if e.material.height != '' -%} 
 											{{- e.material.height -}} 
 										{%- else -%} 
@@ -90,7 +90,7 @@
 									{%- if e.altMaxLetters != '' or e.altMinLetters != '' -%}
 										. Letters  
 										{% if e.altMaxLetters != '' and e.altMinLetters != '' -%}	
-											({{- e.altMinLetters -}}-{{- e.altMaxletters -}})
+											{{- e.altMinLetters -}}-{{- e.altMaxletters -}}
 										{%- elseif e.altMaxLetters != '' -%}
 											{{- e.altMaxLetters -}}
 										{%- elseif e.altMinLetters != '' -%}
