@@ -37,12 +37,14 @@
 										{%- if c.context.description != 'n.d.'-%}
 											<a onClick="showMap('{{ c.context.geoposition | slice(1, c.context.geoposition |length-2 ) }}');" style="cursor: pointer; cursor: hand; color:black"> {{ c.context.description -}} </a>
 										{%- endif %}
+										{% if c.pertinenceArea.description != 'n.d.' -%}
+											{%- if c.context.description != 'n.d.'-%}({%- endif -%}
+											{{ c.pertinenceArea.description -}}
+											{%- if c.context.description != 'n.d.'-%}){%- endif %}
+										{%- endif -%}
 										{%- if c.pertinencePosition.description != 'n.d.'-%}
 											, {{ c.pertinencePosition.description -}}
 										{%- endif %}
-										{% if c.pertinenceArea.description != 'n.d.' -%}
-											({{ c.pertinenceArea.description -}})
-										{%- endif -%}
 										{%- if c.inSitu == true -%}
 											, in situ 
 										{%- endif -%} 
@@ -110,7 +112,7 @@
 									<td> 
 										<i style="color:grey;">
 										{%- if loop.index == 1 -%}
-											Now in 
+											Last recorded in 
 										{% else -%}
 											and  
 										{% endif -%}
