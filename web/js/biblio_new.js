@@ -354,7 +354,7 @@ $('document').ready(function()
 			
 			$('#lbl_title').html("Corpus Title*");
 			$('#lbl_number').html("Volume*");
-			$('#lbl_year').html("Year of Edition");
+			$('#lbl_year').html("Year of Edition*");
 			$('#lbl_city').html("City of Edition");	
 		}
 		else if(id == 'Repertorio')
@@ -855,13 +855,13 @@ $('#addNewReference').click(function()
 	// --------------------------------------------------------------------------------------------------------------------
 	else if(type == "Corpus")
 	{
-		if(abbr == "" || title == "" || number == "")
+		if(abbr == "" || title == "" || number == "" || year == "")
 		{
 			alert("Please compile all the required fields!");
 			return;
 		}
 		
-		if(year != "" && !isInteger(year))
+		if(!isInteger(year))
 		{
 			alert("The field Year of Edition must be numeric!");
 			return;
