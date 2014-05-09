@@ -196,15 +196,9 @@ $('document').ready(function()
 		});
 	
 	
-	// Add a new Conference
+	// Add a new Volume
 	$('#addNewVolume').click(function() 
-	{
-		if(countEditorsVol == 1)
-		{
-			alert("You must specify at least an editor");
-			return;
-		}
-		
+	{		
 		var name = $('#volume_name').val();
 		var editors = "";
 		for (var i in hashEditorsVol) {
