@@ -28,7 +28,15 @@
 
 
 	<div class="marketing">
-		<h2>Edit Record EDB{{e.id}}</h2>
+		<h2>Edit Record EDB{{e.id}}
+		{% if e.status == 0 %}
+			(Open)
+		{% elseif e.status == 1%}
+			(Sent to reviewer) 
+		{% else %}
+			(Online)
+		{% endif %}
+		</h2>
 		<br>
 	</div>
 	
