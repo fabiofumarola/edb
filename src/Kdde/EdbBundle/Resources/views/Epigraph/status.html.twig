@@ -16,11 +16,11 @@
 			<thead>
 				<tr>
 					<th>ID</th>
-					<th>N. ICVR</th>
-					<th>SN</th>
+					<th>ICVR</th>
 					<th>Compilator</th>
 					<th>Date</th>
 					<th>Text</th>
+					<th>Status</th>
 					<th>Action</th>
 				</tr>
 			</thead>
@@ -28,15 +28,23 @@
 				{% for e in epigraphes %}
 					<tr class="warning">
 						<td> {{ e.id }}</td>	
-						<td> {{ e.principalProgNumber }}</td>	
-						<td> {{ e.subNumeration }}</td>	
-						<td> {{ e.compilator.username }}</td>
+						<td> {{ e.principalProgNumber }}
+						{%- if e.subNumeration != '' -%}.{%- endif -%}{{ e.subNumeration }}
+						</td>	
+						<td> {{ e.oldCompilator }}</td>
 						<td> {{ e.createdAt|date('Y-m-d')  }} </td>
 						<td class = "span8"> {{ e.trascription | slice(0,80) }} 
 						{% if e.trascription|length > 80 %}
     						...
 						{% endif %}
-						</td>						
+						</td>			
+						<td>
+						{% if e.status == 0 %}
+							Open
+						{% elseif e.status == 1 %}
+							Sent to reviewer
+						{% endif %}
+						</td>			
 						<td><a href="{{ path('edb_epigraph_edit', {'id': e.id}) }}" target="_blank" >Show/Edit</a></td>				
 					</tr>
 				{% endfor %}
