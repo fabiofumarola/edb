@@ -109,8 +109,25 @@ edb_epigraph_show_icvr:
 edb_epigraph_edit:
     pattern: /compiler/epigraph/{id}/edit
     defaults: {_controller: KddeEdbBundle:Epigraph:edit}
-
     
+    
+edb_epigraph_icvr_sub_list:
+    pattern: /compiler/epigraph/icvrsublist/{id}/{sub}.{_format}
+    defaults: {_controller: KddeEdbBundle:Epigraph:icvrsublist, _format: json}    
+    requirements:
+        id: \d+
+    options:
+        expose: true       
+    
+edb_epigraph_icvr_list:
+    pattern: /compiler/epigraph/icvrlist/{id}.{_format}
+    defaults: {_controller: KddeEdbBundle:Epigraph:icvrlist, _format: json}    
+    requirements:
+        id: \d+
+    options:
+        expose: true
+        
+        
 edb_literature_new:
     pattern: /compiler/literature/new
     defaults: {_controller: KddeEdbBundle:Literature:new}   

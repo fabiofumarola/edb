@@ -51,12 +51,12 @@
 					
 					<div class="span2">
 						<label>Number</label> <input type="text"
-							name="epigraph[principalProgNumber]" class="span2">
+							name="epigraph[principalProgNumber]" id="icvrprinc" class="span2">
 					</div>
 
 					<div class="span2">
 						<label>Sub Number</label> <input type="text"
-							name="epigraph[subNumeration]" class="span2">
+							name="epigraph[subNumeration]" id="icvrsub" class="span2">
 					</div>
 
 					<div class="span4" id="div_biblio">
@@ -331,51 +331,7 @@
 							</select>
 					</div>
 				</div>	
-				<hr>
-	
-{#				<div class="row">
-					<div class="span2">
-						<label class="labelCentered">Letters Height</label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="span1">
-						<label>Minimum</label> <input type="text" name="epigraph[altMinLetters]"
-							class="span1">
-					</div>
-
-					<div class="span1">
-						<label>Maximum</label> <input type="text" name="epigraph[altMaxLetters]"
-							class="span1">
-					</div>
-
-					<div class="span2 offset1">
-						<label>Paleographic Notes</label> <select
-							id="selectPaleography" class="span2" name="epigraph[paleography]">
-							{% for pal in paleographies %}
-								<option value="{{ pal.id }}"> {{ pal.description }}</option>
-							{% endfor %}
-								<option value="-1"> Add New </option>
-						</select>
-					</div>
-				</div>
-				<div class="row">
-					<div class="span2">
-							<label>Function</label> <select id="selectFunction" class="span2"
-								name="epigraph[funzione]">								
-								{% for fun in functions %}
-									<option value="{{ fun.id  }}"
-									{% if fun.id  == 'S'%} 
-										selected
-									{% endif %}
-								> {{ fun.description }}</option>
-								{% endfor %}
-									<option value="-1"> Add New </option>
-							</select>
-						</div>
-					</div>
-				<hr>#}
-				
+				<hr>				
 				<div class="row">
 					<div class="span2">
 						<h4>Text</h4>
@@ -616,17 +572,6 @@
 					
 				</div>
 				<br /><br />
-{# 				<div class="row">#}
-{# 					<div class="span4">#}
-{# 						<label>Critical Apparatus</label>#}
-{# 						<textarea rows="3" name="epigraph[criticalApparatus]" class="span4">{{ e.criticalApparatus }}</textarea>#}
-{# 					</div>#}
-{# 					<div class="span4">#}
-{# 						<label>Notes</label>#}
-{# 						<textarea rows="3" name="epigraph[comment]" class="span4">{{ e.comment }}</textarea>#}
-{# 					</div>#}
-{# 				</div>#}
-
 				<hr>
 				
     			{{ form_rest(form) }}

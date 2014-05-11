@@ -1586,6 +1586,73 @@ $('document').ready(function() {
 	$('#submitButton').click(function() {
 	    $('#selectSigna option').prop('selected', 'selected');
 	    $('#selectReferences option').prop('selected', 'selected');
+
+	    icvrprinc = $('#icvrprinc').val();
+	    icvrsub = $('#icvrsub').val();
+	    
+	    // Only subnumber is specified
+	    if(icvrprinc == '' && icvrsub != '')
+	    {
+	    	alert('Subnumber cannot specified without specifying the principal number.');
+	    	return false;
+	    }
+
+	    // Only number is specified (check for existing with the same number)
+	    else if(icvrprinc != '' && icvrsub == '')
+	    {
+	    	var url = Routing.generate('edb_epigraph_icvr_list', {
+	    		id: icvrprinc
+	    	});
+	    	message = "";
+	    	count = 0;
+	    	$.ajaxSetup({async: false});
+	    	$.getJSON(url + '.json', function(data) {
+	    			    		
+	    		for (i in data) {
+	    			message = message + "ID: " + data[i].id;
+	    			if(data[i].sub_numeration != "")
+	    				message = message + " - Subnumber: " + data[i].sub_numeration;
+	    			else
+	    				message = message + " - No subnumber";
+	    			message = message + "\n";
+	    			count++;
+	    		}
+	    	});
+	    	$.ajaxSetup({async: true});
+	    	if(count > 0)
+	    	{
+	    		message = "The specified ICVR number is already in the database:\n" + message;
+	    		message = message + "\nPlease specify a subnumber!";
+	    		alert(message);
+		    	return false;
+	    	}
+	    }
+	    
+	    // Both number and subnumber are specified (check for duplicated)
+	    else if(icvrprinc != '' && icvrsub != '')
+	    {
+	    	var url = Routing.generate('edb_epigraph_icvr_sub_list', {
+	    		id: icvrprinc,
+	    		sub: icvrsub
+	    	});
+	    	count = 0;
+	    	message = "";
+	    	$.ajaxSetup({async: false});
+	    	$.getJSON(url + '.json', function(data) {		
+	    		for (i in data) {
+	    			message = message + "ID: " + data[i].id + "\n";
+	    			count++;
+	    		}
+	    	});
+	    	$.ajaxSetup({async: true});
+	    	if(count > 0)
+	    	{
+		    	message = 'The specified ICVR number/subnumber is already in the database:\n' + message;
+	    		message = message + "Please check ICVR number and subnumber!";
+	    		alert(message);
+		    	return false;
+	    	}
+	    }
 	});
 	
 });

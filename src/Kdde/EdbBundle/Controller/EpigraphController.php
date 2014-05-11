@@ -271,6 +271,33 @@ class EpigraphController extends Controller {
 	}
 	
 	
+	public function icvrsublistAction($id, $sub, $_format)
+	{
+		if ($_format != "json")
+			return new Response(json_encode("it supports only json"));
+	
+		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
+		$em = $this->getDoctrine()->getManager();
+		$epigraph = $repository->findBy(array('principalProgNumber' => $id, 'subNumeration' => $sub));
+		$serializer = $this->get('jms_serializer');
+		$json = $serializer->serialize($epigraph, 'json');
+		return new Response($json);
+	}
+	
+	public function icvrlistAction($id, $_format)
+	{
+		if ($_format != "json")
+			return new Response(json_encode("it supports only json"));
+
+		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
+		$em = $this->getDoctrine()->getManager();
+		$epigraph = $repository->findBy(array('principalProgNumber' => $id));
+		$serializer = $this->get('jms_serializer');
+		$json = $serializer->serialize($epigraph, 'json');
+		return new Response($json);
+	}
+	
+	
 	public function showicvrAction($id) {
 		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
 		$em = $this->getDoctrine()->getManager();
@@ -499,20 +526,13 @@ class EpigraphController extends Controller {
 		$form = $this->createFormBuilder($defaultData)->getForm();
 
 		if ($request->getMethod() == 'POST') {
-
-			$serializer = new Serializer(array(new GetSetMethodNormalizer()),
-					array('json' => new JsonEncoder()));
+			$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
 
 			$form->bind($request);
-
 			if ($form->isValid()) {
-
 				$epigraphArray = $request->get('epigraph');
-
 				$epigraph = $this->persistEpigraph($epigraphArray, null);
-			
 				$this->get('session')->getFlashBag()->add('notice','Your changes were saved, the epigraph is saved with id '. $epigraph->getId()) . " !";
-
 				return $this->redirect($this->generateUrl('edb_epigraph_show', array('id' => $epigraph->getId())));
 			}
 		}
