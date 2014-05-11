@@ -1587,11 +1587,23 @@ $('document').ready(function() {
 	    $('#selectSigna option').prop('selected', 'selected');
 	    $('#selectReferences option').prop('selected', 'selected');
 
+	    icvrvol = $('#epigraph_icvr').val();
 	    icvrprinc = $('#icvrprinc').val();
 	    icvrsub = $('#icvrsub').val();
 	    
+	    if(icvrvol == 'null' && (icvrprinc != '' || icvrsub != ''))
+	    {
+	    	alert('Number and/or subnumber cannot be specified without specifying the ICVR Volume.');
+	    	return false;
+	    }
+	    else if(icvrvol != 'null' && icvrprinc == '')
+	    {
+	    	alert('ICVR Volume cannot be specified without specifying the ICVR Number.');
+	    	return false;
+	    }
+	    
 	    // Only subnumber is specified
-	    if(icvrprinc == '' && icvrsub != '')
+	    else if(icvrprinc == '' && icvrsub != '')
 	    {
 	    	alert('Subnumber cannot specified without specifying the principal number.');
 	    	return false;
