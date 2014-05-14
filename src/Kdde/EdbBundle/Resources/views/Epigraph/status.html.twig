@@ -43,6 +43,8 @@
 							Open
 						{% elseif e.status == 1 %}
 							Sent to reviewer
+						{% elseif e.status == 3 %}
+							Back from reviewer
 						{% endif %}
 						</td>			
 						<td><a href="{{ path('edb_epigraph_edit', {'id': e.id}) }}" target="_blank" >Show/Edit</a></td>				

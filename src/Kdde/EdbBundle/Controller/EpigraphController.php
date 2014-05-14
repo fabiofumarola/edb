@@ -55,6 +55,7 @@ class EpigraphController extends Controller {
 
 		// Get the created epigraph of the logged user only
 		$pendingEpigraphes = $repository->findBy(array('status'=> 0, 'compilator' => $compilator), array('id' => 'ASC'));
+		$pendingEpigraphes = array_merge($pendingEpigraphes,$repository->findBy(array('status'=> 3, 'compilator' => $compilator), array('id' => 'ASC')));
 		
 		// If the user is an admin, add the pending epigraphs of all the users
 		if (in_array("administrator", $roles))
@@ -174,7 +175,7 @@ class EpigraphController extends Controller {
 				}
 				else if(isset($backButton))
 				{
-					$this->setStatus($epigraph->getId(), 0);
+					$this->setStatus($epigraph->getId(), 3);
 					$message = 'Your changes to the epigraph ' . $epigraph->getId() . ' have been successfully saved and it has been returned back to compiler!';
 				}
 				else if(isset($sendToAdminButton))
