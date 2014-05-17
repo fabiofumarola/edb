@@ -42,7 +42,11 @@ EDB Search Result Page
 				{% for e in pagination %}
 					<tr class="warning">
 						<td> {{ e.id }}</td>	
-						<td> {{ e.principalProgNumber }} {{ e.subNumeration }}</td>	
+						<td> {{ e.principalProgNumber -}} 
+						{%- if e.subNumeration != '' -%}
+							.{{- e.subNumeration -}}
+						{% endif %}
+						</td>	
 						<td>
 							{% for lit in e.literatures %}
 								{{ lit.idRiferimento.id }}<br>

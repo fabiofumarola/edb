@@ -203,6 +203,10 @@ class EpigraphRepository extends EntityRepository {
 		if (isset($searchArray['thesaurus']))
 			$useThesaurus = true;
 	
+		$caseSensitive = false;
+		if (isset($searchArray['sensitive']))
+			$caseSensitive = true;
+		
 		$yesDiacr = false;
 		if (isset($searchArray['yesdiacr']))
 			$yesDiacr = true;
@@ -317,17 +321,24 @@ class EpigraphRepository extends EntityRepository {
 				$count = 1;
 				foreach($words as $word)
 				{
-					$strQueryWhere .= "AND LOWER(" . $field . ") LIKE ";
-					if($yesGreek && $yesDiacr)
-						$transc = "LOWER(CONCAT(CONCAT('%', :transcription" . $count . "),'%')) ";
-					else if($yesGreek)
-						$transc = "LOWER(CONCAT(CONCAT('%',REMOVEDIACR(:transcription" . $count . ")),'%')) ";
-					else if($yesDiacr)
-						$transc = "LOWER(CONCAT(CONCAT('%',REMOVEGREEKS(:transcription" . $count . ")),'%')) ";
+					if($caseSensitive)
+						$strQueryWhere .= "AND " . $field . " LIKE ";
 					else
-						$transc = "LOWER(CONCAT(CONCAT('%',REMOVEGREEKS(REMOVEDIACR(:transcription" . $count . "))),'%')) ";
-					$strQueryWhere .= $transc;
-						
+						$strQueryWhere .= "AND LOWER(" . $field . ") LIKE ";
+					
+					if($yesGreek && $yesDiacr)
+						$transc = "CONCAT(CONCAT('%', :transcription" . $count . "),'%')";
+					else if($yesGreek)
+						$transc = "CONCAT(CONCAT('%',REMOVEDIACR(:transcription" . $count . ")),'%')";
+					else if($yesDiacr)
+						$transc = "CONCAT(CONCAT('%',REMOVEGREEKS(:transcription" . $count . ")),'%')";
+					else
+						$transc = "CONCAT(CONCAT('%',REMOVEGREEKS(REMOVEDIACR(:transcription" . $count . "))),'%')";
+					
+					if(!$caseSensitive)
+						$transc = "LOWER(" . $transc . ")";
+					$strQueryWhere .= $transc . " ";
+					
 					$count++;
 				}
 			}

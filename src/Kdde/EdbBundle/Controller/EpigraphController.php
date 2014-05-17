@@ -40,10 +40,6 @@ use Kdde\EdbStoreBundle\Entity\BiblioRiferimentoEpigrafe;
 class EpigraphController extends Controller {
 
 	public function indexAction() {
-
-		//$users = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Utente')->findAll();
-		//print_r($users);
-
 		return $this->render('KddeEdbBundle:Epigraph:index.html.twig');
 	}
 
