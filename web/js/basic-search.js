@@ -126,6 +126,19 @@ $('document').ready(function() {
 	});
 	
 	
+	$('#submitButton').click(function() {
+		textSearch = $('#transcription').val();
+		if(textSearch != "")
+		{
+			count = textSearch.match(/"/g); 
+			if(count != null && count.length%2 == 1)
+			{
+				alert("Unbalanced number of double quotes.\nPlease check the query!");
+				return false;
+			}		
+		}	
+	});
+	
 	$('#checkPreciseYear').click(function() {
 		checkPreciseYearAction();
 	});
