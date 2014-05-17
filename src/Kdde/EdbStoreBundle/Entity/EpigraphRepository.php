@@ -503,6 +503,8 @@ class EpigraphRepository extends EntityRepository {
 				$count = 1;
 				foreach($words as $word)
 				{
+					if(!$caseSensitive)
+						$word = strtolower($word);
 					$query->setParameter('transcription'.$count, $word);
 					$count++;
 				}
