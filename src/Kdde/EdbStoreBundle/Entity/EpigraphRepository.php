@@ -330,7 +330,12 @@ class EpigraphRepository extends EntityRepository {
 						foreach($subTokens as $subToken)
 						{
 							if($subToken != "")
-								array_push($nonQuoted, trim($subToken));
+							{
+								if($subToken[0] != "*" && $subToken[strlen($subToken)-1] != "*")
+									array_push($quoted, trim($subToken));
+								else
+									array_push($nonQuoted, trim($subToken));
+							}
 						}
 					}
 					else
@@ -345,8 +350,10 @@ class EpigraphRepository extends EntityRepository {
 				$words = array_merge($nonQuoted, $quoted);			
 				
 				$count = 1;
+				$index = 1;
 				foreach($words as $word)
 				{
+					$wordLen = strlen($word);
 					if($caseSensitive)
 						$strField = $field;
 					if(!$caseSensitive)
@@ -377,10 +384,21 @@ class EpigraphRepository extends EntityRepository {
 						$transc = "REMOVEGREEKS(REMOVEDIACR(:transcription" . $count . "))";
 						$transc2 = "REMOVEGREEKS(REMOVEDIACR(:transcription" . ($count+1) . "))";
 						$transc3 = "REMOVEGREEKS(REMOVEDIACR(:transcription" . ($count+2) . "))";
-					}					
+					}	
+					
 					$transc = "CONCAT(CONCAT('%'," . $transc . "),'%')";
-					$transc2 = "CONCAT(CONCAT('%'," . $transc2 . "),'%')";
-					$transc3 = "CONCAT(CONCAT('%'," . $transc3 . "),'%')";
+					if($index > sizeof($nonQuoted))
+					{
+						$transc2 = "CONCAT(" . $transc2 . ",'%')";
+						$transc3 = "CONCAT('%'," . $transc3 . ")";
+					}
+					else
+					{
+						if($word[0] == "*" && $word[$wordLen-1] != "*")
+							$transc2 = "CONCAT('%'," . $transc2 . ")";
+						else if ($word[0] != "*" && $word[$wordLen-1] == "*")
+							$transc2 = "CONCAT(" . $transc2 . ",'%')";
+					}
 					
 					if(!$caseSensitive)
 					{
@@ -389,16 +407,27 @@ class EpigraphRepository extends EntityRepository {
 						$transc3 = "LOWER(" . $transc3 . ")";
 					}
 					
-					if($count > sizeof($nonQuoted))
+					// Handle quoted strings
+					if($index > sizeof($nonQuoted))
 					{
 						$strQueryWhere .= $transc . " OR " . $strField . " LIKE " . $transc2 . " OR " . $strField . " LIKE " . $transc3;  
 						$count = $count+3;						
 					}
+					// Handle non quoted strings (with *)
 					else	
 					{
-						$strQueryWhere .= $transc . " ";
-						$count++;
+						if($word[0] == "*" && $word[$wordLen-1] == "*")
+						{
+							$strQueryWhere .= $transc . " ";
+							$count++;
+						}
+						else
+						{
+							$strQueryWhere .= $transc . " OR " . $strField . " LIKE " . $transc2;
+							$count = $count+2;
+						}
 					}
+					$index++;
 					$strQueryWhere .= ") ";
 				}
 			}		
@@ -562,12 +591,14 @@ class EpigraphRepository extends EntityRepository {
 			if ($useThesaurus == false) {
 				
 				$count = 1;
+				$index = 1;
 				foreach($words as $word)
 				{
 					if(!$caseSensitive)
 						$word = strtolower($word);
 					
-					if($count > sizeof($nonQuoted))
+					// Handle quoted strings
+					if($index > sizeof($nonQuoted))
 					{
 						$wordTemp = " " . $word . " ";
 						$query->setParameter('transcription'.$count, $wordTemp);
@@ -579,12 +610,41 @@ class EpigraphRepository extends EntityRepository {
 						
 						$wordTemp = " " . $word;
 						$query->setParameter('transcription'.$count, $wordTemp);
+						$count++;
 					}
+					// Handle non quoted strings (with *)
 					else
-						$query->setParameter('transcription'.$count, $word);
-					$count++;
+					{
+						$wordLen = strlen($word);
+						if($word[0] == "*" && $word[$wordLen-1] == "*")
+						{
+							$word = substr($word, 1, $wordLen-2);
+							$query->setParameter('transcription'.$count, $word);
+							$count++;
+						}
+						else if($word[0] == "*")
+						{							
+							$word = substr($word, 1, $wordLen-1);
+							$wordTemp = $word . " ";
+							$query->setParameter('transcription'.$count, $wordTemp);
+							$count++;
+							
+							$query->setParameter('transcription'.$count, $word);
+							$count++;
+						}
+						else
+						{
+							$word = substr($word, 0, $wordLen-1);
+							$wordTemp = " " . $word;
+							$query->setParameter('transcription'.$count, $wordTemp);
+							$count++;
+							
+							$query->setParameter('transcription'.$count, $word);
+							$count++;
+						}
+					}
+					$index++;
 				}
-				
 			}
 			else
 				$query->setParameter('queryWords', $words);

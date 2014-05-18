@@ -103,7 +103,7 @@ class SearchController extends Controller {
 	
 	
 	public function basicAction(Request $request) 
-	{
+	{		
 		$repoIcvr = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Icvr');
 		$icvrs = $repoIcvr->findAll();
 		

@@ -185,7 +185,6 @@ $('document').ready(function() {
 				}
 			}
 		}	
-		return false;
 	});
 	
 	$('#checkPreciseYear').click(function() {
