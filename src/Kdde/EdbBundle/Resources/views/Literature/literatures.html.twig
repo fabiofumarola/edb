@@ -85,10 +85,9 @@
 						{% elseif lit.tipo == 'Repertorio' %}
 							{{ lit.titolo }}
 						{% elseif lit.tipo == 'Corpus' %}
- 							<i>{{ lit.titolo }}</i>.
+ 							<i>{{ lit.titolo }}</i>{%- if lit.numero != '' -%}. {% endif -%}
 							{{ lit.numero -}}
-							{% if lit.editori | length > 0 %}
-								{%- if lit.numero != '' -%}, {% endif -%}
+							{% if lit.editori | length > 0 %},
 								{% set editors = lit.editori | split('@') %}
 								{% for i in 0..editors|length-1 %}
 									{% set surname_name = editors[i] | split(';') %}
