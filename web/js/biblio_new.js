@@ -347,7 +347,7 @@ $('document').ready(function()
 			$("#div_bibliography_editors_table").show();
 			
 			$('#lbl_title').html("Corpus Title*");
-			$('#lbl_number').html("Volume*");
+			$('#lbl_number').html("Volume");
 			$('#lbl_year').html("Year of Edition*");
 			$('#lbl_city').html("City of Edition");	
 		}
@@ -849,7 +849,7 @@ $('#addNewReference').click(function()
 	// --------------------------------------------------------------------------------------------------------------------
 	else if(type == "Corpus")
 	{
-		if(abbr == "" || title == "" || number == "" || year == "")
+		if(abbr == "" || title == "" || year == "")
 		{
 			alert("Please compile all the required fields!");
 			return;

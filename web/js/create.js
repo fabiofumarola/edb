@@ -1090,23 +1090,23 @@ function loadReferences(type)
 			else if(data[i].tipo == "Corpus")
 			{
 				toAppend = toAppend + "<i>" + data[i].titolo + "</i>. ";
-				toAppend = toAppend + data[i].numero + ", ";
+				toAppend = toAppend + data[i].numero;
 				if(data[i].editori != null && data[i].editori.length >0)
 				{
 					var editors = data[i].editori.split('@');
 					for(j in editors)
 					{
+						toAppend = toAppend + ", ";
 						var surname_name = editors[j].split(';');
 						if(surname_name[1].length > 0)
 							toAppend = toAppend + surname_name[1].substring(0,1) + ". ";
 						toAppend = toAppend + surname_name[0];
 						if(j == editors.length-1)
-							toAppend = toAppend + " (a cura di)";
-						toAppend = toAppend + ", ";
+							toAppend = toAppend + " (ed.)";
 					}
 				}
 				if(data[i].cittaEdizione != null)
-					toAppend = toAppend + data[i].cittaEdizione;
+					toAppend = toAppend + ", " + data[i].cittaEdizione;
 				
 				if(data[i].anno != null)
 				{
