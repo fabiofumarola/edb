@@ -334,7 +334,6 @@ class LiteratureController extends Controller {
 			$riferimento->setTipo("Corpus");
 			$riferimento->setId("dummy");
 			$riferimento->setSigla($request->request->get('abbr'));
-			$riferimento->setNumero($request->request->get('number'));
 			$riferimento->setTitolo($request->request->get('title'));
 			
 			$year = $request->request->get('year');
@@ -344,6 +343,10 @@ class LiteratureController extends Controller {
 			$editors = $request->request->get('editors');
 			if($editors != "")
 				$riferimento->setEditori($editors);
+			
+			$number = $request->request->get('number');
+			if($number != "")
+				$riferimento->setNumero($request->request->get('number'));
 			
 			$city = $request->request->get('city');
 			if($city != "")
