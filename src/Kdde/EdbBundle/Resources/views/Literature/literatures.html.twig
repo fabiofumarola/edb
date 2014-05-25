@@ -87,7 +87,8 @@
 						{% elseif lit.tipo == 'Corpus' %}
  							<i>{{ lit.titolo }}</i>.
 							{{ lit.numero -}}
-							{% if lit.editori | length > 0 %},
+							{% if lit.editori | length > 0 %}
+								{%- if lit.numero != '' -%}, {% endif -%}
 								{% set editors = lit.editori | split('@') %}
 								{% for i in 0..editors|length-1 %}
 									{% set surname_name = editors[i] | split(';') %}
@@ -96,11 +97,11 @@
 										{% endif %}
 											{{ surname_name[0] }}{% if i < editors|length-1 %}, {% endif %}
 										{% if i == editors|length-1 %}
-											(ed.), 	
+											(eds.), 	
 										{% endif %} 
 								{% endfor %}
 							{% endif %}
-							{% if lit.editori | length == 0 and lit.cittaEdizione != '' and lit.anno != '' %}, {% endif %}
+							{%- if lit.editori | length == 0 and lit.cittaEdizione != '' and lit.anno != '' -%}, {% endif -%}
 							{{ lit.cittaEdizione }}
 							{{ lit.anno }}
 						
