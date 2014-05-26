@@ -61,7 +61,11 @@
 										{% endif %}
 											{{ surname_name[0] }}{% if i < editors|length-1 %}, {% endif %}
 										{% if i == editors|length-1 %}
-											(a cura di), 	
+											{% if editors|length == 1 %}
+												(Ed.),
+											{% else %}
+												(Eds.), 	
+											{% endif %}
 										{% endif %} 
 								{% endfor %}
 							{% endif %}
@@ -87,7 +91,7 @@
 						{% elseif lit.tipo == 'Corpus' %}
  							<i>{{ lit.titolo }}</i>{%- if lit.numero != '' -%}. {% endif -%}
 							{{ lit.numero -}}
-							{% if lit.editori | length > 0 %},
+							{% if lit.editori | length > 0 %}, 
 								{% set editors = lit.editori | split('@') %}
 								{% for i in 0..editors|length-1 %}
 									{% set surname_name = editors[i] | split(';') %}
@@ -96,7 +100,11 @@
 										{% endif %}
 											{{ surname_name[0] }}{% if i < editors|length-1 %}, {% endif %}
 										{% if i == editors|length-1 %}
-											(eds.), 	
+											{% if editors|length == 1 %}
+												(Ed.),
+											{% else %}
+												(Eds.), 	
+											{% endif %}	
 										{% endif %} 
 								{% endfor %}
 							{% endif %}
@@ -122,7 +130,11 @@
 										{% endif %}
 											{{ surname_name[0] }}{% if i < editors|length-1 %}, {% endif %}
 										{% if i == editors|length-1 %}
-											(a cura di), 	
+											{% if editors|length == 1 %}
+												(Ed.),
+											{% else %}
+												(Eds.), 	
+											{% endif %}
 										{% endif %} 
 								{% endfor %}
 							{% endif %}
