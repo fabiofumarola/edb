@@ -351,15 +351,15 @@ class EpigraphRepository extends EntityRepository {
 				
 				$count = 1;
 				$index = 1;
-				
-				$op = "ILIKE";
-				if($caseSensitive)
-					$op = "CLIKE";
-				
 				foreach($words as $word)
 				{
-					$wordLen = strlen($word);					
-					$strQueryWhere .= "AND (" . $op . "(" . $field . ",";
+					$wordLen = strlen($word);
+					if($caseSensitive)
+						$strField = $field;
+					if(!$caseSensitive)
+						$strField = "LOWER(" . $field . ")";
+					
+					$strQueryWhere .= "AND (" . $strField . " LIKE ";
 
 					if($yesGreek && $yesDiacr)
 					{
@@ -387,7 +387,6 @@ class EpigraphRepository extends EntityRepository {
 					}	
 					
 					$transc = "CONCAT(CONCAT('%'," . $transc . "),'%')";
-					
 					if($index > sizeof($nonQuoted))
 					{
 						$transc2 = "CONCAT(" . $transc2 . ",'%')";
@@ -401,11 +400,17 @@ class EpigraphRepository extends EntityRepository {
 							$transc2 = "CONCAT(" . $transc2 . ",'%')";
 					}
 					
+					if(!$caseSensitive)
+					{
+						$transc = "LOWER(" . $transc . ")";
+						$transc2 = "LOWER(" . $transc2 . ")";
+						$transc3 = "LOWER(" . $transc3 . ")";
+					}
 					
 					// Handle quoted strings
 					if($index > sizeof($nonQuoted))
 					{
-						$strQueryWhere .= $transc . ") = TRUE OR " . $op . "(" . $field . "," . $transc2 . ") = TRUE OR " . $op . "(" . $field . "," . $transc3 . ") = TRUE ";  
+						$strQueryWhere .= $transc . " OR " . $strField . " LIKE " . $transc2 . " OR " . $strField . " LIKE " . $transc3;  
 						$count = $count+3;						
 					}
 					// Handle non quoted strings (with *)
@@ -413,12 +418,12 @@ class EpigraphRepository extends EntityRepository {
 					{
 						if($word[0] == "*" && $word[$wordLen-1] == "*")
 						{
-							$strQueryWhere .= $transc . ") = TRUE ";
+							$strQueryWhere .= $transc . " ";
 							$count++;
 						}
 						else
 						{
-							$strQueryWhere .= $transc . ") = TRUE OR " . $op . "(" . $field . "," . $transc2 + ") = TRUE ";
+							$strQueryWhere .= $transc . " OR " . $strField . " LIKE " . $transc2;
 							$count = $count+2;
 						}
 					}

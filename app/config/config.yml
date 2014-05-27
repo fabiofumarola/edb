@@ -47,7 +47,7 @@ doctrine:
         charset:  UTF8 
 
     orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_generate_proxy_classes: true
         entity_managers:
             default:
                 auto_mapping: true
@@ -58,6 +58,7 @@ doctrine:
                         REMOVEDIACR: Kdde\EdbBundle\DQL\RemoveDiacr
                         REMOVEGREEKS: Kdde\EdbBundle\DQL\RemoveGreeks
                         ILIKE: Kdde\EdbBundle\DQL\Ilike
+                        CLIKE: Kdde\EdbBundle\DQL\Clike
 
 # Swiftmailer Configuration
 swiftmailer:
