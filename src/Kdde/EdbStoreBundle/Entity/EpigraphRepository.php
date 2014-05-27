@@ -418,7 +418,7 @@ class EpigraphRepository extends EntityRepository {
 						}
 						else
 						{
-							$strQueryWhere .= $transc . ") = TRUE OR " . $op . "(" . $field . "," . $transc2 + ") = TRUE ";
+							$strQueryWhere .= $transc . ") = TRUE OR " . $op . "(" . $field . "," . $transc2 . ") = TRUE ";
 							$count = $count+2;
 						}
 					}

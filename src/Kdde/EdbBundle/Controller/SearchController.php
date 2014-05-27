@@ -143,7 +143,7 @@ class SearchController extends Controller {
 	
 	public function basicDoAction(Request $request){
 		
-// 		//Enable LOG of query
+		//Enable LOG of query
 // 		$this
 // 		->get('doctrine')
 // 		->getConnection()
