@@ -131,7 +131,6 @@ class EpigraphRepository extends EntityRepository {
 	
 	
 	public function findBasicSearch($searchArray, $roles) {
-	
 		$isAdmin = false;
 		if (in_array("administrator", $roles))
 			$isAdmin = true;
@@ -331,7 +330,11 @@ class EpigraphRepository extends EntityRepository {
 						{
 							if($subToken != "")
 							{
-								if($subToken[0] != "*" && $subToken[strlen($subToken)-1] != "*")
+								$wordLen = strlen($subToken);
+								$first = substr($subToken,0,1);
+								$last = substr($subToken,($wordLen-1),1);
+								
+								if($first != "*" && $last != "*")
 									array_push($quoted, trim($subToken));
 								else
 									array_push($nonQuoted, trim($subToken));
@@ -359,6 +362,9 @@ class EpigraphRepository extends EntityRepository {
 				foreach($words as $word)
 				{
 					$wordLen = strlen($word);					
+					$first = substr($word,0,1);
+					$last = substr($word,($wordLen-1),1);
+					
 					$strQueryWhere .= "AND (" . $op . "(" . $field . ",";
 
 					if($yesGreek && $yesDiacr)
@@ -395,9 +401,9 @@ class EpigraphRepository extends EntityRepository {
 					}
 					else
 					{
-						if($word[0] == "*" && $word[$wordLen-1] != "*")
+						if($first == "*" && $last != "*")
 							$transc2 = "CONCAT('%'," . $transc2 . ")";
-						else if ($word[0] != "*" && $word[$wordLen-1] == "*")
+						else if ($first != "*" && $last == "*")
 							$transc2 = "CONCAT(" . $transc2 . ",'%')";
 					}
 					
@@ -411,7 +417,7 @@ class EpigraphRepository extends EntityRepository {
 					// Handle non quoted strings (with *)
 					else	
 					{
-						if($word[0] == "*" && $word[$wordLen-1] == "*")
+						if($first == "*" && $last == "*")
 						{
 							$strQueryWhere .= $transc . ") = TRUE ";
 							$count++;
@@ -611,13 +617,16 @@ class EpigraphRepository extends EntityRepository {
 					else
 					{
 						$wordLen = strlen($word);
-						if($word[0] == "*" && $word[$wordLen-1] == "*")
+						$first = substr($word,0,1);
+						$last = substr($word,($wordLen-1),1);
+						
+						if($first == "*" && $last == "*")
 						{
 							$word = substr($word, 1, $wordLen-2);
 							$query->setParameter('transcription'.$count, $word);
 							$count++;
 						}
-						else if($word[0] == "*")
+						else if($first == "*")
 						{							
 							$word = substr($word, 1, $wordLen-1);
 							$wordTemp = $word . " ";
