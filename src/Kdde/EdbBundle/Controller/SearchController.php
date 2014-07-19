@@ -216,6 +216,9 @@ class SearchController extends Controller {
 		
 		if (isset($searchArray['thesaurus']))
 			$useThesaurus = true;
+		
+		if ($searchArray['dateInText'] != "All")
+			$anyParameter = true;
 	
 		$yesDiacr = false;
 		if (isset($searchArray['yesdiacr']))

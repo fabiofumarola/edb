@@ -168,7 +168,10 @@ class EpigraphRepository extends EntityRepository {
 		$dating = $searchArray['dating'];
 		$from = $searchArray['from'];
 		$to = $searchArray['to'];
-			
+		$exactDating = false;
+		if (isset($searchArray['exactDating']))
+			$exactDating = true;
+		$dateInText = $searchArray['dateInText'];
 		
 		$areaId = null;
 		$notArea = isset($searchArray['notOriginalContext']);
@@ -460,6 +463,9 @@ class EpigraphRepository extends EntityRepository {
 				$strQueryWhere .= "AND ep.funzione = :function ";
 		}
 		
+		if ($dateInText != "All")
+			$strQueryWhere .= "AND ep.dateintext <> :dateintext ";
+
 		if ($support != "All" || $technique != "All")
 		{
 			$strQuerySelect .= "JOIN ep.material mat ";
@@ -487,12 +493,23 @@ class EpigraphRepository extends EntityRepository {
 		if(strlen($from) || strlen($to))
 		{
 			$strQuerySelect .= "JOIN ep.datings dat ";
-				
-			if(strlen($from))
-				$strQueryWhere .= "AND dat.to >= :datefrom ";
-				
-			if(strlen($to))
-				$strQueryWhere .= "AND dat.from <= :dateto ";
+
+			if($exactDating)
+			{
+				if(strlen($from))
+					$strQueryWhere .= "AND dat.from >= :datefrom ";
+					
+				if(strlen($to))
+					$strQueryWhere .= "AND dat.to <= :dateto ";
+			}
+			else
+			{
+				if(strlen($from))
+					$strQueryWhere .= "AND dat.to >= :datefrom ";
+					
+				if(strlen($to))
+					$strQueryWhere .= "AND dat.from <= :dateto ";
+			}
 		}
 		
 		
@@ -565,6 +582,9 @@ class EpigraphRepository extends EntityRepository {
 		if ($compiler != "All")
 			$query->setParameter('compiler', $compiler);
 			
+		if ($dateInText != "All")
+			$query->setParameter('dateintext', $dateInText);
+		
 		if(strlen($from) || strlen($to))
 		{				
 			if(strlen($from))
