@@ -48,18 +48,116 @@ class EpigraphRepository extends EntityRepository {
 		}
 		else
 		{
+// 			// Search by free text
+// 			if(strlen($text))
+// 			{		
+// 				$text_words = explode(" ", $text);
+// 				$count_text = 1;
+// 				foreach($text_words as $word)
+// 				{
+// 					$strQueryWhere .= " AND LOWER(ep.ricerca_libera) LIKE CONCAT(CONCAT('%', :text" . $count_text . "),'%')";
+// 					$count_text++;
+// 				}
+// 			}
 			// Search by free text
 			if(strlen($text))
-			{		
-				$text_words = explode(" ", $text);
-				$count_text = 1;
-				foreach($text_words as $word)
+			{
+				// Identify portions of the query that are quoted and non-quoted
+				$quoted = array();
+				$nonQuoted = array();
+				$tokens = explode("\"", $text);
+				$index = 0;
+				foreach($tokens as $token)
 				{
-					$strQueryWhere .= " AND LOWER(ep.ricerca_libera) LIKE CONCAT(CONCAT('%', :text" . $count_text . "),'%')";
-					$count_text++;
+					if($index%2 == 0)
+					{
+						$subTokens = explode(" ", $token);
+						foreach($subTokens as $subToken)
+						{
+							if($subToken != "")
+							{
+								$wordLen = strlen($subToken);
+								$first = substr($subToken,0,1);
+								$last = substr($subToken,($wordLen-1),1);
+				
+								if($first != "*" && $last != "*")
+									array_push($quoted, trim($subToken));
+								else
+									array_push($nonQuoted, trim($subToken));
+							}
+						}
+					}
+					else
+					{
+						if($token != "")
+							array_push($quoted, trim($token));
+					}
+					$index++;
 				}
+				
+				// Merge quoted and non-quoted portions in a single array
+				$words = array_merge($nonQuoted, $quoted);
+				
+				$count = 1;
+				$index = 1;
+				
+				$op = "ILIKE";
+				$field = "ep.ricerca_libera";
+				
+				foreach($words as $word)
+				{
+					$wordLen = strlen($word);
+					$first = substr($word,0,1);
+					$last = substr($word,($wordLen-1),1);
+						
+					$strQueryWhere .= "AND (" . $op . "(" . $field . ",";
+				
+					$transc = ":transcription" . $count;
+					$transc2 = ":transcription" . ($count+1);
+					$transc3 = ":transcription" . ($count+2);
+					
+						
+					$transc = "CONCAT(CONCAT('%'," . $transc . "),'%')";
+						
+					if($index > sizeof($nonQuoted))
+					{
+						$transc2 = "CONCAT(" . $transc2 . ",'%')";
+						$transc3 = "CONCAT('%'," . $transc3 . ")";
+					}
+					else
+					{
+						if($first == "*" && $last != "*")
+							$transc2 = "CONCAT('%'," . $transc2 . ")";
+						else if ($first != "*" && $last == "*")
+							$transc2 = "CONCAT(" . $transc2 . ",'%')";
+					}
+						
+						
+					// Handle quoted strings
+					if($index > sizeof($nonQuoted))
+					{
+						$strQueryWhere .= $transc . ") = TRUE OR " . $op . "(" . $field . "," . $transc2 . ") = TRUE OR " . $op . "(" . $field . "," . $transc3 . ") = TRUE ";
+						$count = $count+3;
+					}
+					// Handle non quoted strings (with *)
+					else
+					{
+						if($first == "*" && $last == "*")
+						{
+							$strQueryWhere .= $transc . ") = TRUE ";
+							$count++;
+						}
+						else
+						{
+							$strQueryWhere .= $transc . ") = TRUE OR " . $op . "(" . $field . "," . $transc2 . ") = TRUE ";
+							$count = $count+2;
+						}
+					}
+					$index++;
+					$strQueryWhere .= ") ";
+				}
+				
 			}
-			
 			
 			// Search by bibliography
 			if(strlen($biblio))
@@ -106,13 +204,75 @@ class EpigraphRepository extends EntityRepository {
 		
 		else
 		{
-			if (strlen($text))
-			{
-				$count_text = 1;
-				foreach($text_words as $word)
+// 			if (strlen($text))
+// 			{
+// 				$count_text = 1;
+// 				foreach($text_words as $word)
+// 				{
+// 					$query->setParameter('text'.$count_text, strtolower($word));
+// 					$count_text++;
+// 				}
+// 			}
+
+			
+			if (strlen($text)) {			
+				$count = 1;
+				$index = 1;
+				foreach($words as $word)
 				{
-					$query->setParameter('text'.$count_text, strtolower($word));
-					$count_text++;
+					if(!$caseSensitive)
+						$word = strtolower($word);
+						
+					// Handle quoted strings
+					if($index > sizeof($nonQuoted))
+					{
+						$wordTemp = " " . $word . " ";
+						$query->setParameter('transcription'.$count, $wordTemp);
+						$count++;
+		
+						$wordTemp = $word . " ";
+						$query->setParameter('transcription'.$count, $wordTemp);
+						$count++;
+		
+						$wordTemp = " " . $word;
+						$query->setParameter('transcription'.$count, $wordTemp);
+						$count++;
+					}
+					// Handle non quoted strings (with *)
+					else
+					{
+						$wordLen = strlen($word);
+						$first = substr($word,0,1);
+						$last = substr($word,($wordLen-1),1);
+		
+						if($first == "*" && $last == "*")
+						{
+							$word = substr($word, 1, $wordLen-2);
+							$query->setParameter('transcription'.$count, $word);
+							$count++;
+						}
+						else if($first == "*")
+						{
+							$word = substr($word, 1, $wordLen-1);
+							$wordTemp = $word . " ";
+							$query->setParameter('transcription'.$count, $wordTemp);
+							$count++;
+								
+							$query->setParameter('transcription'.$count, $word);
+							$count++;
+						}
+						else
+						{
+							$word = substr($word, 0, $wordLen-1);
+							$wordTemp = " " . $word;
+							$query->setParameter('transcription'.$count, $wordTemp);
+							$count++;
+								
+							$query->setParameter('transcription'.$count, $word);
+							$count++;
+						}
+					}
+					$index++;
 				}
 			}
 			

@@ -31,6 +31,68 @@ $('document').ready(function() {
 	$('#greekToogle').click(function(event) {
 		greekActive = !greekActive;
 	});
+	
+	
+	$('#submitButton').click(function() {
+		textSearch = $('#transcription').val();
+		if(textSearch != "")
+		{
+			// Check the number of double quotes
+			count = textSearch.match(/"/g); 
+			if(count != null && count.length%2 == 1)
+			{
+				alert("The number of double quotes cannot be odd.\nPlease check the query!");
+				return false;
+			}
+			
+			// Check the presence of the character *
+			tokens = textSearch.split("\"");
+			
+			for (var i=0; i < tokens.length; i++)
+			{
+				token = tokens[i];
+				
+				// For strings out of "", check if it is in the middle
+				if(i%2 == 0)
+				{
+					subTokens = token.split(" ");
+					
+					if(token == "\*\*")
+					{
+						alert("The query cannot contain the string **!");
+						return false;
+					}
+					
+					for(var j=0; j<subTokens.length; j++)
+					{
+						subToken = subTokens[j];
+						firstIndex = subToken.indexOf("*");
+						if(firstIndex == 0)
+						{
+							subToken = subToken.substring(firstIndex+1, subToken.length);
+							secondIndex = subToken.indexOf("*");
+							if(secondIndex != subToken.length-1 && secondIndex != -1)
+							{
+								alert("The symbol * cannot appear in the middle of a word.\nPlease check the query!");
+								return false;
+							}
+						}
+						else if(firstIndex != subToken.length-1 && firstIndex != -1)
+						{
+							alert("The symbol * cannot appear in the middle of a word.\nPlease check the query!");
+							return false;
+						}
+					}
+				}
+				// Check if it just contains the *
+				else if(token.indexOf("\*") != -1)
+				{
+					alert("The symbol * cannot appear in a string between double quotes. Please check the query");
+					return false;
+				}
+			}
+		}	
+	});
 });
 
 
