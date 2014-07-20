@@ -1,3 +1,5 @@
+var greekActive = false;
+
 $('document').ready(function() {
 	
 	// Set the default values
@@ -20,10 +22,15 @@ $('document').ready(function() {
 	
 	$('#radio_textbiblio').click(function() {
 		disableAll();
-		$('#freetext').removeAttr('readonly');
+		$('#transcription').removeAttr('readonly');
 		$('#bibliography').removeAttr('readonly');
 	});
 	// -------------------------------------------------------------
+	
+	// Switch between Latin and Greek
+	$('#greekToogle').click(function(event) {
+		greekActive = !greekActive;
+	});
 });
 
 
@@ -39,8 +46,8 @@ function disableAll()
 	$('#icvr_number').attr('readonly', 'readonly');
 	$('#icvr_subnumber').val("");
 	$('#icvr_subnumber').attr('readonly', 'readonly');
-	$('#freetext').val("");
-	$('#freetext').attr('readonly', 'readonly');
+	$('#transcription').val("");
+	$('#transcription').attr('readonly', 'readonly');
 	$('#bibliography').val("");
 	$('#bibliography').attr('readonly', 'readonly');
 }	

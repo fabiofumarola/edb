@@ -20,8 +20,7 @@ EDB Search Result Page
 {% include 'KddeEdbBundle:GeoPosition:modalViewGeoPosition.html.twig' %}
 
 <div class="marketing">
-	<h2>Search Results</h2>
-	<h3>Got {{ count }} Inscription{% if count > 0 %}s{% endif %}</h3>
+	<h3>Got {{ count }} Inscription{% if count != 1 %}s{% endif %} ({{ (count/totalCount*100)|round }}% of the total)</h3>
 	<br>
 </div>
 <div class="row">

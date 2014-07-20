@@ -6,6 +6,16 @@ use Doctrine\ORM\Query\ResultSetMapping;
 
 class EpigraphRepository extends EntityRepository {
 
+	public function getNumEpigraphs($status)
+	{
+		$strQuery = "SELECT COUNT(ep) FROM KddeEdbStoreBundle:Epigraph ep WHERE ep.status = :status";
+		$query = $this->getEntityManager()->createQuery($strQuery);
+		$query->setParameter('status', $status);
+		return $query->getSingleScalarResult();		
+	}
+	
+	
+	
 	public function findQuickSearch($searchArray, $roles)
 	{
 		$id = $searchArray['id_edb'];

@@ -60,7 +60,8 @@
       					</div>
       					
       					<div class="span2">
-      						<input type="text" class ="span2"  name="search[freetext]" id = "freetext" readonly /> 
+      						<input type="text" class ="span2" style = "font-family:Cardo" name="search[freetext]" id = "transcription" readonly /> 
+      						<button id="greekToogle" type="button" class="btn" data-toggle="button">Switch Latin\Greek</button>
       					</div>
       				
       				
@@ -94,4 +95,5 @@
 {% block javascripts %}
 		{{ parent() }}
 		 <script src="{{ asset('js/quick-search.js') }}"></script>
+		 <script src="{{ asset('js/keyboard.js') }}"></script>
 {% endblock %}

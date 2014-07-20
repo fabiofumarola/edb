@@ -95,7 +95,13 @@ class SearchController extends Controller {
 		
 		// Return the results
 		$this->get('session')->set('search', $searchArray);		
-		return $this->render('KddeEdbBundle:Search:result.html.twig',array('pagination' => $pagination, 'count' =>$pagination->getTotalItemCount(), 'isAdmin' => $isAdmin, ));
+		$totalCount = $repoEpigraph->getNumEpigraphs(2);
+		return $this->render('KddeEdbBundle:Search:result.html.twig',
+				array('pagination' => $pagination, 
+						'count' =>$pagination->getTotalItemCount(), 
+						'isAdmin' => $isAdmin,
+						'totalCount' => $totalCount
+		 ));
 	}
 	
 	
@@ -280,7 +286,16 @@ class SearchController extends Controller {
 				
 
 		$this->get('session')->set('search', $searchArray);
-						
-		return $this->render('KddeEdbBundle:Search:result.html.twig',array('pagination' => $pagination, 'count' => $pagination->getTotalItemCount(), 'isAdmin' => $isAdmin, ));
+
+		$totalCount = $repoEpigraph->getNumEpigraphs(2);
+		
+// 		$totalCount = sizeof($repoEpigraph->findBy(array('status' => 2), array()));
+
+		return $this->render('KddeEdbBundle:Search:result.html.twig',
+				array('pagination' => $pagination, 
+						'count' => $pagination->getTotalItemCount(), 
+						'isAdmin' => $isAdmin,
+						'totalCount' => $totalCount
+		 ));
 	}
 }
