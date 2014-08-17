@@ -65,10 +65,11 @@ EDB Search Result Page
 							{% endif %}	
 						{% endif %}
 						</td>
-						<td class = "span7"> {{ e.trascription | slice(0,80) }} 
-						{% if e.trascription|length > 80 %}
-    						...
-						{% endif %}
+{# 						<td class = "span7"> {{ e.trascription | slice(0,80) }} #}
+{# 						{% if e.trascription|length > 80 %}#}
+{#     						...#}
+{# 						{% endif %}#}
+						<td class = "span7"> <div id = "transcription{{-loop.index }}">{{ e.trascription }} </div>
 						</td>
 						{% if isAdmin == true %}		
 							<td><a target = "_blank" href="{{ path('edb_epigraph_show', {'id': e.id}) }}" >Show </a> &nbsp; <a target = "_blank" href="{{ path('edb_epigraph_edit', {'id': e.id}) }}" >Edit</a> </td>	
@@ -89,6 +90,7 @@ EDB Search Result Page
 {% endblock %}
 {% block javascripts %}
 		{{ parent() }}
+		<script src="{{ asset('js/ReadMore.js') }}" type="text/javascript"></script>
 		<script src="{{ asset('js/jquery.tablesorter.js') }}"></script>
 		<script src="{{ asset('js/basic-result.js') }}" type="text/javascript"></script>
 {% endblock %}
