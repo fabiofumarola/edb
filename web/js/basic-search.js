@@ -95,6 +95,14 @@ $('document').ready(function() {
 	$("#search_area").combobox();
 	$("#search_cons_area").combobox();
 	
+	$('#addSigna').click(function() {
+		openDialogViewSignas();
+	});
+
+	$('#removeSigna').click(function() {
+		removeSelectedSigna();
+	});
+
 	$('#search_support').change(function() {
 		if($('#search_support').val() == 'All')
 		{
@@ -127,6 +135,7 @@ $('document').ready(function() {
 	
 	
 	$('#submitButton').click(function() {
+	    $('#selectSigna option').prop('selected', 'selected');
 		textSearch = $('#transcription').val();
 		if(textSearch != "")
 		{
@@ -258,3 +267,66 @@ function checkPreciseYearAction()
 	}
 }
 
+
+
+// Functions to handle search on signas
+// ------------------------------------------------------------------------------------------------------
+function openDialogViewSignas() {
+	// clean for eventual data
+	$('#tbodySigna').empty();
+
+	// load the data in the modal table
+	var url = Routing.generate('edb_signa_list') + ".json";
+
+	$
+			.getJSON(
+					url,
+					function(data) {
+						for (i in data) {
+							$('#tbodySigna')
+									.append(
+											'<tr>'
+													+ '<td>'
+													+ data[i].description
+													+ '</td>'
+													+ "<td><button class='btn' type='button' onclick=\"addToSigna('"
+													+ data[i].id + "', '"
+													+ data[i].description
+													+ "')\">Add</button>"
+													+ "</td>" + "</tr>");
+						}
+					});
+
+	// show the view
+	$('#modalViewSignas').modal('show');
+
+}
+
+function removeSelectedSigna() {
+	if ($('#selectSigna option').size() == 0) {
+		alert("There are no elements to remove.");
+		return;
+	}
+	$('#selectSigna option:selected').remove();
+}
+
+
+function addToSigna(id, description) {
+	var added = false;
+	$('#selectSigna option').each(function() {
+		if ($(this).attr('value') == id) {
+			// already added
+			added = true;
+			return;
+		}
+	});
+
+	if (added) {
+		alert("Error The Signum Christi: " + description + "is already added!!");
+		return;
+	}
+
+	$('#selectSigna').append('<option value="' + id + '" selected="selected">' + description + '</option>');
+	$('#modalViewSignas').modal('hide');
+}
+//------------------------------------------------------------------------------------------------------

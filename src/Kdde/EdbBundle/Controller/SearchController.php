@@ -253,6 +253,10 @@ class SearchController extends Controller {
 				$incorrectDating = true;
 		}
 		
+		if (isset($searchArray['signas'])) 
+			$anyParameter = true;
+		
+		
 		if(isset($searchArray['from']) && isset($searchArray['to']) && !$incorrectDating && $to < $from)
 			$incorrectDating = true;
 		

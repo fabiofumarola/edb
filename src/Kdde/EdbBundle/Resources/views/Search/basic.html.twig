@@ -3,6 +3,8 @@
 {% block title %}EDB Advanced Search{% endblock %}
 
 {% block body %}
+{% include 'KddeEdbBundle:Signa:modaViewSignas.html.twig' %}
+{% include 'KddeEdbBundle:Signa:modalNewSigna.html.twig' %}
 
 	<div class="marketing">
 		<h2>Advanced Search </h2><button id = "advancedButton" type="button" class="btn" onclick="location.href='{{ path('edb_search_quick') }}';">Switch to Quick Search</button>
@@ -279,8 +281,16 @@
 								{% endfor %}				
 							</select>
       					</div>
+      					<div class="span2">
+	      					<label>Signa Christi</label>
+	      					<select class="span2" id="selectSigna"
+								multiple="multiple" name="search[signas][]">
+							</select>
+							<br>
+							<a id="addSigna" class="btn">Add</a> 
+							<a id="removeSigna" class="btn">Remove</a>
+      					</div>
       				</div>
-      				
 				{{ form_rest(form) }}
 				<br>
     			<div class="row">

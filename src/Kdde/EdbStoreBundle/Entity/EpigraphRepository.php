@@ -386,6 +386,10 @@ class EpigraphRepository extends EntityRepository {
 		$yesGreek = false;
 		if (isset($searchArray['yesgreek']))
 			$yesGreek = true;
+		
+		if (isset($searchArray['signas'])) {
+			$signas = $searchArray['signas'];
+		}
 		//--------------------------------------------------------------------------------
 
 		
@@ -472,6 +476,14 @@ class EpigraphRepository extends EntityRepository {
 			}
 		}
 		
+		if ($signas != null) {
+			$signaCount = 1;
+			foreach ($signas as $s) {
+				$strQuerySelect .= "JOIN ep.signas sig" . $signaCount . " ";
+				$strQueryWhere .= "AND sig" . $signaCount. ".id = :signa" .$signaCount . " ";
+				$signaCount++;
+			}
+		}
 		
 				
 		if ($transcription != null) {
@@ -762,6 +774,14 @@ class EpigraphRepository extends EntityRepository {
 								
 			if(strlen($to))
 				$query->setParameter('dateto', $to);
+		}
+		
+		if ($signas != null) {
+			$signaCount = 1;
+			foreach ($signas as $s) {
+				$query->setParameter('signa' .$signaCount, $s);
+				$signaCount++;
+			}
 		}
 		
 		
