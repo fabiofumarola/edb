@@ -1148,8 +1148,7 @@ function loadReferences(type)
 			
 			toAppend = toAppend + "</td>";
 
-//			toAppend = toAppend + "<td><button class='btn' type='button' onclick=\"addToReferences('" + data[i].id + "')\">Add</button></td>" + "</tr>";
-			toAppend = toAppend + "<td><input type='radio' id='reference' name='reference' value='" + data[i].id + "'></td>" + "</tr>";
+			toAppend = toAppend + "<td><button class='btn' type='button' onclick=\"addToReferences('" + data[i].id + "')\">Add</button></td>" + "</tr>";
 			$('#tBodyReferences').append(toAppend);
 		}
 	});	
@@ -1503,15 +1502,10 @@ $('document').ready(function() {
 		addNewLiterature();
 	});
 
-	// Button which add a bibliographic reference to the list
-	$('#addReferenceButton').click(function() {
-		if($('#reference:checked').val() == null)
-			alert("Please select a bibliographic reference!");
-		else
-			addToReferences($('#reference:checked').val());
-	});
 	
-
+	
+	
+	
 	$('#selectSupport').change(function() {
 		if ($(this).val() == -1)
 			openNewDialogCreateSupport();

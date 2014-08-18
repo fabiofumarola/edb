@@ -1,0 +1,159 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+ EDB Basic Search
+{% endblock %}
+
+{% block body %}
+
+	<div class="marketing">
+		<h2>Search Epigraphs</h2>
+		<br>
+	</div>
+	<div class="row">
+		<div class="offset3 span8">
+			<form class="form-horizontal" action="{{ path('edb_search_basic_do')}}" method="post" {{ form_enctype(form) }}>		
+			
+				<fieldset>
+				<h5>Identifier and Bibliography</h5>
+				      <div class="control-group">
+      					<label  class="control-label required" for="search_id">ID EDB</label>
+      					<div class="controls">
+							<input type="text" id="search_id" name="search[id]" class="span2">
+      					</div>
+      				</div>
+    				<div class="control-group">
+      					<label  class="control-label required" for="search_icvr">Volume ICVR</label>
+      					<div class="controls">
+						<select class="span2" id="search_icvr" name="search[icvr]">
+							<option value=""></option>
+							{% for icvr in icvrs %}
+								<option value="{{ icvr.id }}"> {{ icvr.volume }}</option>
+							{% endfor %}				
+						</select>
+      					</div>
+      				</div>
+      				<div class="control-group">
+      					<label  class="control-label required" for="search_principalProgNumber">ICVR Number</label>
+      					<div class="controls">
+							<input type="text" id="search_principalProgNumber" name="search[principalProgNumber]" class="span2">
+      					</div>
+      				</div>
+      				<hr>   
+      				<h5>Original Context</h5>
+      				<div class="control-group">
+						<label class="control-label required" for="search_area">Area</label> 
+						<div class="controls">
+						<select id="search_area"
+							class="span2" name="search[area]">
+							<option></option>
+						</select>
+      					</div>
+      				</div>  	
+      				<div class="control-group">
+						<label class="control-label required" for="search_context">Location</label> 
+						<div class="controls">
+						<select id="search_context"
+							class="span2" name="search[context]">
+							<option></option>
+						</select>
+      					</div>
+      				</div> 
+      				<div class="control-group">
+						<label class="control-label required" for="search_position">Position</label> 
+						<div class="controls">
+						<select id="search_position"
+							class="span2" name="search[position]">
+							<option></option>
+						</select>
+      					</div>
+      				</div> 
+      				
+      				<h5>Conservation</h5>
+      				<div class="control-group">
+						<label class="control-label required" for="search_cons_area">City/Town</label> 
+						<div class="controls">
+						<select id="search_cons_area"
+							class="span2" name="search[cons_area]">
+							<option></option>
+						</select>
+      					</div>
+      				</div>  	
+      				<div class="control-group">
+						<label class="control-label required" for="search_cons_context">Location</label> 
+						<div class="controls">
+						<select id="search_cons_context"
+							class="span2" name="search[cons_context]">
+							<option></option>
+						</select>
+      					</div>
+      				</div> 
+      				<div class="control-group">
+						<label class="control-label required" for="search_cons_position">Position</label> 
+						<div class="controls">
+						<select id="search_cons_position"
+							class="span2" name="search[cons_position]">
+							<option></option>
+						</select>
+      					</div>
+      				</div> 
+      				
+      				
+      				
+      				<h5>Other</h5>
+      				<div class="control-group">
+      					<label  class="control-label required" for="search_type">Type</label>
+      					<div class="controls">
+						<select class="span2" id="search_icvr" name="search[type]">
+							<option value="-1">All</option>
+							{% for type in types %}
+								<option value="{{ type.id }}"> {{ type.description }}</option>
+							{% endfor %}				
+						</select>
+      					</div>
+      				</div>
+      				<h5>Inscription</h5>
+      				<div class="control-group">
+						<label class="control-label required" for="transcription">Text</label>  
+						<div class="controls">
+						<textarea class = "span5" style = "font-family:Cardo" rows="8" name="search[transcription]" id="transcription"></textarea>
+						<br>
+						<button id="greekToogle" type="button" class="btn" data-toggle="button">Click to write in Greek</button>
+      					</div>
+      				</div> 
+					<br>
+      				<div class = "offset1">
+						<input type="checkbox" id="search_thesaurus" name="search[thesaurus]">
+						<label class="checkbox inline" for="search_thesaurus">Use Thesaurus</label>  
+						
+      				</div> 
+      				<div class = "offset1">	
+      					<input type="checkbox" id="search_nodiacr" name="search[yesdiacr]">
+      					<label class="checkbox inline" for="search_nodiacr">Consider Common Diacritical Marks</label>  
+      				</div>
+      				<div class = "offset1">
+      					<input type="checkbox" id="search_nogreek" name="search[yesgreek]">
+      					<label class="checkbox inline" for="search_nogreek">Consider Greek Diacritical Marks</label>  
+      				</div>		
+				<hr>
+				{{ form_rest(form) }}
+				
+				<br>
+    			<div class="centered">
+    				<div class="controls">
+				      <button id = "submitButton" type="submit" class="btn">Search</button>
+				    </div>
+				</div>
+  				</fieldset>
+			</form>
+		</div>
+	</div>
+	
+{% endblock %}
+
+{% block javascripts %}
+	
+		{{ parent() }}
+		 <script src="{{ asset('js/basic-search.js') }}"></script>
+		 <script src="{{ asset('js/keyboard.js') }}"></script>
+{% endblock %}

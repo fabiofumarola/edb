@@ -13,6 +13,17 @@
 					<option value = "Volume">Volume</option>
 					<option value = "All">All</option>
 				</select>	
+			Note
+				<input type = "text" class = "span2 offset10" id = "refNote"></input>
+		
+			Relationship
+				<select class="span2" id="bibliography_resource_relation" name="bibliography[resource_relation]">
+					<option value = "Identity">Identity</option>
+					<option value = "Integration">Integration</option>
+					<option value = "Opisthographic">Opisthographic</option>
+					<option value = "Reuse">Reuse</option>			
+					<option value = "Comment">Comment</option>
+				</select>
 	</div>
 	<div class="modal-body">
 		<p>
@@ -23,25 +34,13 @@
 					<th class="span2">Type</th>
 					<th class="span2">Generated ID</th>
 					<th class="span8">Reference</th>
-					<th class="span1">Select</th>
+					<th class="span1">Action</th>
 				</tr>
 			</thead>
 			<tbody id = "tBodyReferences"></tbody>
 		</table>
 	</div>
 	<div class="modal-footer">
-		Note
-			<input type = "text" class = "span2 offset10" id = "refNote"></input>
-		
-		Relationship
-			<select class="span2" id="bibliography_resource_relation" name="bibliography[resource_relation]">
-				<option value = "Identity">Identity</option>
-				<option value = "Integration">Integration</option>
-				<option value = "Opisthographic">Opisthographic</option>
-				<option value = "Reuse">Reuse</option>			
-				<option value = "Comment">Comment</option>
-			</select>
-	
-		<a class="btn" id="addReferenceButton">Add</a>
+		<a href="#" class="btn" data-dismiss="modal">Close</a>
 	</div>
 </div>
