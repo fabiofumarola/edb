@@ -285,6 +285,7 @@ $('document').ready(function()
 			$("#div_bibliography_editors_table").hide();
 			$("#div_bibliography_authors").show();
 			$("#div_bibliography_pubyear").show();
+			$("#div_bibliography_lastpubyear").hide();
 			$("#div_bibliography_pagesfrom").show();
 			$("#div_bibliography_pagesto").show();
 			$("#div_bibliography_authors").show();
@@ -301,6 +302,7 @@ $('document').ready(function()
 			$("#div_bibliography_abbr").hide();
 			$("#div_bibliography_edcity").hide();
 			$("#div_bibliography_pubyear").hide();
+			$("#div_bibliography_lastpubyear").hide();
 			$("#div_bibliography_number").hide();
 			$("#div_bibliography_editors").hide();
 			$("#div_bibliography_editors_table").hide();
@@ -320,6 +322,7 @@ $('document').ready(function()
 			$("#div_bibliography_edcity").hide();
 			$("#div_bibliography_number").hide();
 			$("#div_bibliography_pubyear").hide();
+			$("#div_bibliography_lastpubyear").hide();
 			$("#div_bibliography_editors").hide();
 			$("#div_bibliography_editors_table").hide();
 			$("#div_bibliography_fig").hide();
@@ -345,7 +348,7 @@ $('document').ready(function()
 			$("#div_bibliography_number").show();
 			$("#div_bibliography_editors").show();
 			$("#div_bibliography_editors_table").show();
-			
+			$("#div_bibliography_lastpubyear").show();
 			$('#lbl_title').html("Corpus Title*");
 			$('#lbl_number').html("Volume");
 			$('#lbl_year').html("Year of Edition*");
@@ -367,6 +370,7 @@ $('document').ready(function()
 			$("#div_bibliography_editors_table").hide();
 			$("#div_bibliography_fig").hide();
 			$("#div_bibliography_abbr").show();
+			$("#div_bibliography_lastpubyear").hide();
 			$('#lbl_title').html("Repertory Title*");
 		}
 		else if(id == 'Monografia')
@@ -384,6 +388,7 @@ $('document').ready(function()
 			$("#div_bibliography_authors").show();
 			$("#div_bibliography_authors_table").show();
 			$("#div_bibliography_pubyear").show();
+			$("#div_bibliography_lastpubyear").show();
 			$("#div_bibliography_edcity").show();
 			$('#lbl_title').html("Title*");
 			$('#lbl_city').html("City of Edition*");
@@ -742,6 +747,7 @@ $('#addNewReference').click(function()
 	var volume = $('#bibliography_volume').val(); 
 	var number = $('#bibliography_number').val(); 
 	var year = $('#bibliography_pubyear').val(); 
+	var lastYear = $('#bibliography_lastpubyear').val(); 
 	var pagesFrom = $('#bibliography_pagesfrom').val(); 
 	var pagesTo = $('#bibliography_pagesto').val();  
 	var figs = $('#bibliography_fig').val();  
@@ -839,6 +845,7 @@ $('#addNewReference').click(function()
 				title : title,
 				city : city,
 				year : year,
+				lastYear: lastYear,
 				refUrl : refUrl,
 				doi : doi};
 	}
@@ -869,6 +876,7 @@ $('#addNewReference').click(function()
 				editors : editors,
 				city : city,
 				year : year,
+				lastYear: lastYear,
 				refUrl : refUrl,
 				doi : doi};
 	}
@@ -938,25 +946,6 @@ $('#addNewReference').click(function()
 			alert(result);
 	});
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

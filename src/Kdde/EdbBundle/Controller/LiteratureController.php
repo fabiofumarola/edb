@@ -301,7 +301,11 @@ class LiteratureController extends Controller {
 			$riferimento->setTitolo($request->request->get('title'));
 			$riferimento->setAnno($request->request->get('year'));
 			$riferimento->setCittaEdizione($request->request->get('city'));
-				
+
+			$lastYearEdition = $request->request->get('lastYear');
+			if($lastYearEdition != "")
+				$riferimento->setAnnoUltimaEdizione($lastYearEdition);
+			
 			$url = $request->request->get('refUrl');
 			if($url != "")
 				$riferimento->setUrl($url);
@@ -343,6 +347,10 @@ class LiteratureController extends Controller {
 			if($year != "")
 				$riferimento->setAnno($year);
 			
+			$lastYearEdition = $request->request->get('lastYear');
+			if($lastYearEdition != "")
+				$riferimento->setAnnoUltimaEdizione($lastYearEdition);
+			
 			$editors = $request->request->get('editors');
 			if($editors != "")
 				$riferimento->setEditori($editors);
@@ -358,7 +366,7 @@ class LiteratureController extends Controller {
 			$url = $request->request->get('refUrl');
 			if($url != "")
 				$riferimento->setUrl($url);
-	
+				
 			$doi = $request->request->get('doi');
 			if($doi != "")
 				$riferimento->setDoi($doi);

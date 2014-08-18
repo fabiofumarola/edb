@@ -66,10 +66,16 @@ class BiblioRiferimento
     protected $autori;
 
     /**
-     * @ORM\Column(type="string", name="anno")
+     * @ORM\Column(type="integer", name="anno")
      * @var integer
      */
     protected $anno;
+    
+    /**
+     * @ORM\Column(type="integer", name="anno_ultima_edizione")
+     * @var integer
+     */
+    protected $annoUltimaEdizione;
 
     /**
      * @ORM\Column(type="string", name="citta_edizione")
@@ -361,6 +367,18 @@ class BiblioRiferimento
     public function getAnno()
     {
         return $this->anno;
+    }
+    
+    
+    public function setAnnoUltimaEdizione($anno)
+    {
+    	$this->annoUltimaEdizione = $anno;
+    	return $this;
+    }
+    
+    public function getAnnoUltimaEdizione()
+    {
+    	return $this->annoUltimaEdizione;
     }
 
     /**
