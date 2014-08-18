@@ -1628,9 +1628,7 @@ $('document').ready(function() {
 	    	});
 	    	$.ajaxSetup({async: true});
 	    	if(count > 0)
-	    	{
 	    		duplicated = true;
-	    	}
 	    }
 	    
 	    
