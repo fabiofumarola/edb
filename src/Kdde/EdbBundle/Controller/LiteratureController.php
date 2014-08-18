@@ -28,7 +28,10 @@ class LiteratureController extends Controller {
 	}
 	
 	public function indexModalAction($type) {
-		$references = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:BiblioRiferimento')->findBy(array('tipo'=>$type), array('tipo' => 'ASC', 'id' => 'ASC'));
+		if($type == 'All')
+			$references = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:BiblioRiferimento')->findBy(array(), array('tipo' => 'ASC', 'id' => 'ASC'));
+		else		
+			$references = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:BiblioRiferimento')->findBy(array('tipo'=>$type), array('tipo' => 'ASC', 'id' => 'ASC'));
 		$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
 		$json = $serializer->serialize($references, 'json');
 		return new Response($json);
