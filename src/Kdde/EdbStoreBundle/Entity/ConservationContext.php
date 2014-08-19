@@ -29,6 +29,13 @@ class ConservationContext {
 	 * @var string
 	 */
 	protected $description;
+	
+	
+	/**
+	 * @ORM\Column(type="string", name="trismegistos_id")
+	 * @var string
+	 */
+	protected $trismegistos;
 			
 	/**
  	 * @ManyToOne(targetEntity="ConservationLocation")
@@ -38,36 +45,32 @@ class ConservationContext {
 	protected $conservationLocation;
   
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set description
-     *
-     * @param string $description
-     */
     public function setDescription($description)
     {
         $this->description = $description;
     }
 
-    /**
-     * Get description
-     *
-     * @return string 
-     */
     public function getDescription()
     {
         return $this->description;
     }
 
+    public function setTrismegistos($trismegistos)
+    {
+    	$this->trismegistos = $trismegistos;
+    }
+    
+    public function getTrismegistos()
+    {
+    	return $this->trismegistos;
+    }
+
+    
     /**
      * Set conservationLocation
      *

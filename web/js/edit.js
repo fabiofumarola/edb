@@ -770,9 +770,9 @@ function addNewConservationPosition(desc, idContext) {
 	});
 }
 
-function addNewConservationLocation(desc) {
+function addNewConservationLocation(desc, geonames, country, countrygeonames) {
 
-	if (desc.length == 0) {
+	if (desc.length == 0 || geonames.length == 0 || country.length == 0 || countrygeonames.length == 0) {
 		$('#divConservationLocation').attr('class', 'control-group error');
 		return;
 	}
@@ -781,7 +781,10 @@ function addNewConservationLocation(desc) {
 	var url = Routing.generate('edb_new_conservation_location');
 
 	$.post(url, {
-		description : desc
+		description : desc,
+		geonames : geonames,
+		country : country,
+		countrygeonames : countrygeonames
 	}, function(result) {
 
 		if (result == '"ok"') {
@@ -1661,7 +1664,10 @@ $('document').ready(function() {
 	loadConservationLocation();
 	$('#addConservationLocation').click(function() {
 		var description = $('#inputConservationLocationDescription').val();
-		addNewConservationLocation(description);
+		var geonames = $('#inputConservationLocationIDGeonames').val();
+		var country = $('#inputConservationLocationCountry').val();
+		var countrygeonames = $('#inputConservationLocationCountryIDGeonames').val();
+		addNewConservationLocation(description, geonames, country, countrygeonames);
 	});
 	resetConservationLocation('20', null);
 

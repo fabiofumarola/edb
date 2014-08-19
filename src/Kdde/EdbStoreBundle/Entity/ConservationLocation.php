@@ -29,35 +29,67 @@ class ConservationLocation {
 	 * @var string
 	 */
 	protected $description;
+	
+	/**
+	 * @ORM\Column(type="string", name="id_geonames")
+	 * @var string
+	 */
+	protected $idgeonames;
+	
+	/**
+	 * @ORM\Column(type="string", name="nazione")
+	 * @var string
+	 */
+	protected $country;
+	
+	/**
+	 * @ORM\Column(type="string", name="nazione_id_geonames")
+	 * @var string
+	 */
+	protected $countryidgeonames;
     
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set description
-     *
-     * @param string $description
-     */
     public function setDescription($description)
     {
         $this->description = $description;
     }
 
-    /**
-     * Get description
-     *
-     * @return string 
-     */
     public function getDescription()
     {
         return $this->description;
+    }
+    
+    public function setIdgeonames($idgeonames)
+    {
+    	$this->idgeonames = $idgeonames;
+    }
+    
+    public function getIdgeonames()
+    {
+    	return $this->idgeonames;
+    }
+    
+    public function setCountry($country)
+    {
+    	$this->country = $country;
+    }
+    
+    public function getCountry()
+    {
+    	return $this->country;
+    }
+    
+    public function setCountryidgeonames($countryidgeonames)
+    {
+    	$this->countryidgeonames = $countryidgeonames;
+    }
+    
+    public function getCountryidgeonames()
+    {
+    	return $this->countryidgeonames;
     }
 }

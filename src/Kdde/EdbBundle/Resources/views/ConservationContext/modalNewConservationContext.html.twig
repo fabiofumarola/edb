@@ -2,7 +2,7 @@
 	<div class="modal-header">
 		{#<button type="button" class="close" data-dismiss="modal" onclick="$('#selectAreaPertinenza').val('0')">x</button>#}
 		<button type="button" class="close" data-dismiss="modal">x</button>
-		<h3>Add New Conservation Context</h3>
+		<h3>Add New Conservation Location</h3>
 	</div>
 	<div class="modal-body">
 		<p>
@@ -12,6 +12,12 @@
 						<label style="text-align: left" class="control-label">Description</label> 
 						<div class="controls">
 							<input id="inputConservationContextDescription" type="text" 
+								onchange="$('#divConservationContext').attr('class', 'control-group'); $('#errorValConservationContext').html(null)">
+							<p class="help-block" id="#errorValConservationContext"></p>
+						</div>
+						<label style="text-align: left" class="control-label">Trismgistos ID</label> 
+						<div class="controls">
+							<input id="inputConservationContextTrisID" type="text" 
 								onchange="$('#divConservationContext').attr('class', 'control-group'); $('#errorValConservationContext').html(null)">
 							<p class="help-block" id="#errorValConservationContext"></p>
 						</div>

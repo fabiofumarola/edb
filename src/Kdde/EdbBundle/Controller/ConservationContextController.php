@@ -66,15 +66,17 @@ class ConservationContextController extends Controller {
 		//check if it is in the db
 		$description = $this->getRequest()->get('description');
 		$idLocation = $this->getRequest()->get('idLocation');
+		$trismegistos = $this->getRequest()->get('trismegistos');
 		
 		if ($repoCC->findByDescriptionAndIdLocation($description, $idLocation) != null)
-			return new Response($serializer->serialize('Error: Existing Pertinence Context', 'json'));
+			return new Response($serializer->serialize('Error: Existing Pertinence Location', 'json'));
 		
 		$conservationLocation = $repoCL->find($idLocation);
 		
 		$conservationContext = new ConservationContext();
 		$conservationContext->setDescription($description);
 		$conservationContext->setConservationLocation($conservationLocation);
+		$conservationContext->setTrismegistos($trismegistos);
 		$em->persist($conservationContext);
 		$em->flush();
 		

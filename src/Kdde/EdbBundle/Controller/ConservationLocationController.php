@@ -46,6 +46,9 @@ class ConservationLocationController extends Controller {
 				JsonEncoder()));
 		
 		$description = $this->getRequest()->get("description");
+		$geonames = $this->getRequest()->get("geonames");
+		$country = $this->getRequest()->get("country");
+		$countrygeonames = $this->getRequest()->get("countrygeonames");
 		
 		$em = $this->getDoctrine()->getEntityManager();
 		$repo = $em->getRepository('KddeEdbStoreBundle:ConservationLocation');
@@ -55,6 +58,9 @@ class ConservationLocationController extends Controller {
 		
 		$conservationLocation = new ConservationLocation();
 		$conservationLocation->setDescription($description);
+		$conservationLocation->setIdgeonames($geonames);
+		$conservationLocation->setCountry($country);
+		$conservationLocation->setCountryidgeonames($countrygeonames);
 		$em->persist($conservationLocation);
 		$em->flush();
 		

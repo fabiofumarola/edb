@@ -681,7 +681,7 @@ function addNewPertinencePosition(desc, idContext) {
 	});
 }
 
-function addNewConservationContext(desc, idLocation) {
+function addNewConservationContext(desc, idLocation, trismegistos) {
 
 	if (desc.length == 0) {
 		$('#divConservationContext').attr('class', 'control-group error');
@@ -692,7 +692,8 @@ function addNewConservationContext(desc, idLocation) {
 
 	$.post(url, {
 		description : desc,
-		idLocation : idLocation
+		idLocation : idLocation,
+		trismegistos : trismegistos
 	}, function(result) {
 
 		if (result == '"ok"') {
@@ -728,9 +729,9 @@ function addNewConservationPosition(desc, idContext) {
 	});
 }
 
-function addNewConservationLocation(desc) {
+function addNewConservationLocation(desc, geonames, country, countrygeonames) {
 
-	if (desc.length == 0) {
+	if (desc.length == 0 || geonames.length == 0 || country.length == 0 || countrygeonames.length == 0) {
 		$('#divConservationLocation').attr('class', 'control-group error');
 		return;
 	}
@@ -739,7 +740,10 @@ function addNewConservationLocation(desc) {
 	var url = Routing.generate('edb_new_conservation_location');
 
 	$.post(url, {
-		description : desc
+		description : desc,
+		geonames : geonames,
+		country : country,
+		countrygeonames : countrygeonames
 	}, function(result) {
 
 		if (result == '"ok"') {
@@ -1434,7 +1438,10 @@ $('document').ready(function() {
 	loadConservationLocation();
 	$('#addConservationLocation').click(function() {
 		var description = $('#inputConservationLocationDescription').val();
-		addNewConservationLocation(description);
+		var geonames = $('#inputConservationLocationIDGeonames').val();
+		var country = $('#inputConservationLocationCountry').val();
+		var countrygeonames = $('#inputConservationLocationCountryIDGeonames').val();
+		addNewConservationLocation(description, geonames, country, countrygeonames);
 	});
 	resetConservationLocation('20', null);
 
@@ -1442,8 +1449,8 @@ $('document').ready(function() {
 	$('#addConservationContext').click(function() {
 		var description = $('#inputConservationContextDescription').val();
 		var idLocation = $('#selectConservationLocation').val();
-
-		addNewConservationContext(description, idLocation);
+		var trismegistos = $('#inputConservationContextTrisID').val();
+		addNewConservationContext(description, idLocation, trismegistos);
 	});
 	loadConservationContext(20);
 
