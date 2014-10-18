@@ -439,6 +439,10 @@ class EpigraphRepository extends EntityRepository {
 				else
 					$strQueryWhere .= "AND pe.context = :contextId ";
 			}
+			
+// 			// TODO temporary 
+// 			$strQueryWhere .= "AND pe.pertinencePosition = :positionId ";
+			
 		}
 	
 
@@ -732,6 +736,9 @@ class EpigraphRepository extends EntityRepository {
 		
 		if ($contextId != null) 
 			$query->setParameter('contextId', $contextId);
+		
+// 		// TODO temporary
+// 		$query->setParameter('positionId', '583');
 		
 		if ($cons_areaId != null) 
 			$query->setParameter('cons_areaId', $cons_areaId);

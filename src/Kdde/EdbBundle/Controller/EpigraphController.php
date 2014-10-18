@@ -244,7 +244,7 @@ class EpigraphController extends Controller {
 		//--------------------------------------------------------------------------------------------
 		
 		$imageUrl = null;
-		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/' . $id . '/scheda.html';
+		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/' . $epigraph->getId() . '/scheda.html';
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_USERPWD, 'pcas:pcas123');
@@ -332,7 +332,7 @@ class EpigraphController extends Controller {
 		//--------------------------------------------------------------------------------------------
 	
 		$imageUrl = null;
-		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/' . $id . '/scheda.html';
+		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/' . $epigraph->getId() . '/scheda.html';
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_USERPWD, 'pcas:pcas123');
@@ -391,7 +391,7 @@ class EpigraphController extends Controller {
 		//--------------------------------------------------------------------------------------------
 	
 		$imageUrl = null;
-		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/' . $id . '/scheda.html';
+		$url = 'http://www.archeologiasacra.net/pcas-web/EDB/' . $epigraph->getId() . '/scheda.html';
 		$curl = curl_init($url);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_USERPWD, 'pcas:pcas123');
