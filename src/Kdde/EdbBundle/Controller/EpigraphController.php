@@ -148,7 +148,8 @@ class EpigraphController extends Controller {
 			$serializer = new Serializer(array(new GetSetMethodNormalizer()), array('json' => new JsonEncoder()));
 		
 			$form->bind($request);
-		
+			$roles = $this->get('security.context')->getToken()->getRoles();
+				
 			if ($form->isValid()) 
 			{
 				$epigraphArray = $request->get('epigraph');
@@ -187,11 +188,10 @@ class EpigraphController extends Controller {
 				if(isset($submitAsNew))
 					return $this->redirect($this->generateUrl('edb_epigraph_edit', array('id' => $epigraph->getId())));
 				else
-					return $this->redirect($this->generateUrl('edb_epigraph_show', array('id' => $epigraph->getId())));
+					return $this->redirect($this->generateUrl('edb_epigraph_show', array('id' => $epigraph->getId(),'isAdmin' => in_array("administrator", $roles))));
 			}
 		}
 		$isAdmin = false;
-		$roles = $this->get('security.context')->getToken()->getRoles();	
 		if (in_array("administrator", $roles))
 			$isAdmin = true;
 		
@@ -216,6 +216,7 @@ class EpigraphController extends Controller {
 	
 	
 	public function showAction($id) {
+		
 		$repository = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Epigraph');
 		$em = $this->getDoctrine()->getManager();
 		$epigraph = $repository->find($id);
@@ -264,7 +265,7 @@ class EpigraphController extends Controller {
 		}
 		//-------------------------------------------------------------------------------------------
 		
-		return $this->render('KddeEdbBundle:Epigraph:show.html.twig', array('e' => $epigraph, 'imageUrl' => $imageUrl));
+		return $this->render('KddeEdbBundle:Epigraph:show.html.twig', array('e' => $epigraph, 'imageUrl' => $imageUrl, 'isAdmin' => in_array("administrator", $roles)));
 	}
 	
 	
@@ -352,7 +353,7 @@ class EpigraphController extends Controller {
 		}
 		//-------------------------------------------------------------------------------------------
 	
-		return $this->render('KddeEdbBundle:Epigraph:show.html.twig', array('e' => $epigraph, 'imageUrl' => $imageUrl));
+		return $this->render('KddeEdbBundle:Epigraph:show.html.twig', array('e' => $epigraph, 'imageUrl' => $imageUrl, 'isAdmin' => in_array("administrator", $roles)));
 	}
 	
 	
@@ -411,7 +412,7 @@ class EpigraphController extends Controller {
 		}
 		//-------------------------------------------------------------------------------------------
 	
-		return $this->render('KddeEdbBundle:Epigraph:show.html.twig', array('e' => $epigraph, 'imageUrl' => $imageUrl));
+		return $this->render('KddeEdbBundle:Epigraph:show.html.twig', array('e' => $epigraph, 'imageUrl' => $imageUrl, 'isAdmin' => in_array("administrator", $roles)));
 	}
 	
 	
@@ -484,6 +485,8 @@ class EpigraphController extends Controller {
 	
 	public function newAction(Request $request) {
 
+		$roles = $this->get('security.context')->getToken()->getRoles();
+				
 		//select all the icvr
 		$repoIcvr = $this->getDoctrine()->getRepository('KddeEdbStoreBundle:Icvr');
 		$icvrs = $repoIcvr->findAll();
@@ -530,7 +533,7 @@ class EpigraphController extends Controller {
 				$epigraphArray = $request->get('epigraph');
 				$epigraph = $this->persistEpigraph($epigraphArray, null);
 				$this->get('session')->getFlashBag()->add('notice','Your changes were saved, the epigraph is saved with id '. $epigraph->getId()) . " !";
-				return $this->redirect($this->generateUrl('edb_epigraph_show', array('id' => $epigraph->getId())));
+				return $this->redirect($this->generateUrl('edb_epigraph_show', array('id' => $epigraph->getId(), 'isAdmin' => in_array("administrator", $roles))));
 			}
 		}
 		

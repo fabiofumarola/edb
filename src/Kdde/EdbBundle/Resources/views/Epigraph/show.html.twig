@@ -20,7 +20,7 @@
 {% include 'KddeEdbBundle:Literature:modalSingleLiterature.html.twig' %}
 	<br>
 	<div class="marketing">
-		<h4 style="text-align:left" >EDB{{ e.id }}</h4>
+		<h4 style="text-align:left" >EDB{{ e.id }} {% if isAdmin %}<a target = "_blank" href="{{ path('edb_epigraph_edit', {'id': e.id}) }}">(Edit)</a>{% endif %}</h4>
 	</div>
 	<div class="row">
 				{# <table class="table table-striped table-condensed"> #}
