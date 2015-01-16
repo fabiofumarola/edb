@@ -209,12 +209,11 @@ class Epigraph {
 	 *
 	 * @var ArrayCollection
 	 * @OneToMany(targetEntity="RelatedResource", mappedBy="idEpigrafe", cascade={"persist", "merge","remove"})
- 	 * @ORM\OrderBy({"resourceType" = "ASC"})
      */
 	protected $relatedResources;
 	
 	
-	// 	norm_text text,
+
 	
 	/**
 	 * @ORM\Column(name="ts_testo")
@@ -246,6 +245,15 @@ class Epigraph {
 	 */
 	protected $pertinences;
 	
+	
+	/**
+	 * @ManyToMany(targetEntity="Immagine", cascade={"persist", "merge","remove"})
+	 * @JoinTable(name="immagine_epigrafe",
+	 *      joinColumns={@JoinColumn(name="id_epigrafe", referencedColumnName="id_edb")},
+	 *      inverseJoinColumns={@JoinColumn(name="id_immagine", referencedColumnName="id_immagine")}
+	 *      )
+	 */
+	protected $images;
 	
 		
 	
@@ -1207,6 +1215,16 @@ class Epigraph {
     public function getTs_testo()
     {
     	return $this->ts_testo;
+    }
+    
+
+    public function setImages($images)
+    {
+    	$this->ts_testo = $images;
+    }
+    public function getImages()
+    {
+    	return $this->images;
     }
 
 }

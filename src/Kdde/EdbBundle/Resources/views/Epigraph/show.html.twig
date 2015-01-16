@@ -372,7 +372,19 @@
 						{% endif %}	
 						
 						
-						{% if imageUrl != null %}
+						{% if e.images | length > 0 %}
+							<tr><td></td></tr>
+							<tr>
+						 		<td>
+						 			<div class = "image">
+						 				<img src = {{ e.images[0].url }} width = 370px><br>
+						 				<p style="color:grey; font-size: 9pt"><a href ="http://www.archeologiasacra.net/pcas-web/EDB/{{- e.id -}}/scheda.html"><strong>Other image(s) available at ©Archivio della Pontificia Commissione <br> di Archeologia Sacra</strong></a></p> 
+						 			</div>
+								</td>
+							</tr>						
+						{% endif %}
+						
+						{# {% if imageUrl != null %}
 							<tr><td></td></tr>
 							<tr>
 						 		<td>
@@ -382,7 +394,7 @@
 						 			</div>
 								</td>
 							</tr>						
-						{% endif %}	
+						{% endif %} #}	
 						<tr><td></td></tr>
 						
 						<tr><td style = "line-height: 1.8; font-family:Cardo; font-size: 16pt"> {{ e.trascription | replace({' /' : '<br>'}) | replace({'/' : '-<br>'})| raw }} </td></tr>

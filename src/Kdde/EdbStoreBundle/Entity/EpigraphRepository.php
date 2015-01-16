@@ -220,8 +220,8 @@ class EpigraphRepository extends EntityRepository {
 				$index = 1;
 				foreach($words as $word)
 				{
-					if(!$caseSensitive)
-						$word = strtolower($word);
+					
+					$word = strtolower($word);
 						
 					// Handle quoted strings
 					if($index > sizeof($nonQuoted))
@@ -387,6 +387,7 @@ class EpigraphRepository extends EntityRepository {
 		if (isset($searchArray['yesgreek']))
 			$yesGreek = true;
 		
+		$signas = null;
 		if (isset($searchArray['signas'])) {
 			$signas = $searchArray['signas'];
 		}
