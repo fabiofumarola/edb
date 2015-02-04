@@ -10,6 +10,7 @@ var defLng = 12.457235282897955;
 //At each show map click use current values of selected object to show
 function showMap($latlngInput) 
 {
+	loadGeoPosition();
 	var latlngStr = $latlngInput.split(",",2);
 	var lat = parseFloat(latlngStr[0]);
 	var lng = parseFloat(latlngStr[1]);
@@ -51,6 +52,7 @@ function codeLatLng() {
     var lat = parseFloat(latlngStr[0]);
     var lng = parseFloat(latlngStr[1]);
     var latlng = new google.maps.LatLng(lat, lng);
+	
     geocoder.geocode({'latLng': latlng}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[1]) {
@@ -65,7 +67,7 @@ function codeLatLng() {
 
 
 $('document').ready(function() {
-	loadGeoPosition();
+//	loadGeoPosition();
 });
 
 
