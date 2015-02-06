@@ -377,8 +377,12 @@
 							<tr>
 						 		<td>
 						 			<div class = "image">
-						 				<img src = {{ e.images[0].url }} width = 370px><br>
-						 				<p style="color:grey; font-size: 9pt"><a href ="http://www.archeologiasacra.net/pcas-web/EDB/{{- e.id -}}/scheda.html"><strong>Other image(s) available at ©Archivio della Pontificia Commissione <br> di Archeologia Sacra</strong></a></p> 
+						 				{% if e.images[0].fonte == 'Own' %}
+						 					<img src = {{ asset(e.images[0].url) }} width = 370px><br>
+						 				{% else %}
+						 					<img src = {{ e.images[0].url }} width = 370px><br>
+						 					<p style="color:grey; font-size: 9pt"><a href ="http://www.archeologiasacra.net/pcas-web/EDB/{{- e.id -}}/scheda.html"><strong>Other image(s) available at ©Archivio della Pontificia Commissione <br> di Archeologia Sacra</strong></a></p> 
+						 				{% endif %}
 						 			</div>
 								</td>
 							</tr>						
