@@ -42,8 +42,16 @@
 											{{ c.pertinenceArea.description -}}
 											{%- if c.context.description != 'n.d.'-%}){%- endif %}
 										{%- endif -%}
+{# 										{%- if c.pertinencePosition.description != 'n.d.'-%}#}
+{# 											, {{ c.pertinencePosition.description -}}#}
+{# 										{%- endif %}#}
 										{%- if c.pertinencePosition.description != 'n.d.'-%}
-											, {{ c.pertinencePosition.description -}}
+											, 
+											{% if c.pertinencePosition.link != '' -%} 
+												<a target=_blank href= {{ c.pertinencePosition.link }}>{{ c.pertinencePosition.description -}}</a>
+											{% else %}
+												{{ c.pertinencePosition.description }}
+											{% endif %}
 										{%- endif %}
 										{%- if c.inSitu == true -%}
 											, in situ 

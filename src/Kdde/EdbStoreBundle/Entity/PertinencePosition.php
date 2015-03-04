@@ -29,6 +29,12 @@ class PertinencePosition {
 	 * @var string
 	 */
 	protected $description;
+	
+	/**
+	 * @ORM\Column(type="string", name="link_norbert")
+	 * @var string
+	 */
+	protected $link;
 			
 	/**
  	 * @ManyToOne(targetEntity="PertinenceContext")
@@ -67,6 +73,17 @@ class PertinencePosition {
         return $this->description;
     }
 
+    public function getLink()
+    {
+    	return $this->link;
+    }
+    
+    public function setLink($link)
+    {
+    	$this->link = link;
+    }
+    
+    
     /**
      * Set pertinenceContext
      *
