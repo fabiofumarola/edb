@@ -52,7 +52,11 @@ EDB Search Result Page
 						</td>	
 						<td>
 							{% for lit in e.literatures %}
-								{{ lit.idRiferimento.id }}<br>
+								{{ lit.idRiferimento.id }}
+								{%- if lit.note != '' -%}
+									, {{ lit.note }}
+								{% endif %}
+								<br>
 							{% endfor %}
 						</td>
 						<td>
