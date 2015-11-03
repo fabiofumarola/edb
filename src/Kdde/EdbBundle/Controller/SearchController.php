@@ -51,6 +51,9 @@ class SearchController extends Controller {
 			}
 		}
 		
+		if (isset($searchArray['image']))
+			$anyParameter = true;
+		
 		// Check if the ICVR number is specified
 		if (strlen($searchArray['icvr_number']))
 			$anyParameter = true;
@@ -205,6 +208,9 @@ class SearchController extends Controller {
 		if ($searchArray['function'] != "All")
 			$anyParameter = true;
 				
+		if (isset($searchArray['image']))
+			$anyParameter = true;
+		
 		if (strlen($searchArray['area'])) 
 			$anyParameter = true;
 	

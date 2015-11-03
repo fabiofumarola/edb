@@ -23,6 +23,7 @@ class EpigraphRepository extends EntityRepository {
 		$icvrSubNumber = $searchArray['icvr_subnumber'];
 		$text = $searchArray['freetext'];
 		$biblio = $searchArray['bibliography'];
+		$image = isset($searchArray['image']);
 		
 		$isAdmin = false;
 		if (in_array("administrator", $roles))
@@ -32,6 +33,9 @@ class EpigraphRepository extends EntityRepository {
 		// --------------------------------------------------------------------------------------------------------
 		$strQuerySelect = "SELECT ep FROM KddeEdbStoreBundle:Epigraph ep ";
 		$strQueryWhere = " WHERE 1 = 1 ";
+		
+		if($image)
+			$strQuerySelect .= "JOIN ep.images im ";
 		
 		// Search by ID
 		if(strlen($id))
@@ -190,6 +194,8 @@ class EpigraphRepository extends EntityRepository {
 	
 		// Set the parameters
 		// --------------------------------------------------------------------------------------------------------
+		
+		
 		if(strlen($id))
 			$query->setParameter('id', $id);
 			
@@ -332,6 +338,7 @@ class EpigraphRepository extends EntityRepository {
 		
 		$function = $searchArray['function'];
 		$notFunction = isset($searchArray['notFunction']);
+		$image = isset($searchArray['image']);
 		
 		$compiler = $searchArray['compiler'];
 			
@@ -399,8 +406,7 @@ class EpigraphRepository extends EntityRepository {
 		//--------------------------------------------------------------------------------
 		$strQuerySelect = "SELECT ep FROM KddeEdbStoreBundle:Epigraph ep ";
 		$strQueryWhere = "";
-	
-	
+			
 		if ($icvrId != "All") 
 		{
 			if($icvrId == "AllIcvr")
@@ -417,6 +423,8 @@ class EpigraphRepository extends EntityRepository {
 		if (strlen($icvrNumber)) 
 			$strQueryWhere .= "AND ep.principalProgNumber = :icvrNumber ";
 				
+		if($image)
+			$strQuerySelect .= "JOIN ep.images im ";
 		
 		if ($areaId != null || $inSitu != "All")
 		{	
